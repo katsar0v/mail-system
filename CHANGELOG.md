@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **GA4 Conversion Tracking**
+  - New "Enable GA4 Tracking" setting in Admin > Settings > Subscription Form
+  - Tracks subscription form submissions as conversion events in Google Analytics 4
+  - Sends `subscribe` event with event parameters when users successfully subscribe
+  - JavaScript-based tracking that integrates with existing GA4 setup
+  - Unit tests added for styling settings including GA4 tracking configuration
+
 ### Fixed
 - **Compose Wizard Step 1 Validation**
   - Fixed bug where "Please select at least one list" alert incorrectly appeared when clicking Continue in step 1
