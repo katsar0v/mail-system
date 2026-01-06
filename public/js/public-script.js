@@ -36,6 +36,14 @@
                     if (response.success) {
                         $message.addClass('success').text(response.data.message).fadeIn();
                         $form.find('input[type="text"], input[type="email"]').val('');
+
+                        // Fire GA4 conversion event if enabled and gtag is available
+                        if (mskd_public.enable_ga4_tracking && typeof gtag !== 'undefined') {
+                            gtag('event', 'generate_lead', {
+                                'event_category': 'newsletter',
+                                'event_label': 'subscription_form'
+                            });
+                        }
                     } else {
                         $message.addClass('error').text(response.data.message).fadeIn();
                     }

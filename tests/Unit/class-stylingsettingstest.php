@@ -154,6 +154,7 @@ class StylingSettingsTest extends TestCase {
 			'highlight_color',
 			'button_text_color',
 			'show_name_field',
+			'enable_ga4_tracking',
 			'smtp_enabled',
 			'smtp_host',
 			'smtp_port',
@@ -166,5 +167,52 @@ class StylingSettingsTest extends TestCase {
 		foreach ( $expected_keys as $key ) {
 			$this->assertArrayHasKey( $key, $settings, "Missing expected key: $key" );
 		}
+	}
+
+	/**
+	 * Test default value for enable_ga4_tracking is false.
+	 */
+	public function test_get_settings_returns_default_ga4_tracking_disabled(): void {
+		Functions\stubs(
+			array(
+				'get_option' => function ( $option, $default = false ) {
+					if ( 'mskd_settings' === $option ) {
+						return array(); // No settings saved.
+					}
+					return $default;
+				},
+			)
+		);
+
+		$settings = $this->admin_settings->get_settings();
+
+		$this->assertArrayHasKey( 'enable_ga4_tracking', $settings );
+		$this->assertEquals( 0, $settings['enable_ga4_tracking'] );
+		$this->assertFalse( (bool) $settings['enable_ga4_tracking'] );
+	}
+
+	/**
+	 * Test GA4 tracking setting can be enabled.
+	 */
+	public function test_get_settings_returns_enabled_ga4_tracking(): void {
+		$custom_settings = array(
+			'enable_ga4_tracking' => 1,
+		);
+
+		Functions\stubs(
+			array(
+				'get_option' => function ( $option, $default = false ) use ( $custom_settings ) {
+					if ( 'mskd_settings' === $option ) {
+						return $custom_settings;
+					}
+					return $default;
+				},
+			)
+		);
+
+		$settings = $this->admin_settings->get_settings();
+
+		$this->assertEquals( 1, $settings['enable_ga4_tracking'] );
+		$this->assertTrue( (bool) $settings['enable_ga4_tracking'] );
 	}
 }
