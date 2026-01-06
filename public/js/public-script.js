@@ -38,11 +38,16 @@
                         $form.find('input[type="text"], input[type="email"]').val('');
 
                         // Fire GA4 conversion event if enabled and gtag is available
-                        if (mskd_public.enable_ga4_tracking && typeof gtag !== 'undefined') {
-                            gtag('event', 'generate_lead', {
-                                'event_category': 'newsletter',
-                                'event_label': 'subscription_form'
-                            });
+                        if (mskd_public.enable_ga4_tracking === true && typeof gtag !== 'undefined') {
+                            try {
+                                gtag('event', 'generate_lead', {
+                                    'event_category': 'newsletter',
+                                    'event_label': 'subscription_form'
+                                });
+                            } catch (error) {
+                                // Silently fail if gtag encounters an error
+                                console.warn('MSKD: Failed to send GA4 event', error);
+                            }
                         }
                     } else {
                         $message.addClass('error').text(response.data.message).fadeIn();
