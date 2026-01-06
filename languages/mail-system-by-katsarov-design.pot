@@ -2623,3 +2623,15 @@ msgstr ""
 #: admin/partials/settings.php
 msgid "requires update to"
 msgstr ""
+
+#: admin/partials/settings.php
+msgid "Enable GA4 Conversion Tracking"
+msgstr ""
+
+#: admin/partials/settings.php
+msgid "Fire Google Analytics 4 conversion events on successful subscription"
+msgstr ""
+
+#: admin/partials/settings.php
+msgid "When enabled, a \"generate_lead\" event will be sent to Google Analytics when a user successfully subscribes. Make sure you have GA4 or GTM installed on your site."
+msgstr ""

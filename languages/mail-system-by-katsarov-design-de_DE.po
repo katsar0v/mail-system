@@ -136,6 +136,18 @@ msgstr "Das Feld \"Name\" im Abonnementformular anzeigen"
 msgid "If unchecked, only the email field will be shown."
 msgstr "Wenn nicht ausgewählt, wird nur das E-Mail-Feld angezeigt."
 
+#: admin/partials/settings.php
+msgid "Enable GA4 Conversion Tracking"
+msgstr "GA4 Conversion-Tracking aktivieren"
+
+#: admin/partials/settings.php
+msgid "Fire Google Analytics 4 conversion events on successful subscription"
+msgstr "Google Analytics 4 Conversion-Ereignisse bei erfolgreichem Abonnement senden"
+
+#: admin/partials/settings.php
+msgid "When enabled, a \"generate_lead\" event will be sent to Google Analytics when a user successfully subscribes. Make sure you have GA4 or GTM installed on your site."
+msgstr "Wenn aktiviert, wird ein \"generate_lead\"-Ereignis an Google Analytics gesendet, wenn sich ein Benutzer erfolgreich anmeldet. Stellen Sie sicher, dass GA4 oder GTM auf Ihrer Website installiert ist."
+
 #: admin/class-admin.php
 msgid "Subscriber deleted successfully."
 msgstr "Abonnent erfolgreich gelöscht."
