@@ -2623,3 +2623,27 @@ msgstr ""
 #: admin/partials/settings.php
 msgid "requires update to"
 msgstr ""
+
+#: admin/partials/subscribers.php
+msgid "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
+msgid_plural "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/js/admin-script.js
+msgid "%d subscriber deleted successfully."
+msgid_plural "%d subscribers deleted successfully."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No subscribers selected."
+msgstr ""
+
+#: includes/services/class-subscriber-service.php
+msgid "Failed to delete subscriber ID %d"
+msgstr ""
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No subscribers were deleted."
+msgstr ""
