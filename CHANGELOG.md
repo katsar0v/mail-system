@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Sends `subscribe` event with event parameters when users successfully subscribe
   - JavaScript-based tracking that integrates with existing GA4 setup
   - Unit tests added for styling settings including GA4 tracking configuration
+- **Mass Delete Subscribers**
+  - New "Delete" option in bulk actions dropdown on subscribers page
+  - Ability to delete multiple subscribers at once with confirmation dialog
+  - AJAX-powered deletion with real-time feedback
+  - Proper database cleanup (subscribers, list associations, and queue items)
+  - Full translations in Bulgarian and German with pluralization support
 
 ### Fixed
 - **Compose Wizard Step 1 Validation**

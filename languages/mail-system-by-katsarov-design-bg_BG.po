@@ -2627,4 +2627,27 @@ msgstr "(%s)"
 #: admin/partials/one-time-email.php
 msgid "sender@example.com"
 msgstr "sender@example.com"
-# Trigger CI workflow
+
+#: admin/partials/subscribers.php
+msgid "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
+msgid_plural "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
+msgstr[0] "Сигурни ли сте, че искате да изтриете %d абонат? Това действие не може да бъде отменено."
+msgstr[1] "Сигурни ли сте, че искате да изтриете %d абонати? Това действие не може да бъде отменено."
+
+#: admin/js/admin-script.js
+msgid "%d subscriber deleted successfully."
+msgid_plural "%d subscribers deleted successfully."
+msgstr[0] "%d абонат е изтрит успешно."
+msgstr[1] "%d абонати са изтрити успешно."
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No subscribers selected."
+msgstr "Не са избрани абонати."
+
+#: includes/services/class-subscriber-service.php
+msgid "Failed to delete subscriber ID %d"
+msgstr "Неуспешно изтриване на абонат с ID %d"
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No subscribers were deleted."
+msgstr "Нито един абонат не беше изтрит."
