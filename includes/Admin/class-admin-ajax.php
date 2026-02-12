@@ -39,6 +39,7 @@ class Admin_Ajax {
 		add_action( 'wp_ajax_mskd_dismiss_share_notice', array( $this, 'dismiss_share_notice' ) );
 		add_action( 'wp_ajax_mskd_batch_assign_lists', array( $this, 'batch_assign_lists' ) );
 		add_action( 'wp_ajax_mskd_batch_remove_lists', array( $this, 'batch_remove_lists' ) );
+		add_action( 'wp_ajax_mskd_batch_delete_subscribers', array( $this, 'batch_delete_subscribers' ) );
 		add_action( 'wp_ajax_mskd_preview_email', array( $this, 'preview_email' ) );
 	}
 
@@ -488,5 +489,94 @@ class Admin_Ajax {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * AJAX handler: Batch delete subscribers.
+	 *
+	 * Deletes multiple subscribers at once.
+	 *
+	 * Security: Nonce verified, admin-only, IDs sanitized.
+	 *
+	 * @return void
+	 */
+	public function batch_delete_subscribers(): void {
+		check_ajax_referer( 'mskd_admin_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+				)
+			);
+		}
+
+		// Get subscriber IDs.
+		      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Array is sanitized with intval below.
+		if ( isset( $_POST['subscriber_ids'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Array is sanitized with intval below.
+			$subscriber_ids = wp_unslash( $_POST['subscriber_ids'] );
+		} else {
+			$subscriber_ids = array();
+		}
+		if ( ! is_array( $subscriber_ids ) ) {
+			$subscriber_ids = array();
+		}
+		$subscriber_ids = array_map( 'intval', $subscriber_ids );
+
+		// Validate inputs.
+		if ( empty( $subscriber_ids ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No subscribers selected.', 'mail-system-by-katsarov-design' ),
+				)
+			);
+		}
+
+		// Perform batch deletion.
+		$service = new Subscriber_Service();
+		$result  = $service->batch_delete( $subscriber_ids );
+
+		if ( $result['success'] > 0 ) {
+			$message = sprintf(
+				/* translators: %d: number of subscribers deleted */
+				_n(
+					'%d subscriber deleted successfully.',
+					'%d subscribers deleted successfully.',
+					$result['success'],
+					'mail-system-by-katsarov-design'
+				),
+				$result['success']
+			);
+
+			if ( $result['failed'] > 0 ) {
+				$message .= ' ' . sprintf(
+					/* translators: %d: number of subscribers that failed */
+					_n(
+						'%d subscriber failed.',
+						'%d subscribers failed.',
+						$result['failed'],
+						'mail-system-by-katsarov-design'
+					),
+					$result['failed']
+				);
+			}
+
+			wp_send_json_success(
+				array(
+					'message' => $message,
+					'success' => $result['success'],
+					'failed'  => $result['failed'],
+					'errors'  => $result['errors'],
+				)
+			);
+		} else {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No subscribers were deleted.', 'mail-system-by-katsarov-design' ),
+					'errors'  => $result['errors'],
+				)
+			);
+		}
 	}
 }

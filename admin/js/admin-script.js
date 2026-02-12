@@ -638,6 +638,9 @@
                     $('#mskd-bulk-apply').show();
                     // Initialize SlimSelect when first shown
                     initBulkListsSlimSelect();
+                } else if (action === 'delete') {
+                    $('#mskd-bulk-list-wrapper').hide();
+                    $('#mskd-bulk-apply').show();
                 } else {
                     $('#mskd-bulk-list-wrapper').hide();
                     $('#mskd-bulk-apply').hide();
@@ -699,6 +702,72 @@
                     return;
                 }
 
+                // Handle delete action
+                if (action === 'delete') {
+                    // Show confirmation dialog
+                    var confirmMessage = (mskd_admin.strings.confirm_bulk_delete || 'Are you sure you want to delete %d subscriber(s)? This action cannot be undone.')
+                        .replace('%d', subscriberIds.length);
+                    if (!confirm(confirmMessage)) {
+                        return;
+                    }
+
+                    // Show loading state
+                    var originalText = $button.text();
+                    $button.prop('disabled', true).text(mskd_admin.strings.processing || 'Processing...');
+                    $result.removeClass('mskd-bulk-success mskd-bulk-error').text('');
+
+                    // Send AJAX request
+                    $.ajax({
+                        url: mskd_admin.ajax_url,
+                        type: 'POST',
+                        timeout: 60000,
+                        data: {
+                            action: 'mskd_batch_delete_subscribers',
+                            nonce: mskd_admin.nonce,
+                            subscriber_ids: subscriberIds
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $result.removeClass('mskd-bulk-error').addClass('mskd-bulk-success')
+                                    .text(response.data.message);
+                                
+                                // Remove deleted rows from table
+                                $('.mskd-subscriber-checkbox:checked').closest('tr').fadeOut(300, function() {
+                                    $(this).remove();
+                                });
+                                
+                                // Clear checkboxes after success
+                                $('.mskd-subscriber-checkbox').prop('checked', false);
+                                $('#mskd-select-all').prop('checked', false).prop('indeterminate', false);
+                                updateSelectedCount();
+                                
+                                // Reset form
+                                $('#mskd-bulk-action').val('');
+                                $('#mskd-bulk-apply').hide();
+                            } else {
+                                var errorMsg = (response.data && response.data.message)
+                                    ? response.data.message
+                                    : (mskd_admin.strings.error || 'Error occurred.');
+                                $result.removeClass('mskd-bulk-success').addClass('mskd-bulk-error')
+                                    .text(errorMsg);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            var errorMsg = mskd_admin.strings.error || 'Error occurred.';
+                            if (status === 'timeout') {
+                                errorMsg = mskd_admin.strings.timeout || 'Request timed out.';
+                            }
+                            $result.removeClass('mskd-bulk-success').addClass('mskd-bulk-error')
+                                .text(errorMsg);
+                        },
+                        complete: function() {
+                            $button.prop('disabled', false).text(originalText);
+                        }
+                    });
+                    return;
+                }
+
+                // Handle assign/remove lists actions
                 if (!listIds || listIds.length === 0) {
                     $result.removeClass('mskd-bulk-success').addClass('mskd-bulk-error')
                         .text(mskd_admin.strings.no_lists_selected || 'No lists selected.');

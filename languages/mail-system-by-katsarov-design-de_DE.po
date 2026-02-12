@@ -2658,3 +2658,27 @@ msgstr "(%s)"
 #: admin/partials/one-time-email.php
 msgid "sender@example.com"
 msgstr "sender@example.com"
+
+#: admin/partials/subscribers.php
+msgid "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
+msgid_plural "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
+msgstr[0] "Sind Sie sicher, dass Sie %d Abonnenten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+msgstr[1] "Sind Sie sicher, dass Sie %d Abonnenten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+
+#: admin/js/admin-script.js
+msgid "%d subscriber deleted successfully."
+msgid_plural "%d subscribers deleted successfully."
+msgstr[0] "%d Abonnent erfolgreich gelöscht."
+msgstr[1] "%d Abonnenten erfolgreich gelöscht."
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No subscribers selected."
+msgstr "Keine Abonnenten ausgewählt."
+
+#: includes/services/class-subscriber-service.php
+msgid "Failed to delete subscriber ID %d"
+msgstr "Löschen des Abonnenten mit ID %d fehlgeschlagen"
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No subscribers were deleted."
+msgstr "Keine Abonnenten wurden gelöscht."

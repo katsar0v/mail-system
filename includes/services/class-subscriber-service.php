@@ -886,7 +886,8 @@ class Subscriber_Service {
 		}
 
 		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
-		$subscribers  = $this->wpdb->get_results(
+
+		$subscribers = $this->wpdb->get_results(
 			$this->wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Table name hardcoded, using splat operator.
 				"SELECT * FROM {$this->table} WHERE id IN ({$placeholders})",
@@ -897,6 +898,61 @@ class Subscriber_Service {
 		$result = array();
 		foreach ( $subscribers as $subscriber ) {
 			$result[ $subscriber->id ] = $subscriber;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Batch delete subscribers.
+	 *
+	 * Deletes multiple subscribers at once.
+	 *
+	 * @param array $subscriber_ids Array of subscriber IDs to delete.
+	 * @return array {
+	 *     @type int   $success Number of subscribers deleted successfully.
+	 *     @type int   $failed  Number of subscribers that failed to delete.
+	 *     @type array $errors  Array of error messages for failed deletions.
+	 * }
+	 */
+	public function batch_delete( array $subscriber_ids ): array {
+		$result = array(
+			'success' => 0,
+			'failed'  => 0,
+			'errors'  => array(),
+		);
+
+		if ( empty( $subscriber_ids ) ) {
+			return $result;
+		}
+
+		// Sanitize and validate IDs.
+		$subscriber_ids = array_map( 'intval', $subscriber_ids );
+		$subscriber_ids = array_filter(
+			$subscriber_ids,
+			function ( $id ) {
+				return $id > 0;
+			}
+		);
+
+		if ( empty( $subscriber_ids ) ) {
+			return $result;
+		}
+
+		// Delete each subscriber.
+		foreach ( $subscriber_ids as $subscriber_id ) {
+			$deleted = $this->delete( $subscriber_id );
+
+			if ( $deleted ) {
+				++$result['success'];
+			} else {
+				++$result['failed'];
+				$result['errors'][] = sprintf(
+					/* translators: %d: subscriber ID */
+					__( 'Failed to delete subscriber ID %d', 'mail-system-by-katsarov-design' ),
+					$subscriber_id
+				);
+			}
 		}
 
 		return $result;

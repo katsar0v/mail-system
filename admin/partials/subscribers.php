@@ -303,6 +303,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 					<option value=""><?php esc_html_e( 'Bulk actions', 'mail-system-by-katsarov-design' ); ?></option>
 					<option value="assign_lists"><?php esc_html_e( 'Add to lists', 'mail-system-by-katsarov-design' ); ?></option>
 					<option value="remove_lists"><?php esc_html_e( 'Remove from lists', 'mail-system-by-katsarov-design' ); ?></option>
+					<option value="delete"><?php esc_html_e( 'Delete', 'mail-system-by-katsarov-design' ); ?></option>
 				</select>
 
 				<div id="mskd-bulk-list-wrapper" class="mskd-bulk-list-wrapper" style="display: none;">
