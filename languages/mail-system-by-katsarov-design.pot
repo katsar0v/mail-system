@@ -2624,26 +2624,14 @@ msgstr ""
 msgid "requires update to"
 msgstr ""
 
-#: admin/partials/subscribers.php
-msgid "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
-msgid_plural "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
-msgstr[0] ""
-msgstr[1] ""
-
-#: admin/js/admin-script.js
-msgid "%d subscriber deleted successfully."
-msgid_plural "%d subscribers deleted successfully."
-msgstr[0] ""
-msgstr[1] ""
-
-#: includes/Admin/class-admin-ajax.php
-msgid "No subscribers selected."
+#: admin/partials/settings.php
+msgid "Enable GA4 Conversion Tracking"
 msgstr ""
 
-#: includes/services/class-subscriber-service.php
-msgid "Failed to delete subscriber ID %d"
+#: admin/partials/settings.php
+msgid "Fire Google Analytics 4 conversion events on successful subscription"
 msgstr ""
 
-#: includes/Admin/class-admin-ajax.php
-msgid "No subscribers were deleted."
+#: admin/partials/settings.php
+msgid "When enabled, a \"generate_lead\" event will be sent to Google Analytics when a user successfully subscribes. Make sure you have GA4 or GTM installed on your site."
 msgstr ""

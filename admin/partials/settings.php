@@ -36,7 +36,8 @@ $highlight_color   = isset( $settings['highlight_color'] ) ? $settings['highligh
 $button_text_color = isset( $settings['button_text_color'] ) ? $settings['button_text_color'] : '#ffffff';
 
 // Subscription Form Settings.
-$show_name_field = isset( $settings['show_name_field'] ) ? (bool) $settings['show_name_field'] : true;
+$show_name_field     = isset( $settings['show_name_field'] ) ? (bool) $settings['show_name_field'] : true;
+$enable_ga4_tracking = isset( $settings['enable_ga4_tracking'] ) ? (bool) $settings['enable_ga4_tracking'] : false;
 ?>
 
 <div class="wrap mskd-wrap">
@@ -117,6 +118,19 @@ $show_name_field = isset( $settings['show_name_field'] ) ? (bool) $settings['sho
 							<?php esc_html_e( 'Display the "Name" field in the subscription form', 'mail-system-by-katsarov-design' ); ?>
 						</label>
 						<p class="description"><?php esc_html_e( 'If unchecked, only the email field will be shown.', 'mail-system-by-katsarov-design' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="enable_ga4_tracking"><?php esc_html_e( 'Enable GA4 Conversion Tracking', 'mail-system-by-katsarov-design' ); ?></label>
+					</th>
+					<td>
+						<label>
+							<input type="checkbox" name="enable_ga4_tracking" id="enable_ga4_tracking" value="1"
+								<?php checked( $enable_ga4_tracking ); ?>>
+							<?php esc_html_e( 'Fire Google Analytics 4 conversion events on successful subscription', 'mail-system-by-katsarov-design' ); ?>
+						</label>
+						<p class="description"><?php esc_html_e( 'When enabled, a "generate_lead" event will be sent to Google Analytics when a user successfully subscribes. Make sure you have GA4 or GTM installed on your site.', 'mail-system-by-katsarov-design' ); ?></p>
 					</td>
 				</tr>
 			</table>

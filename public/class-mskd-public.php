@@ -49,13 +49,17 @@ class MSKD_Public {
 			true
 		);
 
+		// Get settings for localization.
+		$settings = get_option( 'mskd_settings', array() );
+
 		wp_localize_script(
 			'mskd-public-script',
 			'mskd_public',
 			array(
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'mskd_public_nonce' ),
-				'strings'  => array(
+				'ajax_url'            => admin_url( 'admin-ajax.php' ),
+				'nonce'               => wp_create_nonce( 'mskd_public_nonce' ),
+				'enable_ga4_tracking' => isset( $settings['enable_ga4_tracking'] ) ? (bool) $settings['enable_ga4_tracking'] : false,
+				'strings'             => array(
 					'subscribing' => esc_html__( 'Subscribing...', 'mail-system-by-katsarov-design' ),
 					'success'     => esc_html__( 'Successfully subscribed!', 'mail-system-by-katsarov-design' ),
 					'error'       => esc_html__( 'An error occurred. Please try again.', 'mail-system-by-katsarov-design' ),

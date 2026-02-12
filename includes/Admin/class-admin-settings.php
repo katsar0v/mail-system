@@ -138,32 +138,34 @@ class Admin_Settings {
 		$reply_to = isset( $_POST['reply_to'] ) ? sanitize_email( wp_unslash( $_POST['reply_to'] ) ) : '';
 
 		$settings = array(
-			'from_name'         => $from_name,
-			'from_email'        => $from_email,
-			'reply_to'          => $reply_to,
+			'from_name'           => $from_name,
+			'from_email'          => $from_email,
+			'reply_to'            => $reply_to,
 			// Sending settings.
-			'emails_per_minute' => $emails_per_minute,
+			'emails_per_minute'   => $emails_per_minute,
 			// Email template settings.
-			'email_header'      => $email_header,
-			'email_footer'      => $email_footer,
+			'email_header'        => $email_header,
+			'email_footer'        => $email_footer,
 			// Styling settings.
-			'highlight_color'   => $highlight_color,
-			'button_text_color' => $button_text_color,
+			'highlight_color'     => $highlight_color,
+			'button_text_color'   => $button_text_color,
 			// Subscription Form Settings.
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_actions() before calling this method.
-			'show_name_field'   => isset( $_POST['show_name_field'] ) ? 1 : 0,
+			'show_name_field'     => isset( $_POST['show_name_field'] ) ? 1 : 0,
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_actions() before calling this method.
+			'enable_ga4_tracking' => isset( $_POST['enable_ga4_tracking'] ) ? 1 : 0,
 			// SMTP Settings.
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_actions() before calling this method.
-			'smtp_enabled'      => isset( $_POST['smtp_enabled'] ) ? 1 : 0,
+			'smtp_enabled'        => isset( $_POST['smtp_enabled'] ) ? 1 : 0,
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_actions() before calling this method.
-			'smtp_host'         => isset( $_POST['smtp_host'] ) ? sanitize_text_field( wp_unslash( $_POST['smtp_host'] ) ) : '',
-			'smtp_port'         => $smtp_port,
-			'smtp_security'     => $smtp_security,
+			'smtp_host'           => isset( $_POST['smtp_host'] ) ? sanitize_text_field( wp_unslash( $_POST['smtp_host'] ) ) : '',
+			'smtp_port'           => $smtp_port,
+			'smtp_security'       => $smtp_security,
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_actions() before calling this method.
-			'smtp_auth'         => isset( $_POST['smtp_auth'] ) ? 1 : 0,
+			'smtp_auth'           => isset( $_POST['smtp_auth'] ) ? 1 : 0,
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_actions() before calling this method.
-			'smtp_username'     => isset( $_POST['smtp_username'] ) ? sanitize_text_field( wp_unslash( $_POST['smtp_username'] ) ) : '',
-			'smtp_password'     => $smtp_password,
+			'smtp_username'       => isset( $_POST['smtp_username'] ) ? sanitize_text_field( wp_unslash( $_POST['smtp_username'] ) ) : '',
+			'smtp_password'       => $smtp_password,
 		);
 
 		update_option( 'mskd_settings', $settings );
@@ -192,22 +194,23 @@ class Admin_Settings {
 	 */
 	public function get_settings(): array {
 		$defaults = array(
-			'from_name'         => get_bloginfo( 'name' ),
-			'from_email'        => get_bloginfo( 'admin_email' ),
-			'reply_to'          => get_bloginfo( 'admin_email' ),
-			'emails_per_minute' => MSKD_BATCH_SIZE,
-			'email_header'      => '',
-			'email_footer'      => '',
-			'highlight_color'   => '#2271b1',
-			'button_text_color' => '#ffffff',
-			'show_name_field'   => 1,
-			'smtp_enabled'      => 0,
-			'smtp_host'         => '',
-			'smtp_port'         => 587,
-			'smtp_security'     => 'tls',
-			'smtp_auth'         => 1,
-			'smtp_username'     => '',
-			'smtp_password'     => '',
+			'from_name'           => get_bloginfo( 'name' ),
+			'from_email'          => get_bloginfo( 'admin_email' ),
+			'reply_to'            => get_bloginfo( 'admin_email' ),
+			'emails_per_minute'   => MSKD_BATCH_SIZE,
+			'email_header'        => '',
+			'email_footer'        => '',
+			'highlight_color'     => '#2271b1',
+			'button_text_color'   => '#ffffff',
+			'show_name_field'     => 1,
+			'enable_ga4_tracking' => 0,
+			'smtp_enabled'        => 0,
+			'smtp_host'           => '',
+			'smtp_port'           => 587,
+			'smtp_security'       => 'tls',
+			'smtp_auth'           => 1,
+			'smtp_username'       => '',
+			'smtp_password'       => '',
 		);
 
 		$settings = get_option( 'mskd_settings', array() );
