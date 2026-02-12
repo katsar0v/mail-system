@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Mass Delete Subscribers**
+  - New "Delete" option in bulk actions dropdown on subscribers page
+  - Ability to delete multiple subscribers at once with confirmation dialog
+  - AJAX-powered deletion with real-time feedback
+  - Proper database cleanup (subscribers, list associations, and queue items)
+  - Full translations in Bulgarian and German with pluralization support
+
 ### Fixed
 - **Compose Wizard Step 1 Validation**
   - Fixed bug where "Please select at least one list" alert incorrectly appeared when clicking Continue in step 1

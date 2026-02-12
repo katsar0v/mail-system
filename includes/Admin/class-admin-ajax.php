@@ -566,7 +566,7 @@ class Admin_Ajax {
 				array(
 					'message' => $message,
 					'success' => $result['success'],
-					'failed' => $result['failed'],
+					'failed'  => $result['failed'],
 					'errors'  => $result['errors'],
 				)
 			);
