@@ -289,6 +289,12 @@
             });
         });
 
+        // Delete Inactive Subscribers Button
+        $(document).on('click', '#mskd-delete-inactive-subscribers', function(e) {
+            e.preventDefault();
+            handleTruncate($(this), 'mskd_delete_inactive_subscribers', '#mskd-delete-inactive-subscribers-result', mskd_admin.strings.confirm_delete_inactive_subscribers);
+        });
+
         // Truncate Subscribers Button
         $(document).on('click', '#mskd-truncate-subscribers', function(e) {
             e.preventDefault();

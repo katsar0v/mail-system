@@ -2694,3 +2694,29 @@ msgstr "Löschen des Abonnenten mit ID %d fehlgeschlagen"
 #: includes/Admin/class-admin-ajax.php
 msgid "No subscribers were deleted."
 msgstr "Keine Abonnenten wurden gelöscht."
+
+#: admin/partials/settings.php
+msgid "Delete Inactive Subscribers"
+msgstr "Inaktive Abonnenten löschen"
+
+#: admin/partials/settings.php
+msgid "Delete unconfirmed and inactive subscribers"
+msgstr "Unbestätigte und inaktive Abonnenten löschen"
+
+#: admin/partials/settings.php
+msgid "Permanently deletes all subscribers with inactive (unconfirmed) status and their list associations."
+msgstr "Löscht dauerhaft alle Abonnenten mit inaktivem (unbestätigtem) Status und deren Listenzuordnungen."
+
+#: includes/Admin/class-admin-assets.php
+msgid "Are you sure you want to delete all unconfirmed and inactive subscribers? This action cannot be undone!"
+msgstr "Möchten Sie wirklich alle unbestätigten und inaktiven Abonnenten löschen? Diese Aktion kann nicht rückgängig gemacht werden!"
+
+#: includes/Admin/class-admin-ajax.php
+msgid "%d inactive subscriber deleted successfully."
+msgid_plural "%d inactive subscribers deleted successfully."
+msgstr[0] "%d inaktiver Abonnent erfolgreich gelöscht."
+msgstr[1] "%d inaktive Abonnenten erfolgreich gelöscht."
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No inactive subscribers found to delete."
+msgstr "Keine inaktiven Abonnenten zum Löschen gefunden."

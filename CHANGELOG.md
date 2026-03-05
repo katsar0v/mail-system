@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Delete Unconfirmed and Inactive Subscribers**
+  - New "Delete unconfirmed and inactive subscribers" button in Admin > Settings > Danger Zone
+  - Deletes all subscribers with `inactive` (unconfirmed) status and their list associations
+  - Uses `window.confirm` dialog before performing the irreversible action
+  - AJAX-powered deletion with real-time feedback
+  - Full translations in Bulgarian and German with pluralization support
 - **GA4 Conversion Tracking**
   - New "Enable GA4 Tracking" setting in Admin > Settings > Subscription Form
   - Tracks subscription form submissions as conversion events in Google Analytics 4

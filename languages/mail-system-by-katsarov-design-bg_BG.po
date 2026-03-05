@@ -2651,3 +2651,29 @@ msgstr "Неуспешно изтриване на абонат с ID %d"
 #: includes/Admin/class-admin-ajax.php
 msgid "No subscribers were deleted."
 msgstr "Нито един абонат не беше изтрит."
+
+#: admin/partials/settings.php
+msgid "Delete Inactive Subscribers"
+msgstr "Изтриване на неактивни абонати"
+
+#: admin/partials/settings.php
+msgid "Delete unconfirmed and inactive subscribers"
+msgstr "Изтрий непотвърдените и неактивните абонати"
+
+#: admin/partials/settings.php
+msgid "Permanently deletes all subscribers with inactive (unconfirmed) status and their list associations."
+msgstr "Изтрива завинаги всички абонати с неактивен (непотвърден) статус и техните връзки със списъци."
+
+#: includes/Admin/class-admin-assets.php
+msgid "Are you sure you want to delete all unconfirmed and inactive subscribers? This action cannot be undone!"
+msgstr "Сигурни ли сте, че искате да изтриете всички непотвърдени и неактивни абонати? Това действие не може да бъде отменено!"
+
+#: includes/Admin/class-admin-ajax.php
+msgid "%d inactive subscriber deleted successfully."
+msgid_plural "%d inactive subscribers deleted successfully."
+msgstr[0] "%d неактивен абонат е изтрит успешно."
+msgstr[1] "%d неактивни абонати са изтрити успешно."
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No inactive subscribers found to delete."
+msgstr "Няма намерени неактивни абонати за изтриване."
