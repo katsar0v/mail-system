@@ -40,6 +40,7 @@ class Admin_Ajax {
 		add_action( 'wp_ajax_mskd_batch_assign_lists', array( $this, 'batch_assign_lists' ) );
 		add_action( 'wp_ajax_mskd_batch_remove_lists', array( $this, 'batch_remove_lists' ) );
 		add_action( 'wp_ajax_mskd_batch_delete_subscribers', array( $this, 'batch_delete_subscribers' ) );
+		add_action( 'wp_ajax_mskd_delete_inactive_subscribers', array( $this, 'delete_inactive_subscribers' ) );
 		add_action( 'wp_ajax_mskd_preview_email', array( $this, 'preview_email' ) );
 	}
 
@@ -578,5 +579,53 @@ class Admin_Ajax {
 				)
 			);
 		}
+	}
+
+	/**
+	 * AJAX handler: Delete all inactive (unconfirmed) subscribers.
+	 *
+	 * Deletes every subscriber whose status is 'inactive', together with
+	 * their list associations and any queued items.
+	 *
+	 * Security: Nonce verified, admin-only.
+	 *
+	 * @return void
+	 */
+	public function delete_inactive_subscribers(): void {
+		check_ajax_referer( 'mskd_admin_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+				)
+			);
+		}
+
+		$service = new Subscriber_Service();
+		$deleted = $service->delete_inactive();
+
+		if ( 0 === $deleted ) {
+			wp_send_json_success(
+				array(
+					'message' => __( 'No inactive subscribers found to delete.', 'mail-system-by-katsarov-design' ),
+				)
+			);
+		}
+
+		wp_send_json_success(
+			array(
+				'message' => sprintf(
+					/* translators: %d: number of subscribers deleted */
+					_n(
+						'%d inactive subscriber deleted successfully.',
+						'%d inactive subscribers deleted successfully.',
+						$deleted,
+						'mail-system-by-katsarov-design'
+					),
+					$deleted
+				),
+			)
+		);
 	}
 }

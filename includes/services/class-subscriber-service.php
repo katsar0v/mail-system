@@ -561,6 +561,38 @@ class Subscriber_Service {
 	}
 
 	/**
+	 * Delete all inactive (unconfirmed) subscribers.
+	 *
+	 * Deletes every subscriber with `inactive` status, along with their
+	 * list associations and queued items. Returns the number of deleted rows.
+	 *
+	 * @return int Number of subscribers deleted.
+	 */
+	public function delete_inactive(): int {
+		// Fetch IDs of all inactive subscribers.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Admin bulk-delete, caching not applicable.
+		$ids = $this->wpdb->get_col(
+			$this->wpdb->prepare(
+				"SELECT id FROM {$this->table} WHERE status = %s",
+				'inactive'
+			)
+		);
+
+		if ( empty( $ids ) ) {
+			return 0;
+		}
+
+		$deleted = 0;
+		foreach ( $ids as $id ) {
+			if ( $this->delete( (int) $id ) ) {
+				++$deleted;
+			}
+		}
+
+		return $deleted;
+	}
+
+	/**
 	 * Truncate all subscribers (for admin use).
 	 *
 	 * @return bool True on success.

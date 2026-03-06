@@ -2635,3 +2635,29 @@ msgstr ""
 #: admin/partials/settings.php
 msgid "When enabled, a \"generate_lead\" event will be sent to Google Analytics when a user successfully subscribes. Make sure you have GA4 or GTM installed on your site."
 msgstr ""
+
+#: admin/partials/settings.php
+msgid "Delete Inactive Subscribers"
+msgstr ""
+
+#: admin/partials/settings.php
+msgid "Delete unconfirmed and inactive subscribers"
+msgstr ""
+
+#: admin/partials/settings.php
+msgid "Permanently deletes all subscribers with inactive (unconfirmed) status and their list associations."
+msgstr ""
+
+#: includes/Admin/class-admin-assets.php
+msgid "Are you sure you want to delete all unconfirmed and inactive subscribers? This action cannot be undone!"
+msgstr ""
+
+#: includes/Admin/class-admin-ajax.php
+msgid "%d inactive subscriber deleted successfully."
+msgid_plural "%d inactive subscribers deleted successfully."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/class-admin-ajax.php
+msgid "No inactive subscribers found to delete."
+msgstr ""
