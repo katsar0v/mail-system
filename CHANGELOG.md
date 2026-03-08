@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Delete Inactive Subscribers button** now also deletes subscribers with `unsubscribed` status, in addition to `inactive` (unconfirmed). Updated button description, confirmation dialog, and success messages accordingly. Translations updated for Bulgarian and German.
+
+### Fixed
+- Fixed undefined variable `$class` (should be `$class_name`) in test bootstrap autoloader, which caused PHP 8.1 test failures due to undefined variable warnings being converted to exceptions.
+
 ### Added
 - **Delete Unconfirmed and Inactive Subscribers**
   - New "Delete unconfirmed and inactive subscribers" button in Admin > Settings > Danger Zone

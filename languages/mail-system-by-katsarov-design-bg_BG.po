@@ -2661,19 +2661,19 @@ msgid "Delete unconfirmed and inactive subscribers"
 msgstr "Изтрий непотвърдените и неактивните абонати"
 
 #: admin/partials/settings.php
-msgid "Permanently deletes all subscribers with inactive (unconfirmed) status and their list associations."
-msgstr "Изтрива завинаги всички абонати с неактивен (непотвърден) статус и техните връзки със списъци."
+msgid "Permanently deletes all subscribers with inactive (unconfirmed) or unsubscribed status and their list associations."
+msgstr "Изтрива завинаги всички абонати с неактивен (непотвърден) или отписан статус и техните връзки със списъци."
 
 #: includes/Admin/class-admin-assets.php
-msgid "Are you sure you want to delete all unconfirmed and inactive subscribers? This action cannot be undone!"
-msgstr "Сигурни ли сте, че искате да изтриете всички непотвърдени и неактивни абонати? Това действие не може да бъде отменено!"
+msgid "Are you sure you want to delete all unconfirmed, inactive, and unsubscribed subscribers? This action cannot be undone!"
+msgstr "Сигурни ли сте, че искате да изтриете всички непотвърдени, неактивни и отписани абонати? Това действие не може да бъде отменено!"
 
 #: includes/Admin/class-admin-ajax.php
-msgid "%d inactive subscriber deleted successfully."
-msgid_plural "%d inactive subscribers deleted successfully."
-msgstr[0] "%d неактивен абонат е изтрит успешно."
-msgstr[1] "%d неактивни абонати са изтрити успешно."
+msgid "%d inactive or unsubscribed subscriber deleted successfully."
+msgid_plural "%d inactive or unsubscribed subscribers deleted successfully."
+msgstr[0] "%d неактивен или отписан абонат е изтрит успешно."
+msgstr[1] "%d неактивни или отписани абонати са изтрити успешно."
 
 #: includes/Admin/class-admin-ajax.php
-msgid "No inactive subscribers found to delete."
-msgstr "Няма намерени неактивни абонати за изтриване."
+msgid "No inactive or unsubscribed subscribers found to delete."
+msgstr "Няма намерени неактивни или отписани абонати за изтриване."

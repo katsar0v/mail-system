@@ -561,20 +561,21 @@ class Subscriber_Service {
 	}
 
 	/**
-	 * Delete all inactive (unconfirmed) subscribers.
+	 * Delete all inactive (unconfirmed) and unsubscribed subscribers.
 	 *
-	 * Deletes every subscriber with `inactive` status, along with their
+	 * Deletes every subscriber with `inactive` or `unsubscribed` status, along with their
 	 * list associations and queued items. Returns the number of deleted rows.
 	 *
 	 * @return int Number of subscribers deleted.
 	 */
 	public function delete_inactive(): int {
-		// Fetch IDs of all inactive subscribers.
+		// Fetch IDs of all inactive and unsubscribed subscribers.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Admin bulk-delete, caching not applicable.
 		$ids = $this->wpdb->get_col(
 			$this->wpdb->prepare(
-				"SELECT id FROM {$this->table} WHERE status = %s",
-				'inactive'
+				"SELECT id FROM {$this->table} WHERE status IN (%s, %s)",
+				'inactive',
+				'unsubscribed'
 			)
 		);
 
