@@ -32,12 +32,12 @@ spl_autoload_register(
 		// Handle PSR-4 namespaced classes (MSKD\*)
 		if ( strpos( $class_name, 'MSKD\\' ) === 0 ) {
 			// Skip test classes - they are handled by Composer autoloader.
-			if ( strpos( $class, 'MSKD\\Tests\\' ) === 0 ) {
+			if ( strpos( $class_name, 'MSKD\\Tests\\' ) === 0 ) {
 				return;
 			}
 
 			// Convert namespace to file path.
-			$relative_class = substr( $class, 5 ); // Remove 'MSKD\' prefix.
+			$relative_class = substr( $class_name, 5 ); // Remove 'MSKD\' prefix.
 			$parts          = explode( '\\', $relative_class );
 
 			// Get class name (last part) and namespace parts.
