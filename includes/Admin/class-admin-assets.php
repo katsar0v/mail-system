@@ -165,7 +165,7 @@ class Admin_Assets {
 			'confirm_truncate_subscribers'        => __( 'Are you sure you want to delete ALL subscribers? This action cannot be undone!', 'mail-system-by-katsarov-design' ),
 			'confirm_truncate_lists'              => __( 'Are you sure you want to delete ALL lists? This action cannot be undone!', 'mail-system-by-katsarov-design' ),
 			'confirm_truncate_queue'              => __( 'Are you sure you want to delete ALL campaigns? This action cannot be undone!', 'mail-system-by-katsarov-design' ),
-			'confirm_delete_inactive_subscribers' => __( 'Are you sure you want to delete all unconfirmed and inactive subscribers? This action cannot be undone!', 'mail-system-by-katsarov-design' ),
+			'confirm_delete_inactive_subscribers' => __( 'Are you sure you want to delete all unconfirmed, inactive, and unsubscribed subscribers? This action cannot be undone!', 'mail-system-by-katsarov-design' ),
 			'select_lists_placeholder'            => __( 'Select lists...', 'mail-system-by-katsarov-design' ),
 			'search_placeholder'                  => __( 'Search...', 'mail-system-by-katsarov-design' ),
 			'no_results'                          => __( 'No results found', 'mail-system-by-katsarov-design' ),

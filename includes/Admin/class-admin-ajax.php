@@ -582,9 +582,9 @@ class Admin_Ajax {
 	}
 
 	/**
-	 * AJAX handler: Delete all inactive (unconfirmed) subscribers.
+	 * AJAX handler: Delete all inactive (unconfirmed) and unsubscribed subscribers.
 	 *
-	 * Deletes every subscriber whose status is 'inactive', together with
+	 * Deletes every subscriber whose status is 'inactive' or 'unsubscribed', together with
 	 * their list associations and any queued items.
 	 *
 	 * Security: Nonce verified, admin-only.
@@ -608,7 +608,7 @@ class Admin_Ajax {
 		if ( 0 === $deleted ) {
 			wp_send_json_success(
 				array(
-					'message' => __( 'No inactive subscribers found to delete.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No inactive or unsubscribed subscribers found to delete.', 'mail-system-by-katsarov-design' ),
 				)
 			);
 		}
@@ -618,8 +618,8 @@ class Admin_Ajax {
 				'message' => sprintf(
 					/* translators: %d: number of subscribers deleted */
 					_n(
-						'%d inactive subscriber deleted successfully.',
-						'%d inactive subscribers deleted successfully.',
+						'%d inactive or unsubscribed subscriber deleted successfully.',
+						'%d inactive or unsubscribed subscribers deleted successfully.',
 						$deleted,
 						'mail-system-by-katsarov-design'
 					),

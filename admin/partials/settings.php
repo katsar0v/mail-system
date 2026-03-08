@@ -428,7 +428,7 @@ $enable_ga4_tracking = isset( $settings['enable_ga4_tracking'] ) ? (bool) $setti
 						<?php esc_html_e( 'Delete unconfirmed and inactive subscribers', 'mail-system-by-katsarov-design' ); ?>
 					</button>
 					<span id="mskd-delete-inactive-subscribers-result"></span>
-					<p class="description"><?php esc_html_e( 'Permanently deletes all subscribers with inactive (unconfirmed) status and their list associations.', 'mail-system-by-katsarov-design' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Permanently deletes all subscribers with inactive (unconfirmed) or unsubscribed status and their list associations.', 'mail-system-by-katsarov-design' ); ?></p>
 				</td>
 			</tr>
 			<tr>
