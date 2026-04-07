@@ -212,6 +212,29 @@ class Admin_Notices {
 			);
 		}
 
+		// Show error message if the database repair failed.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Just displaying a message.
+		if ( isset( $_GET['mskd_db_error'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Just displaying a message.
+			$db_error = sanitize_text_field( wp_unslash( $_GET['mskd_db_error'] ) );
+			add_action(
+				'admin_notices',
+				function () use ( $db_error ) {
+					?>
+					<div class="notice notice-error">
+						<p>
+							<strong><?php esc_html_e( 'Mail System:', 'mail-system-by-katsarov-design' ); ?></strong>
+							<?php esc_html_e( 'Database repair failed. One or more required tables or columns could not be created. Please deactivate and reactivate the plugin, or contact your hosting provider if the issue persists.', 'mail-system-by-katsarov-design' ); ?>
+						</p>
+						<?php if ( '1' !== $db_error ) : ?>
+						<p><em><?php echo esc_html( $db_error ); ?></em></p>
+						<?php endif; ?>
+					</div>
+					<?php
+				}
+			);
+		}
+
 		if ( ! isset( $_GET['mskd_upgrade_db'] ) ) {
 			return;
 		}
@@ -225,11 +248,17 @@ class Admin_Notices {
 			wp_die( esc_html__( 'Security check failed.', 'mail-system-by-katsarov-design' ) );
 		}
 
-		// Force re-run the upgrade by temporarily setting version to 1.0.0.
-		update_option( 'mskd_db_version', '1.0.0' );
+		// Run full activation: uses dbDelta to create missing tables and columns.
+		\MSKD_Activator::activate();
 
-		// Run upgrade.
-		\MSKD_Activator::maybe_upgrade();
+		// Verify the schema is now valid.
+		if ( ! $this->is_database_schema_valid() ) {
+			global $wpdb;
+			$db_error    = $wpdb->last_error;
+			$error_param = $db_error ? '&mskd_db_error=' . rawurlencode( $db_error ) : '&mskd_db_error=1';
+			wp_safe_redirect( admin_url( 'admin.php?page=' . self::PAGE_PREFIX . 'dashboard' . $error_param ) );
+			exit;
+		}
 
 		// Redirect to remove the query args.
 		wp_safe_redirect( admin_url( 'admin.php?page=' . self::PAGE_PREFIX . 'dashboard&mskd_db_updated=1' ) );
@@ -253,7 +282,7 @@ class Admin_Notices {
 				<strong><?php esc_html_e( 'Mail System Database Repair Required', 'mail-system-by-katsarov-design' ); ?></strong>
 			</p>
 			<p>
-				<?php esc_html_e( 'Some required database columns are missing. This may cause subscription confirmation links to fail. Click the button below to repair the database.', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Some required database tables or columns are missing. This may cause subscription confirmation links to fail. Click the button below to repair the database.', 'mail-system-by-katsarov-design' ); ?>
 			</p>
 			<p>
 				<a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary">
@@ -272,11 +301,23 @@ class Admin_Notices {
 	private function is_database_schema_valid(): bool {
 		global $wpdb;
 
-		// Check if opt_in_token column exists in subscribers table.
+		$table = $wpdb->prefix . 'mskd_subscribers';
+
+		// First check the table itself exists.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema check.
+		$table_exists = $wpdb->get_var(
+			$wpdb->prepare( 'SHOW TABLES LIKE %s', $table )
+		);
+
+		if ( ! $table_exists ) {
+			return false;
+		}
+
+		// Then check the opt_in_token column exists.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema check.
 		$column_exists = $wpdb->get_results(
 			$wpdb->prepare(
-				"SHOW COLUMNS FROM {$wpdb->prefix}mskd_subscribers LIKE %s",
+				"SHOW COLUMNS FROM {$table} LIKE %s",
 				'opt_in_token'
 			)
 		);
