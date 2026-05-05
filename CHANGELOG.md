@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Database repair notice persisting infinitely** — when clicking "Repair Database Now", if the required database table or column did not exist (or `ALTER TABLE` silently failed), the repair notice was shown on every page load indefinitely. The handler now calls `MSKD_Activator::activate()` (which uses `dbDelta` to create missing tables and columns), verifies the schema afterwards, and — if still failing — shows an actionable error notice with the database error message. The schema check also now correctly detects a missing table (not just a missing column).
 
 ### Changed
+- **Renamed plugin slug** from `mail-system-by-katsarov-design` to `mail-system`. Updated main plugin file, all language files (`.pot`, `.po`, `.mo`), text domain references across all PHP source files, `package.json`, `bin/create-release.sh`, and documentation headers. DB table names, option keys, hooks, and constants are unchanged.
 - **Delete Inactive Subscribers button** now also deletes subscribers with `unsubscribed` status, in addition to `inactive` (unconfirmed). Updated button description, confirmation dialog, and success messages accordingly. Translations updated for Bulgarian and German.
 
 ### Fixed
