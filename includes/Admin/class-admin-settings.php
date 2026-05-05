@@ -173,7 +173,7 @@ class Admin_Settings {
 		add_settings_error(
 			'mskd_messages',
 			'mskd_success',
-			__( 'Settings saved successfully.', 'mail-system-by-katsarov-design' ),
+			__( 'Settings saved successfully.', 'mail-system' ),
 			'success'
 		);
 	}

@@ -474,7 +474,7 @@ class Email_Service {
 			$this->queue_table,
 			array(
 				'status'        => 'cancelled',
-				'error_message' => __( 'Cancelled by administrator', 'mail-system-by-katsarov-design' ),
+				'error_message' => __( 'Cancelled by administrator', 'mail-system' ),
 			),
 			array( 'id' => $id ),
 			array( '%s', '%s' ),
@@ -515,7 +515,7 @@ class Email_Service {
 				"UPDATE {$this->queue_table}
 		               SET status = 'cancelled', error_message = %s
 		               WHERE campaign_id = %d AND status IN ('pending', 'processing')",
-				__( 'Campaign cancelled by administrator', 'mail-system-by-katsarov-design' ),
+				__( 'Campaign cancelled by administrator', 'mail-system' ),
 				$id
 			)
 		);

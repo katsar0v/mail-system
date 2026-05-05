@@ -19,10 +19,10 @@ $lists        = $list_service->get_all();
 	<div class="mskd-page-header">
 		<h1>
 			<span class="dashicons dashicons-database-import"></span>
-			<?php esc_html_e( 'Import / Export', 'mail-system-by-katsarov-design' ); ?>
+			<?php esc_html_e( 'Import / Export', 'mail-system' ); ?>
 		</h1>
 		<p class="mskd-page-description">
-			<?php esc_html_e( 'Manage your subscriber data with easy import and export functionality.', 'mail-system-by-katsarov-design' ); ?>
+			<?php esc_html_e( 'Manage your subscriber data with easy import and export functionality.', 'mail-system' ); ?>
 		</p>
 	</div>
 
@@ -37,10 +37,10 @@ $lists        = $list_service->get_all();
 				</div>
 				<div class="mskd-card-header-content">
 					<h2 class="mskd-card-title">
-						<?php esc_html_e( 'Export Data', 'mail-system-by-katsarov-design' ); ?>
+						<?php esc_html_e( 'Export Data', 'mail-system' ); ?>
 					</h2>
 					<p class="mskd-card-subtitle">
-						<?php esc_html_e( 'Download subscribers or lists as CSV', 'mail-system-by-katsarov-design' ); ?>
+						<?php esc_html_e( 'Download subscribers or lists as CSV', 'mail-system' ); ?>
 					</p>
 				</div>
 			</div>
@@ -53,11 +53,11 @@ $lists        = $list_service->get_all();
 					<div class="mskd-form-group">
 						<label for="export_type" class="mskd-form-label">
 							<span class="dashicons dashicons-category"></span>
-							<?php esc_html_e( 'Export type', 'mail-system-by-katsarov-design' ); ?>
+							<?php esc_html_e( 'Export type', 'mail-system' ); ?>
 						</label>
 						<select name="export_type" id="export_type" class="mskd-form-select">
-							<option value="subscribers"><?php esc_html_e( 'Subscribers', 'mail-system-by-katsarov-design' ); ?></option>
-							<option value="lists"><?php esc_html_e( 'Lists', 'mail-system-by-katsarov-design' ); ?></option>
+							<option value="subscribers"><?php esc_html_e( 'Subscribers', 'mail-system' ); ?></option>
+							<option value="lists"><?php esc_html_e( 'Lists', 'mail-system' ); ?></option>
 						</select>
 					</div>
 
@@ -66,10 +66,10 @@ $lists        = $list_service->get_all();
 							<div class="mskd-form-group mskd-form-group-half">
 								<label for="export_list_id" class="mskd-form-label">
 									<span class="dashicons dashicons-list-view"></span>
-									<?php esc_html_e( 'Filter by list', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Filter by list', 'mail-system' ); ?>
 								</label>
 								<select name="export_list_id" id="export_list_id" class="mskd-form-select">
-									<option value=""><?php esc_html_e( 'All lists', 'mail-system-by-katsarov-design' ); ?></option>
+									<option value=""><?php esc_html_e( 'All lists', 'mail-system' ); ?></option>
 									<?php foreach ( $lists as $list ) : ?>
 										<option value="<?php echo esc_attr( $list->id ); ?>">
 											<?php echo esc_html( $list->name ); ?>
@@ -81,13 +81,13 @@ $lists        = $list_service->get_all();
 							<div class="mskd-form-group mskd-form-group-half">
 								<label for="export_status" class="mskd-form-label">
 									<span class="dashicons dashicons-flag"></span>
-									<?php esc_html_e( 'Filter by status', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Filter by status', 'mail-system' ); ?>
 								</label>
 								<select name="export_status" id="export_status" class="mskd-form-select">
-									<option value=""><?php esc_html_e( 'All statuses', 'mail-system-by-katsarov-design' ); ?></option>
-									<option value="active"><?php esc_html_e( 'Active', 'mail-system-by-katsarov-design' ); ?></option>
-									<option value="inactive"><?php esc_html_e( 'Inactive', 'mail-system-by-katsarov-design' ); ?></option>
-									<option value="unsubscribed"><?php esc_html_e( 'Unsubscribed', 'mail-system-by-katsarov-design' ); ?></option>
+									<option value=""><?php esc_html_e( 'All statuses', 'mail-system' ); ?></option>
+									<option value="active"><?php esc_html_e( 'Active', 'mail-system' ); ?></option>
+									<option value="inactive"><?php esc_html_e( 'Inactive', 'mail-system' ); ?></option>
+									<option value="unsubscribed"><?php esc_html_e( 'Unsubscribed', 'mail-system' ); ?></option>
 								</select>
 							</div>
 						</div>
@@ -96,7 +96,7 @@ $lists        = $list_service->get_all();
 					<div class="mskd-card-actions">
 						<button type="submit" name="mskd_export" class="button button-primary button-hero">
 							<span class="dashicons dashicons-download"></span>
-							<?php esc_html_e( 'Export to CSV', 'mail-system-by-katsarov-design' ); ?>
+							<?php esc_html_e( 'Export to CSV', 'mail-system' ); ?>
 						</button>
 					</div>
 				</form>
@@ -111,10 +111,10 @@ $lists        = $list_service->get_all();
 				</div>
 				<div class="mskd-card-header-content">
 					<h2 class="mskd-card-title">
-						<?php esc_html_e( 'Import Data', 'mail-system-by-katsarov-design' ); ?>
+						<?php esc_html_e( 'Import Data', 'mail-system' ); ?>
 					</h2>
 					<p class="mskd-card-subtitle">
-						<?php esc_html_e( 'Upload subscribers or lists from CSV', 'mail-system-by-katsarov-design' ); ?>
+						<?php esc_html_e( 'Upload subscribers or lists from CSV', 'mail-system' ); ?>
 					</p>
 				</div>
 			</div>
@@ -127,35 +127,35 @@ $lists        = $list_service->get_all();
 					<div class="mskd-form-group">
 						<label for="import_type" class="mskd-form-label">
 							<span class="dashicons dashicons-category"></span>
-							<?php esc_html_e( 'Import type', 'mail-system-by-katsarov-design' ); ?>
+							<?php esc_html_e( 'Import type', 'mail-system' ); ?>
 						</label>
 						<select name="import_type" id="import_type" class="mskd-form-select">
-							<option value="subscribers"><?php esc_html_e( 'Subscribers', 'mail-system-by-katsarov-design' ); ?></option>
-							<option value="lists"><?php esc_html_e( 'Lists', 'mail-system-by-katsarov-design' ); ?></option>
+							<option value="subscribers"><?php esc_html_e( 'Subscribers', 'mail-system' ); ?></option>
+							<option value="lists"><?php esc_html_e( 'Lists', 'mail-system' ); ?></option>
 						</select>
 					</div>
 
 					<div class="mskd-form-group">
 						<label for="import_file" class="mskd-form-label">
 							<span class="dashicons dashicons-media-spreadsheet"></span>
-							<?php esc_html_e( 'CSV File', 'mail-system-by-katsarov-design' ); ?>
+							<?php esc_html_e( 'CSV File', 'mail-system' ); ?>
 						</label>
 						<div class="mskd-file-upload-area" id="mskd-file-upload-area">
 							<div class="mskd-file-upload-content">
 								<span class="dashicons dashicons-cloud-upload"></span>
 								<p class="mskd-file-upload-text">
-									<?php esc_html_e( 'Drag & drop your CSV file here or', 'mail-system-by-katsarov-design' ); ?>
-									<span class="mskd-file-upload-link" role="button" tabindex="0"><?php esc_html_e( 'browse', 'mail-system-by-katsarov-design' ); ?></span>
+									<?php esc_html_e( 'Drag & drop your CSV file here or', 'mail-system' ); ?>
+									<span class="mskd-file-upload-link" role="button" tabindex="0"><?php esc_html_e( 'browse', 'mail-system' ); ?></span>
 								</p>
 								<p class="mskd-file-upload-hint">
-									<?php esc_html_e( 'Maximum file size: 5MB', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Maximum file size: 5MB', 'mail-system' ); ?>
 								</p>
 							</div>
 							<input type="file" name="import_file" id="import_file" accept=".csv" required class="mskd-file-input">
 							<div class="mskd-file-selected mskd-hidden">
 								<span class="dashicons dashicons-media-spreadsheet"></span>
 								<span class="mskd-file-name"></span>
-								<button type="button" class="mskd-file-remove" aria-label="<?php esc_attr_e( 'Remove selected file', 'mail-system-by-katsarov-design' ); ?>">
+								<button type="button" class="mskd-file-remove" aria-label="<?php esc_attr_e( 'Remove selected file', 'mail-system' ); ?>">
 									<span class="dashicons dashicons-no-alt"></span>
 								</button>
 							</div>
@@ -166,7 +166,7 @@ $lists        = $list_service->get_all();
 						<div class="mskd-form-group">
 							<label for="target_lists" class="mskd-form-label">
 								<span class="dashicons dashicons-list-view"></span>
-								<?php esc_html_e( 'Assign to specific lists', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Assign to specific lists', 'mail-system' ); ?>
 							</label>
 							<select name="target_lists[]" id="target_lists" class="mskd-slimselect-import-lists" multiple="multiple">
 								<?php foreach ( $lists as $list ) : ?>
@@ -176,35 +176,35 @@ $lists        = $list_service->get_all();
 								<?php endforeach; ?>
 							</select>
 							<p class="mskd-field-hint">
-								<?php esc_html_e( 'Leave empty to use lists from CSV file.', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Leave empty to use lists from CSV file.', 'mail-system' ); ?>
 							</p>
 							<div class="mskd-warning-hint mskd-hidden" id="mskd-target-lists-warning">
 								<span class="dashicons dashicons-warning"></span>
-								<span><?php esc_html_e( 'This will override any list assignments in the CSV file.', 'mail-system-by-katsarov-design' ); ?></span>
+								<span><?php esc_html_e( 'This will override any list assignments in the CSV file.', 'mail-system' ); ?></span>
 							</div>
 						</div>
 
 						<div class="mskd-form-group">
 							<label class="mskd-form-label">
 								<span class="dashicons dashicons-admin-settings"></span>
-								<?php esc_html_e( 'Import options', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Import options', 'mail-system' ); ?>
 							</label>
 							<div class="mskd-checkbox-group">
 								<label class="mskd-checkbox-item">
 									<input type="checkbox" name="update_existing" value="1">
 									<span class="mskd-checkbox-label">
-										<strong><?php esc_html_e( 'Update existing subscribers', 'mail-system-by-katsarov-design' ); ?></strong>
+										<strong><?php esc_html_e( 'Update existing subscribers', 'mail-system' ); ?></strong>
 										<span class="mskd-checkbox-description">
-											<?php esc_html_e( 'If a subscriber with the same email already exists, update their information.', 'mail-system-by-katsarov-design' ); ?>
+											<?php esc_html_e( 'If a subscriber with the same email already exists, update their information.', 'mail-system' ); ?>
 										</span>
 									</span>
 								</label>
 								<label class="mskd-checkbox-item">
 									<input type="checkbox" name="assign_lists" value="1" checked>
 									<span class="mskd-checkbox-label">
-										<strong><?php esc_html_e( 'Assign to lists from file', 'mail-system-by-katsarov-design' ); ?></strong>
+										<strong><?php esc_html_e( 'Assign to lists from file', 'mail-system' ); ?></strong>
 										<span class="mskd-checkbox-description">
-											<?php esc_html_e( 'Assign subscribers to lists specified in the "lists" column. New lists will be created automatically.', 'mail-system-by-katsarov-design' ); ?>
+											<?php esc_html_e( 'Assign subscribers to lists specified in the "lists" column. New lists will be created automatically.', 'mail-system' ); ?>
 										</span>
 									</span>
 								</label>
@@ -215,7 +215,7 @@ $lists        = $list_service->get_all();
 					<div class="mskd-card-actions">
 						<button type="submit" name="mskd_import" class="button button-primary button-hero">
 							<span class="dashicons dashicons-upload"></span>
-							<?php esc_html_e( 'Import from CSV', 'mail-system-by-katsarov-design' ); ?>
+							<?php esc_html_e( 'Import from CSV', 'mail-system' ); ?>
 						</button>
 					</div>
 				</form>
@@ -230,10 +230,10 @@ $lists        = $list_service->get_all();
 				</div>
 				<div class="mskd-card-header-content">
 					<h2 class="mskd-card-title">
-						<?php esc_html_e( 'File Format Guide', 'mail-system-by-katsarov-design' ); ?>
+						<?php esc_html_e( 'File Format Guide', 'mail-system' ); ?>
 					</h2>
 					<p class="mskd-card-subtitle">
-						<?php esc_html_e( 'Learn how to format your CSV files for successful imports', 'mail-system-by-katsarov-design' ); ?>
+						<?php esc_html_e( 'Learn how to format your CSV files for successful imports', 'mail-system' ); ?>
 					</p>
 				</div>
 			</div>
@@ -244,42 +244,42 @@ $lists        = $list_service->get_all();
 					<div class="mskd-docs-section">
 						<div class="mskd-docs-section-header">
 							<span class="dashicons dashicons-groups"></span>
-							<h3><?php esc_html_e( 'Subscribers CSV Format', 'mail-system-by-katsarov-design' ); ?></h3>
+							<h3><?php esc_html_e( 'Subscribers CSV Format', 'mail-system' ); ?></h3>
 						</div>
 						<p class="mskd-docs-intro">
-							<?php esc_html_e( 'The CSV file must contain at minimum an "email" column.', 'mail-system-by-katsarov-design' ); ?>
+							<?php esc_html_e( 'The CSV file must contain at minimum an "email" column.', 'mail-system' ); ?>
 						</p>
 						<div class="mskd-docs-columns">
 							<div class="mskd-docs-column mskd-docs-column-required">
-								<span class="mskd-docs-column-badge"><?php esc_html_e( 'Required', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-badge"><?php esc_html_e( 'Required', 'mail-system' ); ?></span>
 								<code>email</code>
-								<span class="mskd-docs-column-desc"><?php esc_html_e( 'Email address', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-desc"><?php esc_html_e( 'Email address', 'mail-system' ); ?></span>
 							</div>
 							<div class="mskd-docs-column">
-								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system' ); ?></span>
 								<code>first_name</code>
-								<span class="mskd-docs-column-desc"><?php esc_html_e( 'First name', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-desc"><?php esc_html_e( 'First name', 'mail-system' ); ?></span>
 							</div>
 							<div class="mskd-docs-column">
-								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system' ); ?></span>
 								<code>last_name</code>
-								<span class="mskd-docs-column-desc"><?php esc_html_e( 'Last name', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-desc"><?php esc_html_e( 'Last name', 'mail-system' ); ?></span>
 							</div>
 							<div class="mskd-docs-column">
-								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system' ); ?></span>
 								<code>status</code>
-								<span class="mskd-docs-column-desc"><?php esc_html_e( 'active, inactive, or unsubscribed', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-desc"><?php esc_html_e( 'active, inactive, or unsubscribed', 'mail-system' ); ?></span>
 							</div>
 							<div class="mskd-docs-column">
-								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system' ); ?></span>
 								<code>lists</code>
-								<span class="mskd-docs-column-desc"><?php esc_html_e( 'List names separated by semicolon (;)', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-desc"><?php esc_html_e( 'List names separated by semicolon (;)', 'mail-system' ); ?></span>
 							</div>
 						</div>
 						<div class="mskd-docs-example">
 							<div class="mskd-docs-example-header">
 								<span class="dashicons dashicons-editor-code"></span>
-								<?php esc_html_e( 'Example', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Example', 'mail-system' ); ?>
 							</div>
 							<pre class="mskd-code-example">email,first_name,last_name,status,lists
 john@example.com,John,Doe,active,Newsletter;Updates
@@ -291,27 +291,27 @@ jane@example.com,Jane,Smith,active,Newsletter</pre>
 					<div class="mskd-docs-section">
 						<div class="mskd-docs-section-header">
 							<span class="dashicons dashicons-list-view"></span>
-							<h3><?php esc_html_e( 'Lists CSV Format', 'mail-system-by-katsarov-design' ); ?></h3>
+							<h3><?php esc_html_e( 'Lists CSV Format', 'mail-system' ); ?></h3>
 						</div>
 						<p class="mskd-docs-intro">
-							<?php esc_html_e( 'The CSV file must contain at minimum a "name" column.', 'mail-system-by-katsarov-design' ); ?>
+							<?php esc_html_e( 'The CSV file must contain at minimum a "name" column.', 'mail-system' ); ?>
 						</p>
 						<div class="mskd-docs-columns">
 							<div class="mskd-docs-column mskd-docs-column-required">
-								<span class="mskd-docs-column-badge"><?php esc_html_e( 'Required', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-badge"><?php esc_html_e( 'Required', 'mail-system' ); ?></span>
 								<code>name</code>
-								<span class="mskd-docs-column-desc"><?php esc_html_e( 'List name', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-desc"><?php esc_html_e( 'List name', 'mail-system' ); ?></span>
 							</div>
 							<div class="mskd-docs-column">
-								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-badge mskd-docs-column-badge-optional"><?php esc_html_e( 'Optional', 'mail-system' ); ?></span>
 								<code>description</code>
-								<span class="mskd-docs-column-desc"><?php esc_html_e( 'List description', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-docs-column-desc"><?php esc_html_e( 'List description', 'mail-system' ); ?></span>
 							</div>
 						</div>
 						<div class="mskd-docs-example">
 							<div class="mskd-docs-example-header">
 								<span class="dashicons dashicons-editor-code"></span>
-								<?php esc_html_e( 'Example', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Example', 'mail-system' ); ?>
 							</div>
 							<pre class="mskd-code-example">name,description
 Newsletter,Weekly newsletter subscribers

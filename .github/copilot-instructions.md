@@ -5,7 +5,7 @@ WordPress plugin for email newsletter management with subscribers, lists, and qu
 ## Architecture Overview
 
 ```
-mail-system-by-katsarov-design.php  → Entry point, constants (MSKD_*), built-in autoloader
+mail-system.php  → Entry point, constants (MSKD_*), built-in autoloader
 ├── admin/class-admin.php           → All admin logic (1000+ lines, handles CRUD, AJAX, forms)
 ├── public/class-public.php         → Public shortcodes, AJAX subscription, unsubscribe handling
 ├── includes/
@@ -44,7 +44,7 @@ Tests run **inside Docker** using Brain Monkey + Mockery (no WordPress installat
 
 ```bash
 # From host: enter PHP container and run tests
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer test"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer test"
 
 # Or inside container at plugin dir:
 composer test                    # All tests
@@ -74,7 +74,7 @@ admin/scss/
 
 **Security**: Always use `wp_verify_nonce()`, `current_user_can('manage_options')`, `sanitize_*()` functions
 
-**Translations**: Text domain is `mail-system-by-katsarov-design`. All user-facing strings are in Bulgarian.
+**Translations**: Text domain is `mail-system`. All user-facing strings are in Bulgarian.
 
 ## Common Tasks
 
@@ -91,12 +91,12 @@ All composer and PHP commands must run **inside the Docker PHP container**:
 
 ```bash
 # From host: run commands via docker exec
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer install"
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer test"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer install"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer test"
 
 # Or enter the container first, then navigate to plugin dir:
 docker exec -it <php-container> bash
-cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design
+cd /var/www/html/wp-content/plugins/mail-system
 
 # Available composer scripts (development only):
 composer install       # Install dev dependencies (required before running tests)
@@ -150,13 +150,13 @@ while ( false !== ( $row = fgetcsv( $handle ) ) ) {
 **IMPORTANT**: When adding or modifying user-facing strings, always update translations:
 
 1. **Add new strings** to all `.po` files in `languages/`:
-   - `mail-system-by-katsarov-design.pot` (template - empty msgstr)
-   - `mail-system-by-katsarov-design-bg_BG.po` (Bulgarian translation)
-   - `mail-system-by-katsarov-design-de_DE.po` (German translation)
+   - `mail-system.pot` (template - empty msgstr)
+   - `mail-system-bg_BG.po` (Bulgarian translation)
+   - `mail-system-de_DE.po` (German translation)
 
 2. **Compile translations** after updating `.po` files:
    ```bash
-   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer translations"
+   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer translations"
    ```
 
 3. **String format** in `.po` files:
@@ -166,4 +166,4 @@ while ( false !== ( $row = fgetcsv( $handle ) ) ) {
    msgstr "Translated string"
    ```
 
-All user-facing strings must use `__()`, `_e()`, or `esc_html__()` with text domain `mail-system-by-katsarov-design`.
+All user-facing strings must use `__()`, `_e()`, or `esc_html__()` with text domain `mail-system`.

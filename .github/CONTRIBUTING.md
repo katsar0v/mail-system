@@ -58,13 +58,13 @@ This ensures:
 4. **Test Your Changes**
    ```bash
    # Run tests inside Docker container
-   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer test"
+   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer test"
    
    # Check coding standards
-   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer phpcs"
+   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcs"
    
    # Auto-fix what's possible
-   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer phpcbf"
+   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcbf"
    ```
 
 5. **Commit Your Changes**
@@ -133,13 +133,13 @@ Before submitting a PR:
 If you add or modify user-facing strings:
 
 1. Update all `.po` files in `languages/`:
-   - `mail-system-by-katsarov-design.pot` (template)
-   - `mail-system-by-katsarov-design-bg_BG.po` (Bulgarian)
-   - `mail-system-by-katsarov-design-de_DE.po` (German)
+   - `mail-system.pot` (template)
+   - `mail-system-bg_BG.po` (Bulgarian)
+   - `mail-system-de_DE.po` (German)
 
 2. Compile translations:
    ```bash
-   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer translations"
+   docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer translations"
    ```
 
 ### SCSS Guidelines

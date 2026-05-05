@@ -123,22 +123,22 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 ?>
 
 <div class="wrap mskd-wrap">
-	<h1><?php esc_html_e( 'Sending queue', 'mail-system-by-katsarov-design' ); ?></h1>
+	<h1><?php esc_html_e( 'Sending queue', 'mail-system' ); ?></h1>
 
 	<?php settings_errors( 'mskd_messages' ); ?>
 
 	<!-- Queue Status -->
 	<div class="mskd-queue-status">
 		<p>
-			<strong><?php esc_html_e( 'Next run:', 'mail-system-by-katsarov-design' ); ?></strong>
+			<strong><?php esc_html_e( 'Next run:', 'mail-system' ); ?></strong>
 			<?php if ( $next_cron ) : ?>
 				<?php echo date_i18n( 'd.m.Y H:i:s', $next_cron ); ?>
 			<?php else : ?>
-				<?php esc_html_e( 'Not scheduled', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Not scheduled', 'mail-system' ); ?>
 			<?php endif; ?>
 			&nbsp;|&nbsp;
-			<strong><?php esc_html_e( 'Speed:', 'mail-system-by-katsarov-design' ); ?></strong>
-			<?php printf( __( '%d emails/min', 'mail-system-by-katsarov-design' ), $emails_per_minute ); ?>
+			<strong><?php esc_html_e( 'Speed:', 'mail-system' ); ?></strong>
+			<?php printf( __( '%d emails/min', 'mail-system' ), $emails_per_minute ); ?>
 		</p>
 	</div>
 
@@ -147,56 +147,56 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue' ) ); ?>" 
 				class="<?php echo empty( $status_filter ) && empty( $type_filter ) ? 'current' : ''; ?>">
-				<?php esc_html_e( 'All', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'All', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $total_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&type=scheduled' ) ); ?>"
 				class="<?php echo $type_filter === 'scheduled' ? 'current' : ''; ?>">
-				<?php esc_html_e( 'Scheduled', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Scheduled', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $scheduled_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&status=pending' ) ); ?>"
 				class="<?php echo $status_filter === 'pending' ? 'current' : ''; ?>">
-				<?php esc_html_e( 'Pending', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Pending', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $pending_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&status=processing' ) ); ?>"
 				class="<?php echo $status_filter === 'processing' ? 'current' : ''; ?>">
-				<?php esc_html_e( 'Processing', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Processing', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $processing_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&status=completed' ) ); ?>"
 				class="<?php echo $status_filter === 'completed' ? 'current' : ''; ?>">
-				<?php esc_html_e( 'Completed', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Completed', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $completed_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&status=cancelled' ) ); ?>"
 				class="<?php echo $status_filter === 'cancelled' ? 'current' : ''; ?>">
-				<?php esc_html_e( 'Cancelled', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Cancelled', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $cancelled_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&type=one-time' ) ); ?>"
 				class="<?php echo $type_filter === 'one-time' ? 'current' : ''; ?>">
-				<?php esc_html_e( 'One-time', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'One-time', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $one_time_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&type=campaign' ) ); ?>"
 				class="<?php echo $type_filter === 'campaign' ? 'current' : ''; ?>">
-				<?php esc_html_e( 'Campaigns', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Campaigns', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $campaign_count ); ?>)</span>
 			</a>
 		</li>
@@ -207,12 +207,12 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 			<p>
 				<?php
 				printf(
-					__( 'There are %d emails from before the campaign system was introduced.', 'mail-system-by-katsarov-design' ),
+					__( 'There are %d emails from before the campaign system was introduced.', 'mail-system' ),
 					$orphan_count
 				);
 				?>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&view=legacy' ) ); ?>">
-					<?php esc_html_e( 'View legacy emails', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'View legacy emails', 'mail-system' ); ?>
 				</a>
 			</p>
 		</div>
@@ -221,15 +221,15 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 	<table class="wp-list-table widefat fixed striped">
 		<thead>
 			<tr>
-				<th scope="col" style="width: 50px;"><?php esc_html_e( 'ID', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col"><?php esc_html_e( 'Subject', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Type', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Recipients', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 180px;"><?php esc_html_e( 'Progress', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Status', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 140px;"><?php esc_html_e( 'Created', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 140px;"><?php esc_html_e( 'Scheduled for', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 120px;"><?php esc_html_e( 'Actions', 'mail-system-by-katsarov-design' ); ?></th>
+				<th scope="col" style="width: 50px;"><?php esc_html_e( 'ID', 'mail-system' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Subject', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Type', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Recipients', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 180px;"><?php esc_html_e( 'Progress', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Status', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 140px;"><?php esc_html_e( 'Created', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 140px;"><?php esc_html_e( 'Scheduled for', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 120px;"><?php esc_html_e( 'Actions', 'mail-system' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -260,9 +260,9 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 						</td>
 						<td>
 							<?php if ( $campaign->type === 'one_time' ) : ?>
-								<span class="mskd-badge mskd-badge-onetime"><?php esc_html_e( 'One-time', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-badge mskd-badge-onetime"><?php esc_html_e( 'One-time', 'mail-system' ); ?></span>
 							<?php else : ?>
-								<span class="mskd-badge mskd-badge-campaign"><?php esc_html_e( 'Campaign', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-badge mskd-badge-campaign"><?php esc_html_e( 'Campaign', 'mail-system' ); ?></span>
 							<?php endif; ?>
 						</td>
 						<td>
@@ -273,12 +273,12 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 								<div class="mskd-progress-bar-inner" style="width: <?php echo esc_attr( $progress_percent ); ?>%;"></div>
 							</div>
 							<small>
-								<span class="mskd-stat-sent" title="<?php esc_attr_e( 'Sent', 'mail-system-by-katsarov-design' ); ?>">✓ <?php echo esc_html( $sent ); ?></span>
+								<span class="mskd-stat-sent" title="<?php esc_attr_e( 'Sent', 'mail-system' ); ?>">✓ <?php echo esc_html( $sent ); ?></span>
 								<?php if ( $failed > 0 ) : ?>
-									<span class="mskd-stat-failed" title="<?php esc_attr_e( 'Failed', 'mail-system-by-katsarov-design' ); ?>">✗ <?php echo esc_html( $failed ); ?></span>
+									<span class="mskd-stat-failed" title="<?php esc_attr_e( 'Failed', 'mail-system' ); ?>">✗ <?php echo esc_html( $failed ); ?></span>
 								<?php endif; ?>
 								<?php if ( $pending > 0 || $processing > 0 ) : ?>
-									<span class="mskd-stat-pending" title="<?php esc_attr_e( 'Pending', 'mail-system-by-katsarov-design' ); ?>">⏳ <?php echo esc_html( $pending + $processing ); ?></span>
+									<span class="mskd-stat-pending" title="<?php esc_attr_e( 'Pending', 'mail-system' ); ?>">⏳ <?php echo esc_html( $pending + $processing ); ?></span>
 								<?php endif; ?>
 							</small>
 						</td>
@@ -286,16 +286,16 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 							<span class="mskd-status mskd-status-<?php echo esc_attr( $campaign->status ); ?>">
 								<?php
 								$statuses = array(
-									'pending'    => __( 'Pending', 'mail-system-by-katsarov-design' ),
-									'processing' => __( 'Processing', 'mail-system-by-katsarov-design' ),
-									'completed'  => __( 'Completed', 'mail-system-by-katsarov-design' ),
-									'cancelled'  => __( 'Cancelled', 'mail-system-by-katsarov-design' ),
+									'pending'    => __( 'Pending', 'mail-system' ),
+									'processing' => __( 'Processing', 'mail-system' ),
+									'completed'  => __( 'Completed', 'mail-system' ),
+									'cancelled'  => __( 'Cancelled', 'mail-system' ),
 								);
 								echo esc_html( $statuses[ $campaign->status ] ?? $campaign->status );
 								?>
 							</span>
 							<?php if ( $is_future_scheduled && $campaign->status === 'pending' ) : ?>
-								<br><small class="mskd-scheduled-badge"><?php esc_html_e( 'Scheduled', 'mail-system-by-katsarov-design' ); ?></small>
+								<br><small class="mskd-scheduled-badge"><?php esc_html_e( 'Scheduled', 'mail-system' ); ?></small>
 							<?php endif; ?>
 						</td>
 						<td>
@@ -308,11 +308,11 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 									<?php
 									$diff = $scheduled_timestamp - current_time( 'timestamp' );
 									if ( $diff < 3600 ) {
-										printf( __( 'in %d min.', 'mail-system-by-katsarov-design' ), ceil( $diff / 60 ) );
+										printf( __( 'in %d min.', 'mail-system' ), ceil( $diff / 60 ) );
 									} elseif ( $diff < 86400 ) {
-										printf( __( 'in %d h.', 'mail-system-by-katsarov-design' ), ceil( $diff / 3600 ) );
+										printf( __( 'in %d h.', 'mail-system' ), ceil( $diff / 3600 ) );
 									} else {
-										printf( __( 'in %d days', 'mail-system-by-katsarov-design' ), ceil( $diff / 86400 ) );
+										printf( __( 'in %d days', 'mail-system' ), ceil( $diff / 86400 ) );
 									}
 									?>
 								</small>
@@ -321,8 +321,8 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 						<td>
 							<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign->id ) ); ?>" 
 								class="button button-small"
-								title="<?php esc_attr_e( 'View details', 'mail-system-by-katsarov-design' ); ?>">
-								<?php esc_html_e( 'Details', 'mail-system-by-katsarov-design' ); ?>
+								title="<?php esc_attr_e( 'View details', 'mail-system' ); ?>">
+								<?php esc_html_e( 'Details', 'mail-system' ); ?>
 							</a>
 							<?php if ( $can_cancel ) : ?>
 								<a href="
@@ -334,8 +334,8 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 								?>
 								" 
 									class="mskd-delete-link mskd-cancel-link"
-									title="<?php esc_attr_e( 'Cancel campaign', 'mail-system-by-katsarov-design' ); ?>">
-									<?php esc_html_e( 'Cancel', 'mail-system-by-katsarov-design' ); ?>
+									title="<?php esc_attr_e( 'Cancel campaign', 'mail-system' ); ?>">
+									<?php esc_html_e( 'Cancel', 'mail-system' ); ?>
 								</a>
 							<?php endif; ?>
 						</td>
@@ -343,7 +343,7 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 				<?php endforeach; ?>
 			<?php else : ?>
 				<tr>
-					<td colspan="9"><?php esc_html_e( 'No campaigns in queue.', 'mail-system-by-katsarov-design' ); ?></td>
+					<td colspan="9"><?php esc_html_e( 'No campaigns in queue.', 'mail-system' ); ?></td>
 				</tr>
 			<?php endif; ?>
 		</tbody>
@@ -358,8 +358,8 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 					array(
 						'base'      => add_query_arg( 'paged', '%#%' ),
 						'format'    => '',
-						'prev_text' => __( '&laquo;', 'mail-system-by-katsarov-design' ),
-						'next_text' => __( '&raquo;', 'mail-system-by-katsarov-design' ),
+						'prev_text' => __( '&laquo;', 'mail-system' ),
+						'next_text' => __( '&raquo;', 'mail-system' ),
 						'total'     => $total_pages,
 						'current'   => $current_page,
 					)

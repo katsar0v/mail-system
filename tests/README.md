@@ -21,7 +21,7 @@ tests/
 Tests should be run inside the PHP Docker container. The plugin is mounted at:
 
 ```
-/var/www/html/wp-content/plugins/mail-system-by-katsarov-design
+/var/www/html/wp-content/plugins/mail-system
 ```
 
 ## Running Tests in Docker
@@ -35,7 +35,7 @@ docker exec -it <php-container-name> bash
 ### 2. Navigate to the plugin directory
 
 ```bash
-cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design
+cd /var/www/html/wp-content/plugins/mail-system
 ```
 
 ### 3. Install dependencies
@@ -53,7 +53,7 @@ composer test
 ### One-liner (from host machine)
 
 ```bash
-docker exec -it <php-container-name> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer install && composer test"
+docker exec -it <php-container-name> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer install && composer test"
 ```
 
 > **Note:** Replace `<php-container-name>` with your actual PHP container name (e.g., `radostna-php`, `php-fpm`, etc.)

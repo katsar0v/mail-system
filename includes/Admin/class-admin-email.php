@@ -202,7 +202,7 @@ class Admin_Email {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Please fill in all fields.', 'mail-system-by-katsarov-design' ),
+				__( 'Please fill in all fields.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -225,7 +225,7 @@ class Admin_Email {
 				add_settings_error(
 					'mskd_messages',
 					'mskd_error',
-					__( 'Custom sender email is required when using custom sender option.', 'mail-system-by-katsarov-design' ),
+					__( 'Custom sender email is required when using custom sender option.', 'mail-system' ),
 					'error'
 				);
 				return;
@@ -236,7 +236,7 @@ class Admin_Email {
 				add_settings_error(
 					'mskd_messages',
 					'mskd_error',
-					__( 'Invalid custom sender email address.', 'mail-system-by-katsarov-design' ),
+					__( 'Invalid custom sender email address.', 'mail-system' ),
 					'error'
 				);
 				return;
@@ -274,7 +274,7 @@ class Admin_Email {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'No active subscribers in the selected lists.', 'mail-system-by-katsarov-design' ),
+				__( 'No active subscribers in the selected lists.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -302,7 +302,7 @@ class Admin_Email {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Error creating campaign.', 'mail-system-by-katsarov-design' ),
+				__( 'Error creating campaign.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -312,7 +312,7 @@ class Admin_Email {
 
 		if ( $is_immediate ) {
 			$message = sprintf(
-				__( '%d emails have been added to the sending queue.', 'mail-system-by-katsarov-design' ),
+				__( '%d emails have been added to the sending queue.', 'mail-system' ),
 				$queued
 			);
 		} else {
@@ -322,7 +322,7 @@ class Admin_Email {
 			$formatted_date = $scheduled_date->format( 'd.m.Y H:i' );
 
 			$message = sprintf(
-				__( '%1$d emails have been scheduled for %2$s.', 'mail-system-by-katsarov-design' ),
+				__( '%1$d emails have been scheduled for %2$s.', 'mail-system' ),
 				$queued,
 				esc_html( $formatted_date )
 			);
@@ -373,7 +373,7 @@ class Admin_Email {
 				add_settings_error(
 					'mskd_messages',
 					'mskd_error',
-					__( 'Custom sender email is required when using custom sender option.', 'mail-system-by-katsarov-design' ),
+					__( 'Custom sender email is required when using custom sender option.', 'mail-system' ),
 					'error'
 				);
 				return;
@@ -384,7 +384,7 @@ class Admin_Email {
 				add_settings_error(
 					'mskd_messages',
 					'mskd_error',
-					__( 'Invalid custom sender email address.', 'mail-system-by-katsarov-design' ),
+					__( 'Invalid custom sender email address.', 'mail-system' ),
 					'error'
 				);
 				return;
@@ -414,7 +414,7 @@ class Admin_Email {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Please fill in all required fields.', 'mail-system-by-katsarov-design' ),
+				__( 'Please fill in all required fields.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -425,7 +425,7 @@ class Admin_Email {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Invalid recipient email address.', 'mail-system-by-katsarov-design' ),
+				__( 'Invalid recipient email address.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -501,7 +501,7 @@ class Admin_Email {
 					'scheduled_at'    => $scheduled_at,
 					'is_immediate'    => true,
 					'sent'            => $sent,
-					'error_message'   => $sent ? null : ( $this->last_mail_error ?: __( 'wp_mail() failed for one-time email', 'mail-system-by-katsarov-design' ) ),
+					'error_message'   => $sent ? null : ( $this->last_mail_error ?: __( 'wp_mail() failed for one-time email', 'mail-system' ) ),
 					'bcc'             => $bcc,
 					'from_email'      => $from_email,
 					'from_name'       => $from_name,
@@ -515,20 +515,20 @@ class Admin_Email {
 					'mskd_messages',
 					'mskd_success',
 					sprintf(
-						__( 'One-time email sent successfully to %s.', 'mail-system-by-katsarov-design' ),
+						__( 'One-time email sent successfully to %s.', 'mail-system' ),
 						esc_html( $recipient_email )
 					),
 					'success'
 				);
 			} else {
-				$error_message = __( 'Error sending one-time email.', 'mail-system-by-katsarov-design' );
+				$error_message = __( 'Error sending one-time email.', 'mail-system' );
 				if ( ! empty( $this->last_mail_error ) ) {
 					$error_message .= ' ' . sprintf(
-						__( 'Reason: %s', 'mail-system-by-katsarov-design' ),
+						__( 'Reason: %s', 'mail-system' ),
 						esc_html( $this->last_mail_error )
 					);
 				} else {
-					$error_message .= ' ' . __( 'Please try again.', 'mail-system-by-katsarov-design' );
+					$error_message .= ' ' . __( 'Please try again.', 'mail-system' );
 				}
 				add_settings_error( 'mskd_messages', 'mskd_error', $error_message, 'error' );
 			}
@@ -561,7 +561,7 @@ class Admin_Email {
 					'mskd_messages',
 					'mskd_success',
 					sprintf(
-						__( 'One-time email to %1$s has been scheduled for %2$s.', 'mail-system-by-katsarov-design' ),
+						__( 'One-time email to %1$s has been scheduled for %2$s.', 'mail-system' ),
 						esc_html( $recipient_email ),
 						esc_html( $formatted_date )
 					),
@@ -571,7 +571,7 @@ class Admin_Email {
 				add_settings_error(
 					'mskd_messages',
 					'mskd_error',
-					__( 'Error scheduling email. Please try again.', 'mail-system-by-katsarov-design' ),
+					__( 'Error scheduling email. Please try again.', 'mail-system' ),
 					'error'
 				);
 			}
@@ -594,7 +594,7 @@ class Admin_Email {
 			if ( ! empty( $bcc_email ) && ! is_email( $bcc_email ) ) {
 				return sprintf(
 					/* translators: %s: Invalid email address */
-					__( 'Invalid Bcc email address: %s', 'mail-system-by-katsarov-design' ),
+					__( 'Invalid Bcc email address: %s', 'mail-system' ),
 					esc_html( $bcc_email )
 				);
 			}
@@ -642,7 +642,7 @@ class Admin_Email {
 				'{first_name}'       => $first_name,
 				'{last_name}'        => $last_name,
 				'{email}'            => $subscriber->email,
-				'{unsubscribe_link}' => '<a href="' . esc_url( $unsubscribe_url ) . '">' . __( 'Unsubscribe', 'mail-system-by-katsarov-design' ) . '</a>',
+				'{unsubscribe_link}' => '<a href="' . esc_url( $unsubscribe_url ) . '">' . __( 'Unsubscribe', 'mail-system' ) . '</a>',
 				'{unsubscribe_url}'  => $unsubscribe_url,
 			);
 		} else {

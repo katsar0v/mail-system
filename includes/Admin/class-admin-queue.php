@@ -97,7 +97,7 @@ class Admin_Queue {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Record not found.', 'mail-system-by-katsarov-design' ),
+				__( 'Record not found.', 'mail-system' ),
 				'error'
 			);
 			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Redirecting to admin page.
@@ -109,7 +109,7 @@ class Admin_Queue {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'This email cannot be cancelled.', 'mail-system-by-katsarov-design' ),
+				__( 'This email cannot be cancelled.', 'mail-system' ),
 				'error'
 			);
 			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Redirecting to admin page.
@@ -123,14 +123,14 @@ class Admin_Queue {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_success',
-				__( 'Email cancelled successfully.', 'mail-system-by-katsarov-design' ),
+				__( 'Email cancelled successfully.', 'mail-system' ),
 				'success'
 			);
 		} else {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Error cancelling email.', 'mail-system-by-katsarov-design' ),
+				__( 'Error cancelling email.', 'mail-system' ),
 				'error'
 			);
 		}
@@ -165,7 +165,7 @@ class Admin_Queue {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Campaign not found.', 'mail-system-by-katsarov-design' ),
+				__( 'Campaign not found.', 'mail-system' ),
 				'error'
 			);
 			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Redirecting to admin page.
@@ -177,7 +177,7 @@ class Admin_Queue {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'This campaign cannot be cancelled.', 'mail-system-by-katsarov-design' ),
+				__( 'This campaign cannot be cancelled.', 'mail-system' ),
 				'error'
 			);
 			// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Redirecting to admin page.
@@ -193,7 +193,7 @@ class Admin_Queue {
 				'mskd_success',
 				sprintf(
 					/* translators: %d: number of emails cancelled */
-					__( 'Campaign cancelled. %d emails were cancelled.', 'mail-system-by-katsarov-design' ),
+					__( 'Campaign cancelled. %d emails were cancelled.', 'mail-system' ),
 					$cancelled_count
 				),
 				'success'
@@ -202,7 +202,7 @@ class Admin_Queue {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Error cancelling campaign.', 'mail-system-by-katsarov-design' ),
+				__( 'Error cancelling campaign.', 'mail-system' ),
 				'error'
 			);
 		}

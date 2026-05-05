@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 # Get the plugin directory (parent of bin/)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$(dirname "$SCRIPT_DIR")"
-PLUGIN_NAME="mail-system-by-katsarov-design"
+PLUGIN_NAME="mail-system"
 
 # Check if version argument is provided
 if [ -z "$1" ]; then

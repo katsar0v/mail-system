@@ -332,15 +332,15 @@ docker ps
 
 ```bash
 # One-liner format
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer phpcs"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcs"
 
 # Examples with common container names
-docker exec -it php-fpm bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer phpcs"
-docker exec -it radostna-php bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer phpcbf"
+docker exec -it php-fpm bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcs"
+docker exec -it radostna-php bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcbf"
 
 # Or enter the container interactively
 docker exec -it <php-container> bash
-cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design
+cd /var/www/html/wp-content/plugins/mail-system
 composer phpcs
 composer phpcbf
 ```
@@ -349,10 +349,10 @@ composer phpcbf
 
 ```bash
 # If Node.js is in the PHP container
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && npm run build"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && npm run build"
 
 # Or if you have a separate Node.js container
-docker exec -it <node-container> bash -c "cd /app/wp-content/plugins/mail-system-by-katsarov-design && npm run build"
+docker exec -it <node-container> bash -c "cd /app/wp-content/plugins/mail-system && npm run build"
 
 # Or run on host machine (if Node.js is installed locally)
 npm run build
@@ -367,7 +367,7 @@ If using docker-compose, you can add aliases:
 services:
   php:
     # ... other config
-    working_dir: /var/www/html/wp-content/plugins/mail-system-by-katsarov-design
+    working_dir: /var/www/html/wp-content/plugins/mail-system
 ```
 
 Then run:
@@ -400,19 +400,19 @@ Replace `<php-container>` with your actual container name (e.g., `php-fpm`, `rad
 
 ```bash
 # Check coding standards
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer phpcs"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcs"
 
 # Fix coding standards
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer phpcbf"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcbf"
 
 # Run tests
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer test"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer test"
 
 # Build SCSS
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && npm run build"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && npm run build"
 
 # Build editor
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && npm run build:editor"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && npm run build:editor"
 ```
 
 ### Pre-Commit Checklist
@@ -528,7 +528,7 @@ docker start <container-name>
 ```bash
 # Inside container, fix permissions
 docker exec -it <php-container> bash
-chown -R www-data:www-data /var/www/html/wp-content/plugins/mail-system-by-katsarov-design
+chown -R www-data:www-data /var/www/html/wp-content/plugins/mail-system
 
 # Or run as root
 docker exec -it --user root <php-container> bash

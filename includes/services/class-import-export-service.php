@@ -244,7 +244,7 @@ class Import_Export_Service {
 		if ( $file['size'] > self::MAX_IMPORT_SIZE ) {
 			return array(
 				'valid' => false,
-				'error' => __( 'File size exceeds the maximum limit of 5MB.', 'mail-system-by-katsarov-design' ),
+				'error' => __( 'File size exceeds the maximum limit of 5MB.', 'mail-system' ),
 			);
 		}
 
@@ -255,7 +255,7 @@ class Import_Export_Service {
 				'valid' => false,
 				'error' => sprintf(
 					/* translators: %s: expected format */
-					__( 'Invalid file format. Expected %s file.', 'mail-system-by-katsarov-design' ),
+					__( 'Invalid file format. Expected %s file.', 'mail-system' ),
 					strtoupper( $format )
 				),
 			);
@@ -272,7 +272,7 @@ class Import_Export_Service {
 		if ( ! in_array( $mime, $allowed_mimes[ $format ], true ) ) {
 			return array(
 				'valid' => false,
-				'error' => __( 'Invalid file type. The file content does not match the expected format.', 'mail-system-by-katsarov-design' ),
+				'error' => __( 'Invalid file type. The file content does not match the expected format.', 'mail-system' ),
 			);
 		}
 
@@ -301,7 +301,7 @@ class Import_Export_Service {
 		if ( ! $handle ) {
 			return array(
 				'valid' => false,
-				'error' => __( 'Could not read the file.', 'mail-system-by-katsarov-design' ),
+				'error' => __( 'Could not read the file.', 'mail-system' ),
 			);
 		}
 
@@ -319,7 +319,7 @@ class Import_Export_Service {
 			fclose( $handle );
 			return array(
 				'valid' => false,
-				'error' => __( 'Could not read CSV headers.', 'mail-system-by-katsarov-design' ),
+				'error' => __( 'Could not read CSV headers.', 'mail-system' ),
 			);
 		}
 
@@ -332,7 +332,7 @@ class Import_Export_Service {
 			fclose( $handle );
 			return array(
 				'valid' => false,
-				'error' => __( 'The CSV file must contain an "email" column.', 'mail-system-by-katsarov-design' ),
+				'error' => __( 'The CSV file must contain an "email" column.', 'mail-system' ),
 			);
 		}
 
@@ -360,7 +360,7 @@ class Import_Export_Service {
 			if ( empty( $data['email'] ) || ! is_email( $data['email'] ) ) {
 				$errors[] = sprintf(
 					/* translators: 1: row number, 2: email value */
-					__( 'Row %1$d: Invalid email address "%2$s".', 'mail-system-by-katsarov-design' ),
+					__( 'Row %1$d: Invalid email address "%2$s".', 'mail-system' ),
 					$row_number,
 					$data['email'] ?? ''
 				);
@@ -494,7 +494,7 @@ class Import_Export_Service {
 			if ( ! $subscriber_id ) {
 				$errors[] = sprintf(
 					/* translators: %s: email address */
-					__( 'Failed to import subscriber: %s', 'mail-system-by-katsarov-design' ),
+					__( 'Failed to import subscriber: %s', 'mail-system' ),
 					$email
 				);
 				continue;
@@ -534,7 +534,7 @@ class Import_Export_Service {
 		if ( ! $handle ) {
 			return array(
 				'valid' => false,
-				'error' => __( 'Could not read the file.', 'mail-system-by-katsarov-design' ),
+				'error' => __( 'Could not read the file.', 'mail-system' ),
 			);
 		}
 
@@ -554,7 +554,7 @@ class Import_Export_Service {
 			fclose( $handle );
 			return array(
 				'valid' => false,
-				'error' => __( 'Could not read CSV headers.', 'mail-system-by-katsarov-design' ),
+				'error' => __( 'Could not read CSV headers.', 'mail-system' ),
 			);
 		}
 
@@ -568,7 +568,7 @@ class Import_Export_Service {
 			fclose( $handle );
 			return array(
 				'valid' => false,
-				'error' => __( 'The CSV file must contain a "name" column.', 'mail-system-by-katsarov-design' ),
+				'error' => __( 'The CSV file must contain a "name" column.', 'mail-system' ),
 			);
 		}
 
@@ -596,7 +596,7 @@ class Import_Export_Service {
 			if ( empty( $data['name'] ) ) {
 				$errors[] = sprintf(
 					/* translators: %d: row number */
-					__( 'Row %d: List name is required.', 'mail-system-by-katsarov-design' ),
+					__( 'Row %d: List name is required.', 'mail-system' ),
 					$row_number
 				);
 				continue;
@@ -661,7 +661,7 @@ class Import_Export_Service {
 			if ( ! $list_id ) {
 				$errors[] = sprintf(
 					/* translators: %s: list name */
-					__( 'Failed to import list: %s', 'mail-system-by-katsarov-design' ),
+					__( 'Failed to import list: %s', 'mail-system' ),
 					$name
 				);
 				continue;
@@ -748,15 +748,15 @@ class Import_Export_Service {
 	 */
 	private function get_upload_error_message( int $error_code ): string {
 		$messages = array(
-			UPLOAD_ERR_INI_SIZE   => __( 'File exceeds the maximum upload size.', 'mail-system-by-katsarov-design' ),
-			UPLOAD_ERR_FORM_SIZE  => __( 'File exceeds the maximum form size.', 'mail-system-by-katsarov-design' ),
-			UPLOAD_ERR_PARTIAL    => __( 'File was only partially uploaded.', 'mail-system-by-katsarov-design' ),
-			UPLOAD_ERR_NO_FILE    => __( 'No file was uploaded.', 'mail-system-by-katsarov-design' ),
-			UPLOAD_ERR_NO_TMP_DIR => __( 'Missing temporary folder.', 'mail-system-by-katsarov-design' ),
-			UPLOAD_ERR_CANT_WRITE => __( 'Failed to write file to disk.', 'mail-system-by-katsarov-design' ),
-			UPLOAD_ERR_EXTENSION  => __( 'A PHP extension stopped the file upload.', 'mail-system-by-katsarov-design' ),
+			UPLOAD_ERR_INI_SIZE   => __( 'File exceeds the maximum upload size.', 'mail-system' ),
+			UPLOAD_ERR_FORM_SIZE  => __( 'File exceeds the maximum form size.', 'mail-system' ),
+			UPLOAD_ERR_PARTIAL    => __( 'File was only partially uploaded.', 'mail-system' ),
+			UPLOAD_ERR_NO_FILE    => __( 'No file was uploaded.', 'mail-system' ),
+			UPLOAD_ERR_NO_TMP_DIR => __( 'Missing temporary folder.', 'mail-system' ),
+			UPLOAD_ERR_CANT_WRITE => __( 'Failed to write file to disk.', 'mail-system' ),
+			UPLOAD_ERR_EXTENSION  => __( 'A PHP extension stopped the file upload.', 'mail-system' ),
 		);
 
-		return $messages[ $error_code ] ?? __( 'Unknown upload error.', 'mail-system-by-katsarov-design' );
+		return $messages[ $error_code ] ?? __( 'Unknown upload error.', 'mail-system' );
 	}
 }

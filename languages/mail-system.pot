@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Mail System by Katsarov Design 1.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mail-system-by-katsarov-design\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mail-system\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,30 +12,30 @@ msgstr ""
 "POT-Creation-Date: 2025-12-05T14:51:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: mail-system-by-katsarov-design\n"
+"X-Domain: mail-system\n"
 
 #. Plugin Name of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "Mail System by Katsarov Design"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "https://katsarov.design/plugins/mail-system"
 msgstr ""
 
 #. Description of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "Email newsletter management system with subscribers, lists, and sending queue."
 msgstr ""
 
 #. Author of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "Katsarov Design"
 msgstr ""
 
 #. Author URI of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "https://katsarov.design"
 msgstr ""
 
@@ -2504,7 +2504,7 @@ msgstr ""
 msgid "Special Offer Just for You!"
 msgstr ""
 
-#: mail-system-by-katsarov-design.php:178
+#: mail-system.php:178
 msgid "Every minute"
 msgstr ""
 

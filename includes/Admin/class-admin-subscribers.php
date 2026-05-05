@@ -99,7 +99,7 @@ class Admin_Subscribers {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Invalid email address.', 'mail-system-by-katsarov-design' ),
+				__( 'Invalid email address.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -110,7 +110,7 @@ class Admin_Subscribers {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'This email already exists.', 'mail-system-by-katsarov-design' ),
+				__( 'This email already exists.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -133,14 +133,14 @@ class Admin_Subscribers {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_success',
-				__( 'Subscriber added successfully.', 'mail-system-by-katsarov-design' ),
+				__( 'Subscriber added successfully.', 'mail-system' ),
 				'success'
 			);
 		} else {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Error adding subscriber.', 'mail-system-by-katsarov-design' ),
+				__( 'Error adding subscriber.', 'mail-system' ),
 				'error'
 			);
 		}
@@ -176,7 +176,7 @@ class Admin_Subscribers {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Invalid email address.', 'mail-system-by-katsarov-design' ),
+				__( 'Invalid email address.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -187,7 +187,7 @@ class Admin_Subscribers {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'This email already exists.', 'mail-system-by-katsarov-design' ),
+				__( 'This email already exists.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -210,7 +210,7 @@ class Admin_Subscribers {
 		add_settings_error(
 			'mskd_messages',
 			'mskd_success',
-			__( 'Subscriber updated successfully.', 'mail-system-by-katsarov-design' ),
+			__( 'Subscriber updated successfully.', 'mail-system' ),
 			'success'
 		);
 
@@ -231,7 +231,7 @@ class Admin_Subscribers {
 		add_settings_error(
 			'mskd_messages',
 			'mskd_success',
-			__( 'Subscriber deleted successfully.', 'mail-system-by-katsarov-design' ),
+			__( 'Subscriber deleted successfully.', 'mail-system' ),
 			'success'
 		);
 

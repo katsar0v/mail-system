@@ -43,7 +43,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Инсталация ==
 
-1. Качете папката `mail-system-by-katsarov-design` в `/wp-content/plugins/`
+1. Качете папката `mail-system` в `/wp-content/plugins/`
 2. Активирайте плъгина от меню "Плъгини" в WordPress
 3. Отидете в меню "Имейли" за да започнете да използвате плъгина
 
