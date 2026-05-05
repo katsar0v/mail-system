@@ -768,4 +768,4 @@ add_action( 'mskd_subscriber_unsubscribed', function( $email, $token ) {
 For questions, bug reports, or feature requests:
 
 - **Website:** [katsarov.design](https://katsarov.design)
-- **GitHub:** [Repository Issues](https://github.com/katsar0v/mail-system-by-katsarov-design/issues)
+- **GitHub:** [Repository Issues](https://github.com/katsar0v/mail-system/issues)

@@ -151,7 +151,7 @@ class MSKD_List_Provider {
 		$list->created_at          = null; // External lists don't have a creation date.
 		$list->source              = 'external';
 		$list->is_editable         = false;
-		$list->provider            = isset( $list_data['provider'] ) ? sanitize_text_field( $list_data['provider'] ) : __( 'External', 'mail-system-by-katsarov-design' );
+		$list->provider            = isset( $list_data['provider'] ) ? sanitize_text_field( $list_data['provider'] ) : __( 'External', 'mail-system' );
 		$list->subscriber_callback = isset( $list_data['subscriber_callback'] ) && is_callable( $list_data['subscriber_callback'] )
 			? $list_data['subscriber_callback']
 			: null;
@@ -617,7 +617,7 @@ class MSKD_List_Provider {
 		$subscriber->created_at  = null; // External subscribers don't have a creation date.
 		$subscriber->source      = 'external';
 		$subscriber->is_editable = false;
-		$subscriber->provider    = isset( $subscriber_data['provider'] ) ? sanitize_text_field( $subscriber_data['provider'] ) : __( 'External', 'mail-system-by-katsarov-design' );
+		$subscriber->provider    = isset( $subscriber_data['provider'] ) ? sanitize_text_field( $subscriber_data['provider'] ) : __( 'External', 'mail-system' );
 		$subscriber->lists       = isset( $subscriber_data['lists'] ) && is_array( $subscriber_data['lists'] ) ? $subscriber_data['lists'] : array();
 
 		// Generate a temporary unsubscribe token for external subscribers.

@@ -87,7 +87,7 @@ class Admin_Lists {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'List name is required.', 'mail-system-by-katsarov-design' ),
+				__( 'List name is required.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -105,14 +105,14 @@ class Admin_Lists {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_success',
-				__( 'List added successfully.', 'mail-system-by-katsarov-design' ),
+				__( 'List added successfully.', 'mail-system' ),
 				'success'
 			);
 		} else {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Error adding list.', 'mail-system-by-katsarov-design' ),
+				__( 'Error adding list.', 'mail-system' ),
 				'error'
 			);
 		}
@@ -136,7 +136,7 @@ class Admin_Lists {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'List name is required.', 'mail-system-by-katsarov-design' ),
+				__( 'List name is required.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -154,7 +154,7 @@ class Admin_Lists {
 		add_settings_error(
 			'mskd_messages',
 			'mskd_success',
-			__( 'List updated successfully.', 'mail-system-by-katsarov-design' ),
+			__( 'List updated successfully.', 'mail-system' ),
 			'success'
 		);
 
@@ -175,7 +175,7 @@ class Admin_Lists {
 		add_settings_error(
 			'mskd_messages',
 			'mskd_success',
-			__( 'List deleted successfully.', 'mail-system-by-katsarov-design' ),
+			__( 'List deleted successfully.', 'mail-system' ),
 			'success'
 		);
 

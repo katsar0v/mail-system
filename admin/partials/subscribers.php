@@ -48,10 +48,10 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 
 <div class="wrap mskd-wrap">
 	<h1>
-		<?php esc_html_e( 'Subscribers', 'mail-system-by-katsarov-design' ); ?>
+		<?php esc_html_e( 'Subscribers', 'mail-system' ); ?>
 		<?php if ( 'list' === $current_action ) : ?>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-subscribers&action=add' ) ); ?>" class="page-title-action">
-				<?php esc_html_e( 'Add new', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Add new', 'mail-system' ); ?>
 			</a>
 		<?php endif; ?>
 	</h1>
@@ -61,7 +61,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 	<?php if ( 'add' === $current_action || 'edit' === $current_action ) : ?>
 		<!-- Add/Edit Form -->
 		<div class="mskd-form-wrap">
-			<h2><?php echo esc_html( 'add' === $current_action ? esc_html__( 'Add subscriber', 'mail-system-by-katsarov-design' ) : esc_html__( 'Edit subscriber', 'mail-system-by-katsarov-design' ) ); ?></h2>
+			<h2><?php echo esc_html( 'add' === $current_action ? esc_html__( 'Add subscriber', 'mail-system' ) : esc_html__( 'Edit subscriber', 'mail-system' ) ); ?></h2>
 			
 			<form method="post" action="">
 				<?php wp_nonce_field( 'add' === $current_action ? 'mskd_add_subscriber' : 'mskd_edit_subscriber', 'mskd_nonce' ); ?>
@@ -73,7 +73,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 				<table class="form-table">
 					<tr>
 						<th scope="row">
-							<label for="email"><?php esc_html_e( 'Email', 'mail-system-by-katsarov-design' ); ?> *</label>
+							<label for="email"><?php esc_html_e( 'Email', 'mail-system' ); ?> *</label>
 						</th>
 						<td>
 							<input type="email" name="email" id="email" class="regular-text" required
@@ -82,7 +82,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="first_name"><?php esc_html_e( 'First name', 'mail-system-by-katsarov-design' ); ?></label>
+							<label for="first_name"><?php esc_html_e( 'First name', 'mail-system' ); ?></label>
 						</th>
 						<td>
 							<input type="text" name="first_name" id="first_name" class="regular-text"
@@ -91,7 +91,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="last_name"><?php esc_html_e( 'Last name', 'mail-system-by-katsarov-design' ); ?></label>
+							<label for="last_name"><?php esc_html_e( 'Last name', 'mail-system' ); ?></label>
 						</th>
 						<td>
 							<input type="text" name="last_name" id="last_name" class="regular-text"
@@ -100,25 +100,25 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="status"><?php esc_html_e( 'Status', 'mail-system-by-katsarov-design' ); ?></label>
+							<label for="status"><?php esc_html_e( 'Status', 'mail-system' ); ?></label>
 						</th>
 						<td>
 							<select name="status" id="status">
 								<option value="active" <?php selected( $subscriber ? $subscriber->status : 'active', 'active' ); ?>>
-									<?php esc_html_e( 'Active', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Active', 'mail-system' ); ?>
 								</option>
 								<option value="inactive" <?php selected( $subscriber ? $subscriber->status : '', 'inactive' ); ?>>
-									<?php esc_html_e( 'Inactive', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Inactive', 'mail-system' ); ?>
 								</option>
 								<option value="unsubscribed" <?php selected( $subscriber ? $subscriber->status : '', 'unsubscribed' ); ?>>
-									<?php esc_html_e( 'Unsubscribed', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Unsubscribed', 'mail-system' ); ?>
 								</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">
-							<label><?php esc_html_e( 'Lists', 'mail-system-by-katsarov-design' ); ?></label>
+							<label><?php esc_html_e( 'Lists', 'mail-system' ); ?></label>
 						</th>
 						<td>
 							<?php
@@ -139,7 +139,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 									</label>
 								<?php endforeach; ?>
 							<?php else : ?>
-								<p class="description"><?php esc_html_e( 'No lists created.', 'mail-system-by-katsarov-design' ); ?></p>
+								<p class="description"><?php esc_html_e( 'No lists created.', 'mail-system' ); ?></p>
 							<?php endif; ?>
 							<?php
 							// Show external lists as info (not selectable).
@@ -152,7 +152,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 							if ( ! empty( $external_lists ) ) :
 								?>
 								<p class="description" style="margin-top: 10px;">
-									<?php esc_html_e( 'Automated lists (membership managed by external plugins):', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Automated lists (membership managed by external plugins):', 'mail-system' ); ?>
 									<?php
 									$external_names = array_map(
 										function ( $list ) {
@@ -171,9 +171,9 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 				<p class="submit">
 					<input type="submit" name="<?php echo 'add' === $current_action ? 'mskd_add_subscriber' : 'mskd_edit_subscriber'; ?>" 
 							class="button button-primary" 
-							value="<?php echo 'add' === $current_action ? esc_attr__( 'Add subscriber', 'mail-system-by-katsarov-design' ) : esc_attr__( 'Save changes', 'mail-system-by-katsarov-design' ); ?>">
+							value="<?php echo 'add' === $current_action ? esc_attr__( 'Add subscriber', 'mail-system' ) : esc_attr__( 'Save changes', 'mail-system' ); ?>">
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-subscribers' ) ); ?>" class="button">
-						<?php esc_html_e( 'Cancel', 'mail-system-by-katsarov-design' ); ?>
+						<?php esc_html_e( 'Cancel', 'mail-system' ); ?>
 					</a>
 				</p>
 			</form>
@@ -250,19 +250,19 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 		<!-- Statistics Box -->
 		<div class="mskd-subscribers-stats">
 			<div class="mskd-stat-card">
-				<span class="mskd-stat-label"><?php esc_html_e( 'Total Subscribers', 'mail-system-by-katsarov-design' ); ?></span>
+				<span class="mskd-stat-label"><?php esc_html_e( 'Total Subscribers', 'mail-system' ); ?></span>
 				<span class="mskd-stat-value"><?php echo esc_html( $total_subs_count ); ?></span>
 			</div>
 			<div class="mskd-stat-card">
-				<span class="mskd-stat-label"><?php esc_html_e( 'Active', 'mail-system-by-katsarov-design' ); ?></span>
+				<span class="mskd-stat-label"><?php esc_html_e( 'Active', 'mail-system' ); ?></span>
 				<span class="mskd-stat-value mskd-text-active"><?php echo esc_html( $active_subs_count ); ?></span>
 			</div>
 			<div class="mskd-stat-card">
-				<span class="mskd-stat-label"><?php esc_html_e( 'Inactive', 'mail-system-by-katsarov-design' ); ?></span>
+				<span class="mskd-stat-label"><?php esc_html_e( 'Inactive', 'mail-system' ); ?></span>
 				<span class="mskd-stat-value mskd-text-inactive"><?php echo esc_html( $inactive_subs_count ); ?></span>
 			</div>
 			<div class="mskd-stat-card">
-				<span class="mskd-stat-label"><?php esc_html_e( 'Unsubscribed', 'mail-system-by-katsarov-design' ); ?></span>
+				<span class="mskd-stat-label"><?php esc_html_e( 'Unsubscribed', 'mail-system' ); ?></span>
 				<span class="mskd-stat-value mskd-text-unsubscribed"><?php echo esc_html( $unsub_subs_count ); ?></span>
 			</div>
 		</div>
@@ -272,25 +272,25 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 			<li>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-subscribers' ) ); ?>" 
 					class="<?php echo empty( $status_filter ) ? 'current' : ''; ?>">
-					<?php esc_html_e( 'All', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'All', 'mail-system' ); ?>
 				</a> |
 			</li>
 			<li>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-subscribers&status=active' ) ); ?>"
 					class="<?php echo 'active' === $status_filter ? 'current' : ''; ?>">
-					<?php esc_html_e( 'Active', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'Active', 'mail-system' ); ?>
 				</a> |
 			</li>
 			<li>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-subscribers&status=inactive' ) ); ?>"
 					class="<?php echo 'inactive' === $status_filter ? 'current' : ''; ?>">
-					<?php esc_html_e( 'Inactive', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'Inactive', 'mail-system' ); ?>
 				</a> |
 			</li>
 			<li>
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-subscribers&status=unsubscribed' ) ); ?>"
 					class="<?php echo 'unsubscribed' === $status_filter ? 'current' : ''; ?>">
-					<?php esc_html_e( 'Unsubscribed', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'Unsubscribed', 'mail-system' ); ?>
 				</a>
 			</li>
 		</ul>
@@ -300,10 +300,10 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 		<div class="tablenav top mskd-bulk-actions-bar">
 			<div class="alignleft actions bulkactions mskd-bulk-actions-row">
 				<select name="mskd_bulk_action" id="mskd-bulk-action" class="mskd-bulk-action-select">
-					<option value=""><?php esc_html_e( 'Bulk actions', 'mail-system-by-katsarov-design' ); ?></option>
-					<option value="assign_lists"><?php esc_html_e( 'Add to lists', 'mail-system-by-katsarov-design' ); ?></option>
-					<option value="remove_lists"><?php esc_html_e( 'Remove from lists', 'mail-system-by-katsarov-design' ); ?></option>
-					<option value="delete"><?php esc_html_e( 'Delete', 'mail-system-by-katsarov-design' ); ?></option>
+					<option value=""><?php esc_html_e( 'Bulk actions', 'mail-system' ); ?></option>
+					<option value="assign_lists"><?php esc_html_e( 'Add to lists', 'mail-system' ); ?></option>
+					<option value="remove_lists"><?php esc_html_e( 'Remove from lists', 'mail-system' ); ?></option>
+					<option value="delete"><?php esc_html_e( 'Delete', 'mail-system' ); ?></option>
 				</select>
 
 				<div id="mskd-bulk-list-wrapper" class="mskd-bulk-list-wrapper" style="display: none;">
@@ -317,13 +317,13 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 				</div>
 
 				<button type="button" id="mskd-bulk-apply" class="button action" style="display: none;">
-					<?php esc_html_e( 'Apply', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'Apply', 'mail-system' ); ?>
 				</button>
 				
 				<span id="mskd-bulk-result" class="mskd-bulk-result"></span>
 			</div>
 			<div class="alignleft mskd-selected-count" style="margin-left: 10px; line-height: 30px;">
-				<span id="mskd-selected-count">0</span> <?php esc_html_e( 'selected', 'mail-system-by-katsarov-design' ); ?>
+				<span id="mskd-selected-count">0</span> <?php esc_html_e( 'selected', 'mail-system' ); ?>
 			</div>
 		</div>
 		<?php endif; ?>
@@ -336,11 +336,11 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 						<input type="checkbox" id="mskd-select-all" />
 					</td>
 					<?php endif; ?>
-					<th scope="col"><?php esc_html_e( 'Email', 'mail-system-by-katsarov-design' ); ?></th>
-					<th scope="col"><?php esc_html_e( 'Status', 'mail-system-by-katsarov-design' ); ?></th>
-					<th scope="col"><?php esc_html_e( 'Date', 'mail-system-by-katsarov-design' ); ?></th>
-					<th scope="col"><?php esc_html_e( 'Lists', 'mail-system-by-katsarov-design' ); ?></th>
-					<th scope="col"><?php esc_html_e( 'Actions', 'mail-system-by-katsarov-design' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Email', 'mail-system' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Status', 'mail-system' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Date', 'mail-system' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Lists', 'mail-system' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Actions', 'mail-system' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -361,8 +361,8 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 							<td>
 								<strong><?php echo esc_html( $sub->email ); ?></strong>
 								<?php if ( $is_external ) : ?>
-									<span class="mskd-badge mskd-badge-external" title="<?php esc_attr_e( 'External subscriber from plugin', 'mail-system-by-katsarov-design' ); ?>">
-										<?php esc_html_e( 'External', 'mail-system-by-katsarov-design' ); ?>
+									<span class="mskd-badge mskd-badge-external" title="<?php esc_attr_e( 'External subscriber from plugin', 'mail-system' ); ?>">
+										<?php esc_html_e( 'External', 'mail-system' ); ?>
 									</span>
 								<?php endif; ?>
 							</td>
@@ -370,9 +370,9 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 								<span class="mskd-status mskd-status-<?php echo esc_attr( $sub->status ); ?>">
 									<?php
 									$statuses = array(
-										'active'       => esc_html__( 'Active', 'mail-system-by-katsarov-design' ),
-										'inactive'     => esc_html__( 'Inactive', 'mail-system-by-katsarov-design' ),
-										'unsubscribed' => esc_html__( 'Unsubscribed', 'mail-system-by-katsarov-design' ),
+										'active'       => esc_html__( 'Active', 'mail-system' ),
+										'inactive'     => esc_html__( 'Inactive', 'mail-system' ),
+										'unsubscribed' => esc_html__( 'Unsubscribed', 'mail-system' ),
 									);
 									echo esc_html( $statuses[ $sub->status ] ?? $sub->status );
 									?>
@@ -402,15 +402,15 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 							<td>
 								<?php if ( $is_editable ) : ?>
 									<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-subscribers&action=edit&id=' . $sub->id ) ); ?>">
-										<?php esc_html_e( 'Edit', 'mail-system-by-katsarov-design' ); ?>
+										<?php esc_html_e( 'Edit', 'mail-system' ); ?>
 									</a> |
 									<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=mskd-subscribers&action=delete_subscriber&id=' . $sub->id ), 'delete_subscriber_' . $sub->id ) ); ?>" 
 										class="mskd-delete-link" style="color: #a00;">
-										<?php esc_html_e( 'Delete', 'mail-system-by-katsarov-design' ); ?>
+										<?php esc_html_e( 'Delete', 'mail-system' ); ?>
 									</a>
 								<?php else : ?>
-									<span class="mskd-readonly-text" title="<?php esc_attr_e( 'External subscribers cannot be edited', 'mail-system-by-katsarov-design' ); ?>">
-										<?php esc_html_e( 'Read-only', 'mail-system-by-katsarov-design' ); ?>
+									<span class="mskd-readonly-text" title="<?php esc_attr_e( 'External subscribers cannot be edited', 'mail-system' ); ?>">
+										<?php esc_html_e( 'Read-only', 'mail-system' ); ?>
 									</span>
 								<?php endif; ?>
 							</td>
@@ -418,7 +418,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 					<?php endforeach; ?>
 				<?php else : ?>
 					<tr>
-						<td colspan="<?php echo ! empty( $database_lists ) ? '6' : '5'; ?>"><?php esc_html_e( 'No subscribers found.', 'mail-system-by-katsarov-design' ); ?></td>
+						<td colspan="<?php echo ! empty( $database_lists ) ? '6' : '5'; ?>"><?php esc_html_e( 'No subscribers found.', 'mail-system' ); ?></td>
 					</tr>
 				<?php endif; ?>
 			</tbody>
@@ -434,8 +434,8 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 						array(
 							'base'      => add_query_arg( 'paged', '%#%' ),
 							'format'    => '',
-							'prev_text' => esc_html__( '&laquo;', 'mail-system-by-katsarov-design' ),
-							'next_text' => esc_html__( '&raquo;', 'mail-system-by-katsarov-design' ),
+							'prev_text' => esc_html__( '&laquo;', 'mail-system' ),
+							'next_text' => esc_html__( '&raquo;', 'mail-system' ),
 							'total'     => $total_pages,
 							'current'   => $current_page,
 						)
@@ -448,7 +448,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 		<?php if ( $has_external ) : ?>
 			<p class="description" style="margin-top: 15px;">
 				<span class="dashicons dashicons-info" style="color: #0073aa;"></span>
-				<?php esc_html_e( 'External subscribers are managed by third-party plugins and appear as read-only.', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'External subscribers are managed by third-party plugins and appear as read-only.', 'mail-system' ); ?>
 			</p>
 		<?php endif; ?>
 	<?php endif; ?>

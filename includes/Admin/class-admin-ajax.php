@@ -54,7 +54,7 @@ class Admin_Ajax {
 		if ( ! check_ajax_referer( 'mskd_admin_nonce', 'nonce', false ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'Invalid request. Please refresh the page.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'Invalid request. Please refresh the page.', 'mail-system' ),
 				)
 			);
 		}
@@ -63,7 +63,7 @@ class Admin_Ajax {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
 				)
 			);
 		}
@@ -100,7 +100,7 @@ class Admin_Ajax {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
 				)
 			);
 		}
@@ -110,7 +110,7 @@ class Admin_Ajax {
 
 		wp_send_json_success(
 			array(
-				'message' => __( 'All subscribers deleted successfully.', 'mail-system-by-katsarov-design' ),
+				'message' => __( 'All subscribers deleted successfully.', 'mail-system' ),
 			)
 		);
 	}
@@ -126,7 +126,7 @@ class Admin_Ajax {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
 				)
 			);
 		}
@@ -136,7 +136,7 @@ class Admin_Ajax {
 
 		wp_send_json_success(
 			array(
-				'message' => __( 'All lists deleted successfully.', 'mail-system-by-katsarov-design' ),
+				'message' => __( 'All lists deleted successfully.', 'mail-system' ),
 			)
 		);
 	}
@@ -152,7 +152,7 @@ class Admin_Ajax {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
 				)
 			);
 		}
@@ -162,7 +162,7 @@ class Admin_Ajax {
 
 		wp_send_json_success(
 			array(
-				'message' => __( 'All campaigns deleted successfully.', 'mail-system-by-katsarov-design' ),
+				'message' => __( 'All campaigns deleted successfully.', 'mail-system' ),
 			)
 		);
 	}
@@ -194,7 +194,7 @@ class Admin_Ajax {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
 				)
 			);
 		}
@@ -229,7 +229,7 @@ class Admin_Ajax {
 		if ( empty( $subscriber_ids ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'No subscribers selected.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No subscribers selected.', 'mail-system' ),
 				)
 			);
 		}
@@ -237,7 +237,7 @@ class Admin_Ajax {
 		if ( empty( $list_ids ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'No lists selected.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No lists selected.', 'mail-system' ),
 				)
 			);
 		}
@@ -253,7 +253,7 @@ class Admin_Ajax {
 					'%d subscriber updated successfully.',
 					'%d subscribers updated successfully.',
 					$result['success'],
-					'mail-system-by-katsarov-design'
+					'mail-system'
 				),
 				$result['success']
 			);
@@ -265,7 +265,7 @@ class Admin_Ajax {
 						'%d subscriber failed.',
 						'%d subscribers failed.',
 						$result['failed'],
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$result['failed']
 				);
@@ -282,7 +282,7 @@ class Admin_Ajax {
 		} else {
 			wp_send_json_error(
 				array(
-					'message' => __( 'No subscribers were updated.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No subscribers were updated.', 'mail-system' ),
 					'errors'  => $result['errors'],
 				)
 			);
@@ -300,7 +300,7 @@ class Admin_Ajax {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
 				)
 			);
 		}
@@ -335,7 +335,7 @@ class Admin_Ajax {
 		if ( empty( $subscriber_ids ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'No subscribers selected.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No subscribers selected.', 'mail-system' ),
 				)
 			);
 		}
@@ -343,7 +343,7 @@ class Admin_Ajax {
 		if ( empty( $list_ids ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'No lists selected.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No lists selected.', 'mail-system' ),
 				)
 			);
 		}
@@ -359,7 +359,7 @@ class Admin_Ajax {
 					'%d subscriber updated successfully.',
 					'%d subscribers updated successfully.',
 					$result['success'],
-					'mail-system-by-katsarov-design'
+					'mail-system'
 				),
 				$result['success']
 			);
@@ -371,7 +371,7 @@ class Admin_Ajax {
 						'%d subscriber failed.',
 						'%d subscribers failed.',
 						$result['failed'],
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$result['failed']
 				);
@@ -388,7 +388,7 @@ class Admin_Ajax {
 		} else {
 			wp_send_json_error(
 				array(
-					'message' => __( 'No subscribers were updated.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No subscribers were updated.', 'mail-system' ),
 					'errors'  => $result['errors'],
 				)
 			);
@@ -409,12 +409,12 @@ class Admin_Ajax {
 	public function preview_email(): void {
 		// Verify nonce.
 		if ( ! check_ajax_referer( 'mskd_preview_nonce', 'nonce', false ) ) {
-			wp_die( esc_html__( 'Invalid request. Please refresh the page.', 'mail-system-by-katsarov-design' ), 403 );
+			wp_die( esc_html__( 'Invalid request. Please refresh the page.', 'mail-system' ), 403 );
 		}
 
 		// Check permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ), 403 );
+			wp_die( esc_html__( 'You do not have permission for this operation.', 'mail-system' ), 403 );
 		}
 
 		// Get email content from POST or campaign ID.
@@ -444,7 +444,7 @@ class Admin_Ajax {
 
 		// If no content provided, return error.
 		if ( empty( $content ) ) {
-			wp_die( esc_html__( 'No content to preview.', 'mail-system-by-katsarov-design' ), 400 );
+			wp_die( esc_html__( 'No content to preview.', 'mail-system' ), 400 );
 		}
 
 		// Get plugin settings for header/footer.
@@ -507,7 +507,7 @@ class Admin_Ajax {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
 				)
 			);
 		}
@@ -529,7 +529,7 @@ class Admin_Ajax {
 		if ( empty( $subscriber_ids ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'No subscribers selected.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No subscribers selected.', 'mail-system' ),
 				)
 			);
 		}
@@ -545,7 +545,7 @@ class Admin_Ajax {
 					'%d subscriber deleted successfully.',
 					'%d subscribers deleted successfully.',
 					$result['success'],
-					'mail-system-by-katsarov-design'
+					'mail-system'
 				),
 				$result['success']
 			);
@@ -557,7 +557,7 @@ class Admin_Ajax {
 						'%d subscriber failed.',
 						'%d subscribers failed.',
 						$result['failed'],
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$result['failed']
 				);
@@ -574,7 +574,7 @@ class Admin_Ajax {
 		} else {
 			wp_send_json_error(
 				array(
-					'message' => __( 'No subscribers were deleted.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No subscribers were deleted.', 'mail-system' ),
 					'errors'  => $result['errors'],
 				)
 			);
@@ -597,7 +597,7 @@ class Admin_Ajax {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'You do not have permission for this operation.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
 				)
 			);
 		}
@@ -608,7 +608,7 @@ class Admin_Ajax {
 		if ( 0 === $deleted ) {
 			wp_send_json_success(
 				array(
-					'message' => __( 'No inactive or unsubscribed subscribers found to delete.', 'mail-system-by-katsarov-design' ),
+					'message' => __( 'No inactive or unsubscribed subscribers found to delete.', 'mail-system' ),
 				)
 			);
 		}
@@ -621,7 +621,7 @@ class Admin_Ajax {
 						'%d inactive or unsubscribed subscriber deleted successfully.',
 						'%d inactive or unsubscribed subscribers deleted successfully.',
 						$deleted,
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$deleted
 				),

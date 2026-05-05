@@ -1,7 +1,7 @@
 # Full Email Preview - Implementation Summary
 
 ## Issue Resolved
-**Issue:** [Support fully rendered real preview (including header and footer) using iframe or alternate strategy](https://github.com/katsar0v/mail-system-by-katsarov-design/issues/XXX)
+**Issue:** [Support fully rendered real preview (including header and footer) using iframe or alternate strategy](https://github.com/katsar0v/mail-system/issues/XXX)
 
 ## Problem
 The original preview functionality only displayed email body content without headers and footers, making it impossible for users to see an accurate representation of the final email before sending.

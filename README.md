@@ -47,7 +47,7 @@ Email newsletter management system with subscribers, lists, and sending queue. S
 
 ### Manual Installation
 
-1. Upload the `mail-system-by-katsarov-design` folder to `/wp-content/plugins/`
+1. Upload the `mail-system` folder to `/wp-content/plugins/`
 2. Activate the plugin from the "Plugins" menu in WordPress
 3. Go to the "Emails" menu to start using the plugin
 
@@ -73,19 +73,19 @@ The plugin automatically detects and uses the appropriate language based on Word
 2. **Site Language** - If no user preference is set, the site's general language setting is used (Settings → General → Site Language)
 3. **Fallback** - If translations for the detected language are not available, English (the source language) is displayed
 
-The plugin uses WordPress's standard `load_plugin_textdomain()` function with the text domain `mail-system-by-katsarov-design`.
+The plugin uses WordPress's standard `load_plugin_textdomain()` function with the text domain `mail-system`.
 
 ### Adding New Translations
 
 To add a new translation:
 
-1. **Copy the POT file** - Copy `languages/mail-system-by-katsarov-design.pot` to a new file named `mail-system-by-katsarov-design-{locale}.po` (e.g., `mail-system-by-katsarov-design-fr_FR.po` for French)
+1. **Copy the POT file** - Copy `languages/mail-system.pot` to a new file named `mail-system-{locale}.po` (e.g., `mail-system-fr_FR.po` for French)
 
 2. **Translate the strings** - Open the PO file with a tool like [Poedit](https://poedit.net/) or a text editor and translate all `msgstr` values
 
 3. **Compile the MO file** - Generate the binary MO file:
    ```bash
-   msgfmt -o mail-system-by-katsarov-design-{locale}.mo mail-system-by-katsarov-design-{locale}.po
+   msgfmt -o mail-system-{locale}.mo mail-system-{locale}.po
    ```
 
 4. **Place the files** - Put both the `.po` and `.mo` files in the `languages/` folder
@@ -111,9 +111,9 @@ msgstr "Tableau de bord"
 
 | File | Purpose |
 |------|---------|
-| `mail-system-by-katsarov-design.pot` | Template file with all translatable strings |
-| `mail-system-by-katsarov-design-{locale}.po` | Human-readable translation file |
-| `mail-system-by-katsarov-design-{locale}.mo` | Compiled binary file used by WordPress |
+| `mail-system.pot` | Template file with all translatable strings |
+| `mail-system-{locale}.po` | Human-readable translation file |
+| `mail-system-{locale}.mo` | Compiled binary file used by WordPress |
 
 ## ⚙️ Configuration
 
@@ -299,7 +299,7 @@ The interface language automatically follows your WordPress site language settin
 
 ```bash
 # Inside Docker PHP container
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer install"
+docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer install"
 ```
 
 ### Available Composer Scripts (Development Only)
@@ -315,8 +315,8 @@ composer translations  # Compile .po to .mo translation files
 ### Project Structure
 
 ```
-mail-system-by-katsarov-design/
-├── mail-system-by-katsarov-design.php  # Main file
+mail-system/
+├── mail-system.php  # Main file
 ├── composer.json
 ├── README.md
 ├── CHANGELOG.md
@@ -338,11 +338,11 @@ mail-system-by-katsarov-design/
 │   ├── js/
 │   └── partials/
 └── languages/
-    ├── mail-system-by-katsarov-design.pot
-    ├── mail-system-by-katsarov-design-bg_BG.po
-    ├── mail-system-by-katsarov-design-bg_BG.mo
-    ├── mail-system-by-katsarov-design-de_DE.po
-    └── mail-system-by-katsarov-design-de_DE.mo
+    ├── mail-system.pot
+    ├── mail-system-bg_BG.po
+    ├── mail-system-bg_BG.mo
+    ├── mail-system-de_DE.po
+    └── mail-system-de_DE.mo
 ```
 
 ### Naming Conventions

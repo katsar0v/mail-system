@@ -663,7 +663,7 @@ class Subscriber_Service {
 				++$result['failed'];
 				$result['errors'][] = sprintf(
 					/* translators: %d: subscriber ID */
-					__( 'Subscriber ID %d not found.', 'mail-system-by-katsarov-design' ),
+					__( 'Subscriber ID %d not found.', 'mail-system' ),
 					$subscriber_id
 				);
 				continue;
@@ -738,7 +738,7 @@ class Subscriber_Service {
 				++$result['failed'];
 				$result['errors'][] = sprintf(
 					/* translators: %d: subscriber ID */
-					__( 'Subscriber ID %d not found.', 'mail-system-by-katsarov-design' ),
+					__( 'Subscriber ID %d not found.', 'mail-system' ),
 					$subscriber_id
 				);
 				continue;
@@ -982,7 +982,7 @@ class Subscriber_Service {
 				++$result['failed'];
 				$result['errors'][] = sprintf(
 					/* translators: %d: subscriber ID */
-					__( 'Failed to delete subscriber ID %d', 'mail-system-by-katsarov-design' ),
+					__( 'Failed to delete subscriber ID %d', 'mail-system' ),
 					$subscriber_id
 				);
 			}

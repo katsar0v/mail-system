@@ -50,14 +50,14 @@ $custom_templates     = array_filter(
 
 <div class="wrap mskd-wrap">
 	<h1>
-		<?php esc_html_e( 'Email Templates', 'mail-system-by-katsarov-design' ); ?>
+		<?php esc_html_e( 'Email Templates', 'mail-system' ); ?>
 		<?php if ( 'list' === $current_action ) : ?>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-templates&action=add' ) ); ?>" class="page-title-action">
-				<?php esc_html_e( 'Add New', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Add New', 'mail-system' ); ?>
 			</a>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-visual-editor' ) ); ?>" class="page-title-action" style="background: #2271b1; color: #fff; border-color: #2271b1;">
 				<span class="dashicons dashicons-welcome-widgets-menus" style="vertical-align: middle; font-size: 16px; line-height: 1; margin-right: 4px;"></span>
-				<?php esc_html_e( 'Visual Editor', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Visual Editor', 'mail-system' ); ?>
 			</a>
 		<?php endif; ?>
 	</h1>
@@ -70,9 +70,9 @@ $custom_templates     = array_filter(
 			<h2>
 				<?php
 				if ( 'add' === $current_action ) {
-					esc_html_e( 'Add new template', 'mail-system-by-katsarov-design' );
+					esc_html_e( 'Add new template', 'mail-system' );
 				} else {
-					esc_html_e( 'Edit template', 'mail-system-by-katsarov-design' );
+					esc_html_e( 'Edit template', 'mail-system' );
 				}
 				?>
 			</h2>
@@ -90,7 +90,7 @@ $custom_templates     = array_filter(
 				<table class="form-table">
 					<tr>
 						<th scope="row">
-							<label for="name"><?php esc_html_e( 'Template name', 'mail-system-by-katsarov-design' ); ?> *</label>
+							<label for="name"><?php esc_html_e( 'Template name', 'mail-system' ); ?> *</label>
 						</th>
 						<td>
 							<input type="text" name="name" id="name" class="regular-text" required
@@ -99,19 +99,19 @@ $custom_templates     = array_filter(
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="subject"><?php esc_html_e( 'Default subject', 'mail-system-by-katsarov-design' ); ?></label>
+							<label for="subject"><?php esc_html_e( 'Default subject', 'mail-system' ); ?></label>
 						</th>
 						<td>
 							<input type="text" name="subject" id="subject" class="large-text"
 								value="<?php echo $editing_template ? esc_attr( $editing_template->subject ) : ''; ?>">
 							<p class="description">
-								<?php esc_html_e( 'Optional. This subject will be pre-filled when using this template.', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Optional. This subject will be pre-filled when using this template.', 'mail-system' ); ?>
 							</p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="content"><?php esc_html_e( 'Content', 'mail-system-by-katsarov-design' ); ?></label>
+							<label for="content"><?php esc_html_e( 'Content', 'mail-system' ); ?></label>
 						</th>
 						<td>
 							<?php
@@ -129,7 +129,7 @@ $custom_templates     = array_filter(
 							);
 							?>
 							<p class="description">
-								<?php esc_html_e( 'Available placeholders:', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Available placeholders:', 'mail-system' ); ?>
 								<code>{first_name}</code>, <code>{last_name}</code>, <code>{email}</code>, <code>{unsubscribe_link}</code>
 							</p>
 						</td>
@@ -138,11 +138,11 @@ $custom_templates     = array_filter(
 
 				<p class="submit">
 					<?php if ( 'add' === $current_action ) : ?>
-						<input type="submit" name="mskd_add_template" class="button button-primary" value="<?php esc_attr_e( 'Add template', 'mail-system-by-katsarov-design' ); ?>">
+						<input type="submit" name="mskd_add_template" class="button button-primary" value="<?php esc_attr_e( 'Add template', 'mail-system' ); ?>">
 					<?php else : ?>
-						<input type="submit" name="mskd_edit_template" class="button button-primary" value="<?php esc_attr_e( 'Save changes', 'mail-system-by-katsarov-design' ); ?>">
+						<input type="submit" name="mskd_edit_template" class="button button-primary" value="<?php esc_attr_e( 'Save changes', 'mail-system' ); ?>">
 					<?php endif; ?>
-					<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-templates' ) ); ?>" class="button"><?php esc_html_e( 'Cancel', 'mail-system-by-katsarov-design' ); ?></a>
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-templates' ) ); ?>" class="button"><?php esc_html_e( 'Cancel', 'mail-system' ); ?></a>
 				</p>
 			</form>
 		</div>
@@ -152,8 +152,8 @@ $custom_templates     = array_filter(
 		
 		<?php if ( ! empty( $predefined_templates ) ) : ?>
 			<div class="mskd-templates-section">
-				<h2><?php esc_html_e( 'Predefined Templates', 'mail-system-by-katsarov-design' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'These templates are provided by the system. You can duplicate them to create custom versions.', 'mail-system-by-katsarov-design' ); ?></p>
+				<h2><?php esc_html_e( 'Predefined Templates', 'mail-system' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'These templates are provided by the system. You can duplicate them to create custom versions.', 'mail-system' ); ?></p>
 				
 				<div class="mskd-templates-grid">
 					<?php foreach ( $predefined_templates as $template ) : ?>
@@ -169,15 +169,15 @@ $custom_templates     = array_filter(
 							</div>
 							<div class="mskd-template-info">
 								<h3><?php echo esc_html( $template->name ); ?></h3>
-								<span class="mskd-template-badge mskd-template-badge-predefined"><?php esc_html_e( 'Predefined', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-template-badge mskd-template-badge-predefined"><?php esc_html_e( 'Predefined', 'mail-system' ); ?></span>
 							</div>
 							<div class="mskd-template-actions">
-								<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=mskd-templates&action=duplicate_template&id=' . $template->id ), 'duplicate_template_' . $template->id ) ); ?>" class="button button-secondary" title="<?php esc_attr_e( 'Duplicate', 'mail-system-by-katsarov-design' ); ?>">
+								<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=mskd-templates&action=duplicate_template&id=' . $template->id ), 'duplicate_template_' . $template->id ) ); ?>" class="button button-secondary" title="<?php esc_attr_e( 'Duplicate', 'mail-system' ); ?>">
 									<span class="dashicons dashicons-admin-page"></span>
-									<?php esc_html_e( 'Duplicate', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Duplicate', 'mail-system' ); ?>
 								</a>
-								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-compose&template_id=' . $template->id ) ); ?>" class="button button-primary" title="<?php esc_attr_e( 'Use template', 'mail-system-by-katsarov-design' ); ?>">
-									<?php esc_html_e( 'Use', 'mail-system-by-katsarov-design' ); ?>
+								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-compose&template_id=' . $template->id ) ); ?>" class="button button-primary" title="<?php esc_attr_e( 'Use template', 'mail-system' ); ?>">
+									<?php esc_html_e( 'Use', 'mail-system' ); ?>
 								</a>
 							</div>
 						</div>
@@ -187,8 +187,8 @@ $custom_templates     = array_filter(
 		<?php endif; ?>
 
 		<div class="mskd-templates-section">
-			<h2><?php esc_html_e( 'Custom Templates', 'mail-system-by-katsarov-design' ); ?></h2>
-			<p class="description"><?php esc_html_e( 'Templates you have created. You can edit, duplicate, or delete these.', 'mail-system-by-katsarov-design' ); ?></p>
+			<h2><?php esc_html_e( 'Custom Templates', 'mail-system' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Templates you have created. You can edit, duplicate, or delete these.', 'mail-system' ); ?></p>
 			
 			<?php if ( ! empty( $custom_templates ) ) : ?>
 				<div class="mskd-templates-grid">
@@ -205,29 +205,29 @@ $custom_templates     = array_filter(
 							</div>
 							<div class="mskd-template-info">
 								<h3><?php echo esc_html( $template->name ); ?></h3>
-								<span class="mskd-template-badge mskd-template-badge-custom"><?php esc_html_e( 'Custom', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-template-badge mskd-template-badge-custom"><?php esc_html_e( 'Custom', 'mail-system' ); ?></span>
 								<span class="mskd-template-date">
 									<?php
 									/* translators: %s: date */
-									printf( esc_html__( 'Created: %s', 'mail-system-by-katsarov-design' ), esc_html( wp_date( get_option( 'date_format' ), strtotime( $template->created_at ) ) ) );
+									printf( esc_html__( 'Created: %s', 'mail-system' ), esc_html( wp_date( get_option( 'date_format' ), strtotime( $template->created_at ) ) ) );
 									?>
 								</span>
 							</div>
 							<div class="mskd-template-actions">
-								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-visual-editor&template_id=' . $template->id ) ); ?>" class="button button-secondary" title="<?php esc_attr_e( 'Edit with Visual Editor', 'mail-system-by-katsarov-design' ); ?>" style="background: #2271b1; color: #fff; border-color: #2271b1;">
+								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-visual-editor&template_id=' . $template->id ) ); ?>" class="button button-secondary" title="<?php esc_attr_e( 'Edit with Visual Editor', 'mail-system' ); ?>" style="background: #2271b1; color: #fff; border-color: #2271b1;">
 									<span class="dashicons dashicons-welcome-widgets-menus"></span>
 								</a>
-								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-templates&action=edit&id=' . $template->id ) ); ?>" class="button button-secondary" title="<?php esc_attr_e( 'Edit HTML', 'mail-system-by-katsarov-design' ); ?>">
+								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-templates&action=edit&id=' . $template->id ) ); ?>" class="button button-secondary" title="<?php esc_attr_e( 'Edit HTML', 'mail-system' ); ?>">
 									<span class="dashicons dashicons-editor-code"></span>
 								</a>
-								<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=mskd-templates&action=duplicate_template&id=' . $template->id ), 'duplicate_template_' . $template->id ) ); ?>" class="button button-secondary" title="<?php esc_attr_e( 'Duplicate', 'mail-system-by-katsarov-design' ); ?>">
+								<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=mskd-templates&action=duplicate_template&id=' . $template->id ), 'duplicate_template_' . $template->id ) ); ?>" class="button button-secondary" title="<?php esc_attr_e( 'Duplicate', 'mail-system' ); ?>">
 									<span class="dashicons dashicons-admin-page"></span>
 								</a>
-								<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=mskd-templates&action=delete_template&id=' . $template->id ), 'delete_template_' . $template->id ) ); ?>" class="button button-secondary mskd-delete-link" title="<?php esc_attr_e( 'Delete', 'mail-system-by-katsarov-design' ); ?>">
+								<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=mskd-templates&action=delete_template&id=' . $template->id ), 'delete_template_' . $template->id ) ); ?>" class="button button-secondary mskd-delete-link" title="<?php esc_attr_e( 'Delete', 'mail-system' ); ?>">
 									<span class="dashicons dashicons-trash"></span>
 								</a>
-								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-compose&template_id=' . $template->id ) ); ?>" class="button button-primary" title="<?php esc_attr_e( 'Use template', 'mail-system-by-katsarov-design' ); ?>">
-									<?php esc_html_e( 'Use', 'mail-system-by-katsarov-design' ); ?>
+								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-compose&template_id=' . $template->id ) ); ?>" class="button button-primary" title="<?php esc_attr_e( 'Use template', 'mail-system' ); ?>">
+									<?php esc_html_e( 'Use', 'mail-system' ); ?>
 								</a>
 							</div>
 						</div>
@@ -235,8 +235,8 @@ $custom_templates     = array_filter(
 				</div>
 			<?php else : ?>
 				<p class="mskd-no-templates">
-					<?php esc_html_e( 'No custom templates yet.', 'mail-system-by-katsarov-design' ); ?>
-					<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-templates&action=add' ) ); ?>"><?php esc_html_e( 'Create your first template', 'mail-system-by-katsarov-design' ); ?></a>
+					<?php esc_html_e( 'No custom templates yet.', 'mail-system' ); ?>
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-templates&action=add' ) ); ?>"><?php esc_html_e( 'Create your first template', 'mail-system' ); ?></a>
 				</p>
 			<?php endif; ?>
 		</div>

@@ -142,11 +142,11 @@ Campaign Form → Admin_Email::handle_queue_email()
 7. `admin/partials/one-time-email.php` - One-time email UI
 
 ### Translation Files (6 files)
-8. `languages/mail-system-by-katsarov-design.pot`
-9. `languages/mail-system-by-katsarov-design-bg_BG.po`
-10. `languages/mail-system-by-katsarov-design-bg_BG.mo`
-11. `languages/mail-system-by-katsarov-design-de_DE.po`
-12. `languages/mail-system-by-katsarov-design-de_DE.mo`
+8. `languages/mail-system.pot`
+9. `languages/mail-system-bg_BG.po`
+10. `languages/mail-system-bg_BG.mo`
+11. `languages/mail-system-de_DE.po`
+12. `languages/mail-system-de_DE.mo`
 
 ### Documentation (2 files)
 13. `TESTING_BCC_FEATURE.md` - Testing guide

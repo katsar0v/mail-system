@@ -100,7 +100,7 @@ class Admin_Templates {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Template name is required.', 'mail-system-by-katsarov-design' ),
+				__( 'Template name is required.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -121,7 +121,7 @@ class Admin_Templates {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_success',
-				__( 'Template added successfully.', 'mail-system-by-katsarov-design' ),
+				__( 'Template added successfully.', 'mail-system' ),
 				'success'
 			);
 			wp_safe_redirect( admin_url( 'admin.php?page=mskd-templates' ) );
@@ -130,7 +130,7 @@ class Admin_Templates {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Error adding template.', 'mail-system-by-katsarov-design' ),
+				__( 'Error adding template.', 'mail-system' ),
 				'error'
 			);
 		}
@@ -157,7 +157,7 @@ class Admin_Templates {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Template name is required.', 'mail-system-by-katsarov-design' ),
+				__( 'Template name is required.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -169,7 +169,7 @@ class Admin_Templates {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Template not found.', 'mail-system-by-katsarov-design' ),
+				__( 'Template not found.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -188,7 +188,7 @@ class Admin_Templates {
 		add_settings_error(
 			'mskd_messages',
 			'mskd_success',
-			__( 'Template updated successfully.', 'mail-system-by-katsarov-design' ),
+			__( 'Template updated successfully.', 'mail-system' ),
 			'success'
 		);
 
@@ -209,7 +209,7 @@ class Admin_Templates {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Template not found.', 'mail-system-by-katsarov-design' ),
+				__( 'Template not found.', 'mail-system' ),
 				'error'
 			);
 			wp_safe_redirect( admin_url( 'admin.php?page=mskd-templates' ) );
@@ -221,7 +221,7 @@ class Admin_Templates {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Predefined templates cannot be deleted.', 'mail-system-by-katsarov-design' ),
+				__( 'Predefined templates cannot be deleted.', 'mail-system' ),
 				'error'
 			);
 			wp_safe_redirect( admin_url( 'admin.php?page=mskd-templates' ) );
@@ -233,7 +233,7 @@ class Admin_Templates {
 		add_settings_error(
 			'mskd_messages',
 			'mskd_success',
-			__( 'Template deleted successfully.', 'mail-system-by-katsarov-design' ),
+			__( 'Template deleted successfully.', 'mail-system' ),
 			'success'
 		);
 
@@ -254,14 +254,14 @@ class Admin_Templates {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_success',
-				__( 'Template duplicated successfully.', 'mail-system-by-katsarov-design' ),
+				__( 'Template duplicated successfully.', 'mail-system' ),
 				'success'
 			);
 		} else {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Error duplicating template.', 'mail-system-by-katsarov-design' ),
+				__( 'Error duplicating template.', 'mail-system' ),
 				'error'
 			);
 		}

@@ -10,7 +10,7 @@
  * Author URI:        https://katsarov.design
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       mail-system-by-katsarov-design
+ * Text Domain:       mail-system
  * Domain Path:       /languages
  *
  * @package Mail_System_by_Katsarov_Design
@@ -138,7 +138,7 @@ register_deactivation_hook( __FILE__, array( 'MSKD_Deactivator', 'deactivate' ) 
  */
 function mskd_load_textdomain() {
 	load_plugin_textdomain(
-		'mail-system-by-katsarov-design',
+		'mail-system',
 		false,
 		dirname( MSKD_PLUGIN_BASENAME ) . '/languages'
 	);
@@ -184,7 +184,7 @@ add_action( 'plugins_loaded', 'mskd_init' );
 function mskd_cron_schedules( $schedules ) {
 	$schedules['mskd_every_minute'] = array(
 		'interval' => 60,
-		'display'  => esc_html__( 'Every minute', 'mail-system-by-katsarov-design' ),
+		'display'  => esc_html__( 'Every minute', 'mail-system' ),
 	);
 	return $schedules;
 }

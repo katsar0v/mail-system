@@ -22,7 +22,7 @@ $campaign = $wpdb->get_row(
 );
 
 if ( ! $campaign ) {
-	echo '<div class="wrap"><div class="notice notice-error"><p>' . esc_html__( 'Campaign not found.', 'mail-system-by-katsarov-design' ) . '</p></div></div>';
+	echo '<div class="wrap"><div class="notice notice-error"><p>' . esc_html__( 'Campaign not found.', 'mail-system' ) . '</p></div></div>';
 	return;
 }
 
@@ -103,9 +103,9 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 <div class="wrap mskd-wrap">
 	<h1>
 		<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue' ) ); ?>" class="page-title-action" style="margin-right: 10px;">
-			← <?php _e( 'Back to Queue', 'mail-system-by-katsarov-design' ); ?>
+			← <?php _e( 'Back to Queue', 'mail-system' ); ?>
 		</a>
-		<?php printf( __( 'Campaign #%d', 'mail-system-by-katsarov-design' ), $campaign->id ); ?>
+		<?php printf( __( 'Campaign #%d', 'mail-system' ), $campaign->id ); ?>
 	</h1>
 
 	<?php settings_errors( 'mskd_messages' ); ?>
@@ -117,45 +117,45 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 			<span class="mskd-status mskd-status-<?php echo esc_attr( $campaign->status ); ?>">
 				<?php
 				$statuses = array(
-					'pending'    => __( 'Pending', 'mail-system-by-katsarov-design' ),
-					'processing' => __( 'Processing', 'mail-system-by-katsarov-design' ),
-					'completed'  => __( 'Completed', 'mail-system-by-katsarov-design' ),
-					'cancelled'  => __( 'Cancelled', 'mail-system-by-katsarov-design' ),
+					'pending'    => __( 'Pending', 'mail-system' ),
+					'processing' => __( 'Processing', 'mail-system' ),
+					'completed'  => __( 'Completed', 'mail-system' ),
+					'cancelled'  => __( 'Cancelled', 'mail-system' ),
 				);
 				echo esc_html( $statuses[ $campaign->status ] ?? $campaign->status );
 				?>
 			</span>
 			<?php if ( $campaign->type === 'one_time' ) : ?>
-				<span class="mskd-badge mskd-badge-onetime"><?php _e( 'One-time', 'mail-system-by-katsarov-design' ); ?></span>
+				<span class="mskd-badge mskd-badge-onetime"><?php _e( 'One-time', 'mail-system' ); ?></span>
 			<?php else : ?>
-				<span class="mskd-badge mskd-badge-campaign"><?php _e( 'Campaign', 'mail-system-by-katsarov-design' ); ?></span>
+				<span class="mskd-badge mskd-badge-campaign"><?php _e( 'Campaign', 'mail-system' ); ?></span>
 			<?php endif; ?>
 		</div>
 		
 		<div class="mskd-campaign-meta">
 			<div class="mskd-campaign-meta-item">
-				<strong><?php _e( 'Created:', 'mail-system-by-katsarov-design' ); ?></strong>
+				<strong><?php _e( 'Created:', 'mail-system' ); ?></strong>
 				<?php echo esc_html( date_i18n( 'd.m.Y H:i', strtotime( $campaign->created_at ) ) ); ?>
 			</div>
 			<div class="mskd-campaign-meta-item">
-				<strong><?php _e( 'Scheduled:', 'mail-system-by-katsarov-design' ); ?></strong>
+				<strong><?php _e( 'Scheduled:', 'mail-system' ); ?></strong>
 				<?php echo esc_html( date_i18n( 'd.m.Y H:i', strtotime( $campaign->scheduled_at ) ) ); ?>
 			</div>
 			<?php if ( $campaign->completed_at ) : ?>
 				<div class="mskd-campaign-meta-item">
-					<strong><?php _e( 'Completed:', 'mail-system-by-katsarov-design' ); ?></strong>
+					<strong><?php _e( 'Completed:', 'mail-system' ); ?></strong>
 					<?php echo esc_html( date_i18n( 'd.m.Y H:i', strtotime( $campaign->completed_at ) ) ); ?>
 				</div>
 			<?php endif; ?>
 			<?php if ( ! empty( $list_names ) ) : ?>
 				<div class="mskd-campaign-meta-item">
-					<strong><?php _e( 'Lists:', 'mail-system-by-katsarov-design' ); ?></strong>
+					<strong><?php _e( 'Lists:', 'mail-system' ); ?></strong>
 					<?php echo esc_html( implode( ', ', $list_names ) ); ?>
 				</div>
 			<?php endif; ?>
 			<?php if ( ! empty( $campaign->bcc ) ) : ?>
 				<div class="mskd-campaign-meta-item">
-					<strong><?php _e( 'BCC:', 'mail-system-by-katsarov-design' ); ?></strong>
+					<strong><?php _e( 'BCC:', 'mail-system' ); ?></strong>
 					<?php echo esc_html( $campaign->bcc ); ?>
 				</div>
 			<?php endif; ?>
@@ -167,24 +167,24 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 			</div>
 			<div class="mskd-campaign-stats">
 				<span class="mskd-stat-total">
-					<strong><?php echo esc_html( $total_count ); ?></strong> <?php _e( 'total', 'mail-system-by-katsarov-design' ); ?>
+					<strong><?php echo esc_html( $total_count ); ?></strong> <?php _e( 'total', 'mail-system' ); ?>
 				</span>
 				<span class="mskd-stat-sent">
-					✓ <strong><?php echo esc_html( $sent_count ); ?></strong> <?php _e( 'sent', 'mail-system-by-katsarov-design' ); ?>
+					✓ <strong><?php echo esc_html( $sent_count ); ?></strong> <?php _e( 'sent', 'mail-system' ); ?>
 				</span>
 				<?php if ( $failed_count > 0 ) : ?>
 					<span class="mskd-stat-failed">
-						✗ <strong><?php echo esc_html( $failed_count ); ?></strong> <?php _e( 'failed', 'mail-system-by-katsarov-design' ); ?>
+						✗ <strong><?php echo esc_html( $failed_count ); ?></strong> <?php _e( 'failed', 'mail-system' ); ?>
 					</span>
 				<?php endif; ?>
 				<?php if ( $pending_count > 0 || $processing_count > 0 ) : ?>
 					<span class="mskd-stat-pending">
-						⏳ <strong><?php echo esc_html( $pending_count + $processing_count ); ?></strong> <?php _e( 'pending', 'mail-system-by-katsarov-design' ); ?>
+						⏳ <strong><?php echo esc_html( $pending_count + $processing_count ); ?></strong> <?php _e( 'pending', 'mail-system' ); ?>
 					</span>
 				<?php endif; ?>
 				<?php if ( $cancelled_count > 0 ) : ?>
 					<span class="mskd-stat-cancelled">
-						⊘ <strong><?php echo esc_html( $cancelled_count ); ?></strong> <?php _e( 'cancelled', 'mail-system-by-katsarov-design' ); ?>
+						⊘ <strong><?php echo esc_html( $cancelled_count ); ?></strong> <?php _e( 'cancelled', 'mail-system' ); ?>
 					</span>
 				<?php endif; ?>
 			</div>
@@ -201,8 +201,8 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				?>
 				" 
 					class="button button-secondary mskd-cancel-btn"
-					onclick="return confirm('<?php esc_attr_e( 'Are you sure you want to cancel this campaign? All pending emails will be cancelled.', 'mail-system-by-katsarov-design' ); ?>');">
-					<?php _e( 'Cancel Campaign', 'mail-system-by-katsarov-design' ); ?>
+					onclick="return confirm('<?php esc_attr_e( 'Are you sure you want to cancel this campaign? All pending emails will be cancelled.', 'mail-system' ); ?>');">
+					<?php _e( 'Cancel Campaign', 'mail-system' ); ?>
 				</a>
 			</div>
 		<?php endif; ?>
@@ -212,23 +212,23 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 	<div class="mskd-email-content-accordion">
 		<button type="button" class="mskd-accordion-toggle" aria-expanded="false" aria-controls="mskd-email-content">
 			<span class="mskd-accordion-icon dashicons dashicons-email-alt"></span>
-			<span class="mskd-accordion-title"><?php esc_html_e( 'Email Content', 'mail-system-by-katsarov-design' ); ?></span>
+			<span class="mskd-accordion-title"><?php esc_html_e( 'Email Content', 'mail-system' ); ?></span>
 			<span class="mskd-accordion-arrow dashicons dashicons-arrow-down-alt2"></span>
 		</button>
 		<div id="mskd-email-content" class="mskd-accordion-content" style="display: none;" aria-hidden="true">
 			<div class="mskd-email-meta">
 				<div class="mskd-email-subject">
-					<span class="mskd-email-label"><?php esc_html_e( 'Subject:', 'mail-system-by-katsarov-design' ); ?></span>
+					<span class="mskd-email-label"><?php esc_html_e( 'Subject:', 'mail-system' ); ?></span>
 					<span class="mskd-email-value"><?php echo esc_html( $campaign->subject ); ?></span>
 				</div>
 			</div>
 			<div class="mskd-email-body">
 				<div class="mskd-email-body-header">
 					<span class="dashicons dashicons-visibility"></span>
-					<?php esc_html_e( 'Email Preview (with header & footer)', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'Email Preview (with header & footer)', 'mail-system' ); ?>
 				</div>
 				<div class="mskd-email-body-preview">
-					<iframe class="mskd-email-iframe mskd-campaign-preview-iframe" data-campaign-id="<?php echo esc_attr( $campaign->id ); ?>" sandbox="allow-same-origin" title="<?php esc_attr_e( 'Email Preview', 'mail-system-by-katsarov-design' ); ?>"></iframe>
+					<iframe class="mskd-email-iframe mskd-campaign-preview-iframe" data-campaign-id="<?php echo esc_attr( $campaign->id ); ?>" sandbox="allow-same-origin" title="<?php esc_attr_e( 'Email Preview', 'mail-system' ); ?>"></iframe>
 				</div>
 			</div>
 		</div>
@@ -239,35 +239,35 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id ) ); ?>" 
 				class="<?php echo empty( $status_filter ) ? 'current' : ''; ?>">
-				<?php _e( 'All', 'mail-system-by-katsarov-design' ); ?>
+				<?php _e( 'All', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $total_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id . '&status=pending' ) ); ?>"
 				class="<?php echo $status_filter === 'pending' ? 'current' : ''; ?>">
-				<?php _e( 'Pending', 'mail-system-by-katsarov-design' ); ?>
+				<?php _e( 'Pending', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $pending_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id . '&status=sent' ) ); ?>"
 				class="<?php echo $status_filter === 'sent' ? 'current' : ''; ?>">
-				<?php _e( 'Sent', 'mail-system-by-katsarov-design' ); ?>
+				<?php _e( 'Sent', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $sent_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id . '&status=failed' ) ); ?>"
 				class="<?php echo $status_filter === 'failed' ? 'current' : ''; ?>">
-				<?php _e( 'Failed', 'mail-system-by-katsarov-design' ); ?>
+				<?php _e( 'Failed', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $failed_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id . '&status=cancelled' ) ); ?>"
 				class="<?php echo $status_filter === 'cancelled' ? 'current' : ''; ?>">
-				<?php _e( 'Cancelled', 'mail-system-by-katsarov-design' ); ?>
+				<?php _e( 'Cancelled', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $cancelled_count ); ?>)</span>
 			</a>
 		</li>
@@ -276,13 +276,13 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 	<table class="wp-list-table widefat fixed striped">
 		<thead>
 			<tr>
-				<th scope="col" style="width: 50px;"><?php _e( 'ID', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col"><?php _e( 'Recipient', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 100px;"><?php _e( 'Status', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 80px;"><?php _e( 'Attempts', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 140px;"><?php _e( 'Sent', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col"><?php _e( 'Error', 'mail-system-by-katsarov-design' ); ?></th>
-				<th scope="col" style="width: 80px;"><?php _e( 'Actions', 'mail-system-by-katsarov-design' ); ?></th>
+				<th scope="col" style="width: 50px;"><?php _e( 'ID', 'mail-system' ); ?></th>
+				<th scope="col"><?php _e( 'Recipient', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 100px;"><?php _e( 'Status', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 80px;"><?php _e( 'Attempts', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 140px;"><?php _e( 'Sent', 'mail-system' ); ?></th>
+				<th scope="col"><?php _e( 'Error', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 80px;"><?php _e( 'Actions', 'mail-system' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -305,27 +305,27 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 								<?php if ( ! empty( $external_data->first_name ) || ! empty( $external_data->last_name ) ) : ?>
 									<br><small><?php echo esc_html( trim( ( $external_data->first_name ?? '' ) . ' ' . ( $external_data->last_name ?? '' ) ) ); ?></small>
 								<?php endif; ?>
-								<span class="mskd-external-badge"><?php _e( 'External', 'mail-system-by-katsarov-design' ); ?></span>
+								<span class="mskd-external-badge"><?php _e( 'External', 'mail-system' ); ?></span>
 							<?php elseif ( $item->subscriber_id == MSKD_Admin::ONE_TIME_EMAIL_SUBSCRIBER_ID ) : ?>
-								<em class="mskd-one-time-email"><?php _e( 'One-time email', 'mail-system-by-katsarov-design' ); ?></em>
+								<em class="mskd-one-time-email"><?php _e( 'One-time email', 'mail-system' ); ?></em>
 							<?php elseif ( $item->email ) : ?>
 								<?php echo esc_html( $item->email ); ?>
 								<?php if ( $item->first_name || $item->last_name ) : ?>
 									<br><small><?php echo esc_html( trim( $item->first_name . ' ' . $item->last_name ) ); ?></small>
 								<?php endif; ?>
 							<?php else : ?>
-								<em><?php _e( 'Deleted subscriber', 'mail-system-by-katsarov-design' ); ?></em>
+								<em><?php _e( 'Deleted subscriber', 'mail-system' ); ?></em>
 							<?php endif; ?>
 						</td>
 						<td>
 							<span class="mskd-status mskd-status-<?php echo esc_attr( $item->status ); ?>">
 								<?php
 								$item_statuses = array(
-									'pending'    => __( 'Pending', 'mail-system-by-katsarov-design' ),
-									'processing' => __( 'Processing', 'mail-system-by-katsarov-design' ),
-									'sent'       => __( 'Sent', 'mail-system-by-katsarov-design' ),
-									'failed'     => __( 'Failed', 'mail-system-by-katsarov-design' ),
-									'cancelled'  => __( 'Cancelled', 'mail-system-by-katsarov-design' ),
+									'pending'    => __( 'Pending', 'mail-system' ),
+									'processing' => __( 'Processing', 'mail-system' ),
+									'sent'       => __( 'Sent', 'mail-system' ),
+									'failed'     => __( 'Failed', 'mail-system' ),
+									'cancelled'  => __( 'Cancelled', 'mail-system' ),
 								);
 								echo esc_html( $item_statuses[ $item->status ] ?? $item->status );
 								?>
@@ -353,8 +353,8 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 								?>
 								" 
 									class="mskd-delete-link mskd-cancel-link"
-									title="<?php esc_attr_e( 'Cancel', 'mail-system-by-katsarov-design' ); ?>">
-									<?php _e( 'Cancel', 'mail-system-by-katsarov-design' ); ?>
+									title="<?php esc_attr_e( 'Cancel', 'mail-system' ); ?>">
+									<?php _e( 'Cancel', 'mail-system' ); ?>
 								</a>
 							<?php else : ?>
 								—
@@ -364,7 +364,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				<?php endforeach; ?>
 			<?php else : ?>
 				<tr>
-					<td colspan="7"><?php _e( 'No emails in this campaign.', 'mail-system-by-katsarov-design' ); ?></td>
+					<td colspan="7"><?php _e( 'No emails in this campaign.', 'mail-system' ); ?></td>
 				</tr>
 			<?php endif; ?>
 		</tbody>
@@ -383,8 +383,8 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 					array(
 						'base'      => add_query_arg( 'paged', '%#%', $base_url ),
 						'format'    => '',
-						'prev_text' => __( '&laquo;', 'mail-system-by-katsarov-design' ),
-						'next_text' => __( '&raquo;', 'mail-system-by-katsarov-design' ),
+						'prev_text' => __( '&laquo;', 'mail-system' ),
+						'next_text' => __( '&raquo;', 'mail-system' ),
 						'total'     => $total_pages,
 						'current'   => $current_page,
 					)
