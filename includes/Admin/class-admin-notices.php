@@ -223,8 +223,8 @@ class Admin_Notices {
 					?>
 					<div class="notice notice-error">
 						<p>
-							<strong><?php esc_html_e( 'Mail System:', 'mail-system-by-katsarov-design' ); ?></strong>
-							<?php esc_html_e( 'Database repair failed. One or more required tables or columns could not be created. Please deactivate and reactivate the plugin, or contact your hosting provider if the issue persists.', 'mail-system-by-katsarov-design' ); ?>
+						<strong><?php esc_html_e( 'Mail System:', 'mail-system' ); ?></strong>
+						<?php esc_html_e( 'Database repair failed. One or more required tables or columns could not be created. Please deactivate and reactivate the plugin, or contact your hosting provider if the issue persists.', 'mail-system' ); ?>
 						</p>
 						<?php if ( '1' !== $db_error ) : ?>
 						<p><em><?php echo esc_html( $db_error ); ?></em></p>
