@@ -1,4 +1,4 @@
-# Bulgarian translations for Mail System by Katsarov Design.
+# German translations for Mail System by Katsarov Design.
 # Copyright (C) 2024 Katsarov Design
 # This file is distributed under the GPL v2 or later.
 #
@@ -7,455 +7,452 @@ msgstr ""
 "Project-Id-Version: Mail System by Katsarov Design 1.0.0\n"
 "Report-Msgid-Bugs-To: https://katsarov.design/\n"
 "POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
-"PO-Revision-Date: 2024-01-01 00:00+0200\n"
+"PO-Revision-Date: 2024-01-01 00:00+0100\n"
 "Last-Translator: Katsarov Design <info@katsarov.design>\n"
-"Language-Team: Bulgarian <bg@li.org>\n"
-"Language: bg_BG\n"
+"Language-Team: German <de@li.org>\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin/partials/subscribers.php
-msgid "Total Subscribers"
-msgstr "Общо абонати"
-
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "Every minute"
-msgstr "Всяка минута"
+msgstr "Jede Minute"
 
 #: admin/class-admin.php
 msgid "Mail System"
-msgstr "Мейл Система"
+msgstr "Mail-System"
 
 #: admin/class-admin.php
 msgid "Emails"
-msgstr "Имейли"
+msgstr "E-Mails"
 
 #: admin/class-admin.php
 msgid "Dashboard"
-msgstr "Табло"
+msgstr "Dashboard"
 
 #: admin/class-admin.php
 msgid "Subscribers"
-msgstr "Абонати"
+msgstr "Abonnenten"
 
 #: admin/class-admin.php
 msgid "Lists"
-msgstr "Списъци"
+msgstr "Listen"
 
 #: admin/class-admin.php admin/partials/compose.php
 #: admin/partials/compose-wizard.php admin/partials/dashboard.php
 msgid "New campaign"
-msgstr "Нова кампания"
+msgstr "Neue Kampagne"
 
 #: admin/class-admin.php
 msgid "One-time email"
-msgstr "Еднократен имейл"
+msgstr "Einmalige E-Mail"
 
 #: admin/class-admin.php
 msgid "Queue"
-msgstr "Опашка"
+msgstr "Warteschlange"
 
 #: admin/class-admin.php
 msgid "Settings"
-msgstr "Настройки"
+msgstr "Einstellungen"
 
 #: admin/class-admin.php
 msgid "Are you sure you want to delete?"
-msgstr "Сигурни ли сте, че искате да изтриете?"
+msgstr "Sind Sie sicher, dass Sie löschen möchten?"
 
 #: admin/class-admin.php
 msgid "Sending..."
-msgstr "Изпращане..."
+msgstr "Senden..."
 
 #: admin/class-admin.php
 msgid "Success!"
-msgstr "Успешно!"
+msgstr "Erfolg!"
 
 #: admin/class-admin.php
 msgid "Error!"
-msgstr "Грешка!"
+msgstr "Fehler!"
 
 #: admin/class-admin.php
 msgid "Connection timed out. Check SMTP settings."
-msgstr "Времето за изчакване изтече. Проверете SMTP настройките."
+msgstr "Verbindungs-Timeout. Überprüfen Sie die SMTP-Einstellungen."
 
 #: admin/class-admin.php
 msgid "Please select a future date and time."
-msgstr "Моля, изберете бъдеща дата и час."
+msgstr "Bitte wählen Sie ein zukünftiges Datum und eine Uhrzeit."
 
 #: admin/class-admin.php
 msgid "Recommendation for Mail System:"
-msgstr "Препоръка за Мейл Система:"
+msgstr "Empfehlung für Mail-System:"
 
 #: admin/class-admin.php
+#, fuzzy
 msgid ""
 "For more reliable email sending, we recommend using system cron instead of "
 "WP-Cron."
 msgstr ""
-"За по-надеждно изпращане на имейли препоръчваме да използвате системен cron "
-"вместо WP-Cron."
+"Für zuverlässigeren E-Mail-Versand empfehlen wir die Verwendung von System-"
+"Cron anstelle von WP-Cron.\n"
+"Für zuverlässigeres E-Mail-Versenden empfehlen wir die Verwendung von System-"
+"Cron anstelle von WP-Cron."
 
 #: admin/class-admin.php
 msgid "Add to wp-config.php:"
-msgstr "Добавете в wp-config.php:"
+msgstr "Zu wp-config.php hinzufügen:"
 
 #: admin/class-admin.php
 msgid "And set up system cron:"
-msgstr "И настройте системен cron:"
+msgstr "Und System-Cron einrichten:"
 
 #: admin/class-admin.php
 msgid "Invalid email address."
-msgstr "Невалиден имейл адрес."
+msgstr "Ungültige E-Mail-Adresse."
 
 #: admin/class-admin.php
 msgid "This email already exists."
-msgstr "Този имейл вече съществува."
+msgstr "Diese E-Mail existiert bereits."
 
 #: admin/class-admin.php
 msgid "Subscriber added successfully."
-msgstr "Абонатът е добавен успешно."
+msgstr "Abonnent erfolgreich hinzugefügt."
 
 #: admin/class-admin.php
 msgid "Error adding subscriber."
-msgstr "Грешка при добавяне на абонат."
+msgstr "Fehler beim Hinzufügen des Abonnenten."
 
 #: admin/class-admin.php
 msgid "Subscriber updated successfully."
-msgstr "Абонатът е обновен успешно."
-
-#: admin/partials/settings.php
-msgid "Subscription Form"
-msgstr "Форма за абонамент"
+msgstr "Abonnent erfolgreich aktualisiert."
 
 #: admin/partials/settings.php
 msgid "Show Name Field"
-msgstr "Показване на поле за име"
+msgstr "Namensfeld anzeigen"
 
 #: admin/partials/settings.php
 msgid "Display the \"Name\" field in the subscription form"
-msgstr "Показване на поле \"Име\" във формата за абонамент"
+msgstr "Das Feld \"Name\" im Abonnementformular anzeigen"
 
 #: admin/partials/settings.php
 msgid "If unchecked, only the email field will be shown."
-msgstr "Ако не е избрано, ще се показва само полето за имейл."
+msgstr "Wenn nicht ausgewählt, wird nur das E-Mail-Feld angezeigt."
 
 #: admin/partials/settings.php
 msgid "Enable GA4 Conversion Tracking"
-msgstr "Активиране на GA4 проследяване на конверсии"
+msgstr "GA4 Conversion-Tracking aktivieren"
 
 #: admin/partials/settings.php
 msgid "Fire Google Analytics 4 conversion events on successful subscription"
-msgstr "Изпращане на събития за конверсии в Google Analytics 4 при успешен абонамент"
+msgstr "Google Analytics 4 Conversion-Ereignisse bei erfolgreichem Abonnement senden"
 
 #: admin/partials/settings.php
 msgid "When enabled, a \"generate_lead\" event will be sent to Google Analytics when a user successfully subscribes. Make sure you have GA4 or GTM installed on your site."
-msgstr "Когато е активирано, събитие \"generate_lead\" ще бъде изпратено до Google Analytics при успешен абонамент на потребител. Уверете се, че имате инсталирани GA4 или GTM на вашия сайт."
+msgstr "Wenn aktiviert, wird ein \"generate_lead\"-Ereignis an Google Analytics gesendet, wenn sich ein Benutzer erfolgreich anmeldet. Stellen Sie sicher, dass GA4 oder GTM auf Ihrer Website installiert ist."
 
 #: admin/class-admin.php
 msgid "Subscriber deleted successfully."
-msgstr "Абонатът е изтрит успешно."
+msgstr "Abonnent erfolgreich gelöscht."
 
 #: admin/class-admin.php
 msgid "List added successfully."
-msgstr "Списъкът е добавен успешно."
+msgstr "Liste erfolgreich hinzugefügt."
 
 #: admin/class-admin.php
 msgid "Error adding list."
-msgstr "Грешка при добавяне на списък."
+msgstr "Fehler beim Hinzufügen der Liste."
 
 #: admin/class-admin.php
 msgid "List updated successfully."
-msgstr "Списъкът е обновен успешно."
+msgstr "Liste erfolgreich aktualisiert."
 
 #: admin/class-admin.php
 msgid "List deleted successfully."
-msgstr "Списъкът е изтрит успешно."
+msgstr "Liste erfolgreich gelöscht."
 
 #: admin/class-admin.php
 msgid "Record not found."
-msgstr "Записът не е намерен."
+msgstr "Datensatz nicht gefunden."
 
 #: admin/class-admin.php
 msgid "This email cannot be cancelled."
-msgstr "Този имейл не може да бъде отменен."
+msgstr "Diese E-Mail kann nicht abgebrochen werden."
 
 #: admin/class-admin.php
 msgid "Cancelled by administrator"
-msgstr "Отменен от администратор"
+msgstr "Vom Administrator abgebrochen"
 
 #: admin/class-admin.php
 msgid "Email cancelled successfully."
-msgstr "Имейлът е отменен успешно."
+msgstr "E-Mail erfolgreich abgebrochen."
 
 #: admin/class-admin.php
 msgid "Error cancelling email."
-msgstr "Грешка при отмяна на имейла."
+msgstr "Fehler beim Abbrechen der E-Mail."
 
 #: admin/class-admin.php
 msgid "Please fill in all fields."
-msgstr "Моля, попълнете всички полета."
+msgstr "Bitte füllen Sie alle Felder aus."
 
 #: admin/class-admin.php
 msgid "No active subscribers in the selected lists."
-msgstr "Няма активни абонати в избраните списъци."
+msgstr "Keine aktiven Abonnenten in den ausgewählten Listen."
 
 #: admin/class-admin.php
 msgid "%d emails have been added to the sending queue."
-msgstr "Добавени са %d писма в опашката за изпращане."
+msgstr "%d E-Mails wurden zur Sendewarteschlange hinzugefügt."
 
 #: admin/class-admin.php
 msgid "%1$d emails have been scheduled for %2$s."
-msgstr "Насрочени са %1$d писма за изпращане на %2$s."
+msgstr "%1$d E-Mails wurden für %2$s geplant."
 
 #: admin/class-admin.php
 msgid "Settings saved successfully."
-msgstr "Настройките са запазени успешно."
+msgstr "Einstellungen erfolgreich gespeichert."
 
 #: admin/class-admin.php
 msgid "Please fill in all required fields."
-msgstr "Моля, попълнете всички задължителни полета."
+msgstr "Bitte füllen Sie alle erforderlichen Felder aus."
 
 #: admin/class-admin.php
 msgid "Invalid recipient email address."
-msgstr "Невалиден имейл адрес на получателя."
+msgstr "Ungültige Empfänger-E-Mail-Adresse."
 
 #: includes/Admin/class-admin-email.php
 msgid "Invalid Bcc email address: %s"
-msgstr "Невалиден имейл адрес за скрито копие: %s"
+msgstr "Ungültige Bcc-E-Mail-Adresse: %s"
 
 #: admin/class-admin.php
 msgid "SMTP is not configured. Please set up SMTP in the plugin settings."
-msgstr "SMTP не е конфигуриран. Моля, настройте SMTP в настройките на плъгина."
+msgstr ""
+"SMTP ist nicht konfiguriert. Bitte richten Sie SMTP in den Plugin-"
+"Einstellungen ein."
 
 #: admin/class-admin.php
 msgid "wp_mail() failed for one-time email"
-msgstr "wp_mail() неуспешен за еднократен имейл"
+msgstr "wp_mail() fehlgeschlagen für einmalige E-Mail"
 
 #: admin/class-admin.php
 msgid "One-time email sent successfully to %s."
-msgstr "Еднократният имейл е изпратен успешно до %s."
+msgstr "Einmalige E-Mail erfolgreich an %s gesendet."
 
 #: admin/class-admin.php
 msgid "Error sending one-time email."
-msgstr "Грешка при изпращане на еднократния имейл."
+msgstr "Fehler beim Senden der einmaligen E-Mail."
 
 #: admin/class-admin.php
 msgid "Reason: %s"
-msgstr "Причина: %s"
+msgstr "Grund: %s"
 
 #: admin/class-admin.php
 msgid "Please try again."
-msgstr "Моля, опитайте отново."
+msgstr "Bitte versuchen Sie es erneut."
 
 #: admin/class-admin.php
 msgid "One-time email to %1$s has been scheduled for %2$s."
-msgstr "Еднократният имейл до %1$s е насрочен за %2$s."
+msgstr "Einmalige E-Mail an %1$s wurde für %2$s geplant."
 
 #: admin/class-admin.php
 msgid "Error scheduling email. Please try again."
-msgstr "Грешка при насрочване на имейла. Моля, опитайте отново."
+msgstr "Fehler bei der Planung der E-Mail. Bitte versuchen Sie es erneut."
 
 #: admin/class-admin.php
 msgid "Invalid request. Please refresh the page."
-msgstr "Невалидна заявка. Моля, опреснете страницата."
+msgstr "Ungültige Anfrage. Bitte aktualisieren Sie die Seite."
 
 #: admin/class-admin.php
 msgid "You do not have permission for this operation."
-msgstr "Нямате права за тази операция."
+msgstr "Sie haben keine Berechtigung für diese Operation."
 
 #: admin/partials/dashboard.php
 msgid "Dashboard - Mail System"
-msgstr "Табло - Мейл Система"
+msgstr "Dashboard - Mail-System"
 
 #: admin/partials/dashboard.php
 msgid "Quick Actions"
-msgstr "Бързи действия"
+msgstr "Schnellaktionen"
 
 #: admin/partials/dashboard.php
 msgid "Add subscriber"
-msgstr "Добави абонат"
+msgstr "Abonnent hinzufügen"
 
 #: admin/partials/dashboard.php
 msgid "Add list"
-msgstr "Добави списък"
+msgstr "Liste hinzufügen"
 
 #: admin/partials/dashboard.php
 msgid "Active: %d"
-msgstr "Активни: %d"
+msgstr "Aktiv: %d"
 
 #: admin/partials/dashboard.php
 msgid "Inactive: %d"
-msgstr "Неактивни: %d"
+msgstr "Inaktiv: %d"
 
 #: admin/partials/dashboard.php
 msgid "Unsubscribed: %d"
-msgstr "Отписани: %d"
+msgstr "Abgemeldet: %d"
 
 #: admin/partials/dashboard.php
 msgid "View all"
-msgstr "Виж всички"
+msgstr "Alle anzeigen"
 
 #: admin/partials/dashboard.php
 msgid "Manage"
-msgstr "Управление"
+msgstr "Verwalten"
 
 #: admin/partials/dashboard.php
 msgid "Pending: %d"
-msgstr "Чакащи: %d"
+msgstr "Ausstehend: %d"
 
 #: admin/partials/dashboard.php
 msgid "Sent: %d"
-msgstr "Изпратени: %d"
+msgstr "Gesendet: %d"
 
 #: admin/partials/dashboard.php
 msgid "Failed: %d"
-msgstr "Неуспешни: %d"
+msgstr "Fehlgeschlagen: %d"
 
 #: admin/partials/dashboard.php
 msgid "One-time: %d"
-msgstr "Еднократни: %d"
+msgstr "Einmalig: %d"
 
 #: admin/partials/dashboard.php
 msgid "View queue"
-msgstr "Виж опашка"
+msgstr "Warteschlange anzeigen"
 
 #: admin/partials/dashboard.php
 msgid "Cron status"
-msgstr "Cron статус"
+msgstr "Cron-Status"
 
 #: admin/partials/dashboard.php
 msgid "Active"
-msgstr "Активен"
+msgstr "Aktiv"
 
 #: admin/partials/dashboard.php
 msgid "Next run: %s"
-msgstr "Следващо изпълнение: %s"
+msgstr "Nächste Ausführung: %s"
 
 #: admin/partials/dashboard.php
 msgid "Inactive"
-msgstr "Неактивен"
+msgstr "Inaktiv"
 
 #: admin/partials/dashboard.php
 msgid "Sending: %d emails/min"
-msgstr "Изпращане: %d имейла/мин"
+msgstr "Versand: %d E-Mails/Min"
 
 #: admin/partials/subscribers.php
 msgid "Add new"
-msgstr "Добави нов"
+msgstr "Neu hinzufügen"
 
 #: admin/partials/subscribers.php
 msgid "Edit subscriber"
-msgstr "Редактирай абонат"
+msgstr "Abonnent bearbeiten"
 
 #: admin/partials/subscribers.php
 msgid "Email"
-msgstr "Имейл"
+msgstr "E-Mail"
 
 #: admin/partials/subscribers.php
 msgid "First name"
-msgstr "Име"
+msgstr "Vorname"
 
 #: admin/partials/subscribers.php
 msgid "Last name"
-msgstr "Фамилия"
+msgstr "Nachname"
 
 #: admin/partials/subscribers.php
 msgid "Status"
-msgstr "Статус"
+msgstr "Status"
 
 #: admin/partials/subscribers.php
 msgid "Unsubscribed"
-msgstr "Отписан"
+msgstr "Abgemeldet"
 
 #: admin/partials/subscribers.php
 msgid "No lists created."
-msgstr "Няма създадени списъци."
+msgstr "Keine Listen erstellt."
 
 #: admin/partials/subscribers.php
 msgid "Save changes"
-msgstr "Запази промените"
+msgstr "Änderungen speichern"
 
 #: admin/partials/subscribers.php
 msgid "Cancel"
-msgstr "Отказ"
+msgstr "Abbrechen"
 
 #: admin/partials/subscribers.php
 msgid "All"
-msgstr "Всички"
+msgstr "Alle"
 
 #: admin/partials/subscribers.php
 msgid "Name"
-msgstr "Име"
+msgstr "Name"
 
 #: admin/partials/subscribers.php
 msgid "Date"
-msgstr "Дата"
+msgstr "Datum"
 
 #: admin/partials/subscribers.php
 msgid "Actions"
-msgstr "Действия"
+msgstr "Aktionen"
 
 #: admin/partials/subscribers.php admin/partials/compose-wizard.php
 msgid "Edit"
-msgstr "Редактирай"
+msgstr "Bearbeiten"
 
 #: admin/partials/subscribers.php
 msgid "Delete"
-msgstr "Изтрий"
+msgstr "Löschen"
 
 #: admin/partials/subscribers.php
 msgid "No subscribers found."
-msgstr "Няма намерени абонати."
+msgstr "Keine Abonnenten gefunden."
 
 #: admin/partials/lists.php
 msgid "Edit list"
-msgstr "Редактирай списък"
+msgstr "Liste bearbeiten"
 
 #: admin/partials/lists.php
 msgid "List name"
-msgstr "Име на списъка"
+msgstr "Listenname"
 
 #: admin/partials/lists.php
 msgid "Description"
-msgstr "Описание"
+msgstr "Beschreibung"
 
 #: admin/partials/compose.php
 msgid "Send to lists"
-msgstr "Изпрати до списъци"
+msgstr "An Listen senden"
 
 #: admin/partials/compose.php
 msgid "%d active subscribers"
-msgstr "%d активни абонати"
+msgstr "%d aktive Abonnenten"
 
 #: admin/partials/compose.php
 msgid "Create list"
-msgstr "Създай списък"
+msgstr "Liste erstellen"
 
 #: admin/partials/compose.php
 msgid "Subject"
-msgstr "Тема"
+msgstr "Betreff"
 
 #: admin/partials/compose.php
 msgid "Content"
-msgstr "Съдържание"
+msgstr "Inhalt"
 
 #: admin/partials/compose.php
 msgid "Available placeholders:"
-msgstr "Налични плейсхолдери:"
+msgstr "Verfügbare Platzhalter:"
 
 #: admin/partials/compose.php
 msgid "Scheduling"
-msgstr "Насрочване"
+msgstr "Planung"
 
 #: admin/partials/compose-wizard.php
 msgid "Bcc (Optional)"
-msgstr "Скрито копие (по избор)"
+msgstr "Bcc (Optional)"
 
 #: admin/partials/queue-detail.php
 msgid "BCC:"
-msgstr "СК:"
+msgstr "BCC:"
 
 #: admin/partials/compose-wizard.php
 msgid "email1@example.com, email2@example.com"
@@ -467,110 +464,110 @@ msgid ""
 "carbon copy of this campaign. Bcc recipients are hidden from other "
 "recipients."
 msgstr ""
-"Въведете един или повече имейл адреси, разделени със запетая, за да получите "
-"скрито копие на тази кампания. Получателите на скрито копие са скрити от "
-"другите получатели."
+"Geben Sie eine oder mehrere durch Kommas getrennte E-Mail-Adressen ein, um "
+"eine Blindkopie dieser Kampagne zu erhalten. Bcc-Empfänger sind für andere "
+"Empfänger verborgen."
 
 #: admin/partials/one-time-email.php
 msgid ""
 "Enter one or more email addresses separated by commas to receive a blind "
 "carbon copy of this email. Bcc recipients are hidden from the main recipient."
 msgstr ""
-"Въведете един или повече имейл адреси, разделени със запетая, за да получите "
-"скрито копие на този имейл. Получателите на скрито копие са скрити от "
-"основния получател."
+"Geben Sie eine oder mehrere durch Kommas getrennte E-Mail-Adressen ein, um "
+"eine Blindkopie dieser E-Mail zu erhalten. Bcc-Empfänger sind für den "
+"Hauptempfänger verborgen."
 
 #: admin/partials/compose.php
 msgid "Send now"
-msgstr "Изпрати сега"
+msgstr "Jetzt senden"
 
 #: admin/partials/compose.php
 msgid "Specific date and time"
-msgstr "Конкретна дата и час"
+msgstr "Bestimmtes Datum und Uhrzeit"
 
 #: admin/partials/compose.php
 msgid "After a set time"
-msgstr "След определено време"
+msgstr "Nach einer festgelegten Zeit"
 
 #: admin/partials/compose.php
 msgid "Timezone: %s. Select time in 10-minute intervals."
-msgstr "Часова зона: %s. Изберете време на всеки 10 минути."
+msgstr "Zeitzone: %s. Wählen Sie die Zeit in 10-Minuten-Intervallen."
 
 #: admin/partials/compose.php admin/partials/one-time-email.php
 msgid "Current server time: %s"
-msgstr "Текущо сървърно време: %s"
+msgstr "Aktuelle Serverzeit: %s"
 
 #: admin/partials/compose.php
 msgid "minutes"
-msgstr "минути"
+msgstr "Minuten"
 
 #: admin/partials/compose.php
 msgid "hours"
-msgstr "часа"
+msgstr "Stunden"
 
 #: admin/partials/compose.php
 msgid "days"
-msgstr "дни"
+msgstr "Tage"
 
 #: admin/partials/compose.php
 msgid "Emails will be sent after the specified time."
-msgstr "Имейлите ще бъдат изпратени след посоченото време."
+msgstr "E-Mails werden nach der angegebenen Zeit gesendet."
 
 #: admin/partials/compose.php
 msgid "Add to queue"
-msgstr "Добави в опашката"
+msgstr "Zur Warteschlange hinzufügen"
 
 #: admin/partials/compose.php
 msgid "Schedule sending"
-msgstr "Насрочи изпращане"
+msgstr "Versand planen"
 
 #: admin/partials/queue.php
 msgid "Sending queue"
-msgstr "Опашка за изпращане"
+msgstr "Sendewarteschlange"
 
 #: admin/partials/queue.php
 msgid "Next run:"
-msgstr "Следващо изпълнение:"
+msgstr "Nächste Ausführung:"
 
 #: admin/partials/queue.php
 msgid "Not scheduled"
-msgstr "Не е насрочено"
+msgstr "Nicht geplant"
 
 #: admin/partials/queue.php
 msgid "Speed:"
-msgstr "Скорост:"
+msgstr "Geschwindigkeit:"
 
 #: admin/partials/queue.php
 msgid "%d emails/min"
-msgstr "%d имейла/мин"
+msgstr "%d E-Mails/Min"
 
 #: admin/partials/queue.php
 msgid "Scheduled"
-msgstr "Насрочен"
+msgstr "Geplant"
 
 #: admin/partials/queue.php
 msgid "Pending"
-msgstr "Чакащ"
+msgstr "Ausstehend"
 
 #: admin/partials/queue.php
 msgid "Processing"
-msgstr "В процес"
+msgstr "In Bearbeitung"
 
 #: admin/partials/queue.php
 msgid "Sent"
-msgstr "Изпратени"
+msgstr "Gesendet"
 
 #: admin/partials/queue.php
 msgid "Failed"
-msgstr "Неуспешни"
+msgstr "Fehlgeschlagen"
 
 #: admin/partials/queue.php
 msgid "Cancelled"
-msgstr "Отменени"
+msgstr "Abgebrochen"
 
 #: admin/partials/queue.php
 msgid "One-time"
-msgstr "Еднократни"
+msgstr "Einmalig"
 
 #: admin/partials/queue.php
 msgid "ID"
@@ -578,163 +575,166 @@ msgstr "ID"
 
 #: admin/partials/queue.php
 msgid "Recipient"
-msgstr "Получател"
+msgstr "Empfänger"
 
 #: admin/partials/queue.php
 msgid "Attempts"
-msgstr "Опити"
+msgstr "Versuche"
 
 #: admin/partials/queue.php
 msgid "Deleted subscriber"
-msgstr "Изтрит абонат"
+msgstr "Gelöschter Abonnent"
 
 #: admin/partials/queue.php
 msgid "in %d min."
-msgstr "след %d мин."
+msgstr "in %d Min."
 
 #: admin/partials/queue.php
 msgid "in %d h."
-msgstr "след %d ч."
+msgstr "in %d Std."
 
 #: admin/partials/queue.php
 msgid "in %d days"
-msgstr "след %d дни"
+msgstr "in %d Tagen"
 
 #: admin/partials/queue.php
 msgid "Cancel sending"
-msgstr "Отмени изпращането"
+msgstr "Versand abbrechen"
 
 #: admin/partials/queue.php
 msgid "No records in queue."
-msgstr "Няма записи в опашката."
+msgstr "Keine Einträge in der Warteschlange."
 
 #: admin/partials/settings.php
 msgid "Sender settings"
-msgstr "Настройки на изпращача"
+msgstr "Absendereinstellungen"
 
 #: admin/partials/settings.php
 msgid "Sender name"
-msgstr "Име на подател"
+msgstr "Absendername"
 
 #: admin/partials/settings.php
 msgid "The name that will appear as sender."
-msgstr "Името, което ще се показва като подател."
+msgstr "Der Name, der als Absender angezeigt wird."
 
 #: admin/partials/settings.php
 msgid "Sender email"
-msgstr "Имейл на подател"
+msgstr "Absender-E-Mail"
 
 #: admin/partials/settings.php
 msgid "The email from which messages will be sent."
-msgstr "Имейлът, от който ще се изпращат писмата."
+msgstr "Die E-Mail-Adresse, von der Nachrichten gesendet werden."
 
 #: admin/partials/settings.php
 msgid "Reply to"
-msgstr "Отговор до"
+msgstr "Antwort an"
 
 #: admin/partials/settings.php
 msgid "Email for replies from recipients."
-msgstr "Имейл за отговори от получателите."
+msgstr "E-Mail für Antworten von Empfängern."
 
 #: admin/partials/settings.php
 msgid "SMTP Settings"
-msgstr "SMTP Настройки"
+msgstr "SMTP-Einstellungen"
 
 #: admin/partials/settings.php
 msgid "Configure an SMTP server for more reliable email sending."
-msgstr "Конфигурирайте SMTP сървър за по-надеждно изпращане на имейли."
+msgstr ""
+"Konfigurieren Sie einen SMTP-Server für zuverlässigeren E-Mail-Versand."
 
 #: admin/partials/settings.php
 msgid "Enable SMTP"
-msgstr "Активиране на SMTP"
+msgstr "SMTP aktivieren"
 
 #: admin/partials/settings.php
 msgid "Use SMTP for sending emails"
-msgstr "Използване на SMTP за изпращане на имейли"
+msgstr "SMTP für den E-Mail-Versand verwenden"
 
 #: admin/partials/settings.php
 msgid ""
 "When enabled, emails will be sent via the specified SMTP server instead of "
 "wp_mail()."
 msgstr ""
-"Когато е активирано, имейлите ще се изпращат чрез посочения SMTP сървър "
-"вместо wp_mail()."
+"Wenn aktiviert, werden E-Mails über den angegebenen SMTP-Server anstelle von "
+"wp_mail() gesendet."
 
 #: admin/partials/settings.php
 msgid "SMTP Host"
-msgstr "SMTP Хост"
+msgstr "SMTP-Host"
 
 #: admin/partials/settings.php
 msgid "SMTP server address (e.g. smtp.gmail.com, smtp.mailgun.org)."
-msgstr "Адрес на SMTP сървъра (напр. smtp.gmail.com, smtp.mailgun.org)."
+msgstr "SMTP-Serveradresse (z.B. smtp.gmail.com, smtp.mailgun.org)."
 
 #: admin/partials/settings.php
 msgid "SMTP Port"
-msgstr "SMTP Порт"
+msgstr "SMTP-Port"
 
 #: admin/partials/settings.php
 msgid "Standard ports: 25, 465 (SSL), 587 (TLS/StartTLS)."
-msgstr "Стандартни портове: 25, 465 (SSL), 587 (TLS/StartTLS)."
+msgstr "Standardports: 25, 465 (SSL), 587 (TLS/StartTLS)."
 
 #: admin/partials/settings.php
 msgid "Encryption"
-msgstr "Криптиране"
+msgstr "Verschlüsselung"
 
 #: admin/partials/settings.php
 msgid "No encryption"
-msgstr "Без криптиране"
+msgstr "Keine Verschlüsselung"
 
 #: admin/partials/settings.php
 msgid "It is recommended to use TLS or SSL for a secure connection."
-msgstr "Препоръчително е да използвате TLS или SSL за сигурна връзка."
+msgstr ""
+"Es wird empfohlen, TLS oder SSL für eine sichere Verbindung zu verwenden."
 
 #: admin/partials/settings.php
 msgid "SMTP Authentication"
-msgstr "SMTP Удостоверяване"
+msgstr "SMTP-Authentifizierung"
 
 #: admin/partials/settings.php
 msgid "Use authentication (username and password)"
-msgstr "Използване на удостоверяване (потребителско име и парола)"
+msgstr "Authentifizierung verwenden (Benutzername und Passwort)"
 
 #: admin/partials/settings.php
 msgid "SMTP Username"
-msgstr "SMTP Потребителско име"
+msgstr "SMTP-Benutzername"
 
 #: admin/partials/settings.php
 msgid "Usually this is your email address or username."
-msgstr "Обикновено това е вашият имейл адрес или потребителско име."
+msgstr "Normalerweise ist dies Ihre E-Mail-Adresse oder Ihr Benutzername."
 
 #: admin/partials/settings.php
 msgid "SMTP Password"
-msgstr "SMTP Парола"
+msgstr "SMTP-Passwort"
 
 #: admin/partials/settings.php
 msgid "For Gmail, use App Password instead of the regular password."
-msgstr "За Gmail използвайте App Password вместо обичайната парола."
+msgstr ""
+"Für Gmail verwenden Sie ein App-Passwort anstelle des normalen Passworts."
 
 #: admin/partials/settings.php
 msgid "Connection test"
-msgstr "Тест на връзката"
+msgstr "Verbindungstest"
 
 #: admin/partials/settings.php
 msgid "Send test email"
-msgstr "Изпрати тестов имейл"
+msgstr "Test-E-Mail senden"
 
 #: admin/partials/settings.php
 msgid "Sends a test email to the administrator email."
-msgstr "Изпраща тестов имейл до имейла на администратора."
+msgstr "Sendet eine Test-E-Mail an die Administrator-E-Mail."
 
 #: admin/partials/settings.php
 msgid "System information"
-msgstr "Информация за системата"
+msgstr "Systeminformationen"
 
 #: admin/partials/settings.php
 msgid "Plugin version"
-msgstr "Версия на плъгина"
+msgstr "Plugin-Version"
 
 #: admin/partials/settings.php
 msgid "Sending method"
-msgstr "Метод за изпращане"
+msgstr "Versandmethode"
 
 #: admin/partials/settings.php
 msgid "SMTP"
@@ -742,1523 +742,1557 @@ msgstr "SMTP"
 
 #: admin/partials/settings.php
 msgid "wp_mail() (default)"
-msgstr "wp_mail() (по подразбиране)"
+msgstr "wp_mail() (Standard)"
 
 #: admin/partials/settings.php
 msgid "Sending settings"
-msgstr "Настройки за изпращане"
+msgstr "Versandeinstellungen"
 
 #: admin/partials/settings.php
 msgid "Emails per minute"
-msgstr "Имейли на минута"
+msgstr "E-Mails pro Minute"
 
 #: admin/partials/settings.php
 msgid ""
 "Maximum number of emails to send per minute. Higher values may exceed your "
 "hosting provider limits."
 msgstr ""
-"Максимален брой имейли за изпращане на минута. По-високи стойности могат да "
-"надвишат лимитите на вашия хостинг доставчик."
+"Maximale Anzahl der E-Mails, die pro Minute gesendet werden. Höhere Werte "
+"können die Limits Ihres Hosting-Anbieters überschreiten."
 
 #: admin/partials/settings.php
 msgid "Sending speed"
-msgstr "Скорост на изпращане"
+msgstr "Versandgeschwindigkeit"
 
 #: admin/partials/settings.php
 msgid "emails/minute"
-msgstr "имейла/минута"
+msgstr "E-Mails/Minute"
 
 #: admin/partials/settings.php
 msgid "WP-Cron status"
-msgstr "WP-Cron статус"
+msgstr "WP-Cron-Status"
 
 #: admin/partials/settings.php
 msgid "Disabled (using system cron)"
-msgstr "Деактивиран (използва се системен cron)"
+msgstr "Deaktiviert (verwendet System-Cron)"
 
 #: admin/partials/settings.php
 msgid "Active (visitor-based)"
-msgstr "Активен (базиран на посещения)"
+msgstr "Aktiv (besucherbasiert)"
 
 #: admin/partials/settings.php
 msgid "Next run"
-msgstr "Следващо изпълнение"
+msgstr "Nächste Ausführung"
 
 #: admin/partials/settings.php
 msgid "Save settings"
-msgstr "Запази настройките"
+msgstr "Einstellungen speichern"
 
 #: admin/partials/one-time-email.php
 msgid ""
 "Send a one-time email directly to a specific recipient. The email can be "
 "sent immediately or scheduled for later."
 msgstr ""
-"Изпратете еднократен имейл директно до конкретен получател. Имейлът може да "
-"бъде изпратен незабавно или насрочен за по-късно."
+"Senden Sie eine einmalige E-Mail direkt an einen bestimmten Empfänger. Die E-"
+"Mail kann sofort gesendet oder für später geplant werden."
 
 #: admin/partials/one-time-email.php
 msgid "Recipient email"
-msgstr "Имейл на получателя"
+msgstr "Empfänger-E-Mail"
 
 #: admin/partials/one-time-email.php
 msgid "The email address to which the message will be sent."
-msgstr "Имейл адресът, до който ще бъде изпратено писмото."
+msgstr "Die E-Mail-Adresse, an die die Nachricht gesendet wird."
 
 #: admin/partials/one-time-email.php
 msgid "Recipient name"
-msgstr "Име на получателя"
+msgstr "Empfängername"
 
 #: admin/partials/one-time-email.php
 msgid ""
 "Recipient name (optional). Can be used in content with {recipient_name}."
 msgstr ""
-"Име на получателя (по избор). Може да се използва в съдържанието с "
-"{recipient_name}."
+"Empfängername (optional). Kann im Inhalt mit {recipient_name} verwendet "
+"werden."
 
 #: admin/partials/one-time-email.php
 msgid "The email will be sent after the specified time."
-msgstr "Имейлът ще бъде изпратен след посоченото време."
+msgstr "Die E-Mail wird nach der angegebenen Zeit gesendet."
 
 #: admin/partials/one-time-email.php
 msgid "Information"
-msgstr "Информация"
+msgstr "Informationen"
 
 #: admin/partials/one-time-email.php
 msgid "One-time emails can be sent immediately or scheduled for later."
 msgstr ""
-"Еднократните имейли могат да бъдат изпратени незабавно или насрочени за по-"
-"късно."
+"Einmalige E-Mails können sofort gesendet oder für später geplant werden."
 
 #: admin/partials/one-time-email.php
 msgid "They are not saved as templates and do not repeat."
-msgstr "Те не се записват като шаблони и не се повтарят."
+msgstr "Sie werden nicht als Vorlagen gespeichert und wiederholen sich nicht."
 
 #: admin/partials/one-time-email.php
 msgid "All sent one-time emails are logged in the audit history."
-msgstr "Всички изпратени еднократни имейли се записват в историята за одит."
+msgstr ""
+"Alle gesendeten einmaligen E-Mails werden im Audit-Verlauf protokolliert."
 
 #: admin/partials/one-time-email.php
 msgid "Scheduled emails can be cancelled from the Queue page."
-msgstr "Насрочените имейли могат да бъдат отменени от страницата Опашка."
+msgstr ""
+"Geplante E-Mails können von der Warteschlangenseite abgebrochen werden."
 
 #: admin/partials/one-time-email.php
 msgid "Suitable for: account activation, notifications, event reminders."
 msgstr ""
-"Подходящи за: активиране на акаунти, уведомления, напомняния за събития."
+"Geeignet für: Kontoaktivierung, Benachrichtigungen, "
+"Veranstaltungserinnerungen."
 
 #: includes/services/class-cron-handler.php
 msgid "SMTP sending failed"
-msgstr "SMTP изпращане неуспешно"
+msgstr "SMTP-Versand fehlgeschlagen"
 
 #: includes/services/class-cron-handler.php
 msgid "Attempt %1$d failed. %2$s Will retry."
-msgstr "Опит %1$d неуспешен. %2$s Ще се опита отново."
+msgstr "Versuch %1$d fehlgeschlagen. %2$s Erneuter Versuch."
 
 #: includes/services/class-cron-handler.php
 msgid "%1$s after %2$d attempts. %3$s"
-msgstr "%1$s след %2$d опита. %3$s"
+msgstr "%1$s nach %2$d Versuchen. %3$s"
 
 #: includes/services/class-cron-handler.php
 msgid "Recovered after stuck in processing"
-msgstr "Възстановен след блокиране в обработка"
+msgstr "Wiederhergestellt nach Hängenbleiben in Verarbeitung"
 
 #: includes/services/class-cron-handler.php
 msgid "Failed after maximum attempts (stuck)"
-msgstr "Неуспешен след максимален брой опити (блокиран)"
+msgstr "Fehlgeschlagen nach maximalen Versuchen (hängengeblieben)"
 
 #: includes/services/class-cron-handler.php
 msgid "Unsubscribe"
-msgstr "Отписване"
+msgstr "Abmelden"
 
 #: includes/services/class-smtp-mailer.php
 msgid "SMTP is not enabled or configured."
-msgstr "SMTP не е активиран или конфигуриран."
+msgstr "SMTP ist nicht aktiviert oder konfiguriert."
 
 #: includes/services/class-smtp-mailer.php
 msgid "SMTP is not enabled or configured. Please fill in SMTP settings."
 msgstr ""
-"SMTP не е активиран или конфигуриран. Моля, попълнете SMTP настройките."
+"SMTP ist nicht aktiviert oder konfiguriert. Bitte füllen Sie die SMTP-"
+"Einstellungen aus."
 
 #: includes/services/class-smtp-mailer.php
 msgid "Invalid sender email address."
-msgstr "Невалиден имейл адрес на подателя."
+msgstr "Ungültige Absender-E-Mail-Adresse."
 
 #: includes/services/class-smtp-mailer.php
 msgid "[%s] SMTP Test Email"
-msgstr "[%s] SMTP Тестов имейл"
+msgstr "[%s] SMTP-Test-E-Mail"
 
 #: includes/services/class-smtp-mailer.php
+#, fuzzy
 msgid ""
 "<h2>SMTP Test Email</h2><p>This email confirms that SMTP settings are "
 "working correctly.</p><p><strong>Time:</strong> %1$s</p><p><strong>SMTP "
 "server:</strong> %2$s:%3$s</p>"
 msgstr ""
-"<h2>SMTP Тестов имейл</h2><p>Този имейл потвърждава, че SMTP настройките "
-"работят правилно.</p><p><strong>Време:</strong> %1$s</p><p><strong>SMTP "
-"сървър:</strong> %2$s:%3$s</p>"
+"<h2>SMTP-Test-E-Mail</h2><p>Diese E-Mail bestätigt, dass die SMTP-"
+"Einstellungen korrekt funktionieren.</p><p><strong>Zeit:</strong> %1$s</"
+"p><p><strong>SMTP-Server:</strong> %2$s:%3$s</p>\n"
+"<h2>SMTP Test-E-Mail</h2><p>Diese E-Mail bestätigt, dass die SMTP-"
+"Einstellungen korrekt funktionieren.</p><p><strong>Zeit:</strong> %1$s</"
+"p><p><strong>SMTP-Server:</strong> %2$s:%3$s</p>"
 
 #: includes/services/class-smtp-mailer.php
 msgid "Test email sent successfully to %s!"
-msgstr "Тестовият имейл е изпратен успешно до %s!"
+msgstr "Test-E-Mail erfolgreich an %s gesendet!"
 
 #: includes/services/class-smtp-mailer.php
 msgid "Failed to send test email."
-msgstr "Неуспешно изпращане на тестовия имейл."
+msgstr "Senden der Test-E-Mail fehlgeschlagen."
 
 #: includes/services/class-smtp-mailer.php
 msgid "SMTP error: %s"
-msgstr "SMTP грешка: %s"
+msgstr "SMTP-Fehler: %s"
 
 #: includes/services/class-smtp-mailer.php
 msgid "Error: %s"
-msgstr "Грешка: %s"
+msgstr "Fehler: %s"
 
 #: public/class-public.php
 msgid "Subscribing..."
-msgstr "Абониране..."
+msgstr "Abonnieren..."
 
 #: public/class-public.php
 msgid "Successfully subscribed!"
-msgstr "Успешно се абонирахте!"
+msgstr "Erfolgreich abonniert!"
 
 #: public/class-public.php
 msgid "An error occurred. Please try again."
-msgstr "Възникна грешка. Моля, опитайте отново."
+msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
 #: public/class-public.php
 msgid "Invalid unsubscribe link."
-msgstr "Невалиден линк за отписване."
+msgstr "Ungültiger Abmeldelink."
 
 #: public/class-public.php admin/partials/queue-detail.php
 msgid "Error"
-msgstr "Грешка"
+msgstr "Fehler"
 
 #: public/class-public.php
 msgid "Too many attempts. Please try again in 5 minutes."
-msgstr "Твърде много опити. Моля, опитайте отново след 5 минути."
+msgstr "Zu viele Versuche. Bitte versuchen Sie es in 5 Minuten erneut."
 
 #: public/class-public.php
 msgid "Subscribe"
-msgstr "Абонирайте се"
+msgstr "Abonnieren"
 
 #: public/class-public.php
 msgid "Please enter a valid email address."
-msgstr "Моля, въведете валиден имейл адрес."
+msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
 #: public/partials/subscribe-form.php
 msgid "Email *"
-msgstr "Имейл *"
+msgstr "E-Mail *"
 
 #: public/partials/unsubscribe.php
 msgid "Successfully unsubscribed"
-msgstr "Успешно се отписахте"
+msgstr "Erfolgreich abgemeldet"
 
 #: public/partials/unsubscribe.php
 msgid "You will no longer receive emails from us."
-msgstr "Вече няма да получавате имейли от нас."
+msgstr "Sie werden keine E-Mails mehr von uns erhalten."
 
 #: public/partials/unsubscribe.php public/partials/opt-in-confirm.php
+#, fuzzy
 msgid "Back to site"
-msgstr "Обратно към сайта"
+msgstr ""
+"Zurück zur Website\n"
+"Zurück zur Seite"
 
 #: includes/services/class-list-provider.php admin/partials/queue.php
 msgid "External"
-msgstr "Външен"
+msgstr "Extern"
 
 #: admin/partials/lists.php
 msgid "Source"
-msgstr "Източник"
+msgstr "Quelle"
 
 #: admin/partials/lists.php
 msgid "Automated list from external plugin"
-msgstr "Автоматичен списък от външен плъгин"
+msgstr "Automatische Liste von externem Plugin"
 
 #: admin/partials/lists.php admin/partials/compose.php
 msgid "Automated"
-msgstr "Автоматичен"
+msgstr "Automatisch"
 
 #: admin/partials/lists.php
 msgid "Local"
-msgstr "Локален"
+msgstr "Lokal"
 
 #: admin/partials/lists.php
 msgid "Automated lists cannot be edited"
-msgstr "Автоматичните списъци не могат да бъдат редактирани"
+msgstr "Automatische Listen können nicht bearbeitet werden"
 
 #: admin/partials/lists.php admin/partials/subscribers.php
 msgid "Read-only"
-msgstr "Само за четене"
+msgstr "Schreibgeschützt"
 
 #: admin/partials/subscribers.php
 msgid "External subscriber from plugin"
-msgstr "Външен абонат от плъгин"
+msgstr "Externer Abonnent von Plugin"
 
 #: admin/partials/subscribers.php
 msgid "External subscribers cannot be edited"
-msgstr "Външните абонати не могат да бъдат редактирани"
+msgstr "Externe Abonnenten können nicht bearbeitet werden"
 
 #: admin/partials/subscribers.php
+#, fuzzy
 msgid ""
 "External subscribers are managed by third-party plugins and appear as read-"
 "only."
 msgstr ""
-"Външните абонати се управляват от други плъгини и се показват само за четене."
+"Externe Abonnenten werden von Drittanbieter-Plugins verwaltet und werden als "
+"schreibgeschützt angezeigt.\n"
+"Externe Abonnenten werden von Drittanbieter-Plugins verwaltet und erscheinen "
+"als schreibgeschützt."
 
 #: admin/partials/lists.php
 msgid "Send email"
-msgstr "Изпрати имейл"
+msgstr "E-Mail senden"
 
 #. translators: %d: number of additional subscribers
 #: admin/partials/lists.php
 msgid "... and %d more"
-msgstr "... и още %d"
+msgstr "... und %d weitere"
 
 #: admin/partials/lists.php
 msgid "Shortcode"
-msgstr "Шорткод"
+msgstr "Shortcode"
 
 #: admin/partials/lists.php
 msgid "Copy shortcode"
-msgstr "Копирай шорткод"
+msgstr "Shortcode kopieren"
 
 #: admin/partials/lists.php
 msgid "Automated lists do not have subscription forms"
-msgstr "Автоматичните списъци нямат формуляри за абонамент"
+msgstr "Automatisierte Listen haben keine Abonnement-Formulare"
 
 #: admin/class-admin.php
 msgid "Processing..."
-msgstr "Обработка..."
+msgstr "Verarbeitung..."
 
 #: admin/class-admin.php
 msgid ""
 "Are you sure you want to delete ALL subscribers? This action cannot be "
 "undone!"
 msgstr ""
-"Сигурни ли сте, че искате да изтриете ВСИЧКИ абонати? Това действие не може "
-"да бъде отменено!"
+"Sind Sie sicher, dass Sie ALLE Abonnenten löschen möchten? Diese Aktion kann "
+"nicht rückgängig gemacht werden!"
 
 #: admin/class-admin.php
 msgid ""
 "Are you sure you want to delete ALL lists? This action cannot be undone!"
 msgstr ""
-"Сигурни ли сте, че искате да изтриете ВСИЧКИ списъци? Това действие не може "
-"да бъде отменено!"
+"Sind Sie sicher, dass Sie ALLE Listen löschen möchten? Diese Aktion kann "
+"nicht rückgängig gemacht werden!"
 
 #: admin/class-admin.php
 msgid ""
 "Are you sure you want to delete ALL campaigns? This action cannot be undone!"
 msgstr ""
-"Сигурни ли сте, че искате да изтриете ВСИЧКИ кампании? Това действие не може "
-"да бъде отменено!"
+"Sind Sie sicher, dass Sie ALLE Kampagnen löschen möchten? Diese Aktion kann "
+"nicht rückgängig gemacht werden!"
 
 #: includes/Admin/class-admin.php
 msgid "Select lists..."
-msgstr "Изберете списъци..."
+msgstr "Listen auswählen..."
 
 #: includes/Admin/class-admin.php
 msgid "Search..."
-msgstr "Търсене..."
+msgstr "Suchen..."
 
 #: includes/Admin/class-admin.php
 msgid "No results found"
-msgstr "Няма намерени резултати"
+msgstr "Keine Ergebnisse gefunden"
 
 #: admin/partials/compose.php
 msgid "%d subscribers"
-msgstr "%d абонати"
+msgstr "%d Abonnenten"
 
 #: admin/partials/compose.php
 msgid "Start typing to search. You can select multiple lists."
 msgstr ""
-"Започнете да пишете, за да търсите. Можете да изберете няколко списъка."
+"Beginnen Sie zu tippen, um zu suchen. Sie können mehrere Listen auswählen."
 
 #: admin/class-admin.php
 msgid "All subscribers deleted successfully."
-msgstr "Всички абонати са изтрити успешно."
+msgstr "Alle Abonnenten wurden erfolgreich gelöscht."
 
 #: admin/class-admin.php
 msgid "All lists deleted successfully."
-msgstr "Всички списъци са изтрити успешно."
+msgstr "Alle Listen wurden erfolgreich gelöscht."
 
 #: admin/class-admin.php
 msgid "All campaigns deleted successfully."
-msgstr "Всички кампании са изтрити успешно."
+msgstr "Alle Kampagnen wurden erfolgreich gelöscht."
 
 #: admin/class-admin.php
 msgid "Campaign not found."
-msgstr "Кампанията не е намерена."
+msgstr "Kampagne nicht gefunden."
 
 #: admin/class-admin.php
 msgid "This campaign cannot be cancelled."
-msgstr "Тази кампания не може да бъде отменена."
+msgstr "Diese Kampagne kann nicht abgebrochen werden."
 
 #: admin/class-admin.php
 msgid "Campaign cancelled by administrator"
-msgstr "Кампанията е отменена от администратор"
+msgstr "Kampagne vom Administrator abgebrochen"
 
 #: admin/class-admin.php
 msgid "Campaign cancelled. %d emails were cancelled."
-msgstr "Кампанията е отменена. %d имейла бяха отменени."
+msgstr "Kampagne abgebrochen. %d E-Mails wurden abgebrochen."
 
 #: admin/class-admin.php
 msgid "Error creating campaign."
-msgstr "Грешка при създаване на кампания."
+msgstr "Fehler beim Erstellen der Kampagne."
 
 #: admin/partials/settings.php
 msgid "Danger Zone"
-msgstr "Опасна зона"
+msgstr "Gefahrenzone"
 
 #: admin/partials/settings.php
 msgid "These actions are irreversible. Use with caution."
-msgstr "Тези действия са необратими. Използвайте с повишено внимание."
+msgstr "Diese Aktionen sind unwiderruflich. Mit Vorsicht verwenden."
 
 #: admin/partials/settings.php
 msgid "Truncate Subscribers"
-msgstr "Изтриване на абонати"
+msgstr "Abonnenten löschen"
 
 #: admin/partials/settings.php
 msgid "Delete all subscribers"
-msgstr "Изтрий всички абонати"
+msgstr "Alle Abonnenten löschen"
 
 #: admin/partials/settings.php
 msgid "Permanently deletes all subscribers and their list associations."
-msgstr "Изтрива завинаги всички абонати и техните връзки със списъци."
+msgstr "Löscht dauerhaft alle Abonnenten und ihre Listenverknüpfungen."
 
 #: admin/partials/settings.php
 msgid "Truncate Lists"
-msgstr "Изтриване на списъци"
+msgstr "Listen löschen"
 
 #: admin/partials/settings.php
 msgid "Delete all lists"
-msgstr "Изтрий всички списъци"
+msgstr "Alle Listen löschen"
 
 #: admin/partials/settings.php
 msgid "Permanently deletes all mailing lists and subscriber associations."
-msgstr "Изтрива завинаги всички мейлинг списъци и връзки с абонати."
+msgstr "Löscht dauerhaft alle Mailinglisten und Abonnentenverknüpfungen."
 
 #: admin/partials/settings.php
 msgid "Truncate Campaigns"
-msgstr "Изтриване на кампании"
+msgstr "Kampagnen löschen"
 
 #: admin/partials/settings.php
 msgid "Delete all campaigns"
-msgstr "Изтрий всички кампании"
+msgstr "Alle Kampagnen löschen"
 
 #: admin/partials/settings.php
 msgid ""
 "Permanently deletes all campaigns and their queued emails (pending, "
 "processing, sent, and failed)."
 msgstr ""
-"Изтрива завинаги всички кампании и техните имейли от опашката (чакащи, "
-"обработвани, изпратени и неуспешни)."
+"Löscht dauerhaft alle Kampagnen und ihre E-Mails aus der Warteschlange "
+"(ausstehend, in Bearbeitung, gesendet und fehlgeschlagen)."
 
 #: admin/partials/queue.php
 msgid "Completed"
-msgstr "Завършена"
+msgstr "Abgeschlossen"
 
 #: admin/partials/queue.php
 msgid "Campaigns"
-msgstr "Кампании"
+msgstr "Kampagnen"
 
 #: admin/partials/queue.php
 msgid "Type"
-msgstr "Тип"
+msgstr "Typ"
 
 #: admin/partials/queue.php
 msgid "Recipients"
-msgstr "Получатели"
+msgstr "Empfänger"
 
 #: admin/partials/queue.php
 msgid "Progress"
-msgstr "Прогрес"
+msgstr "Fortschritt"
 
 #: admin/partials/queue.php
 msgid "Campaign"
-msgstr "Кампания"
+msgstr "Kampagne"
 
 #: admin/partials/queue.php
 msgid "View details"
-msgstr "Виж детайли"
+msgstr "Details anzeigen"
 
 #: admin/partials/queue.php
 msgid "Details"
-msgstr "Детайли"
+msgstr "Details"
 
 #: admin/partials/queue.php
 msgid "Cancel campaign"
-msgstr "Отмени кампания"
+msgstr "Kampagne abbrechen"
 
 #: admin/partials/queue.php
 msgid "No campaigns in queue."
-msgstr "Няма кампании в опашката."
+msgstr "Keine Kampagnen in der Warteschlange."
 
 #: admin/partials/queue.php
 msgid "There are %d emails from before the campaign system was introduced."
-msgstr "Има %d имейла от преди въвеждането на системата за кампании."
+msgstr ""
+"Es gibt %d E-Mails aus der Zeit vor der Einführung des Kampagnensystems."
 
 #: admin/partials/queue.php
 msgid "View legacy emails"
-msgstr "Виж стари имейли"
+msgstr "Alte E-Mails anzeigen"
 
 #: admin/partials/queue-detail.php
 msgid "Back to Queue"
-msgstr "Назад към опашката"
+msgstr "Zurück zur Warteschlange"
 
 #: admin/partials/queue-detail.php
 msgid "Campaign #%d"
-msgstr "Кампания #%d"
+msgstr "Kampagne #%d"
 
 #: admin/partials/queue-detail.php
 msgid "Created:"
-msgstr "Създадена:"
+msgstr "Erstellt:"
 
 #: admin/partials/queue-detail.php
 msgid "Scheduled:"
-msgstr "Насрочена:"
+msgstr "Geplant:"
 
 #: admin/partials/queue-detail.php
 msgid "Completed:"
-msgstr "Завършена:"
+msgstr "Abgeschlossen:"
 
 #: admin/partials/queue-detail.php
 msgid "Lists:"
-msgstr "Списъци:"
+msgstr "Listen:"
 
 #: admin/partials/queue-detail.php
 msgid "total"
-msgstr "общо"
+msgstr "gesamt"
 
 #: admin/partials/queue-detail.php
 msgid "sent"
-msgstr "изпратени"
+msgstr "gesendet"
 
 #: admin/partials/queue-detail.php
 msgid "failed"
-msgstr "неуспешни"
+msgstr "fehlgeschlagen"
 
 #: admin/partials/queue-detail.php
 msgid "pending"
-msgstr "чакащи"
+msgstr "ausstehend"
 
 #: admin/partials/queue-detail.php
 msgid "cancelled"
-msgstr "отменени"
+msgstr "abgebrochen"
 
 #: admin/partials/queue-detail.php
 msgid "Cancel Campaign"
-msgstr "Отмени кампанията"
+msgstr "Kampagne abbrechen"
 
 #: admin/partials/queue-detail.php
 msgid ""
 "Are you sure you want to cancel this campaign? All pending emails will be "
 "cancelled."
 msgstr ""
-"Сигурни ли сте, че искате да отмените тази кампания? Всички чакащи имейли ще "
-"бъдат отменени."
+"Sind Sie sicher, dass Sie diese Kampagne abbrechen möchten? Alle "
+"ausstehenden E-Mails werden abgebrochen."
 
 #: admin/partials/queue-detail.php
 msgid "No emails in this campaign."
-msgstr "Няма имейли в тази кампания."
+msgstr "Keine E-Mails in dieser Kampagne."
 
 #: admin/partials/queue-legacy.php
 msgid "Legacy Emails"
-msgstr "Стари имейли"
+msgstr "Alte E-Mails"
 
 #: admin/partials/queue-legacy.php
 msgid ""
 "These emails were sent before the campaign system was introduced. They are "
 "not grouped by campaign."
 msgstr ""
-"Тези имейли са изпратени преди въвеждането на системата за кампании. Те не "
-"са групирани по кампании."
+"Diese E-Mails wurden vor der Einführung des Kampagnensystems gesendet. Sie "
+"sind nicht nach Kampagnen gruppiert."
 
 #: admin/partials/queue-legacy.php
 msgid "No legacy emails."
-msgstr "Няма стари имейли."
+msgstr "Keine alten E-Mails."
 
 #: admin/class-admin.php
 msgid "Enjoying Mail System by Katsarov Design?"
-msgstr "Харесва ли ви Mail System by Katsarov Design?"
+msgstr "Gefällt Ihnen Mail System by Katsarov Design?"
 
 #: admin/class-admin.php
 msgid "If you like this plugin, please share it with your friends!"
-msgstr "Ако харесвате този плъгин, моля споделете го с приятелите си!"
+msgstr ""
+"Wenn Ihnen dieses Plugin gefällt, teilen Sie es bitte mit Ihren Freunden!"
 
 #: admin/class-admin.php
 msgid "Yes, of course!"
-msgstr "Да, разбира се!"
+msgstr "Ja, natürlich!"
 
 #: admin/class-admin.php
 msgid "Nah, I do not like the plugin"
-msgstr "Не, не харесвам плъгина"
+msgstr "Nein, das Plugin gefällt mir nicht"
 
 #: includes/Admin/class-admin.php
 msgid "Import / Export"
-msgstr "Импорт / Експорт"
+msgstr "Import / Export"
 
 #: admin/partials/import-export.php
 msgid "Export"
-msgstr "Експорт"
+msgstr "Export"
 
 #: admin/partials/import-export.php
 msgid "Export subscribers or lists to a CSV file for backup or migration."
 msgstr ""
-"Експортирайте абонати или списъци в CSV файл за архивиране или миграция."
+"Exportieren Sie Abonnenten oder Listen in eine CSV-Datei für Backup oder "
+"Migration."
 
 #: admin/partials/import-export.php
 msgid "Export type"
-msgstr "Тип експорт"
+msgstr "Exporttyp"
 
 #: admin/partials/import-export.php
 msgid "Format"
-msgstr "Формат"
+msgstr "Format"
 
 #: admin/partials/import-export.php
 msgid "CSV is recommended for Excel and spreadsheet applications."
-msgstr "CSV се препоръчва за Excel и приложения за електронни таблици."
+msgstr "CSV wird für Excel und Tabellenkalkulationsanwendungen empfohlen."
 
 #: admin/partials/import-export.php
 msgid "Filter by list"
-msgstr "Филтър по списък"
+msgstr "Nach Liste filtern"
 
 #: admin/partials/import-export.php
 msgid "All lists"
-msgstr "Всички списъци"
+msgstr "Alle Listen"
 
 #: admin/partials/import-export.php
 msgid "Filter by status"
-msgstr "Филтър по статус"
+msgstr "Nach Status filtern"
 
 #: admin/partials/import-export.php
 msgid "All statuses"
-msgstr "Всички статуси"
+msgstr "Alle Status"
 
 #: admin/partials/import-export.php
 msgid "Import"
-msgstr "Импорт"
+msgstr "Import"
 
 #: admin/partials/import-export.php
 msgid "Import subscribers or lists from a CSV file."
-msgstr "Импортирайте абонати или списъци от CSV файл."
+msgstr "Importieren Sie Abonnenten oder Listen aus einer CSV-Datei."
 
 #: admin/partials/import-export.php
 msgid "Import type"
-msgstr "Тип импорт"
+msgstr "Importtyp"
 
 #: admin/partials/import-export.php
 msgid "File"
-msgstr "Файл"
+msgstr "Datei"
 
 #: admin/partials/import-export.php
 msgid "Maximum file size: 5MB."
-msgstr "Максимален размер на файла: 5MB."
+msgstr "Maximale Dateigröße: 5MB."
 
 #: admin/partials/import-export.php
 msgid "Options"
-msgstr "Опции"
+msgstr "Optionen"
 
 #: admin/partials/import-export.php
 msgid "Update existing subscribers"
-msgstr "Актуализирай съществуващи абонати"
+msgstr "Bestehende Abonnenten aktualisieren"
 
 #: admin/partials/import-export.php
 msgid ""
 "If a subscriber with the same email already exists, update their information."
 msgstr ""
-"Ако абонат със същия имейл вече съществува, актуализирай информацията му."
+"Wenn ein Abonnent mit derselben E-Mail bereits existiert, aktualisieren Sie "
+"seine Informationen."
 
 #: admin/partials/import-export.php
 msgid "Assign to lists from file"
-msgstr "Добави към списъци от файла"
+msgstr "Listen aus Datei zuweisen"
 
 #: admin/partials/import-export.php
 msgid ""
 "If the file contains a \"lists\" column, assign subscribers to those lists. "
 "Lists will be created if they do not exist."
 msgstr ""
-"Ако файлът съдържа колона \"lists\", добави абонатите към тези списъци. "
-"Списъците ще бъдат създадени, ако не съществуват."
+"Wenn die Datei eine \"lists\"-Spalte enthält, weisen Sie Abonnenten diesen "
+"Listen zu. Listen werden erstellt, wenn sie nicht existieren."
 
 #: admin/partials/import-export.php
 msgid "File format requirements"
-msgstr "Изисквания за формат на файла"
+msgstr "Dateiformatanforderungen"
 
 #: admin/partials/import-export.php
 msgid "Subscribers CSV format"
-msgstr "CSV формат за абонати"
+msgstr "Abonnenten CSV-Format"
 
 #: admin/partials/import-export.php
 msgid ""
 "The CSV file must contain at minimum an \"email\" column. Optional columns:"
 msgstr ""
-"CSV файлът трябва да съдържа минимум колона \"email\". Незадължителни колони:"
+"Die CSV-Datei muss mindestens eine \"email\"-Spalte enthalten. Optionale "
+"Spalten:"
 
 #: admin/partials/import-export.php
 msgid "Email address (required)"
-msgstr "Имейл адрес (задължително)"
+msgstr "E-Mail-Adresse (erforderlich)"
 
 #: admin/partials/import-export.php
 msgid "Status: active, inactive, or unsubscribed (default: active)"
-msgstr "Статус: active, inactive или unsubscribed (по подразбиране: active)"
+msgstr "Status: active, inactive oder unsubscribed (Standard: active)"
 
 #: admin/partials/import-export.php
 msgid "List names separated by semicolon (;)"
-msgstr "Имена на списъци, разделени с точка и запетая (;)"
+msgstr "Listennamen durch Semikolon (;) getrennt"
 
 #: admin/partials/import-export.php
 msgid "Example:"
-msgstr "Пример:"
+msgstr "Beispiel:"
 
 #: admin/partials/import-export.php
 msgid "Lists CSV format"
-msgstr "CSV формат за списъци"
+msgstr "Listen CSV-Format"
 
 #: admin/partials/import-export.php
 msgid ""
 "The CSV file must contain at minimum a \"name\" column. Optional columns:"
 msgstr ""
-"CSV файлът трябва да съдържа минимум колона \"name\". Незадължителни колони:"
+"Die CSV-Datei muss mindestens eine \"name\"-Spalte enthalten. Optionale "
+"Spalten:"
 
 #: admin/partials/import-export.php
 msgid "List name (required)"
-msgstr "Име на списък (задължително)"
+msgstr "Listenname (erforderlich)"
 
 #: admin/partials/import-export.php
 msgid "List description"
-msgstr "Описание на списък"
+msgstr "Listenbeschreibung"
 
 #: includes/services/class-import-export-service.php
 msgid "File size exceeds the maximum limit of 5MB."
-msgstr "Размерът на файла надвишава максималния лимит от 5MB."
+msgstr "Die Dateigröße überschreitet das maximale Limit von 5MB."
 
 #. translators: %s: expected format
 #: includes/services/class-import-export-service.php
 msgid "Invalid file format. Expected %s file."
-msgstr "Невалиден формат на файла. Очаква се %s файл."
+msgstr "Ungültiges Dateiformat. %s-Datei erwartet."
 
 #: includes/services/class-import-export-service.php
 msgid "Invalid file type. The file content does not match the expected format."
 msgstr ""
-"Невалиден тип файл. Съдържанието на файла не съответства на очаквания формат."
+"Ungültiger Dateityp. Der Dateiinhalt entspricht nicht dem erwarteten Format."
 
 #: includes/services/class-import-export-service.php
 msgid "Could not read the file."
-msgstr "Файлът не може да бъде прочетен."
+msgstr "Die Datei konnte nicht gelesen werden."
 
 #: includes/services/class-import-export-service.php
 msgid "Could not read CSV headers."
-msgstr "CSV заглавията не могат да бъдат прочетени."
+msgstr "CSV-Header konnten nicht gelesen werden."
 
 #: includes/services/class-import-export-service.php
 msgid "The CSV file must contain an \"email\" column."
-msgstr "CSV файлът трябва да съдържа колона \"email\"."
+msgstr "Die CSV-Datei muss eine \"email\"-Spalte enthalten."
 
 #. translators: 1: row number, 2: email value
 #: includes/services/class-import-export-service.php
 msgid "Row %1$d: Invalid email address \"%2$s\"."
-msgstr "Ред %1$d: Невалиден имейл адрес \"%2$s\"."
+msgstr "Zeile %1$d: Ungültige E-Mail-Adresse \"%2$s\"."
 
 #. translators: %s: email address
 #: includes/services/class-import-export-service.php
 msgid "Failed to import subscriber: %s"
-msgstr "Неуспешен импорт на абонат: %s"
+msgstr "Import des Abonnenten fehlgeschlagen: %s"
 
 #: includes/services/class-import-export-service.php
 msgid "The CSV file must contain a \"name\" column."
-msgstr "CSV файлът трябва да съдържа колона \"name\"."
+msgstr "Die CSV-Datei muss eine \"name\"-Spalte enthalten."
 
 #. translators: %d: row number
 #: includes/services/class-import-export-service.php
 msgid "Row %d: List name is required."
-msgstr "Ред %d: Името на списъка е задължително."
+msgstr "Zeile %d: Listenname ist erforderlich."
 
 #. translators: %s: list name
 #: includes/services/class-import-export-service.php
 msgid "Failed to import list: %s"
-msgstr "Неуспешен импорт на списък: %s"
+msgstr "Import der Liste fehlgeschlagen: %s"
 
 #: includes/services/class-import-export-service.php
 msgid "File exceeds the maximum upload size."
-msgstr "Файлът надвишава максималния размер за качване."
+msgstr "Die Datei überschreitet die maximale Upload-Größe."
 
 #: includes/services/class-import-export-service.php
 msgid "File exceeds the maximum form size."
-msgstr "Файлът надвишава максималния размер на формуляра."
+msgstr "Die Datei überschreitet die maximale Formulargröße."
 
 #: includes/services/class-import-export-service.php
 msgid "File was only partially uploaded."
-msgstr "Файлът беше качен само частично."
+msgstr "Die Datei wurde nur teilweise hochgeladen."
 
 #: includes/services/class-import-export-service.php
 msgid "No file was uploaded."
-msgstr "Не беше качен файл."
+msgstr "Keine Datei wurde hochgeladen."
 
 #: includes/services/class-import-export-service.php
 msgid "Missing temporary folder."
-msgstr "Липсваща временна папка."
+msgstr "Temporärer Ordner fehlt."
 
 #: includes/services/class-import-export-service.php
 msgid "Failed to write file to disk."
-msgstr "Неуспешен запис на файла на диска."
+msgstr "Datei konnte nicht auf Festplatte geschrieben werden."
 
 #: includes/services/class-import-export-service.php
 msgid "A PHP extension stopped the file upload."
-msgstr "PHP разширение спря качването на файла."
+msgstr "Eine PHP-Erweiterung hat den Datei-Upload gestoppt."
 
 #: includes/services/class-import-export-service.php
 msgid "Unknown upload error."
-msgstr "Неизвестна грешка при качване."
+msgstr "Unbekannter Upload-Fehler."
 
 #: includes/Admin/class-admin-import-export.php
 msgid "Please select a file to import."
-msgstr "Моля, изберете файл за импорт."
+msgstr "Bitte wählen Sie eine Datei zum Importieren aus."
 
 #. translators: %d: number of additional errors
 #: includes/Admin/class-admin-import-export.php
 msgid "... and %d more validation errors."
-msgstr "... и още %d грешки при валидация."
+msgstr "... und %d weitere Validierungsfehler."
 
 #: includes/Admin/class-admin-import-export.php
 msgid "No valid records found to import."
-msgstr "Не бяха намерени валидни записи за импорт."
+msgstr "Keine gültigen Datensätze zum Importieren gefunden."
 
 #. translators: %d: number of imported subscribers
 #: includes/Admin/class-admin-import-export.php
 msgid "%d subscriber imported."
 msgid_plural "%d subscribers imported."
-msgstr[0] "%d абонат импортиран."
-msgstr[1] "%d абонати импортирани."
+msgstr[0] "%d Abonnent importiert."
+msgstr[1] "%d Abonnenten importiert."
 
 #. translators: %d: number of updated subscribers
 #: includes/Admin/class-admin-import-export.php
 msgid "%d subscriber updated."
 msgid_plural "%d subscribers updated."
-msgstr[0] "%d абонат актуализиран."
-msgstr[1] "%d абонати актуализирани."
+msgstr[0] "%d Abonnent aktualisiert."
+msgstr[1] "%d Abonnenten aktualisiert."
 
 #. translators: %d: number of skipped subscribers
 #: includes/Admin/class-admin-import-export.php
 msgid "%d subscriber skipped (already exists)."
 msgid_plural "%d subscribers skipped (already exist)."
-msgstr[0] "%d абонат пропуснат (вече съществува)."
-msgstr[1] "%d абонати пропуснати (вече съществуват)."
+msgstr[0] "%d Abonnent übersprungen (existiert bereits)."
+msgstr[1] "%d Abonnenten übersprungen (existieren bereits)."
 
 #. translators: %d: number of imported lists
 #: includes/Admin/class-admin-import-export.php
 msgid "%d list imported."
 msgid_plural "%d lists imported."
-msgstr[0] "%d списък импортиран."
-msgstr[1] "%d списъци импортирани."
+msgstr[0] "%d Liste importiert."
+msgstr[1] "%d Listen importiert."
 
 #. translators: %d: number of skipped lists
 #: includes/Admin/class-admin-import-export.php
 msgid "%d list skipped (already exists)."
 msgid_plural "%d lists skipped (already exist)."
-msgstr[0] "%d списък пропуснат (вече съществува)."
-msgstr[1] "%d списъци пропуснати (вече съществуват)."
+msgstr[0] "%d Liste übersprungen (existiert bereits)."
+msgstr[1] "%d Listen übersprungen (existieren bereits)."
 
 #: admin/partials/import-export.php
 msgid "Manage your subscriber data with easy import and export functionality."
 msgstr ""
-"Управлявайте данните на абонатите с лесна функционалност за импорт и експорт."
+"Verwalten Sie Ihre Abonnentendaten mit einfacher Import- und "
+"Exportfunktionalität."
 
 #: admin/partials/import-export.php
 msgid "Export Data"
-msgstr "Експорт на данни"
+msgstr "Daten exportieren"
 
 #: admin/partials/import-export.php
 msgid "Download subscribers or lists as CSV"
-msgstr "Изтеглете абонати или списъци като CSV"
+msgstr "Abonnenten oder Listen als CSV herunterladen"
 
 #: admin/partials/import-export.php
 msgid "Export to CSV"
-msgstr "Експорт в CSV"
+msgstr "Als CSV exportieren"
 
 #: admin/partials/import-export.php
 msgid "Import Data"
-msgstr "Импорт на данни"
+msgstr "Daten importieren"
 
 #: admin/partials/import-export.php
 msgid "Upload subscribers or lists from CSV"
-msgstr "Качете абонати или списъци от CSV"
+msgstr "Abonnenten oder Listen aus CSV hochladen"
 
 #: admin/partials/import-export.php
 msgid "CSV File"
-msgstr "CSV файл"
+msgstr "CSV-Datei"
 
 #: admin/partials/import-export.php
 msgid "Drag & drop your CSV file here or"
-msgstr "Плъзнете и пуснете CSV файл тук или"
+msgstr "Ziehen Sie Ihre CSV-Datei hierher oder"
 
 #: admin/partials/import-export.php
 msgid "browse"
-msgstr "изберете"
+msgstr "durchsuchen"
 
 #: admin/partials/import-export.php
 msgid "Maximum file size: 5MB"
-msgstr "Максимален размер: 5MB"
+msgstr "Maximale Dateigröße: 5MB"
 
 #: admin/partials/import-export.php
 msgid "Assign to specific lists"
-msgstr "Добави към конкретни списъци"
+msgstr "Bestimmten Listen zuweisen"
 
 #: admin/partials/import-export.php
 msgid "Leave empty to use lists from CSV file."
-msgstr "Оставете празно, за да използвате списъците от CSV файла."
+msgstr "Leer lassen, um Listen aus der CSV-Datei zu verwenden."
 
 #: admin/partials/import-export.php
 msgid "This will override any list assignments in the CSV file."
-msgstr "Това ще замени всички назначения към списъци в CSV файла."
+msgstr "Dies überschreibt alle Listenzuweisungen in der CSV-Datei."
 
 #: admin/partials/import-export.php
 msgid "Import options"
-msgstr "Опции за импорт"
+msgstr "Importoptionen"
 
 #: admin/partials/import-export.php
+#, fuzzy
 msgid ""
 "Assign subscribers to lists specified in the \"lists\" column. New lists "
 "will be created automatically."
 msgstr ""
-"Добавете абонатите към списъците, посочени в колоната \"lists\". Новите "
-"списъци ще бъдат създадени автоматично."
+"Abonnenten den in der Spalte \"lists\" angegebenen Listen zuweisen. Neue "
+"Listen werden automatisch erstellt.\n"
+"Abonnenten den in der Spalte \"Listen\" angegebenen Listen zuweisen. Neue "
+"Listen werden automatisch erstellt."
 
 #: admin/partials/import-export.php
 msgid "Import from CSV"
-msgstr "Импорт от CSV"
+msgstr "Aus CSV importieren"
 
 #: admin/partials/import-export.php
 msgid "File Format Guide"
-msgstr "Ръководство за формат на файла"
+msgstr "Dateiformat-Leitfaden"
 
 #: admin/partials/import-export.php
 msgid "Learn how to format your CSV files for successful imports"
-msgstr "Научете как да форматирате CSV файловете си за успешен импорт"
+msgstr ""
+"Erfahren Sie, wie Sie Ihre CSV-Dateien für erfolgreiche Importe formatieren"
 
 #: admin/partials/import-export.php
 msgid "Subscribers CSV Format"
-msgstr "CSV формат за абонати"
+msgstr "CSV-Format für Abonnenten"
 
 #: admin/partials/import-export.php
 msgid "The CSV file must contain at minimum an \"email\" column."
-msgstr "CSV файлът трябва да съдържа минимум колона \"email\"."
+msgstr "Die CSV-Datei muss mindestens eine \"email\"-Spalte enthalten."
 
 #: admin/partials/import-export.php
 msgid "Lists CSV Format"
-msgstr "CSV формат за списъци"
+msgstr "CSV-Format für Listen"
 
 #: admin/partials/import-export.php
 msgid "The CSV file must contain at minimum a \"name\" column."
-msgstr "CSV файлът трябва да съдържа минимум колона \"name\"."
+msgstr "Die CSV-Datei muss mindestens eine \"name\"-Spalte enthalten."
 
 #: admin/partials/import-export.php
 msgid "Required"
-msgstr "Задължително"
+msgstr "Erforderlich"
 
 #: admin/partials/import-export.php
 msgid "Optional"
-msgstr "Незадължително"
+msgstr "Optional"
 
 #: admin/partials/import-export.php admin/partials/shortcodes.php
 msgid "Example"
-msgstr "Пример"
+msgstr "Beispiel"
 
 #: admin/partials/import-export.php
 msgid "Remove selected file"
-msgstr "Премахни избрания файл"
+msgstr "Ausgewählte Datei entfernen"
 
 #: includes/Admin/class-admin.php
 msgid "Templates"
-msgstr "Шаблони"
+msgstr "Vorlagen"
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 msgid "Template name is required."
-msgstr "Името на шаблона е задължително."
+msgstr "Vorlagenname ist erforderlich."
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 msgid "Template added successfully."
-msgstr "Шаблонът е добавен успешно."
+msgstr "Vorlage erfolgreich hinzugefügt."
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 msgid "Error adding template."
-msgstr "Грешка при добавяне на шаблон."
+msgstr "Fehler beim Hinzufügen der Vorlage."
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 #: admin/partials/visual-editor.php
 msgid "Template not found."
-msgstr "Шаблонът не е намерен."
+msgstr "Vorlage nicht gefunden."
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 msgid "Template updated successfully."
-msgstr "Шаблонът е актуализиран успешно."
+msgstr "Vorlage erfolgreich aktualisiert."
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 msgid "Predefined templates cannot be deleted."
-msgstr "Предварително дефинираните шаблони не могат да бъдат изтрити."
+msgstr "Vordefinierte Vorlagen können nicht gelöscht werden."
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 msgid "Template deleted successfully."
-msgstr "Шаблонът е изтрит успешно."
+msgstr "Vorlage erfolgreich gelöscht."
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 msgid "Template duplicated successfully."
-msgstr "Шаблонът е дублиран успешно."
+msgstr "Vorlage erfolgreich dupliziert."
 
 #: includes/Admin/class-admin-templates.php admin/partials/templates.php
 msgid "Error duplicating template."
-msgstr "Грешка при дублиране на шаблон."
+msgstr "Fehler beim Duplizieren der Vorlage."
 
 #: admin/partials/templates.php
 msgid "Email Templates"
-msgstr "Имейл шаблони"
+msgstr "E-Mail-Vorlagen"
 
 #: admin/partials/templates.php
 msgid "Add new template"
-msgstr "Добавяне на нов шаблон"
+msgstr "Neue Vorlage hinzufügen"
 
 #: admin/partials/templates.php
 msgid "Edit template"
-msgstr "Редактиране на шаблон"
+msgstr "Vorlage bearbeiten"
 
 #: admin/partials/templates.php
 msgid "Template name"
-msgstr "Име на шаблона"
+msgstr "Vorlagenname"
 
 #: admin/partials/templates.php
 msgid "Default subject"
-msgstr "Тема по подразбиране"
+msgstr "Standard-Betreff"
 
 #: admin/partials/templates.php
 msgid "Optional. This subject will be pre-filled when using this template."
 msgstr ""
-"Незадължително. Тази тема ще бъде предварително попълнена при използване на "
-"този шаблон."
+"Optional. Dieser Betreff wird bei Verwendung dieser Vorlage vorausgefüllt."
 
 #: admin/partials/templates.php
 msgid "Add template"
-msgstr "Добави шаблон"
+msgstr "Vorlage hinzufügen"
 
 #: admin/partials/templates.php
 msgid "Predefined Templates"
-msgstr "Предварително дефинирани шаблони"
+msgstr "Vordefinierte Vorlagen"
 
 #: admin/partials/templates.php
 msgid ""
 "These templates are provided by the system. You can duplicate them to create "
 "custom versions."
 msgstr ""
-"Тези шаблони са предоставени от системата. Можете да ги дублирате, за да "
-"създадете персонализирани версии."
+"Diese Vorlagen werden vom System bereitgestellt. Sie können sie duplizieren, "
+"um benutzerdefinierte Versionen zu erstellen."
 
 #: admin/partials/templates.php
 msgid "Predefined"
-msgstr "Предварително дефиниран"
+msgstr "Vordefiniert"
 
 #: admin/partials/templates.php
 msgid "Duplicate"
-msgstr "Дублирай"
+msgstr "Duplizieren"
 
 #: admin/partials/templates.php
 msgid "Use template"
-msgstr "Използвай шаблона"
+msgstr "Vorlage verwenden"
 
 #: admin/partials/templates.php
 msgid "Use"
-msgstr "Използвай"
+msgstr "Verwenden"
 
 #: admin/partials/templates.php
 msgid "Custom Templates"
-msgstr "Персонализирани шаблони"
+msgstr "Benutzerdefinierte Vorlagen"
 
 #: admin/partials/templates.php
 msgid "Templates you have created. You can edit, duplicate, or delete these."
 msgstr ""
-"Шаблони, които сте създали. Можете да ги редактирате, дублирате или изтриете."
+"Von Ihnen erstellte Vorlagen. Sie können diese bearbeiten, duplizieren oder "
+"löschen."
 
 #: admin/partials/templates.php
 msgid "Custom"
-msgstr "Персонализиран"
+msgstr "Benutzerdefiniert"
 
 #. translators: %s: date
 #: admin/partials/templates.php
 msgid "Created: %s"
-msgstr "Създаден: %s"
+msgstr "Erstellt: %s"
 
 #: admin/partials/templates.php
 msgid "No custom templates yet."
-msgstr "Все още няма персонализирани шаблони."
+msgstr "Noch keine benutzerdefinierten Vorlagen."
 
 #: admin/partials/templates.php admin/partials/compose-wizard.php
 msgid "Create your first template"
-msgstr "Създайте първия си шаблон"
+msgstr "Erstellen Sie Ihre erste Vorlage"
 
 #: includes/services/class-template-service.php
 msgid " (Copy)"
-msgstr " (Копие)"
+msgstr " (Kopie)"
 
 #: includes/services/class-template-service.php
 msgid "Blank Template"
-msgstr "Празен шаблон"
+msgstr "Leere Vorlage"
 
 #: includes/services/class-template-service.php
 msgid "Newsletter"
-msgstr "Бюлетин"
+msgstr "Newsletter"
 
 #: includes/services/class-template-service.php
 msgid "Your Newsletter Title"
-msgstr "Заглавие на вашия бюлетин"
+msgstr "Ihr Newsletter-Titel"
 
 #: includes/services/class-template-service.php
 msgid "Welcome Email"
-msgstr "Поздравително писмо"
+msgstr "Willkommens-E-Mail"
 
 #: includes/services/class-template-service.php
 msgid "Welcome to {site_name}!"
-msgstr "Добре дошли в {site_name}!"
+msgstr "Willkommen bei {site_name}!"
 
 #: includes/services/class-template-service.php
 msgid "Promotional"
-msgstr "Промоционален"
+msgstr "Werbeangebot"
 
 #: includes/services/class-template-service.php
 msgid "Special Offer Just for You!"
-msgstr "Специална оферта само за вас!"
+msgstr "Sonderangebot nur für Sie!"
 
 #. translators: %s: template name
 #: admin/partials/compose.php admin/partials/compose-wizard.php
+#, fuzzy
 msgid "Using template: %s"
-msgstr "Използва се шаблон: %s"
+msgstr ""
+"Verwendete Vorlage: %s\n"
+"Vorlage wird verwendet: %s"
 
 #: admin/partials/compose.php
 msgid "Choose how to compose your email"
-msgstr "Изберете как да съставите вашия имейл"
+msgstr "Wählen Sie, wie Sie Ihre E-Mail erstellen möchten"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 msgid "Use a Template"
-msgstr "Използвайте шаблон"
+msgstr "Vorlage verwenden"
 
 #: admin/partials/compose.php
 msgid "Select from saved templates and customize"
-msgstr "Изберете от запазените шаблони и персонализирайте"
+msgstr "Aus gespeicherten Vorlagen auswählen und anpassen"
 
 #: admin/partials/compose.php
 msgid "Browse Templates"
-msgstr "Разгледайте шаблоните"
+msgstr "Vorlagen durchsuchen"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 msgid "Open Visual Editor"
-msgstr "Отворете визуалния редактор"
+msgstr "Visuellen Editor öffnen"
 
 #: admin/partials/compose.php
 msgid "Create emails with drag-and-drop visual editor"
-msgstr "Създавайте имейли с визуален редактор с плъзгане и пускане"
+msgstr "E-Mails mit Drag-and-Drop-Visual-Editor erstellen"
 
 #: admin/partials/compose.php
 msgid "Open Editor"
-msgstr "Отвори редактор"
+msgstr "Editor öffnen"
 
 #: admin/partials/templates.php includes/Admin/class-admin-visual-editor.php
 msgid "Visual Editor"
-msgstr "Визуален редактор"
+msgstr "Visueller Editor"
 
 #: admin/partials/templates.php
 msgid "Edit with Visual Editor"
-msgstr "Редактирай с визуален редактор"
+msgstr "Mit visuellem Editor bearbeiten"
 
 #: admin/partials/templates.php
 msgid "Edit HTML"
-msgstr "Редактирай HTML"
+msgstr "HTML bearbeiten"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Template saved successfully."
-msgstr "Шаблонът е запазен успешно."
+msgstr "Vorlage erfolgreich gespeichert."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Missing required fields."
-msgstr "Липсват задължителни полета."
+msgstr "Erforderliche Felder fehlen."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Failed to save template."
-msgstr "Неуспешно запазване на шаблона."
+msgstr "Vorlage konnte nicht gespeichert werden."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "No file uploaded."
-msgstr "Няма качен файл."
+msgstr "Keine Datei hochgeladen."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Upload failed."
-msgstr "Качването е неуспешно."
+msgstr "Upload fehlgeschlagen."
 
 #: admin/partials/visual-editor.php
 msgid "Loading email editor..."
-msgstr "Зареждане на имейл редактора..."
+msgstr "E-Mail-Editor wird geladen..."
 
 #: admin/partials/compose-wizard.php
 msgid "Choose Template"
-msgstr "Изберете шаблон"
+msgstr "Vorlage wählen"
 
 #: admin/partials/compose-wizard.php
 msgid "Edit Content"
-msgstr "Редактиране на съдържание"
+msgstr "Inhalt bearbeiten"
 
 #: admin/partials/compose-wizard.php
 msgid "Send"
-msgstr "Изпращане"
+msgstr "Senden"
 
 #: admin/partials/compose-wizard.php
 msgid "Continue"
-msgstr "Продължи"
+msgstr "Weiter"
 
 #: admin/partials/compose-wizard.php
 msgid "How would you like to create your email?"
-msgstr "Как искате да създадете своя имейл?"
+msgstr "Wie möchten Sie Ihre E-Mail erstellen?"
 
 #: admin/partials/compose-wizard.php
 msgid "Choose a starting point for your email campaign."
-msgstr "Изберете начална точка за вашата имейл кампания."
+msgstr "Wählen Sie einen Ausgangspunkt für Ihre E-Mail-Kampagne."
 
 #: admin/partials/compose-wizard.php
 msgid "Start from Scratch"
-msgstr "Започнете от нулата"
+msgstr "Von Grund auf neu beginnen"
 
 #: admin/partials/compose-wizard.php
 msgid ""
 "Create your email using the HTML editor with full control over the code."
-msgstr "Създайте вашия имейл с HTML редактора с пълен контрол върху кода."
+msgstr ""
+"Erstellen Sie Ihre E-Mail mit dem HTML-Editor mit voller Kontrolle über den "
+"Code."
 
 #: admin/partials/compose-wizard.php
 msgid ""
 "Build your email with our drag-and-drop visual editor. No coding required."
 msgstr ""
-"Изградете вашия имейл с нашия визуален редактор за плъзгане и пускане. Не се "
-"изисква програмиране."
+"Erstellen Sie Ihre E-Mail mit unserem Drag-and-Drop-Visual-Editor. Keine "
+"Programmierung erforderlich."
 
 #: admin/partials/compose-wizard.php
 msgid "Start with one of your saved templates and customize it."
-msgstr "Започнете с един от запазените си шаблони и го персонализирайте."
+msgstr ""
+"Beginnen Sie mit einer Ihrer gespeicherten Vorlagen und passen Sie sie an."
 
 #: admin/partials/compose-wizard.php
 msgid "Select a Template"
-msgstr "Изберете шаблон"
+msgstr "Vorlage auswählen"
 
 #: admin/partials/compose-wizard.php
 msgid "No templates available."
-msgstr "Няма налични шаблони."
+msgstr "Keine Vorlagen verfügbar."
 
 #: admin/partials/compose-wizard.php
 msgid "Edit Your Email"
-msgstr "Редактирайте имейла си"
+msgstr "Ihre E-Mail bearbeiten"
 
 #: admin/partials/compose-wizard.php
 msgid ""
 "Use the visual editor to design your email. Click the button below to open "
 "the editor."
 msgstr ""
-"Използвайте визуалния редактор, за да проектирате имейла си. Кликнете върху "
-"бутона по-долу, за да отворите редактора."
+"Verwenden Sie den visuellen Editor, um Ihre E-Mail zu gestalten. Klicken Sie "
+"auf die Schaltfläche unten, um den Editor zu öffnen."
 
 #: admin/partials/compose-wizard.php
 msgid ""
 "The visual editor will open in a new window. When you save your template, "
 "you can continue to the next step."
 msgstr ""
-"Визуалният редактор ще се отвори в нов прозорец. Когато запазите шаблона си, "
-"можете да продължите към следващата стъпка."
+"Der visuelle Editor wird in einem neuen Fenster geöffnet. Wenn Sie Ihre "
+"Vorlage speichern, können Sie mit dem nächsten Schritt fortfahren."
 
 #: admin/partials/compose-wizard.php
 msgid "Continue to Send Settings"
-msgstr "Продължи към настройки за изпращане"
+msgstr "Weiter zu den Sendeeinstellungen"
 
 #: admin/partials/compose-wizard.php
 msgid "Edit Your Email Content"
-msgstr "Редактирайте съдържанието на имейла"
+msgstr "Bearbeiten Sie Ihren E-Mail-Inhalt"
 
 #: admin/partials/compose-wizard.php
 msgid "Write your email content using the editor below."
-msgstr "Напишете съдържанието на имейла, използвайки редактора по-долу."
+msgstr "Schreiben Sie Ihren E-Mail-Inhalt mit dem Editor unten."
 
 #: admin/partials/compose-wizard.php
 msgid "Configure & Send"
-msgstr "Конфигуриране и изпращане"
+msgstr "Konfigurieren & Senden"
 
 #: admin/partials/compose-wizard.php
 msgid "Select recipients, set scheduling options, and send your email."
 msgstr ""
-"Изберете получатели, настройте опции за планиране и изпратете имейла си."
+"Wählen Sie Empfänger, legen Sie Planungsoptionen fest und senden Sie Ihre E-"
+"Mail."
 
 #: admin/partials/compose-wizard.php
 msgid "Content Preview"
-msgstr "Преглед на съдържанието"
+msgstr "Inhaltsvorschau"
 
 #: admin/partials/compose-wizard.php
 msgid "No content set. Please go back to Step 2 to add content."
 msgstr ""
-"Няма зададено съдържание. Моля, върнете се към Стъпка 2, за да добавите "
-"съдържание."
+"Kein Inhalt festgelegt. Bitte gehen Sie zurück zu Schritt 2, um Inhalt "
+"hinzuzufügen."
 
 #: admin/partials/compose-wizard.php
 msgid "No lists available."
-msgstr "Няма налични списъци."
+msgstr "Keine Listen verfügbar."
 
 #: admin/partials/compose-wizard.php admin/partials/shortcodes.php
 msgid "Create a list"
-msgstr "Създайте списък"
+msgstr "Liste erstellen"
 
 #: admin/partials/compose-wizard.php
 msgid "Send Now"
-msgstr "Изпрати сега"
+msgstr "Jetzt senden"
 
 #: admin/partials/compose-wizard.php
 msgid "Schedule Sending"
-msgstr "Планирай изпращане"
+msgstr "Versand planen"
 
 #: admin/partials/compose-wizard.php
 msgid "Back"
-msgstr "Назад"
+msgstr "Zurück"
 
-#: public/class-public.php includes/Admin/class-admin.php
+#: includes/Admin/class-admin.php
 msgid "Shortcodes"
-msgstr "Шорткодове"
+msgstr "Shortcodes"
 
 #: includes/Admin/class-admin.php
 msgid "Copied!"
-msgstr "Копирано!"
+msgstr "Kopiert!"
 
 #: includes/Admin/class-admin.php
 msgid "Copy failed"
-msgstr "Копирането не успя"
+msgstr "Kopieren fehlgeschlagen"
 
 #: admin/partials/shortcodes.php
+#, fuzzy
 msgid ""
 "Copy any shortcode below and paste it into your page or post to display the "
 "subscription form."
 msgstr ""
-"Копирайте който и да е шорткод по-долу и го поставете във вашата страница "
-"или публикация, за да покажете формуляра за абонамент."
+"Kopieren Sie einen beliebigen Shortcode unten und fügen Sie ihn in Ihre "
+"Seite oder Ihren Beitrag ein, um das Anmeldeformular anzuzeigen.\n"
+"Kopieren Sie einen Shortcode unten und fügen Sie ihn in Ihre Seite oder "
+"Ihren Beitrag ein, um das Anmeldeformular anzuzeigen."
 
 #: admin/partials/shortcodes.php
 msgid "General Subscription Form"
-msgstr "Общ формуляр за абонамент"
+msgstr "Allgemeines Anmeldeformular"
 
 #: admin/partials/shortcodes.php
 msgid "Subscribe without assigning to a specific list."
-msgstr "Абонирайте се без да се присъединявате към конкретен списък."
+msgstr "Abonnieren ohne Zuweisung zu einer bestimmten Liste."
 
 #: admin/partials/shortcodes.php
 msgid "Copy"
-msgstr "Копирай"
+msgstr "Kopieren"
 
 #: admin/partials/shortcodes.php
 msgid "List-specific Forms"
-msgstr "Формуляри за конкретни списъци"
+msgstr "Listenspezifische Formulare"
 
 #: admin/partials/shortcodes.php
 msgid ""
 "No lists available yet. %s to create subscription forms for specific lists."
 msgstr ""
-"Все още няма налични списъци. %s за да създадете формуляри за абонамент за "
-"конкретни списъци."
+"Noch keine Listen verfügbar. %s um Anmeldeformulare für bestimmte Listen zu "
+"erstellen."
 
 #: admin/partials/shortcodes.php
 msgid "Shortcode Attributes"
-msgstr "Атрибути на шорткода"
+msgstr "Shortcode-Attribute"
 
 #: admin/partials/shortcodes.php
 msgid "Attribute"
-msgstr "Атрибут"
+msgstr "Attribut"
 
 #: admin/partials/shortcodes.php
 msgid ""
 "The ID of the list to subscribe to. If omitted, subscribers are added "
 "without a list."
 msgstr ""
-"ID на списъка за абониране. Ако е пропуснато, абонатите се добавят без "
-"списък."
+"Die ID der Liste, die abonniert werden soll. Wenn weggelassen, werden "
+"Abonnenten ohne Liste hinzugefügt."
 
 #: admin/partials/shortcodes.php
 msgid "The title displayed above the form. Defaults to \"Subscribe\"."
-msgstr ""
-"Заглавието, показвано над формуляра. По подразбиране е \"Абонирайте се\"."
+msgstr "Der über dem Formular angezeigte Titel. Standard ist \"Abonnieren\"."
 
 #: admin/partials/queue-detail.php
 msgid "Email Content"
-msgstr "Съдържание на имейла"
+msgstr "E-Mail-Inhalt"
 
 #: admin/partials/queue-detail.php
 msgid "Subject:"
-msgstr "Тема:"
+msgstr "Betreff:"
 
 #: admin/partials/queue-detail.php
 msgid "Body:"
-msgstr "Съдържание:"
+msgstr "Inhalt:"
 
 #: admin/partials/queue-detail.php
 msgid "Email Preview"
-msgstr "Преглед на имейл"
+msgstr "E-Mail-Vorschau"
 
 #: admin/partials/queue-detail.php
 msgid "Email Preview (with header & footer)"
-msgstr "Преглед на имейл (с хедър и футър)"
+msgstr "E-Mail-Vorschau (mit Kopf- und Fußzeile)"
 
 #: admin/partials/compose-wizard.php
 msgid "Content Preview (with header & footer)"
-msgstr "Преглед на съдържанието (с хедър и футър)"
+msgstr "Inhaltsvorschau (mit Kopf- und Fußzeile)"
 
 #: includes/Admin/class-admin-ajax.php
 msgid "No content to preview."
-msgstr "Няма съдържание за преглед."
+msgstr "Kein Inhalt zum Anzeigen."
 
 #: includes/Admin/class-admin.php
 msgid "No subscribers selected."
-msgstr "Не са избрани абонати."
+msgstr "Keine Abonnenten ausgewählt."
 
 #: includes/Admin/class-admin.php
 msgid "No lists selected."
-msgstr "Не са избрани списъци."
+msgstr "Keine Listen ausgewählt."
 
 #: admin/partials/subscribers.php
 msgid "Bulk actions"
-msgstr "Групови действия"
+msgstr "Massenaktionen"
 
 #: admin/partials/subscribers.php
 msgid "Add to lists"
-msgstr "Добави към списъци"
+msgstr "Zu Listen hinzufügen"
 
 #: admin/partials/subscribers.php
 msgid "Remove from lists"
-msgstr "Премахни от списъци"
+msgstr "Aus Listen entfernen"
 
 #: admin/partials/subscribers.php
 msgid "Apply"
-msgstr "Приложи"
+msgstr "Anwenden"
 
 #: admin/partials/subscribers.php
 msgid "selected"
-msgstr "избрани"
+msgstr "ausgewählt"
 
 #. translators: %d: number of subscribers updated
 #: includes/Admin/class-admin-ajax.php
 msgid "%d subscriber updated successfully."
 msgid_plural "%d subscribers updated successfully."
-msgstr[0] "%d абонат е обновен успешно."
-msgstr[1] "%d абоната са обновени успешно."
+msgstr[0] "%d Abonnent erfolgreich aktualisiert."
+msgstr[1] "%d Abonnenten erfolgreich aktualisiert."
 
 #. translators: %d: number of subscribers that failed
 #: includes/Admin/class-admin-ajax.php
 msgid "%d subscriber failed."
 msgid_plural "%d subscribers failed."
-msgstr[0] "%d абонат не успя."
-msgstr[1] "%d абоната не успяха."
+msgstr[0] "%d Abonnent fehlgeschlagen."
+msgstr[1] "%d Abonnenten fehlgeschlagen."
 
 #: includes/Admin/class-admin-ajax.php
 msgid "No subscribers were updated."
-msgstr "Нито един абонат не беше обновен."
+msgstr "Keine Abonnenten wurden aktualisiert."
 
 #. translators: %d: subscriber ID
 #: includes/services/class-subscriber-service.php
 msgid "Subscriber ID %d not found."
-msgstr "Абонат с ID %d не е намерен."
+msgstr "Abonnenten-ID %d nicht gefunden."
 
 #: admin/partials/settings.php
 msgid "Email Template Settings"
-msgstr "Настройки на шаблон за имейл"
+msgstr "E-Mail-Vorlageneinstellungen"
 
 #: admin/partials/settings.php
 msgid ""
 "Configure custom header and footer that will be added to all outgoing "
 "emails. Supports HTML and template variables."
 msgstr ""
-"Конфигурирайте персонализиран хедър и футър, които ще бъдат добавени към "
-"всички изходящи имейли. Поддържа HTML и променливи на шаблона."
+"Konfigurieren Sie benutzerdefinierte Kopf- und Fußzeilen, die allen "
+"ausgehenden E-Mails hinzugefügt werden. Unterstützt HTML und "
+"Vorlagenvariablen."
 
 #: admin/partials/settings.php
 msgid "Email Header"
-msgstr "Хедър на имейл"
+msgstr "E-Mail-Kopfzeile"
 
 #: admin/partials/settings.php
 msgid "HTML content to prepend to all emails. Leave empty to disable."
 msgstr ""
-"HTML съдържание, което да се добави в началото на всички имейли. Оставете "
-"празно за деактивиране."
+"HTML-Inhalt, der allen E-Mails vorangestellt wird. Leer lassen zum "
+"Deaktivieren."
 
 #: admin/partials/settings.php
 msgid "Email Footer"
-msgstr "Футър на имейл"
+msgstr "E-Mail-Fußzeile"
 
 #: admin/partials/settings.php
 msgid "HTML content to append to all emails. Leave empty to disable."
 msgstr ""
-"HTML съдържание, което да се добави в края на всички имейли. Оставете празно "
-"за деактивиране."
+"HTML-Inhalt, der allen E-Mails angehängt wird. Leer lassen zum Deaktivieren."
 
 #: admin/partials/settings.php
 msgid "Available Variables"
-msgstr "Налични променливи"
+msgstr "Verfügbare Variablen"
 
 #: admin/partials/settings.php
 msgid "Subscriber first name"
-msgstr "Първо име на абонат"
+msgstr "Vorname des Abonnenten"
 
 #: admin/partials/settings.php
 msgid "Subscriber last name"
-msgstr "Фамилия на абонат"
+msgstr "Nachname des Abonnenten"
 
 #: admin/partials/settings.php
 msgid "Subscriber email address"
-msgstr "Имейл адрес на абонат"
+msgstr "E-Mail-Adresse des Abonnenten"
 
 #: admin/partials/settings.php
 msgid "Clickable unsubscribe link"
-msgstr "Линк за отписване"
+msgstr "Klickbarer Abmeldelink"
 
 #: admin/partials/settings.php
 msgid "Raw unsubscribe URL"
-msgstr "Чист URL за отписване"
+msgstr "Rohe Abmelde-URL"
 
 #: includes/Admin/class-admin.php admin/partials/dashboard-widget.php
 msgid "Mail System - Queue Statistics"
-msgstr "Мейл система - Статистика на опашката"
+msgstr "Mail-System - Warteschlangen-Statistik"
 
 #: admin/partials/dashboard-widget.php
 msgid "Last cron run:"
-msgstr "Последно изпълнение на cron:"
+msgstr "Letzte Cron-Ausführung:"
 
 #: admin/partials/dashboard-widget.php
 msgid "Cron has not run yet."
-msgstr "Cron още не е стартиран."
+msgstr "Cron wurde noch nicht ausgeführt."
 
 #: admin/partials/dashboard-widget.php
 msgid "View Queue"
-msgstr "Виж опашка"
+msgstr "Warteschlange anzeigen"
 
 #: includes/services/class-cron-handler.php
 msgid "Invalid or missing email address"
-msgstr "Невалиден или липсващ имейл адрес"
+msgstr "Ungültige oder fehlende E-Mail-Adresse"
 
 #: public/class-public.php
 msgid "Invalid confirmation link."
-msgstr "Невалиден линк за потвърждение."
+msgstr "Ungültiger Bestätigungslink."
 
 #: public/class-public.php
 msgid "Please check your email to confirm your subscription."
-msgstr "Моля, проверете имейла си, за да потвърдите абонамента си."
+msgstr "Bitte überprüfen Sie Ihre E-Mail, um Ihr Abonnement zu bestätigen."
 
 #: public/class-public.php
 msgid "You are already subscribed!"
-msgstr "Вече сте абонирани!"
+msgstr "Sie sind bereits abonniert!"
 
 #: public/class-public.php
 #, php-format
 msgid "Confirm your subscription to %s"
-msgstr "Потвърдете абонамента си за %s"
+msgstr "Bestätigen Sie Ihr Abonnement für %s"
 
 #: public/class-public.php
 #, php-format
 msgid "Hello %s,"
-msgstr "Здравейте %s,"
+msgstr "Hallo %s,"
 
 #: public/class-public.php
 msgid "Hello,"
-msgstr "Здравейте,"
+msgstr "Hallo,"
 
 #: public/class-public.php
 #, php-format
@@ -2278,40 +2312,43 @@ msgid ""
 msgstr ""
 "%1$s\n"
 "\n"
-"Благодарим ви, че се абонирахте за %2$s!\n"
+"Vielen Dank für Ihr Abonnement von %2$s!\n"
 "\n"
-"Моля, кликнете върху линка по-долу, за да потвърдите абонамента си:\n"
+"Bitte klicken Sie auf den folgenden Link, um Ihr Abonnement zu bestätigen:\n"
 "\n"
 "%3$s\n"
 "\n"
-"Ако не сте заявили този абонамент, можете спокойно да игнорирате този "
-"имейл.\n"
+"Wenn Sie dieses Abonnement nicht angefordert haben, können Sie diese E-Mail "
+"ignorieren.\n"
 "\n"
-"С уважение,\n"
+"Mit freundlichen Grüßen,\n"
 "%4$s"
 
 #: public/partials/opt-in-confirm.php
 msgid "Subscription Confirmed"
-msgstr "Абонаментът е потвърден"
+msgstr "Abonnement bestätigt"
 
 #: public/partials/opt-in-confirm.php
 msgid "Subscription Confirmed!"
-msgstr "Абонаментът е потвърден!"
+msgstr "Abonnement bestätigt!"
 
 #: public/partials/opt-in-confirm.php
+#, fuzzy
 msgid ""
 "Thank you for confirming your subscription. You will now receive our emails."
 msgstr ""
-"Благодарим ви, че потвърдихте абонамента си. Сега ще получавате нашите "
-"имейли."
+"Vielen Dank für die Bestätigung Ihres Abonnements. Sie werden nun unsere E-"
+"Mails erhalten.\n"
+"Vielen Dank für die Bestätigung Ihres Abonnements. Sie werden jetzt unsere E-"
+"Mails erhalten."
 
 #: public/class-public.php
 msgid "Unable to verify request."
-msgstr "Заявката не може да бъде потвърдена."
+msgstr "Anfrage kann nicht verifiziert werden."
 
 #: includes/Admin/class-admin.php
 msgid "Mail System Database Update Required"
-msgstr "Необходима е актуализация на базата данни на Mail System"
+msgstr "Mail System Datenbankaktualisierung erforderlich"
 
 #: includes/Admin/class-admin.php admin/partials/settings.php
 #, php-format
@@ -2319,296 +2356,302 @@ msgid ""
 "Your database schema (version %1$s) is outdated. Version %2$s is required "
 "for the plugin to work correctly."
 msgstr ""
-"Схемата на базата данни (версия %1$s) е остаряла. За правилната работа на "
-"плъгина е необходима версия %2$s."
+"Ihr Datenbankschema (Version %1$s) ist veraltet. Version %2$s ist "
+"erforderlich, damit das Plugin korrekt funktioniert."
 
 #: includes/Admin/class-admin.php
 msgid "Update Database Now"
-msgstr "Актуализирай базата данни сега"
+msgstr "Datenbank jetzt aktualisieren"
 
 #: includes/Admin/class-admin.php
 msgid "Mail System Database Repair Required"
-msgstr "Необходим е ремонт на базата данни на Mail System"
+msgstr "Mail System Datenbankreparatur erforderlich"
 
 #: includes/Admin/class-admin.php admin/partials/settings.php
+#, fuzzy
 msgid ""
 "Some required database columns are missing. This may cause subscription "
 "confirmation links to fail. Click the button below to repair the database."
 msgstr ""
-"Някои необходими колони в базата данни липсват. Това може да причини неуспех "
-"на линковете за потвърждение на абонамент. Кликнете бутона по-долу, за да "
-"поправите базата данни."
+"Einige erforderliche Datenbankspalten fehlen. Dies kann dazu führen, dass "
+"Bestätigungslinks für Abonnements fehlschlagen. Klicken Sie auf die "
+"Schaltfläche unten, um die Datenbank zu reparieren.\n"
+"Einige erforderliche Datenbankspalten fehlen. Dies kann dazu führen, dass "
+"Abonnement-Bestätigungslinks fehlschlagen. Klicken Sie auf die Schaltfläche "
+"unten, um die Datenbank zu reparieren."
 
 #: includes/Admin/class-admin.php
 msgid "Repair Database Now"
-msgstr "Поправи базата данни сега"
+msgstr "Datenbank jetzt reparieren"
 
 #: includes/Admin/class-admin.php
 msgid "Security check failed."
-msgstr "Проверката за сигурност е неуспешна."
+msgstr "Sicherheitsüberprüfung fehlgeschlagen."
 
 #: includes/Admin/class-admin.php
 msgid "Database has been updated successfully."
-msgstr "Базата данни е актуализирана успешно."
+msgstr "Die Datenbank wurde erfolgreich aktualisiert."
 
 #: public/class-public.php
 msgid "An error occurred. Please try again later."
-msgstr "Възникна грешка. Моля, опитайте отново по-късно."
+msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
 
 #: admin/partials/settings.php
 msgid "Styling"
-msgstr "Стилизиране"
+msgstr "Styling"
 
 #: admin/partials/settings.php
 msgid ""
 "Customize the appearance of subscription forms and the unsubscribe page."
 msgstr ""
-"Персонализирайте визията на формите за абонамент и страницата за отписване."
+"Passen Sie das Erscheinungsbild von Anmeldeformularen und der Abmeldeseite "
+"an."
 
 #: admin/partials/settings.php
 msgid "Highlight Color"
-msgstr "Акцентен цвят"
+msgstr "Akzentfarbe"
 
 #: admin/partials/settings.php
 msgid "Primary color for buttons, links, and focus states."
-msgstr "Основен цвят за бутони, линкове и фокусирани елементи."
+msgstr "Primärfarbe für Schaltflächen, Links und Fokuszustände."
 
 #: admin/partials/settings.php
 msgid "Button Text Color"
-msgstr "Цвят на текста в бутони"
+msgstr "Schaltflächentextfarbe"
 
 #: admin/partials/settings.php
 msgid "Text color for buttons."
-msgstr "Цвят на текста в бутоните."
+msgstr "Textfarbe für Schaltflächen."
 
 #: admin/partials/settings.php
 msgid "Preview"
-msgstr "Преглед"
+msgstr "Vorschau"
 
 #: admin/partials/settings.php
 msgid "Button preview:"
-msgstr "Преглед на бутон:"
+msgstr "Schaltflächenvorschau:"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "Sender Email"
-msgstr "Имейл на подателя"
+msgstr "Absender-E-Mail"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "Use default sender"
-msgstr "Използвай подател по подразбиране"
+msgstr "Standard-Absender verwenden"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "Use custom sender"
-msgstr "Използвай персонализиран подател"
+msgstr "Benutzerdefinierten Absender verwenden"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "From Email"
-msgstr "От имейл"
+msgstr "Von E-Mail"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "Email address that will appear as the sender of this campaign."
-msgstr "Имейл адресът, който ще се показва като подател на тази кампания."
+msgstr "E-Mail-Adresse, die als Absender dieser Kampagne angezeigt wird."
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "Email address that will appear as the sender of this email."
-msgstr "Имейл адресът, който ще се показва като подател на този имейл."
+msgstr "E-Mail-Adresse, die als Absender dieser E-Mail angezeigt wird."
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "From Name"
-msgstr "От име"
+msgstr "Von Name"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "Sender Name"
-msgstr "Име на подателя"
+msgstr "Absendername"
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "Display name for the sender (optional)."
-msgstr "Показвано име за подателя (по избор)."
+msgstr "Anzeigename für den Absender (optional)."
 
 #: includes/Admin/class-admin-email.php
 msgid "Custom sender email is required when using custom sender option."
 msgstr ""
-"Персонализиран имейл на подателя е задължителен при използване на опцията за "
-"персонализиран подател."
+"Benutzerdefinierte Absender-E-Mail ist erforderlich bei Verwendung der "
+"benutzerdefinierten Absender-Option."
 
 #: includes/Admin/class-admin-email.php
 msgid "Invalid custom sender email address."
-msgstr "Невалиден имейл адрес на персонализиран подател."
+msgstr "Ungültige benutzerdefinierte Absender-E-Mail-Adresse."
 
 #: admin/partials/compose.php admin/partials/compose-wizard.php
 #: admin/partials/one-time-email.php
 msgid "Please enter a valid sender email address."
-msgstr "Моля, въведете валиден имейл адрес на подателя."
+msgstr "Bitte geben Sie eine gültige Absender-E-Mail-Adresse ein."
 
 #: admin/partials/settings.php
 msgid "Link preview:"
-msgstr "Преглед на линк:"
+msgstr "Linkvorschau:"
 
 #: admin/partials/settings.php
 msgid "Database version"
-msgstr "Версия на базата данни"
+msgstr "Datenbankversion"
 
 #: admin/partials/settings.php
 msgid "requires update to"
-msgstr "изисква актуализация до"
+msgstr "erfordert Aktualisierung auf"
 
 #: admin/partials/compose.php
 msgid "Choose how to compose your email:"
-msgstr "Изберете как да съставите вашия имейл:"
+msgstr "Wählen Sie, wie Sie Ihre E-Mail erstellen möchten:"
 
 #: admin/partials/compose.php
 msgid "Or use the standard editor below to compose your email with HTML."
 msgstr ""
-"Или използвайте стандартния редактор по-долу, за да съставите вашия имейл с "
-"HTML."
+"Oder verwenden Sie den Standard-Editor unten, um Ihre E-Mail mit HTML zu "
+"erstellen."
 
 #: admin/partials/compose-wizard.php
 msgid "Email content preview"
-msgstr "Преглед на съдържанието на имейла"
+msgstr "E-Mail-Inhaltsvorschau"
 
 #: admin/partials/import-export.php
 msgid "active, inactive, or unsubscribed"
-msgstr "активен, неактивен или отписан"
+msgstr "aktiv, inaktiv oder abgemeldet"
 
 #: admin/partials/import-export.php
 msgid "Email address"
-msgstr "Имейл адрес"
+msgstr "E-Mail-Adresse"
 
 #: admin/partials/subscribers.php
 msgid "Add New"
-msgstr "Добави нов"
+msgstr "Neu hinzufügen"
 
 #: admin/partials/templates.php
 msgid "Created"
-msgstr "Създаден"
+msgstr "Erstellt"
 
 #: admin/partials/templates.php
 msgid "New Template"
-msgstr "Нов шаблон"
+msgstr "Neue Vorlage"
 
 #: admin/partials/templates.php
 msgid "Untitled Template"
-msgstr "Шаблон без име"
+msgstr "Unbenannte Vorlage"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Save"
-msgstr "Запази"
+msgstr "Speichern"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Saving..."
-msgstr "Запазване..."
+msgstr "Speichern..."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Saved!"
-msgstr "Запазено!"
+msgstr "Gespeichert!"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Save & Continue"
-msgstr "Запази и продължи"
+msgstr "Speichern & Fortfahren"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Content saved successfully."
-msgstr "Съдържанието е запазено успешно."
+msgstr "Inhalt wurde erfolgreich gespeichert."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Error saving template"
-msgstr "Грешка при запазване на шаблона"
+msgstr "Fehler beim Speichern der Vorlage"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Template created successfully."
-msgstr "Шаблонът е създаден успешно."
+msgstr "Vorlage wurde erfolgreich erstellt."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Failed to create template."
-msgstr "Неуспешно създаване на шаблон."
+msgstr "Vorlage konnte nicht erstellt werden."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Export HTML"
-msgstr "Експортирай HTML"
+msgstr "HTML exportieren"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Visual Editor Error"
-msgstr "Грешка на визуалния редактор"
+msgstr "Visueller Editor Fehler"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid ""
 "Visual Editor Not Available. The visual editor needs to be built. Please "
 "run: cd admin/editor && npm install && npm run build"
 msgstr ""
-"Визуалният редактор не е наличен. Визуалният редактор трябва да бъде "
-"изграден. Моля, изпълнете: cd admin/editor && npm install && npm run build"
+"Visueller Editor nicht verfügbar. Der visuelle Editor muss erstellt werden. "
+"Bitte führen Sie aus: cd admin/editor && npm install && npm run build"
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Redirecting to Visual Editor..."
-msgstr "Пренасочване към визуалния редактор..."
+msgstr "Weiterleitung zum visuellen Editor..."
 
 #: includes/Admin/class-admin-visual-editor.php
 msgid "Invalid JSON content."
-msgstr "Невалидно JSON съдържание."
+msgstr "Ungültiger JSON-Inhalt."
 
 #: includes/Admin/class-admin.php
 msgid "Permission denied."
-msgstr "Достъпът е отказан."
+msgstr "Zugriff verweigert."
 
 #: includes/Admin/class-admin.php
 msgid "You do not have permission to access this page."
-msgstr "Нямате права за достъп до тази страница."
+msgstr "Sie haben keine Berechtigung, auf diese Seite zuzugreifen."
 
 #: admin/partials/shortcodes.php
 msgid "Automated lists (membership managed by external plugins):"
-msgstr "Автоматични списъци (членството се управлява от външни плъгини):"
+msgstr ""
+"Automatische Listen (Mitgliedschaft wird von externen Plugins verwaltet):"
 
 #: admin/partials/queue.php
 msgid "Scheduled for"
-msgstr "Насрочен за"
+msgstr "Geplant für"
 
 #: admin/partials/queue-detail.php
 msgid "Error cancelling campaign."
-msgstr "Грешка при отмяна на кампанията."
+msgstr "Fehler beim Abbrechen der Kampagne."
 
 #: includes/Admin/class-admin-menu.php
 msgid "Mail System:"
-msgstr "Мейл Система:"
+msgstr "Mail System:"
 
 #: includes/Services/class-list-service.php
 msgid "List name is required."
-msgstr "Името на списъка е задължително."
+msgstr "Der Listenname ist erforderlich."
 
 #. Plugin Name of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "Mail System by Katsarov Design"
-msgstr "Мейл Система от Katsarov Design"
+msgstr "Mail System von Katsarov Design"
 
 #. Plugin URI of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "https://katsarov.design/plugins/mail-system"
 msgstr "https://katsarov.design/plugins/mail-system"
 
 #. Description of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid ""
 "Email newsletter management system with subscribers, lists, and sending "
 "queue."
 msgstr ""
-"Система за управление на имейл бюлетини с абонати, списъци и опашка за "
-"изпращане."
+"E-Mail-Newsletter-Verwaltungssystem mit Abonnenten, Listen und "
+"Sendewarteschlange."
 
 #. Author of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "Katsarov Design"
 msgstr "Katsarov Design"
 
 #. Author URI of the plugin
-#: mail-system-by-katsarov-design.php
+#: mail-system.php
 msgid "https://katsarov.design"
 msgstr "https://katsarov.design"
 
@@ -2631,49 +2674,49 @@ msgstr "sender@example.com"
 #: admin/partials/subscribers.php
 msgid "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
 msgid_plural "Are you sure you want to delete %d subscriber(s)? This action cannot be undone."
-msgstr[0] "Сигурни ли сте, че искате да изтриете %d абонат? Това действие не може да бъде отменено."
-msgstr[1] "Сигурни ли сте, че искате да изтриете %d абонати? Това действие не може да бъде отменено."
+msgstr[0] "Sind Sie sicher, dass Sie %d Abonnenten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+msgstr[1] "Sind Sie sicher, dass Sie %d Abonnenten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
 
 #: admin/js/admin-script.js
 msgid "%d subscriber deleted successfully."
 msgid_plural "%d subscribers deleted successfully."
-msgstr[0] "%d абонат е изтрит успешно."
-msgstr[1] "%d абонати са изтрити успешно."
+msgstr[0] "%d Abonnent erfolgreich gelöscht."
+msgstr[1] "%d Abonnenten erfolgreich gelöscht."
 
 #: includes/Admin/class-admin-ajax.php
 msgid "No subscribers selected."
-msgstr "Не са избрани абонати."
+msgstr "Keine Abonnenten ausgewählt."
 
 #: includes/services/class-subscriber-service.php
 msgid "Failed to delete subscriber ID %d"
-msgstr "Неуспешно изтриване на абонат с ID %d"
+msgstr "Löschen des Abonnenten mit ID %d fehlgeschlagen"
 
 #: includes/Admin/class-admin-ajax.php
 msgid "No subscribers were deleted."
-msgstr "Нито един абонат не беше изтрит."
+msgstr "Keine Abonnenten wurden gelöscht."
 
 #: admin/partials/settings.php
 msgid "Delete Inactive Subscribers"
-msgstr "Изтриване на неактивни абонати"
+msgstr "Inaktive Abonnenten löschen"
 
 #: admin/partials/settings.php
 msgid "Delete unconfirmed and inactive subscribers"
-msgstr "Изтрий непотвърдените и неактивните абонати"
+msgstr "Unbestätigte und inaktive Abonnenten löschen"
 
 #: admin/partials/settings.php
 msgid "Permanently deletes all subscribers with inactive (unconfirmed) or unsubscribed status and their list associations."
-msgstr "Изтрива завинаги всички абонати с неактивен (непотвърден) или отписан статус и техните връзки със списъци."
+msgstr "Löscht dauerhaft alle Abonnenten mit inaktivem (unbestätigtem) oder abgemeldetem Status und deren Listenzuordnungen."
 
 #: includes/Admin/class-admin-assets.php
 msgid "Are you sure you want to delete all unconfirmed, inactive, and unsubscribed subscribers? This action cannot be undone!"
-msgstr "Сигурни ли сте, че искате да изтриете всички непотвърдени, неактивни и отписани абонати? Това действие не може да бъде отменено!"
+msgstr "Möchten Sie wirklich alle unbestätigten, inaktiven und abgemeldeten Abonnenten löschen? Diese Aktion kann nicht rückgängig gemacht werden!"
 
 #: includes/Admin/class-admin-ajax.php
 msgid "%d inactive or unsubscribed subscriber deleted successfully."
 msgid_plural "%d inactive or unsubscribed subscribers deleted successfully."
-msgstr[0] "%d неактивен или отписан абонат е изтрит успешно."
-msgstr[1] "%d неактивни или отписани абонати са изтрити успешно."
+msgstr[0] "%d inaktiver oder abgemeldeter Abonnent erfolgreich gelöscht."
+msgstr[1] "%d inaktive oder abgemeldete Abonnenten erfolgreich gelöscht."
 
 #: includes/Admin/class-admin-ajax.php
 msgid "No inactive or unsubscribed subscribers found to delete."
-msgstr "Няма намерени неактивни или отписани абонати за изтриване."
+msgstr "Keine inaktiven oder abgemeldeten Abonnenten zum Löschen gefunden."

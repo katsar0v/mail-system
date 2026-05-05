@@ -38,10 +38,10 @@ if ( 'edit' === $current_action && $list_id ) {
 
 <div class="wrap mskd-wrap">
 	<h1>
-		<?php esc_html_e( 'Lists', 'mail-system-by-katsarov-design' ); ?>
+		<?php esc_html_e( 'Lists', 'mail-system' ); ?>
 		<?php if ( 'list' === $current_action ) : ?>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-lists&action=add' ) ); ?>" class="page-title-action">
-				<?php esc_html_e( 'Add new', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Add new', 'mail-system' ); ?>
 			</a>
 		<?php endif; ?>
 	</h1>
@@ -51,7 +51,7 @@ if ( 'edit' === $current_action && $list_id ) {
 	<?php if ( 'add' === $current_action || 'edit' === $current_action ) : ?>
 		<!-- Add/Edit Form -->
 		<div class="mskd-form-wrap">
-			<h2><?php echo 'add' === $current_action ? esc_html__( 'Add list', 'mail-system-by-katsarov-design' ) : esc_html__( 'Edit list', 'mail-system-by-katsarov-design' ); ?></h2>
+			<h2><?php echo 'add' === $current_action ? esc_html__( 'Add list', 'mail-system' ) : esc_html__( 'Edit list', 'mail-system' ); ?></h2>
 
 			<form method="post" action="">
 				<?php wp_nonce_field( 'add' === $current_action ? 'mskd_add_list' : 'mskd_edit_list', 'mskd_nonce' ); ?>
@@ -63,7 +63,7 @@ if ( 'edit' === $current_action && $list_id ) {
 				<table class="form-table">
 					<tr>
 						<th scope="row">
-							<label for="name"><?php esc_html_e( 'List name', 'mail-system-by-katsarov-design' ); ?> *</label>
+							<label for="name"><?php esc_html_e( 'List name', 'mail-system' ); ?> *</label>
 						</th>
 						<td>
 							<input type="text" name="name" id="name" class="regular-text" required
@@ -72,7 +72,7 @@ if ( 'edit' === $current_action && $list_id ) {
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="description"><?php esc_html_e( 'Description', 'mail-system-by-katsarov-design' ); ?></label>
+							<label for="description"><?php esc_html_e( 'Description', 'mail-system' ); ?></label>
 						</th>
 						<td>
 							<textarea name="description" id="description" class="large-text" rows="4"><?php echo $list ? esc_textarea( $list->description ) : ''; ?></textarea>
@@ -83,9 +83,9 @@ if ( 'edit' === $current_action && $list_id ) {
 				<p class="submit">
 					<input type="submit" name="<?php echo 'add' === $current_action ? 'mskd_add_list' : 'mskd_edit_list'; ?>"
 						class="button button-primary"
-						value="<?php echo 'add' === $current_action ? esc_attr__( 'Add list', 'mail-system-by-katsarov-design' ) : esc_attr__( 'Save changes', 'mail-system-by-katsarov-design' ); ?>">
+						value="<?php echo 'add' === $current_action ? esc_attr__( 'Add list', 'mail-system' ) : esc_attr__( 'Save changes', 'mail-system' ); ?>">
 					<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-lists' ) ); ?>" class="button">
-						<?php esc_html_e( 'Cancel', 'mail-system-by-katsarov-design' ); ?>
+						<?php esc_html_e( 'Cancel', 'mail-system' ); ?>
 					</a>
 				</p>
 			</form>
@@ -101,10 +101,10 @@ if ( 'edit' === $current_action && $list_id ) {
 		<table class="wp-list-table widefat fixed striped mskd-lists-table">
 			<thead>
 				<tr>
-					<th scope="col"><?php esc_html_e( 'Name', 'mail-system-by-katsarov-design' ); ?></th>
-					<th scope="col"><?php esc_html_e( 'Subscribers', 'mail-system-by-katsarov-design' ); ?></th>
-					<th scope="col" class="mskd-shortcode-col"><?php esc_html_e( 'Shortcode', 'mail-system-by-katsarov-design' ); ?></th>
-					<th scope="col"><?php esc_html_e( 'Actions', 'mail-system-by-katsarov-design' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Name', 'mail-system' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Subscribers', 'mail-system' ); ?></th>
+					<th scope="col" class="mskd-shortcode-col"><?php esc_html_e( 'Shortcode', 'mail-system' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Actions', 'mail-system' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -135,8 +135,8 @@ if ( 'edit' === $current_action && $list_id ) {
 								?>
 								<strong<?php echo $name_truncated ? ' title="' . esc_attr( $item->name ) . '"' : ''; ?>><?php echo esc_html( $display_name ); ?></strong>
 								<?php if ( $is_external ) : ?>
-									<span class="mskd-badge mskd-badge-external" title="<?php esc_attr_e( 'Automated list from external plugin', 'mail-system-by-katsarov-design' ); ?>">
-										<?php esc_html_e( 'Automated', 'mail-system-by-katsarov-design' ); ?>
+									<span class="mskd-badge mskd-badge-external" title="<?php esc_attr_e( 'Automated list from external plugin', 'mail-system' ); ?>">
+										<?php esc_html_e( 'Automated', 'mail-system' ); ?>
 									</span>
 								<?php endif; ?>
 							</td>
@@ -146,7 +146,7 @@ if ( 'edit' === $current_action && $list_id ) {
 										<?php echo esc_html( $subscriber_count ); ?>
 										<div class="mskd-subscriber-tooltip">
 											<div class="mskd-subscriber-tooltip__title">
-												<?php esc_html_e( 'Subscribers', 'mail-system-by-katsarov-design' ); ?>
+												<?php esc_html_e( 'Subscribers', 'mail-system' ); ?>
 											</div>
 											<ul class="mskd-subscriber-tooltip__list">
 												<?php foreach ( $subscribers_display as $sub ) : ?>
@@ -166,7 +166,7 @@ if ( 'edit' === $current_action && $list_id ) {
 													<?php
 													printf(
 														/* translators: %d: number of additional subscribers */
-														esc_html__( '... and %d more', 'mail-system-by-katsarov-design' ),
+														esc_html__( '... and %d more', 'mail-system' ),
 														esc_html( $subscriber_count - 10 )
 													);
 													?>
@@ -186,25 +186,25 @@ if ( 'edit' === $current_action && $list_id ) {
 									?>
 									<div class="mskd-shortcode-inline">
 										<code class="mskd-shortcode-code" id="<?php echo esc_attr( $shortcode_id ); ?>"><?php echo esc_html( $shortcode ); ?></code>
-										<button type="button" class="mskd-copy-btn mskd-copy-icon-btn" data-target="<?php echo esc_attr( $shortcode_id ); ?>" title="<?php esc_attr_e( 'Copy shortcode', 'mail-system-by-katsarov-design' ); ?>">
+										<button type="button" class="mskd-copy-btn mskd-copy-icon-btn" data-target="<?php echo esc_attr( $shortcode_id ); ?>" title="<?php esc_attr_e( 'Copy shortcode', 'mail-system' ); ?>">
 											<span class="dashicons dashicons-clipboard"></span>
 										</button>
 									</div>
 								<?php else : ?>
-									<span class="mskd-shortcode-na" title="<?php esc_attr_e( 'Automated lists do not have subscription forms', 'mail-system-by-katsarov-design' ); ?>">—</span>
+									<span class="mskd-shortcode-na" title="<?php esc_attr_e( 'Automated lists do not have subscription forms', 'mail-system' ); ?>">—</span>
 								<?php endif; ?>
 							</td>
 							<td>
 								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-compose&list_id=' . rawurlencode( $item->id ) ) ); ?>">
-									<?php esc_html_e( 'Send email', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Send email', 'mail-system' ); ?>
 								</a>
 								<?php if ( $item->is_editable ) : ?>
 									| <a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-lists&action=edit&id=' . $item->id ) ); ?>">
-										<?php esc_html_e( 'Edit', 'mail-system-by-katsarov-design' ); ?>
+										<?php esc_html_e( 'Edit', 'mail-system' ); ?>
 									</a> |
 									<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=mskd-lists&action=delete_list&id=' . $item->id ), 'delete_list_' . $item->id ) ); ?>"
 										class="mskd-delete-link" style="color: #a00;">
-										<?php esc_html_e( 'Delete', 'mail-system-by-katsarov-design' ); ?>
+										<?php esc_html_e( 'Delete', 'mail-system' ); ?>
 									</a>
 								<?php endif; ?>
 							</td>
@@ -212,7 +212,7 @@ if ( 'edit' === $current_action && $list_id ) {
 					<?php endforeach; ?>
 				<?php else : ?>
 					<tr>
-						<td colspan="4"><?php esc_html_e( 'No lists created.', 'mail-system-by-katsarov-design' ); ?></td>
+						<td colspan="4"><?php esc_html_e( 'No lists created.', 'mail-system' ); ?></td>
 					</tr>
 				<?php endif; ?>
 			</tbody>

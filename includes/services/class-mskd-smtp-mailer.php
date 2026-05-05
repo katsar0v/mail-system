@@ -210,7 +210,7 @@ class MSKD_SMTP_Mailer {
 		if ( ! $this->is_smtp_enabled() ) {
 			return array(
 				'success' => false,
-				'message' => __( 'SMTP is not enabled or configured. Please fill in SMTP settings.', 'mail-system-by-katsarov-design' ),
+				'message' => __( 'SMTP is not enabled or configured. Please fill in SMTP settings.', 'mail-system' ),
 			);
 		}
 
@@ -220,7 +220,7 @@ class MSKD_SMTP_Mailer {
 		if ( ! is_email( $final_from_email ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Invalid sender email address.', 'mail-system-by-katsarov-design' ),
+				'message' => __( 'Invalid sender email address.', 'mail-system' ),
 			);
 		}
 
@@ -268,13 +268,13 @@ class MSKD_SMTP_Mailer {
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
 			$mailer->Subject = sprintf(
 				/* translators: %s: Site name */
-				__( '[%s] SMTP Test Email', 'mail-system-by-katsarov-design' ),
+				__( '[%s] SMTP Test Email', 'mail-system' ),
 				get_bloginfo( 'name' )
 			);
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
 			$mailer->Body = sprintf(
 				/* translators: %1$s: Current time, %2$s: SMTP host, %3$s: SMTP port */
-				__( '<h2>SMTP Test Email</h2><p>This email confirms that SMTP settings are working correctly.</p><p><strong>Time:</strong> %1$s</p><p><strong>SMTP server:</strong> %2$s:%3$s</p>', 'mail-system-by-katsarov-design' ),
+				__( '<h2>SMTP Test Email</h2><p>This email confirms that SMTP settings are working correctly.</p><p><strong>Time:</strong> %1$s</p><p><strong>SMTP server:</strong> %2$s:%3$s</p>', 'mail-system' ),
 				current_time( 'mysql' ),
 				$this->settings['smtp_host'],
 				$this->settings['smtp_port']
@@ -292,7 +292,7 @@ class MSKD_SMTP_Mailer {
 					'success' => true,
 					'message' => sprintf(
 						/* translators: %s: Admin email address */
-						__( 'Test email sent successfully to %s!', 'mail-system-by-katsarov-design' ),
+						__( 'Test email sent successfully to %s!', 'mail-system' ),
 						$to
 					),
 				);
@@ -300,7 +300,7 @@ class MSKD_SMTP_Mailer {
 
 			return array(
 				'success' => false,
-				'message' => __( 'Failed to send test email.', 'mail-system-by-katsarov-design' ),
+				'message' => __( 'Failed to send test email.', 'mail-system' ),
 			);
 
 		} catch ( PHPMailer\PHPMailer\Exception $e ) {
@@ -310,7 +310,7 @@ class MSKD_SMTP_Mailer {
 				'success' => false,
 				'message' => sprintf(
 					/* translators: %s: Error message */
-					__( 'SMTP error: %s', 'mail-system-by-katsarov-design' ),
+					__( 'SMTP error: %s', 'mail-system' ),
 					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
 					$mailer->ErrorInfo
 				),
@@ -321,7 +321,7 @@ class MSKD_SMTP_Mailer {
 				'success' => false,
 				'message' => sprintf(
 					/* translators: %s: Error message */
-					__( 'Error: %s', 'mail-system-by-katsarov-design' ),
+					__( 'Error: %s', 'mail-system' ),
 					$e->getMessage()
 				),
 			);

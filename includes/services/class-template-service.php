@@ -286,7 +286,7 @@ class Template_Service {
 			return false;
 		}
 
-		$copy_suffix = __( ' (Copy)', 'mail-system-by-katsarov-design' );
+		$copy_suffix = __( ' (Copy)', 'mail-system' );
 		$new_name    = $template->name . $copy_suffix;
 
 		return $this->create(
@@ -368,7 +368,7 @@ class Template_Service {
 	private function get_default_templates(): array {
 		return array(
 			array(
-				'name'         => __( 'Blank Template', 'mail-system-by-katsarov-design' ),
+				'name'         => __( 'Blank Template', 'mail-system' ),
 				'subject'      => '',
 				'content'      => '',
 				'json_content' => null,
@@ -377,8 +377,8 @@ class Template_Service {
 				'status'       => 'active',
 			),
 			array(
-				'name'         => __( 'Newsletter', 'mail-system-by-katsarov-design' ),
-				'subject'      => __( 'Your Newsletter Title', 'mail-system-by-katsarov-design' ),
+				'name'         => __( 'Newsletter', 'mail-system' ),
+				'subject'      => __( 'Your Newsletter Title', 'mail-system' ),
 				'content'      => $this->get_newsletter_template_html(),
 				'json_content' => null,
 				'thumbnail'    => '',
@@ -386,8 +386,8 @@ class Template_Service {
 				'status'       => 'active',
 			),
 			array(
-				'name'         => __( 'Welcome Email', 'mail-system-by-katsarov-design' ),
-				'subject'      => __( 'Welcome to {site_name}!', 'mail-system-by-katsarov-design' ),
+				'name'         => __( 'Welcome Email', 'mail-system' ),
+				'subject'      => __( 'Welcome to {site_name}!', 'mail-system' ),
 				'content'      => $this->get_welcome_template_html(),
 				'json_content' => null,
 				'thumbnail'    => '',
@@ -395,8 +395,8 @@ class Template_Service {
 				'status'       => 'active',
 			),
 			array(
-				'name'         => __( 'Promotional', 'mail-system-by-katsarov-design' ),
-				'subject'      => __( 'Special Offer Just for You!', 'mail-system-by-katsarov-design' ),
+				'name'         => __( 'Promotional', 'mail-system' ),
+				'subject'      => __( 'Special Offer Just for You!', 'mail-system' ),
 				'content'      => $this->get_promotional_template_html(),
 				'json_content' => null,
 				'thumbnail'    => '',

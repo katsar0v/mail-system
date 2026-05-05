@@ -57,15 +57,15 @@ class Admin_Notices {
 		?>
 		<div class="notice notice-warning">
 			<p>
-				<strong><?php esc_html_e( 'Recommendation for Mail System:', 'mail-system-by-katsarov-design' ); ?></strong>
-				<?php esc_html_e( 'For more reliable email sending, we recommend using system cron instead of WP-Cron.', 'mail-system-by-katsarov-design' ); ?>
+				<strong><?php esc_html_e( 'Recommendation for Mail System:', 'mail-system' ); ?></strong>
+				<?php esc_html_e( 'For more reliable email sending, we recommend using system cron instead of WP-Cron.', 'mail-system' ); ?>
 			</p>
 			<p>
-				<?php esc_html_e( 'Add to wp-config.php:', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Add to wp-config.php:', 'mail-system' ); ?>
 				<code>define('DISABLE_WP_CRON', true);</code>
 			</p>
 			<p>
-				<?php esc_html_e( 'And set up system cron:', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'And set up system cron:', 'mail-system' ); ?>
 				<code>* * * * * php <?php echo esc_html( ABSPATH . 'wp-cron.php' ); ?></code>
 			</p>
 		</div>
@@ -101,15 +101,15 @@ class Admin_Notices {
 		?>
 		<div class="notice notice-info mskd-share-notice" style="padding: 15px;">
 			<p style="font-size: 14px; margin-bottom: 10px;">
-				<strong><?php esc_html_e( 'Enjoying Mail System by Katsarov Design?', 'mail-system-by-katsarov-design' ); ?></strong>
-				<?php esc_html_e( 'If you like this plugin, please share it with your friends!', 'mail-system-by-katsarov-design' ); ?>
+				<strong><?php esc_html_e( 'Enjoying Mail System by Katsarov Design?', 'mail-system' ); ?></strong>
+				<?php esc_html_e( 'If you like this plugin, please share it with your friends!', 'mail-system' ); ?>
 			</p>
 			<p>
 				<a href="#" class="button button-primary mskd-share-dismiss" data-nonce="<?php echo esc_attr( wp_create_nonce( 'mskd_dismiss_share_notice' ) ); ?>">
-					<?php esc_html_e( 'Yes, of course!', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'Yes, of course!', 'mail-system' ); ?>
 				</a>
-				<a href="https://github.com/katsar0v/mail-system-by-katsarov-design" target="_blank" class="button" style="margin-left: 10px;">
-					<?php esc_html_e( 'Nah, I do not like the plugin', 'mail-system-by-katsarov-design' ); ?>
+				<a href="https://github.com/katsar0v/mail-system" target="_blank" class="button" style="margin-left: 10px;">
+					<?php esc_html_e( 'Nah, I do not like the plugin', 'mail-system' ); ?>
 				</a>
 			</p>
 		</div>
@@ -167,13 +167,13 @@ class Admin_Notices {
 		?>
 		<div class="notice notice-error">
 			<p>
-				<strong><?php esc_html_e( 'Mail System Database Update Required', 'mail-system-by-katsarov-design' ); ?></strong>
+				<strong><?php esc_html_e( 'Mail System Database Update Required', 'mail-system' ); ?></strong>
 			</p>
 			<p>
 				<?php
 				printf(
 					/* translators: 1: Current DB version, 2: Required DB version */
-					esc_html__( 'Your database schema (version %1$s) is outdated. Version %2$s is required for the plugin to work correctly.', 'mail-system-by-katsarov-design' ),
+					esc_html__( 'Your database schema (version %1$s) is outdated. Version %2$s is required for the plugin to work correctly.', 'mail-system' ),
 					esc_html( $installed_version ),
 					esc_html( $required_version )
 				);
@@ -181,7 +181,7 @@ class Admin_Notices {
 			</p>
 			<p>
 				<a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary">
-					<?php esc_html_e( 'Update Database Now', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'Update Database Now', 'mail-system' ); ?>
 				</a>
 			</p>
 		</div>
@@ -203,8 +203,8 @@ class Admin_Notices {
 					?>
 					<div class="notice notice-success is-dismissible">
 						<p>
-							<strong><?php esc_html_e( 'Mail System:', 'mail-system-by-katsarov-design' ); ?></strong>
-							<?php esc_html_e( 'Database has been updated successfully.', 'mail-system-by-katsarov-design' ); ?>
+							<strong><?php esc_html_e( 'Mail System:', 'mail-system' ); ?></strong>
+							<?php esc_html_e( 'Database has been updated successfully.', 'mail-system' ); ?>
 						</p>
 					</div>
 					<?php
@@ -223,8 +223,8 @@ class Admin_Notices {
 					?>
 					<div class="notice notice-error">
 						<p>
-							<strong><?php esc_html_e( 'Mail System:', 'mail-system-by-katsarov-design' ); ?></strong>
-							<?php esc_html_e( 'Database repair failed. One or more required tables or columns could not be created. Please deactivate and reactivate the plugin, or contact your hosting provider if the issue persists.', 'mail-system-by-katsarov-design' ); ?>
+						<strong><?php esc_html_e( 'Mail System:', 'mail-system' ); ?></strong>
+						<?php esc_html_e( 'Database repair failed. One or more required tables or columns could not be created. Please deactivate and reactivate the plugin, or contact your hosting provider if the issue persists.', 'mail-system' ); ?>
 						</p>
 						<?php if ( '1' !== $db_error ) : ?>
 						<p><em><?php echo esc_html( $db_error ); ?></em></p>
@@ -245,7 +245,7 @@ class Admin_Notices {
 
 		// Verify nonce.
 		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'mskd_upgrade_db' ) ) {
-			wp_die( esc_html__( 'Security check failed.', 'mail-system-by-katsarov-design' ) );
+			wp_die( esc_html__( 'Security check failed.', 'mail-system' ) );
 		}
 
 		// Run full activation: uses dbDelta to create missing tables and columns.
@@ -279,14 +279,14 @@ class Admin_Notices {
 		?>
 		<div class="notice notice-error">
 			<p>
-				<strong><?php esc_html_e( 'Mail System Database Repair Required', 'mail-system-by-katsarov-design' ); ?></strong>
+				<strong><?php esc_html_e( 'Mail System Database Repair Required', 'mail-system' ); ?></strong>
 			</p>
 			<p>
-				<?php esc_html_e( 'Some required database tables or columns are missing. This may cause subscription confirmation links to fail. Click the button below to repair the database.', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Some required database tables or columns are missing. This may cause subscription confirmation links to fail. Click the button below to repair the database.', 'mail-system' ); ?>
 			</p>
 			<p>
 				<a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary">
-					<?php esc_html_e( 'Repair Database Now', 'mail-system-by-katsarov-design' ); ?>
+					<?php esc_html_e( 'Repair Database Now', 'mail-system' ); ?>
 				</a>
 			</p>
 		</div>

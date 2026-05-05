@@ -22,8 +22,8 @@ define( 'HOUR_IN_SECONDS', 3600 );
 define( 'DAY_IN_SECONDS', 86400 );
 define( 'MSKD_VERSION', '1.0.0' );
 define( 'MSKD_PLUGIN_DIR', dirname( __DIR__ ) . '/' );
-define( 'MSKD_PLUGIN_URL', 'https://example.com/wp-content/plugins/mail-system-by-katsarov-design/' );
-define( 'MSKD_PLUGIN_BASENAME', 'mail-system-by-katsarov-design/mail-system-by-katsarov-design.php' );
+define( 'MSKD_PLUGIN_URL', 'https://example.com/wp-content/plugins/mail-system/' );
+define( 'MSKD_PLUGIN_BASENAME', 'mail-system/mail-system.php' );
 define( 'MSKD_BATCH_SIZE', 10 );
 
 // Register plugin autoloader for traits and namespaced classes.

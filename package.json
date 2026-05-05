@@ -1,8 +1,8 @@
 {
-  "name": "mail-system-by-katsarov-design",
+  "name": "mail-system",
   "version": "1.1.1",
   "description": "WordPress Mail System Plugin by Katsarov Design",
-  "main": "mail-system-by-katsarov-design.php",
+  "main": "mail-system.php",
   "scripts": {
     "sass": "sass --watch admin/scss/main.scss:admin/css/admin-style.css --style compressed",
     "sass:build": "sass admin/scss/main.scss:admin/css/admin-style.css --style compressed",

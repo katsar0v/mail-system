@@ -154,7 +154,7 @@ class Admin_Import_Export {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Please select a file to import.', 'mail-system-by-katsarov-design' ),
+				__( 'Please select a file to import.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -209,7 +209,7 @@ class Admin_Import_Export {
 					'mskd_warning',
 					sprintf(
 						/* translators: %d: number of additional errors */
-						__( '... and %d more validation errors.', 'mail-system-by-katsarov-design' ),
+						__( '... and %d more validation errors.', 'mail-system' ),
 						count( $parsed['errors'] ) - 5
 					),
 					'warning'
@@ -222,7 +222,7 @@ class Admin_Import_Export {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'No valid records found to import.', 'mail-system-by-katsarov-design' ),
+				__( 'No valid records found to import.', 'mail-system' ),
 				'error'
 			);
 			return;
@@ -257,7 +257,7 @@ class Admin_Import_Export {
 						'%d subscriber imported.',
 						'%d subscribers imported.',
 						$result['imported'],
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$result['imported']
 				);
@@ -269,7 +269,7 @@ class Admin_Import_Export {
 						'%d subscriber updated.',
 						'%d subscribers updated.',
 						$result['updated'],
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$result['updated']
 				);
@@ -281,7 +281,7 @@ class Admin_Import_Export {
 						'%d subscriber skipped (already exists).',
 						'%d subscribers skipped (already exist).',
 						$result['skipped'],
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$result['skipped']
 				);
@@ -307,7 +307,7 @@ class Admin_Import_Export {
 						'%d list imported.',
 						'%d lists imported.',
 						$result['imported'],
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$result['imported']
 				);
@@ -319,7 +319,7 @@ class Admin_Import_Export {
 						'%d list skipped (already exists).',
 						'%d lists skipped (already exist).',
 						$result['skipped'],
-						'mail-system-by-katsarov-design'
+						'mail-system'
 					),
 					$result['skipped']
 				);

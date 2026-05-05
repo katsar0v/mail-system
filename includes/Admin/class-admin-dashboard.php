@@ -61,7 +61,7 @@ class Admin_Dashboard {
 
 		wp_add_dashboard_widget(
 			'mskd_queue_stats_widget',
-			__( 'Mail System - Queue Statistics', 'mail-system-by-katsarov-design' ),
+			__( 'Mail System - Queue Statistics', 'mail-system' ),
 			array( $this, 'render_widget' )
 		);
 	}

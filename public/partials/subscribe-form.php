@@ -21,19 +21,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php if ( ! isset( $settings['show_name_field'] ) || ! empty( $settings['show_name_field'] ) ) : ?>
 		<div class="mskd-form-row">
 			<input type="text" name="first_name" 
-					placeholder="<?php esc_attr_e( 'Name', 'mail-system-by-katsarov-design' ); ?>" 
+					placeholder="<?php esc_attr_e( 'Name', 'mail-system' ); ?>" 
 					class="mskd-input">
 		</div>
 		<?php endif; ?>
 
 		<div class="mskd-form-row">
 			<input type="email" name="email" required
-					placeholder="<?php esc_attr_e( 'Email *', 'mail-system-by-katsarov-design' ); ?>" 
+					placeholder="<?php esc_attr_e( 'Email *', 'mail-system' ); ?>" 
 					class="mskd-input">
 		</div>
 
 		<div class="mskd-form-row">
-			<button type="submit" class="mskd-submit-btn"><?php esc_html_e( 'Subscribe', 'mail-system-by-katsarov-design' ); ?></button>
+			<button type="submit" class="mskd-submit-btn"><?php esc_html_e( 'Subscribe', 'mail-system' ); ?></button>
 		</div>
 
 		<div class="mskd-form-message" style="display: none;"></div>

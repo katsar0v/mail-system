@@ -1,181 +1,114 @@
-# Mail System by Katsarov Design
+<h1 align="center">Mail System</h1>
 
-[![WordPress](https://img.shields.io/badge/WordPress-5.0%2B-blue.svg)](https://wordpress.org/)
-[![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple.svg)](https://php.net/)
-[![License](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
+<p align="center">
+  Email newsletter management for WordPress — subscribers, mailing lists, templates, a visual editor, and a cron-based sending queue in one clean admin workspace.
+</p>
 
-Email newsletter management system with subscribers, lists, and sending queue. Supports English (default), Bulgarian, and German interfaces.
+<p align="center">
+  <img alt="Version 1.1.1" src="https://img.shields.io/badge/version-1.1.1-1f6feb?style=for-the-badge">
+  <img alt="WordPress 5.0+" src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=for-the-badge&logo=wordpress&logoColor=white">
+  <img alt="PHP 7.4+" src="https://img.shields.io/badge/PHP-7.4%2B-777bb4?style=for-the-badge&logo=php&logoColor=white">
+  <img alt="License GPL-2.0-or-later" src="https://img.shields.io/badge/license-GPL--2.0--or--later-0f766e?style=for-the-badge">
+</p>
 
-## 📋 Description
+## Overview
 
-**Mail System by Katsarov Design** is a WordPress plugin for managing email newsletters with full internationalization support.
+Mail System adds a dedicated WordPress admin area for managing subscribers, mailing lists, email templates, and campaign delivery. It includes a visual drag-and-drop email editor, a sending queue with configurable throughput, SMTP configuration, WP-Cron integration, CSV/JSON import and export, a subscription form shortcode, and translation support for English, Bulgarian, and German.
 
-### Key Features
+The plugin ships without a required build step and works out of the box without running Composer on production.
 
-- **Subscriber Management** - Add, edit, and delete subscribers
-- **Subscriber Statuses** - Active, Inactive, Unsubscribed
-- **Lists** - Organize your subscribers into different lists
-- **Import/Export** - Import and export subscribers and lists via CSV or JSON
-- **Sending Queue** - Emails are added to a queue and sent automatically
-- **WP-Cron Integration** - Automatic email sending via WP-Cron
-- **SMTP Support** - Configure an external SMTP server for reliable sending
-- **Shortcode for Subscription Form** - Easily add a subscription form
-- **Unsubscribe Link** - Automatic generation of unsubscribe links
-- **Multi-language Support** - English, Bulgarian, and German interfaces
+## Highlights
 
-### Technical Specifications
+| Area | What it gives you |
+| --- | --- |
+| Subscribers | Add, edit, and delete subscribers with active, inactive, and unsubscribed statuses. |
+| Mailing lists | Organize subscribers into named lists and send campaigns to one or more lists. |
+| Email templates | Reusable templates with a visual drag-and-drop editor for composing campaigns. |
+| New campaign | Compose a campaign from a template, select target lists, and queue or publish immediately. |
+| One-time email | Send a single ad-hoc email to a specific subscriber without creating a campaign. |
+| Sending queue | Emails are queued and dispatched by WP-Cron at a configurable rate (default: 10/minute). |
+| SMTP | Configure an external SMTP server with SSL or TLS for reliable delivery. |
+| Import / Export | Bulk import and export subscribers and lists in CSV or JSON format. |
+| Subscription shortcode | `[mskd_subscribe_form]` renders a signup form on any page or post. |
+| Internationalization | PHP and PO/MO translations for English (default), Bulgarian, and German. |
 
-| Feature | Value |
-|---------|-------|
-| Sending Speed | Configurable (default: 10 emails/minute) |
-| Sending Method | `wp_mail()` or SMTP (configurable) |
-| Supported Protocols | SSL, TLS (StartTLS), no encryption |
-| Minimum PHP Version | 7.4 |
-| Minimum WP Version | 5.0 |
+## Requirements
 
-### Email Placeholders
+| Requirement | Version |
+| --- | --- |
+| WordPress | 5.0 or newer |
+| PHP | 7.4 or newer |
+| Composer | Development only — not required on production |
 
-| Placeholder | Description |
-|-------------|-------------|
-| `{first_name}` | Subscriber's first name |
-| `{last_name}` | Subscriber's last name |
-| `{email}` | Subscriber's email |
-| `{unsubscribe_link}` | Unsubscribe link |
-| `{unsubscribe_url}` | Unsubscribe URL (without HTML) |
+## Admin Screens
 
-## 🚀 Installation
+| Screen | Slug | Purpose |
+| --- | --- | --- |
+| Dashboard | `mskd-dashboard` | Subscriber and queue statistics at a glance. |
+| Subscribers | `mskd-subscribers` | Browse, add, edit, and delete subscribers. |
+| Lists | `mskd-lists` | Create and manage mailing lists. |
+| Templates | `mskd-templates` | Save and manage reusable email templates. |
+| New campaign | `mskd-compose` | Compose and queue a newsletter campaign. |
+| One-time email | `mskd-one-time-email` | Send a single email to one subscriber. |
+| Queue | `mskd-queue` | Inspect pending and sent queue entries. |
+| Settings | `mskd-settings` | Configure SMTP, sending rate, and plugin options. |
+| Import / Export | `mskd-import-export` | Bulk import or export subscribers and lists (CSV or JSON). |
+| Shortcodes | `mskd-shortcodes` | Reference for available shortcodes and parameters. |
 
-### Manual Installation
+## Installation
 
-1. Upload the `mail-system-by-katsarov-design` folder to `/wp-content/plugins/`
-2. Activate the plugin from the "Plugins" menu in WordPress
-3. Go to the "Emails" menu to start using the plugin
-
-**Note:** No Composer or `vendor/` directory is required. The plugin includes its own autoloader and works out of the box.
-
-## 🌍 Internationalization (i18n)
-
-### Supported Languages
-
-The plugin supports the following languages out of the box:
-
-| Language | Locale | Status |
-|----------|--------|--------|
-| English | `en_US` | Default (source language) |
-| Bulgarian | `bg_BG` | Fully translated |
-| German | `de_DE` | Fully translated |
-
-### How Language Detection Works
-
-The plugin automatically detects and uses the appropriate language based on WordPress settings:
-
-1. **User Language** - If a user has set a preferred language in their profile, that language is used
-2. **Site Language** - If no user preference is set, the site's general language setting is used (Settings → General → Site Language)
-3. **Fallback** - If translations for the detected language are not available, English (the source language) is displayed
-
-The plugin uses WordPress's standard `load_plugin_textdomain()` function with the text domain `mail-system-by-katsarov-design`.
-
-### Adding New Translations
-
-To add a new translation:
-
-1. **Copy the POT file** - Copy `languages/mail-system-by-katsarov-design.pot` to a new file named `mail-system-by-katsarov-design-{locale}.po` (e.g., `mail-system-by-katsarov-design-fr_FR.po` for French)
-
-2. **Translate the strings** - Open the PO file with a tool like [Poedit](https://poedit.net/) or a text editor and translate all `msgstr` values
-
-3. **Compile the MO file** - Generate the binary MO file:
-   ```bash
-   msgfmt -o mail-system-by-katsarov-design-{locale}.mo mail-system-by-katsarov-design-{locale}.po
-   ```
-
-4. **Place the files** - Put both the `.po` and `.mo` files in the `languages/` folder
-
-### Example PO File Structure
-
-```po
-# Header
-msgid ""
-msgstr ""
-"Project-Id-Version: Mail System by Katsarov Design 1.1.0\n"
-"Language: fr_FR\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-
-# Translation entry
-#: admin/class-admin.php
-msgid "Dashboard"
-msgstr "Tableau de bord"
-```
-
-### Translation Files
-
-| File | Purpose |
-|------|---------|
-| `mail-system-by-katsarov-design.pot` | Template file with all translatable strings |
-| `mail-system-by-katsarov-design-{locale}.po` | Human-readable translation file |
-| `mail-system-by-katsarov-design-{locale}.mo` | Compiled binary file used by WordPress |
-
-## ⚙️ Configuration
-
-### SMTP Settings
-
-For more reliable email sending, we recommend configuring an SMTP server.
-
-**Step 1:** Go to **Emails → Settings**
-
-**Step 2:** Enable SMTP and fill in the settings:
-
-| Setting | Description |
-|---------|-------------|
-| **SMTP Host** | SMTP server address (e.g., `smtp.gmail.com`, `smtp.mailgun.org`) |
-| **SMTP Port** | Server port. Standard: 25, 465 (SSL), 587 (TLS) |
-| **Encryption** | SSL, TLS (StartTLS), or no encryption |
-| **SMTP Authentication** | Enable if the server requires username and password |
-| **SMTP Username** | Usually your email address |
-| **SMTP Password** | Access password. For Gmail, use App Password |
-
-**Step 3:** Use the "Send test email" button to verify settings
-
-#### Example SMTP Settings
-
-**Gmail:**
-- Host: `smtp.gmail.com`
-- Port: `587`
-- Encryption: TLS
-- Note: Create an App Password from Google account settings
-
-**Mailgun:**
-- Host: `smtp.mailgun.org`
-- Port: `587`
-- Encryption: TLS
-
-**SendGrid:**
-- Host: `smtp.sendgrid.net`
-- Port: `587`
-- Encryption: TLS
-- Username: `apikey`
-
-### System Cron Recommendation
-
-For more reliable email sending, we recommend using system cron instead of WP-Cron.
-
-**Step 1:** Add to `wp-config.php`:
-
-```php
-define('DISABLE_WP_CRON', true);
-```
-
-**Step 2:** Set up system cron:
+Place the plugin directory inside WordPress:
 
 ```bash
-* * * * * php /path/to/wordpress/wp-cron.php
+wp-content/plugins/mail-system
 ```
 
-## 📖 Usage
+Activate the plugin in WordPress:
 
-### Subscription Form Shortcode
+```bash
+wp plugin activate mail-system
+```
 
-Basic usage:
+You can also activate it from `Plugins` in the WordPress admin. No Composer or `vendor/` directory is required — the plugin includes its own autoloader and works out of the box.
+
+## First-Time Setup
+
+1. Open `Emails` in the WordPress admin sidebar.
+2. Go to `Settings` and set the sending rate (emails per minute) appropriate for your host.
+3. Enable SMTP if you want to use an external mail server instead of `wp_mail()`.
+   - Fill in the SMTP host, port, encryption (SSL or TLS), and credentials.
+   - Common providers: Gmail (`smtp.gmail.com:587`, TLS, App Password), Mailgun (`smtp.mailgun.org:587`, TLS), SendGrid (`smtp.sendgrid.net:587`, TLS, username `apikey`).
+   - Use the **Send test email** button to verify the connection.
+4. Go to `Lists` and create at least one mailing list.
+5. Go to `Subscribers` and add subscribers, or use `Import / Export` to bulk-import from CSV.
+6. Go to `Templates` to create a reusable email template using the visual editor.
+7. Go to `New campaign`, select a template and target lists, and send or queue the campaign.
+
+## Production Cron
+
+WordPress traffic-based cron can delay scheduled email delivery on quiet sites. For production, use a real system cron job and disable the traffic trigger.
+
+Add this to `wp-config.php`:
+
+```php
+define( 'DISABLE_WP_CRON', true );
+```
+
+Run WordPress cron every minute from the server:
+
+```cron
+* * * * * wget -q -O - https://example.com/wp-cron.php?doing_wp_cron >/dev/null 2>&1
+```
+
+The plugin registers this event:
+
+| Event | Interval | Purpose |
+| --- | --- | --- |
+| `mskd_process_queue` | Every minute | Dispatch queued emails up to the configured rate limit. |
+
+## Shortcode
+
+Place the subscription form on any page or post:
 
 ```
 [mskd_subscribe_form]
@@ -184,200 +117,118 @@ Basic usage:
 With parameters:
 
 ```
-[mskd_subscribe_form list_id="1" title="Subscribe to news"]
+[mskd_subscribe_form list_id="1" title="Subscribe to our newsletter"]
 ```
 
 | Parameter | Description | Default |
-|-----------|-------------|---------|
+| --- | --- | --- |
 | `list_id` | ID of the list to subscribe to | 0 (no list) |
-| `title` | Form title | "Subscribe" |
+| `title` | Form heading | "Subscribe" |
 
-### Admin Menus
+### Email Placeholders
 
-After activation, you will see a new **"Emails"** menu with submenus:
+Use these placeholders inside campaign and template bodies:
 
-- **Dashboard** - General statistics
-- **Subscribers** - Subscriber management
-- **Lists** - List management
-- **New email** - Create and send emails
-- **Queue** - View the sending queue
-- **Settings** - Plugin configuration
-- **Import/Export** - Import and export subscribers and lists
+| Placeholder | Description |
+| --- | --- |
+| `{first_name}` | Subscriber's first name |
+| `{last_name}` | Subscriber's last name |
+| `{email}` | Subscriber's email address |
+| `{unsubscribe_link}` | Unsubscribe anchor tag |
+| `{unsubscribe_url}` | Raw unsubscribe URL |
 
-### Import/Export
+## Data Storage
 
-The Import/Export feature allows you to easily migrate or back up your subscribers and lists.
+The plugin creates custom tables using the active WordPress table prefix.
 
-#### Export
+| Table | Purpose |
+| --- | --- |
+| `mskd_subscribers` | Subscriber records and statuses. |
+| `mskd_lists` | Mailing list definitions. |
+| `mskd_subscriber_list` | Many-to-many subscriber-to-list relationships. |
+| `mskd_queue` | Queued email jobs and delivery status. |
 
-Go to **Emails → Import/Export** to export data:
+The plugin stores settings in `mskd_settings` and database versioning in `mskd_db_version`.
 
-- **Subscribers** - Export all subscribers or filter by list and status
-- **Lists** - Export all mailing lists
-- **Formats** - CSV (Excel-compatible) or JSON
+## Development
 
-#### Import
-
-Import subscribers or lists from CSV or JSON files:
-
-**Subscribers CSV Format:**
-```csv
-email,first_name,last_name,status,lists
-john@example.com,John,Doe,active,Newsletter;Updates
-jane@example.com,Jane,Smith,active,Newsletter
-```
-
-**Lists CSV Format:**
-```csv
-name,description
-Newsletter,Weekly newsletter subscribers
-Updates,Product update notifications
-```
-
-**Import Options:**
-- **Update existing subscribers** - Updates information for subscribers that already exist
-- **Assign to lists from file** - Creates lists from the file if they don't exist and assigns subscribers
-
-## 🗄️ Database
-
-The plugin creates 4 tables:
-
-| Table | Description |
-|-------|-------------|
-| `{prefix}mskd_subscribers` | Subscribers |
-| `{prefix}mskd_lists` | Lists |
-| `{prefix}mskd_subscriber_list` | Subscriber-list relationship |
-| `{prefix}mskd_queue` | Sending queue |
-
-## ❓ FAQ
-
-### How do I add a subscription form?
-
-Use the shortcode `[mskd_subscribe_form]` on a page or post.
-
-### How many emails are sent per minute?
-
-By default, 10 emails are sent per minute. This limit can be configured in the plugin settings (**Emails → Settings → Sending settings → Emails per minute**). You can adjust this value between 1 and 1000 emails per minute, depending on your hosting provider limits.
-
-### Why aren't emails being sent?
-
-Check if:
-
-1. There are pending emails in the queue
-2. WP-Cron is working correctly
-3. Your site receives visits (WP-Cron runs on visits)
-
-For more reliable sending, configure SMTP and/or system cron.
-
-### How do I configure SMTP?
-
-Go to **Emails → Settings** and enable SMTP. Fill in the SMTP host, port, encryption, and authentication data. Use the "Send test email" button to verify settings. For more information, see the **SMTP Settings** section above.
-
-### How do I change the sending speed?
-
-Go to **Emails → Settings → Sending settings** and adjust the "Emails per minute" value. You can set any value between 1 and 1000. Higher values may exceed your hosting provider limits, so adjust according to your needs.
-
-### How do I change the interface language?
-
-The interface language automatically follows your WordPress site language setting. Go to **Settings → General → Site Language** to change it. If translations are available for that language, they will be used automatically.
-
-## 🔧 Development
-
-### Requirements
-
-**For End Users (Clients):**
-- PHP 7.4+
-- WordPress 5.0+
-- No Composer required - the plugin works without the `vendor/` directory
-
-**For Developers:**
-- All of the above, plus:
-- Composer (for running tests and coding standards checks)
-- Docker (recommended for development environment)
-
-### Installing Development Dependencies
+Install development dependencies:
 
 ```bash
-# Inside Docker PHP container
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system-by-katsarov-design && composer install"
+composer install
 ```
 
-### Available Composer Scripts (Development Only)
+Check local Docker containers first:
 
 ```bash
-composer test          # Run PHPUnit tests
-composer test:unit     # Run only unit tests
-composer phpcs         # Check WordPress coding standards
-composer phpcbf        # Auto-fix coding standards violations
-composer translations  # Compile .po to .mo translation files
+docker ps -a
 ```
 
-### Project Structure
+Run PHPUnit in the WordPress test container:
 
-```
-mail-system-by-katsarov-design/
-├── mail-system-by-katsarov-design.php  # Main file
-├── composer.json
-├── README.md
-├── CHANGELOG.md
-├── uninstall.php
-├── includes/
-│   ├── class-activator.php
-│   ├── class-deactivator.php
-│   └── services/
-│       ├── class-cron-handler.php
-│       └── class-smtp-mailer.php
-├── admin/
-│   ├── class-admin.php
-│   ├── css/
-│   ├── js/
-│   └── partials/
-├── public/
-│   ├── class-public.php
-│   ├── css/
-│   ├── js/
-│   └── partials/
-└── languages/
-    ├── mail-system-by-katsarov-design.pot
-    ├── mail-system-by-katsarov-design-bg_BG.po
-    ├── mail-system-by-katsarov-design-bg_BG.mo
-    ├── mail-system-by-katsarov-design-de_DE.po
-    └── mail-system-by-katsarov-design-de_DE.mo
+```bash
+docker exec -w /var/www/html/wp-content/plugins/mail-system php vendor/bin/phpunit -c phpunit.xml
 ```
 
-### Naming Conventions
+Run WordPress coding standards:
 
-| Type | Prefix | Example |
-|------|--------|---------|
-| Constants | `MSKD_` | `MSKD_BATCH_SIZE` |
-| Classes | `MSKD_` | `MSKD_Admin` |
-| Functions | `mskd_` | `mskd_load_textdomain()` |
-| Tables | `mskd_` | `wp_mskd_subscribers` |
-| Hooks | `mskd_` | `mskd_process_queue` |
+```bash
+docker exec -w /var/www/html/wp-content/plugins/mail-system php composer phpcs
+```
 
-## 📄 License
+Auto-fix coding standards violations:
 
-This plugin is licensed under [GPL v2 or later](https://www.gnu.org/licenses/gpl-2.0.html).
+```bash
+docker exec -w /var/www/html/wp-content/plugins/mail-system php composer phpcbf
+```
 
-## 👤 Author
+Compile `.po` translation files to `.mo`:
 
-**Katsarov Design**
+```bash
+docker exec -w /var/www/html/wp-content/plugins/mail-system php composer translations
+```
 
-- Website: [https://katsarov.design](https://katsarov.design)
+There is no frontend build step. Admin CSS and JavaScript live directly in `admin/css` and `admin/js`.
 
-## 🤝 Contributing
+## Architecture
 
-Contributions are welcome! Please read our [Contributing Guidelines](.github/CONTRIBUTING.md) before submitting a pull request.
+```text
+mail-system.php                  Plugin bootstrap and activation hooks
+includes/class-activator.php     Activation: table creation and cron scheduling
+includes/class-mskd-deactivator.php  Deactivation: cron teardown
+includes/Admin/                  Admin menu, controllers, assets, and notices
+includes/services/               Business logic: email, subscriber, list, queue, SMTP, import/export
+admin/partials/                  WordPress admin templates
+admin/css/                       Admin styles
+admin/js/                        Admin screens and interactions
+admin/editor/                    Visual email editor assets
+public/                          Front-end shortcode rendering
+tests/                           PHPUnit test suite
+languages/                       POT, PO, and MO translation files
+```
 
-### Quick Start
+## Internationalization
 
-1. Fork the repository
-2. Create an issue or find an existing one
-3. Create a feature branch (`git checkout -b feature/issue-123-description`)
-4. Make your changes following [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/)
-5. Run tests and coding standards checks
-6. Commit your changes (`git commit -m "Fix #123: Brief description"`)
-7. Push to your fork (`git push origin feature/issue-123-description`)
-8. Open a Pull Request referencing the issue
+Generate the translation template:
 
-**Important**: The `main` branch is protected. All changes must go through pull requests, and each issue requires its own PR.
+```bash
+docker exec -w /var/www/html/wp-content/plugins/mail-system php wp i18n make-pot . languages/mail-system.pot --exclude=vendor,node_modules --allow-root
+```
+
+Compile a `.po` file to `.mo` after translating:
+
+```bash
+msgfmt -o languages/mail-system-{locale}.mo languages/mail-system-{locale}.po
+```
+
+Bundled translations: English (`en_US`, default), Bulgarian (`bg_BG`), German (`de_DE`).
+
+## Uninstall Behavior
+
+Uninstalling the plugin drops all custom tables (`mskd_subscribers`, `mskd_lists`, `mskd_subscriber_list`, `mskd_queue`), deletes stored options, and clears the scheduled cron event.
+
+## License
+
+Mail System is licensed under `GPL-2.0-or-later`.
+
+Copyright (C) 2026 Katsarov Design.

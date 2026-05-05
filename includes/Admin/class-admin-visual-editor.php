@@ -66,7 +66,7 @@ class Admin_Visual_Editor {
 
 		// Check permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to access this page.', 'mail-system-by-katsarov-design' ) );
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'mail-system' ) );
 		}
 
 		// Render the full-screen editor and exit.
@@ -113,13 +113,13 @@ class Admin_Visual_Editor {
 			'campaignMode' => $campaign_mode,
 			'saveAction'   => $campaign_mode ? 'mskd_save_campaign_content' : 'mskd_save_visual_editor',
 			'strings'      => array(
-				'save'             => $campaign_mode ? __( 'Save & Continue', 'mail-system-by-katsarov-design' ) : __( 'Save', 'mail-system-by-katsarov-design' ),
-				'saving'           => __( 'Saving...', 'mail-system-by-katsarov-design' ),
-				'saved'            => __( 'Saved!', 'mail-system-by-katsarov-design' ),
-				'error'            => __( 'Error saving template', 'mail-system-by-katsarov-design' ),
-				'exportHtml'       => __( 'Export HTML', 'mail-system-by-katsarov-design' ),
-				'cancel'           => __( 'Back', 'mail-system-by-katsarov-design' ),
-				'untitledTemplate' => __( 'Untitled Template', 'mail-system-by-katsarov-design' ),
+				'save'             => $campaign_mode ? __( 'Save & Continue', 'mail-system' ) : __( 'Save', 'mail-system' ),
+				'saving'           => __( 'Saving...', 'mail-system' ),
+				'saved'            => __( 'Saved!', 'mail-system' ),
+				'error'            => __( 'Error saving template', 'mail-system' ),
+				'exportHtml'       => __( 'Export HTML', 'mail-system' ),
+				'cancel'           => __( 'Back', 'mail-system' ),
+				'untitledTemplate' => __( 'Untitled Template', 'mail-system' ),
 			),
 		);
 
@@ -129,8 +129,8 @@ class Admin_Visual_Editor {
 
 		if ( ! $js_exists ) {
 			wp_die(
-				esc_html__( 'Visual Editor Not Available. The visual editor needs to be built. Please run: cd admin/editor && npm install && npm run build', 'mail-system-by-katsarov-design' ),
-				esc_html__( 'Visual Editor Error', 'mail-system-by-katsarov-design' )
+				esc_html__( 'Visual Editor Not Available. The visual editor needs to be built. Please run: cd admin/editor && npm install && npm run build', 'mail-system' ),
+				esc_html__( 'Visual Editor Error', 'mail-system' )
 			);
 		}
 
@@ -141,7 +141,7 @@ class Admin_Visual_Editor {
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo esc_html( $template ? $template->name : __( 'New Template', 'mail-system-by-katsarov-design' ) ); ?> - <?php bloginfo( 'name' ); ?></title>
+	<title><?php echo esc_html( $template ? $template->name : __( 'New Template', 'mail-system' ) ); ?> - <?php bloginfo( 'name' ); ?></title>
 		<?php if ( $css_exists ) : ?>
 	<link rel="stylesheet" href="<?php echo esc_url( MSKD_PLUGIN_URL . 'admin/js/editor/visual-editor.css?ver=' . MSKD_VERSION ); ?>">
 	<?php endif; ?>
@@ -198,7 +198,7 @@ class Admin_Visual_Editor {
 		<div class="mskd-editor-loading">
 			<div class="mskd-editor-loading-inner">
 				<div class="mskd-editor-spinner"></div>
-				<p><?php esc_html_e( 'Loading email editor...', 'mail-system-by-katsarov-design' ); ?></p>
+				<p><?php esc_html_e( 'Loading email editor...', 'mail-system' ); ?></p>
 			</div>
 		</div>
 	</div>
@@ -221,7 +221,7 @@ class Admin_Visual_Editor {
 		// This should not be called as maybe_render_fullscreen() intercepts first.
 		// But keep as fallback just in case.
 		echo '<div class="wrap"><p>';
-		esc_html_e( 'Redirecting to Visual Editor...', 'mail-system-by-katsarov-design' );
+		esc_html_e( 'Redirecting to Visual Editor...', 'mail-system' );
 		echo '</p></div>';
 		echo '<script>window.location.href = "' . esc_url( admin_url( 'admin.php?page=mskd-visual-editor' ) ) . '";</script>';
 	}
@@ -234,12 +234,12 @@ class Admin_Visual_Editor {
 	public function ajax_save(): void {
 		// Verify nonce.
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'mskd_visual_editor' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'mail-system-by-katsarov-design' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'mail-system' ) ) );
 		}
 
 		// Check permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'mail-system-by-katsarov-design' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'mail-system' ) ) );
 		}
 
 		// Get data.
@@ -255,7 +255,7 @@ class Admin_Visual_Editor {
 		if ( ! empty( $json_content ) ) {
 			$decoded = json_decode( $json_content );
 			if ( null === $decoded && JSON_ERROR_NONE !== json_last_error() ) {
-				wp_send_json_error( array( 'message' => __( 'Invalid JSON content.', 'mail-system-by-katsarov-design' ) ) );
+				wp_send_json_error( array( 'message' => __( 'Invalid JSON content.', 'mail-system' ) ) );
 			}
 		}
 
@@ -269,23 +269,23 @@ class Admin_Visual_Editor {
 			// Update existing template.
 			$template = $this->template_service->get_by_id( $template_id );
 			if ( ! $template ) {
-				wp_send_json_error( array( 'message' => __( 'Template not found.', 'mail-system-by-katsarov-design' ) ) );
+				wp_send_json_error( array( 'message' => __( 'Template not found.', 'mail-system' ) ) );
 			}
 
 			$result = $this->template_service->update( $template_id, $data );
 			if ( $result ) {
 				wp_send_json_success(
 					array(
-						'message'  => __( 'Template saved successfully.', 'mail-system-by-katsarov-design' ),
+						'message'  => __( 'Template saved successfully.', 'mail-system' ),
 						'redirect' => false,
 					)
 				);
 			} else {
-				wp_send_json_error( array( 'message' => __( 'Failed to save template.', 'mail-system-by-katsarov-design' ) ) );
+				wp_send_json_error( array( 'message' => __( 'Failed to save template.', 'mail-system' ) ) );
 			}
 		} else {
 			// Create new template.
-			$data['name']   = $subject ?: __( 'Untitled Template', 'mail-system-by-katsarov-design' );
+			$data['name']   = $subject ?: __( 'Untitled Template', 'mail-system' );
 			$data['type']   = 'custom';
 			$data['status'] = 'active';
 
@@ -293,13 +293,13 @@ class Admin_Visual_Editor {
 			if ( $new_id ) {
 				wp_send_json_success(
 					array(
-						'message'     => __( 'Template created successfully.', 'mail-system-by-katsarov-design' ),
+						'message'     => __( 'Template created successfully.', 'mail-system' ),
 						'template_id' => $new_id,
 						'redirect'    => true,
 					)
 				);
 			} else {
-				wp_send_json_error( array( 'message' => __( 'Failed to create template.', 'mail-system-by-katsarov-design' ) ) );
+				wp_send_json_error( array( 'message' => __( 'Failed to create template.', 'mail-system' ) ) );
 			}
 		}
 	}
@@ -314,12 +314,12 @@ class Admin_Visual_Editor {
 	public function ajax_save_campaign_content(): void {
 		// Verify nonce.
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'mskd_visual_editor' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'mail-system-by-katsarov-design' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'mail-system' ) ) );
 		}
 
 		// Check permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'mail-system-by-katsarov-design' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'mail-system' ) ) );
 		}
 
 		// Get data.
@@ -334,7 +334,7 @@ class Admin_Visual_Editor {
 		if ( ! empty( $json_content ) ) {
 			$decoded = json_decode( $json_content );
 			if ( null === $decoded && JSON_ERROR_NONE !== json_last_error() ) {
-				wp_send_json_error( array( 'message' => __( 'Invalid JSON content.', 'mail-system-by-katsarov-design' ) ) );
+				wp_send_json_error( array( 'message' => __( 'Invalid JSON content.', 'mail-system' ) ) );
 			}
 		}
 
@@ -364,7 +364,7 @@ class Admin_Visual_Editor {
 
 		wp_send_json_success(
 			array(
-				'message'  => __( 'Content saved successfully.', 'mail-system-by-katsarov-design' ),
+				'message'  => __( 'Content saved successfully.', 'mail-system' ),
 				'redirect' => true,
 			)
 		);
@@ -378,17 +378,17 @@ class Admin_Visual_Editor {
 	public function ajax_upload_image(): void {
 		// Verify nonce.
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'mskd_visual_editor' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'mail-system-by-katsarov-design' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'mail-system' ) ) );
 		}
 
 		// Check permissions.
 		if ( ! current_user_can( 'upload_files' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'mail-system-by-katsarov-design' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'mail-system' ) ) );
 		}
 
 		// Check if file was uploaded.
 		if ( ! isset( $_FILES['file'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'No file uploaded.', 'mail-system-by-katsarov-design' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No file uploaded.', 'mail-system' ) ) );
 		}
 
 		// Handle the upload using WordPress media functions.

@@ -64,25 +64,25 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 ?>
 
 <div class="wrap mskd-wrap">
-	<h1><?php esc_html_e( 'New campaign', 'mail-system-by-katsarov-design' ); ?></h1>
+	<h1><?php esc_html_e( 'New campaign', 'mail-system' ); ?></h1>
 
 	<?php settings_errors( 'mskd_messages' ); ?>
 
 	<!-- Editor type selection -->
 	<div class="mskd-editor-toggle" style="margin-bottom: 20px; padding: 15px; background: #fff; border: 1px solid #c3c4c7; border-radius: 4px;">
-		<p style="margin: 0 0 10px; font-weight: 600;"><?php esc_html_e( 'Choose how to compose your email:', 'mail-system-by-katsarov-design' ); ?></p>
+		<p style="margin: 0 0 10px; font-weight: 600;"><?php esc_html_e( 'Choose how to compose your email:', 'mail-system' ); ?></p>
 		<div style="display: flex; gap: 15px; flex-wrap: wrap;">
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-templates' ) ); ?>" class="button button-secondary" style="display: inline-flex; align-items: center; gap: 8px;">
 				<span class="dashicons dashicons-layout" style="margin: 0;"></span>
-				<?php esc_html_e( 'Use a Template', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Use a Template', 'mail-system' ); ?>
 			</a>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-visual-editor' ) ); ?>" class="button button-primary" style="display: inline-flex; align-items: center; gap: 8px;">
 				<span class="dashicons dashicons-welcome-widgets-menus" style="margin: 0;"></span>
-				<?php esc_html_e( 'Open Visual Editor', 'mail-system-by-katsarov-design' ); ?>
+				<?php esc_html_e( 'Open Visual Editor', 'mail-system' ); ?>
 			</a>
 		</div>
 		<p class="description" style="margin-top: 10px;">
-			<?php esc_html_e( 'Or use the standard editor below to compose your email with HTML.', 'mail-system-by-katsarov-design' ); ?>
+			<?php esc_html_e( 'Or use the standard editor below to compose your email with HTML.', 'mail-system' ); ?>
 		</p>
 	</div>
 
@@ -93,7 +93,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 			<table class="form-table">
 				<tr>
 					<th scope="row">
-						<label for="mskd-lists-select"><?php esc_html_e( 'Send to lists', 'mail-system-by-katsarov-design' ); ?> *</label>
+						<label for="mskd-lists-select"><?php esc_html_e( 'Send to lists', 'mail-system' ); ?> *</label>
 					</th>
 					<td>
 						<?php if ( ! empty( $lists ) ) : ?>
@@ -104,7 +104,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 									$is_external      = 'external' === $list->source;
 									$is_preselected   = in_array( $list->id, $preselected_list_ids, true );
 									/* translators: %d: number of subscribers in the list */
-									$badge = $is_external ? ' [' . __( 'Automated', 'mail-system-by-katsarov-design' ) . ']' : '';
+									$badge = $is_external ? ' [' . __( 'Automated', 'mail-system' ) . ']' : '';
 									?>
 									<option value="<?php echo esc_attr( $list->id ); ?>" 
 											data-subscribers="<?php echo esc_attr( $subscriber_count ); ?>"
@@ -112,19 +112,19 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 											<?php selected( $is_preselected ); ?>>
 										<?php
 										/* translators: %d: subscriber count */
-										echo esc_html( $list->name . $badge . ' (' . sprintf( __( '%d subscribers', 'mail-system-by-katsarov-design' ), $subscriber_count ) . ')' );
+										echo esc_html( $list->name . $badge . ' (' . sprintf( __( '%d subscribers', 'mail-system' ), $subscriber_count ) . ')' );
 										?>
 									</option>
 								<?php endforeach; ?>
 							</select>
 							<p class="description" style="margin-top: 8px;">
-								<?php esc_html_e( 'Start typing to search. You can select multiple lists.', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Start typing to search. You can select multiple lists.', 'mail-system' ); ?>
 							</p>
 						<?php else : ?>
 							<p class="description">
-								<?php esc_html_e( 'No lists created.', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'No lists created.', 'mail-system' ); ?>
 								<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-lists&action=add' ) ); ?>">
-									<?php esc_html_e( 'Create list', 'mail-system-by-katsarov-design' ); ?>
+									<?php esc_html_e( 'Create list', 'mail-system' ); ?>
 								</a>
 							</p>
 						<?php endif; ?>
@@ -132,7 +132,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="subject"><?php esc_html_e( 'Subject', 'mail-system-by-katsarov-design' ); ?> *</label>
+						<label for="subject"><?php esc_html_e( 'Subject', 'mail-system' ); ?> *</label>
 					</th>
 					<td>
 						<input type="text" name="subject" id="subject" class="large-text" required value="<?php echo esc_attr( $prefilled_subject ); ?>">
@@ -141,7 +141,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 								<?php
 								printf(
 									/* translators: %s: template name */
-									esc_html__( 'Using template: %s', 'mail-system-by-katsarov-design' ),
+									esc_html__( 'Using template: %s', 'mail-system' ),
 									'<strong>' . esc_html( $selected_template->name ) . '</strong>'
 								);
 								?>
@@ -151,7 +151,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="body"><?php esc_html_e( 'Content', 'mail-system-by-katsarov-design' ); ?> *</label>
+						<label for="body"><?php esc_html_e( 'Content', 'mail-system' ); ?> *</label>
 					</th>
 					<td>
 						<?php
@@ -168,7 +168,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 						);
 						?>
 						<p class="description">
-							<?php esc_html_e( 'Available placeholders:', 'mail-system-by-katsarov-design' ); ?>
+							<?php esc_html_e( 'Available placeholders:', 'mail-system' ); ?>
 							<code>{first_name}</code>, <code>{last_name}</code>, <code>{email}</code>, <code>{unsubscribe_link}</code>
 						</p>
 					</td>
@@ -177,20 +177,20 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 				<!-- Custom From Email -->
 				<tr>
 					<th scope="row">
-						<label for="use_custom_from"><?php esc_html_e( 'Sender Email', 'mail-system-by-katsarov-design' ); ?></label>
+						<label for="use_custom_from"><?php esc_html_e( 'Sender Email', 'mail-system' ); ?></label>
 					</th>
 					<td>
 						<fieldset>
 							<label>
 								<input type="radio" name="use_custom_from" value="default" checked>
-								<?php esc_html_e( 'Use default sender', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Use default sender', 'mail-system' ); ?>
 								<span class="description">
 									<?php
 									$default_from  = get_option( 'mskd_settings', array() );
 									$default_email = ! empty( $default_from['from_email'] ) ? $default_from['from_email'] : get_bloginfo( 'admin_email' );
 									printf(
 									/* translators: %s: default email address */
-										esc_html__( '(%s)', 'mail-system-by-katsarov-design' ),
+										esc_html__( '(%s)', 'mail-system' ),
 										esc_html( $default_email )
 									);
 									?>
@@ -199,7 +199,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 							<br>
 							<label>
 								<input type="radio" name="use_custom_from" value="custom">
-								<?php esc_html_e( 'Use custom sender', 'mail-system-by-katsarov-design' ); ?>
+								<?php esc_html_e( 'Use custom sender', 'mail-system' ); ?>
 							</label>
 						</fieldset>
 						
@@ -207,25 +207,25 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 							<table class="widefat" style="width: auto;">
 								<tr>
 									<th style="width: 120px;">
-										<label for="from_email"><?php esc_html_e( 'From Email', 'mail-system-by-katsarov-design' ); ?> *</label>
+										<label for="from_email"><?php esc_html_e( 'From Email', 'mail-system' ); ?> *</label>
 									</th>
 									<td>
 										<input type="email" name="from_email" id="from_email" class="regular-text"
-												placeholder="<?php esc_attr_e( 'sender@example.com', 'mail-system-by-katsarov-design' ); ?>">
+												placeholder="<?php esc_attr_e( 'sender@example.com', 'mail-system' ); ?>">
 										<p class="description">
-											<?php esc_html_e( 'Email address that will appear as the sender of this campaign.', 'mail-system-by-katsarov-design' ); ?>
+											<?php esc_html_e( 'Email address that will appear as the sender of this campaign.', 'mail-system' ); ?>
 										</p>
 									</td>
 								</tr>
 								<tr>
 									<th>
-										<label for="from_name"><?php esc_html_e( 'From Name', 'mail-system-by-katsarov-design' ); ?></label>
+										<label for="from_name"><?php esc_html_e( 'From Name', 'mail-system' ); ?></label>
 									</th>
 									<td>
 										<input type="text" name="from_name" id="from_name" class="regular-text"
-												placeholder="<?php esc_attr_e( 'Sender Name', 'mail-system-by-katsarov-design' ); ?>">
+												placeholder="<?php esc_attr_e( 'Sender Name', 'mail-system' ); ?>">
 										<p class="description">
-											<?php esc_html_e( 'Display name for the sender (optional).', 'mail-system-by-katsarov-design' ); ?>
+											<?php esc_html_e( 'Display name for the sender (optional).', 'mail-system' ); ?>
 										</p>
 									</td>
 								</tr>
@@ -236,13 +236,13 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 
 				<tr>
 					<th scope="row">
-						<label for="schedule_type"><?php esc_html_e( 'Scheduling', 'mail-system-by-katsarov-design' ); ?></label>
+						<label for="schedule_type"><?php esc_html_e( 'Scheduling', 'mail-system' ); ?></label>
 					</th>
 					<td>
 						<select name="schedule_type" id="schedule_type" class="mskd-schedule-type">
-							<option value="now"><?php esc_html_e( 'Send now', 'mail-system-by-katsarov-design' ); ?></option>
-							<option value="absolute"><?php esc_html_e( 'Specific date and time', 'mail-system-by-katsarov-design' ); ?></option>
-							<option value="relative"><?php esc_html_e( 'After a set time', 'mail-system-by-katsarov-design' ); ?></option>
+							<option value="now"><?php esc_html_e( 'Send now', 'mail-system' ); ?></option>
+							<option value="absolute"><?php esc_html_e( 'Specific date and time', 'mail-system' ); ?></option>
+							<option value="relative"><?php esc_html_e( 'After a set time', 'mail-system' ); ?></option>
 						</select>
 						
 						<div class="mskd-schedule-absolute" style="display: none; margin-top: 10px;">
@@ -257,7 +257,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 								<?php
 								printf(
 									/* translators: %s: timezone string */
-									esc_html__( 'Timezone: %s. Select time in 10-minute intervals.', 'mail-system-by-katsarov-design' ),
+									esc_html__( 'Timezone: %s. Select time in 10-minute intervals.', 'mail-system' ),
 									'<strong>' . esc_html( wp_timezone_string() ) . '</strong>'
 								);
 								?>
@@ -266,7 +266,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 								$current_time = new DateTime( 'now', $wp_timezone );
 								printf(
 									/* translators: %s: current server time in H:i format */
-									esc_html__( 'Current server time: %s', 'mail-system-by-katsarov-design' ),
+									esc_html__( 'Current server time: %s', 'mail-system' ),
 									'<strong>' . esc_html( $current_time->format( 'H:i' ) ) . '</strong>'
 								);
 								?>
@@ -282,11 +282,11 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 									min="1"
 									max="999">
 								<select name="delay_unit" id="delay_unit">
-									<option value="minutes"><?php esc_html_e( 'minutes', 'mail-system-by-katsarov-design' ); ?></option>
-									<option value="hours" selected><?php esc_html_e( 'hours', 'mail-system-by-katsarov-design' ); ?></option>
-									<option value="days"><?php esc_html_e( 'days', 'mail-system-by-katsarov-design' ); ?></option>
+									<option value="minutes"><?php esc_html_e( 'minutes', 'mail-system' ); ?></option>
+									<option value="hours" selected><?php esc_html_e( 'hours', 'mail-system' ); ?></option>
+									<option value="days"><?php esc_html_e( 'days', 'mail-system' ); ?></option>
 								</select>
-								<p class="description"><?php esc_html_e( 'Emails will be sent after the specified time.', 'mail-system-by-katsarov-design' ); ?></p>
+								<p class="description"><?php esc_html_e( 'Emails will be sent after the specified time.', 'mail-system' ); ?></p>
 						</div>
 					</td>
 				</tr>
@@ -294,9 +294,9 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 
 			<p class="submit">
 				<input type="submit" name="mskd_send_email" class="button button-primary button-large mskd-submit-btn" 
-						value="<?php esc_attr_e( 'Add to queue', 'mail-system-by-katsarov-design' ); ?>"
-						data-send-now="<?php esc_attr_e( 'Add to queue', 'mail-system-by-katsarov-design' ); ?>"
-						data-schedule="<?php esc_attr_e( 'Schedule sending', 'mail-system-by-katsarov-design' ); ?>">
+						value="<?php esc_attr_e( 'Add to queue', 'mail-system' ); ?>"
+						data-send-now="<?php esc_attr_e( 'Add to queue', 'mail-system' ); ?>"
+						data-schedule="<?php esc_attr_e( 'Schedule sending', 'mail-system' ); ?>">
 			</p>
 		</form>
 	</div>
@@ -343,7 +343,7 @@ jQuery(document).ready(function($) {
 			var fromEmail = $('#from_email').val().trim();
 			if (!fromEmail || !isValidEmail(fromEmail)) {
 				e.preventDefault();
-				alert('<?php esc_html_e( 'Please enter a valid sender email address.', 'mail-system-by-katsarov-design' ); ?>');
+				alert('<?php esc_html_e( 'Please enter a valid sender email address.', 'mail-system' ); ?>');
 				$('#from_email').focus();
 				return false;
 			}
