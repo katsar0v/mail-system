@@ -9,7 +9,6 @@ This guide provides detailed instructions for running linting and code fixing to
 - [PHP Linting & Fixing](#php-linting--fixing)
 - [SCSS/CSS Building](#scsscss-building)
 - [TypeScript/JavaScript Building](#typescriptjavascript-building)
-- [Running in Docker](#running-in-docker)
 - [Quick Reference](#quick-reference)
 - [Troubleshooting](#troubleshooting)
 - [CI/CD Integration](#cicd-integration)
@@ -313,69 +312,6 @@ The visual editor uses TypeScript with strict mode enabled. Configuration files:
 }
 ```
 
-## 🐳 Running in Docker
-
-If you're using Docker for development, run commands inside the PHP container.
-
-### Finding Your Container Name
-
-```bash
-# List running containers
-docker ps
-
-# Look for the PHP container (e.g., php-fpm, radostna-php, etc.)
-```
-
-### Running Commands in Docker
-
-#### PHP Commands (PHPCS/PHPCBF/Tests)
-
-```bash
-# One-liner format
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcs"
-
-# Examples with common container names
-docker exec -it php-fpm bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcs"
-docker exec -it radostna-php bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcbf"
-
-# Or enter the container interactively
-docker exec -it <php-container> bash
-cd /var/www/html/wp-content/plugins/mail-system
-composer phpcs
-composer phpcbf
-```
-
-#### Node.js Commands (SCSS/Editor Build)
-
-```bash
-# If Node.js is in the PHP container
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && npm run build"
-
-# Or if you have a separate Node.js container
-docker exec -it <node-container> bash -c "cd /app/wp-content/plugins/mail-system && npm run build"
-
-# Or run on host machine (if Node.js is installed locally)
-npm run build
-```
-
-### Docker Compose Example
-
-If using docker-compose, you can add aliases:
-
-```yaml
-# docker-compose.yml
-services:
-  php:
-    # ... other config
-    working_dir: /var/www/html/wp-content/plugins/mail-system
-```
-
-Then run:
-```bash
-docker-compose exec php composer phpcs
-docker-compose exec php composer phpcbf
-```
-
 ## 📚 Quick Reference
 
 ### Common Commands Table
@@ -393,27 +329,6 @@ docker-compose exec php composer phpcbf
 | **Watch Admin SCSS** | `npm run sass:dev` | Watch admin SCSS only |
 | **Build Editor** | `npm run build:editor` | Build visual editor |
 | **Build Everything** | `npm run build:all` | Build SCSS + visual editor |
-
-### Docker Quick Reference
-
-Replace `<php-container>` with your actual container name (e.g., `php-fpm`, `radostna-php`).
-
-```bash
-# Check coding standards
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcs"
-
-# Fix coding standards
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer phpcbf"
-
-# Run tests
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && composer test"
-
-# Build SCSS
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && npm run build"
-
-# Build editor
-docker exec -it <php-container> bash -c "cd /var/www/html/wp-content/plugins/mail-system && npm run build:editor"
-```
 
 ### Pre-Commit Checklist
 
@@ -503,35 +418,6 @@ npm cache clean --force
 npm install
 # Try again
 npm run watch
-```
-
-### Docker Issues
-
-#### "Container not found"
-
-**Problem**: Wrong container name or container not running.
-
-**Solution**:
-```bash
-# List all containers
-docker ps -a
-
-# Start container if stopped
-docker start <container-name>
-```
-
-#### "Permission denied" in Docker
-
-**Problem**: File permissions mismatch between host and container.
-
-**Solution**:
-```bash
-# Inside container, fix permissions
-docker exec -it <php-container> bash
-chown -R www-data:www-data /var/www/html/wp-content/plugins/mail-system
-
-# Or run as root
-docker exec -it --user root <php-container> bash
 ```
 
 ### Build Issues
