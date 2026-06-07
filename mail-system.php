@@ -457,9 +457,9 @@ function mskd_encrypt( $value ) {
 		return false;
 	}
 
-	// Combine IV and encrypted data, then base64 encode.
+	// Combine encoded IV and encrypted data, then base64 encode.
 	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Required for encryption format.
-	return base64_encode( $iv . '::' . $encrypted );
+	return base64_encode( base64_encode( $iv ) . '::' . $encrypted );
 }
 
 /**
@@ -505,17 +505,27 @@ function mskd_decrypt( $value ) {
 	// Split IV and encrypted data.
 	$parts = explode( '::', $decoded, 2 );
 
-	if ( count( $parts ) !== 2 ) {
-		// Legacy base64-only format, return direct decode.
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Legacy compatibility.
-		return base64_decode( $value );
-	}
-
-	list( $iv, $encrypted ) = $parts;
-
 	// Validate IV length to prevent potential issues.
 	$iv_length = openssl_cipher_iv_length( $cipher );
-	if ( strlen( $iv ) !== $iv_length ) {
+	$iv        = false;
+	$encrypted = '';
+
+	if ( count( $parts ) === 2 ) {
+		list( $encoded_iv, $encrypted ) = $parts;
+
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Required for encryption format.
+		$iv = base64_decode( $encoded_iv, true );
+		if ( false === $iv || strlen( $iv ) !== $iv_length ) {
+			$iv = false;
+		}
+	}
+
+	if ( false === $iv && strlen( $decoded ) > $iv_length + 2 && '::' === substr( $decoded, $iv_length, 2 ) ) {
+		$iv        = substr( $decoded, 0, $iv_length );
+		$encrypted = substr( $decoded, $iv_length + 2 );
+	}
+
+	if ( false === $iv ) {
 		// Invalid IV length, treat as legacy format.
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Legacy compatibility.
 		return base64_decode( $value );

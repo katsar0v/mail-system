@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- **Opt-in confirmation email wrappers** — confirmation emails now apply the configured email header and footer and replace wrapper template variables (`{first_name}`, `{last_name}`, `{email}`, `{unsubscribe_link}`, `{unsubscribe_url}`) before sending.
+- **SMTP password encryption delimiter handling** — encrypted payloads now encode the IV separately before adding the delimiter and still support legacy raw-IV payloads, preventing rare decrypt failures when random IV bytes contained the delimiter sequence.
 - **Database repair notice persisting infinitely** — when clicking "Repair Database Now", if the required database table or column did not exist (or `ALTER TABLE` silently failed), the repair notice was shown on every page load indefinitely. The handler now calls `MSKD_Activator::activate()` (which uses `dbDelta` to create missing tables and columns), verifies the schema afterwards, and — if still failing — shows an actionable error notice with the database error message. The schema check also now correctly detects a missing table (not just a missing column).
 
 ### Changed

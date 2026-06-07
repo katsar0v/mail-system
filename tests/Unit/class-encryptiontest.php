@@ -67,8 +67,8 @@ trait EncryptionFunctions {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.PHP.DiscouragedFunctions.base64_encode_base64_encode -- Using for encryption.
-		return base64_encode( $iv . '::' . $encrypted );
+			// phpcs:ignore WordPress.PHP.DiscouragedFunctions.base64_encode_base64_encode -- Using for encryption.
+			return base64_encode( base64_encode( $iv ) . '::' . $encrypted );
 	}
 
 	/**
@@ -104,20 +104,30 @@ trait EncryptionFunctions {
 			return base64_decode( $value );
 		}
 
-		$parts = explode( '::', $decoded, 2 );
+			$iv_length = openssl_cipher_iv_length( $cipher );
+			$iv        = false;
+			$encrypted = '';
+			$parts     = explode( '::', $decoded, 2 );
 
-		if ( count( $parts ) !== 2 ) {
-			// phpcs:ignore WordPress.PHP.DiscouragedFunctions.base64_decode_base64_decode -- Using for decryption fallback.
-			return base64_decode( $value );
-		}
+			if ( count( $parts ) === 2 ) {
+				list( $encoded_iv, $encrypted ) = $parts;
 
-		list( $iv, $encrypted ) = $parts;
+				// phpcs:ignore WordPress.PHP.DiscouragedFunctions.base64_decode_base64_decode -- Using for decryption.
+				$iv = base64_decode( $encoded_iv, true );
+				if ( false === $iv || strlen( $iv ) !== $iv_length ) {
+					$iv = false;
+				}
+			}
 
-		$iv_length = openssl_cipher_iv_length( $cipher );
-		if ( strlen( $iv ) !== $iv_length ) {
-			// phpcs:ignore WordPress.PHP.DiscouragedFunctions.base64_decode_base64_decode -- Using for decryption fallback.
-			return base64_decode( $value );
-		}
+			if ( false === $iv && strlen( $decoded ) > $iv_length + 2 && '::' === substr( $decoded, $iv_length, 2 ) ) {
+				$iv        = substr( $decoded, 0, $iv_length );
+				$encrypted = substr( $decoded, $iv_length + 2 );
+			}
+
+			if ( false === $iv ) {
+				// phpcs:ignore WordPress.PHP.DiscouragedFunctions.base64_decode_base64_decode -- Using for decryption fallback.
+				return base64_decode( $value );
+			}
 
 		$decrypted = openssl_decrypt( $encrypted, $cipher, $key, 0, $iv );
 
@@ -217,6 +227,22 @@ class EncryptionTest extends TestCase {
 		$decrypted = $this->mskd_decrypt( $legacy_encoded );
 
 		$this->assertSame( $original, $decrypted );
+	}
+
+	/**
+	 * Test legacy encrypted payloads with delimiter bytes inside the IV.
+	 */
+	public function test_decrypt_legacy_payload_with_separator_inside_iv(): void {
+		$original  = 'legacy-secret-password';
+		$cipher    = 'aes-256-cbc';
+		$key       = hash( 'sha256', AUTH_KEY . SECURE_AUTH_KEY, true );
+		$iv        = 'ab::' . str_repeat( 'x', 12 );
+		$encrypted = openssl_encrypt( $original, $cipher, $key, 0, $iv );
+
+		// phpcs:ignore WordPress.PHP.DiscouragedFunctions.base64_encode_base64_encode -- Using for testing legacy encryption format.
+		$legacy_payload = base64_encode( $iv . '::' . $encrypted );
+
+		$this->assertSame( $original, $this->mskd_decrypt( $legacy_payload ) );
 	}
 
 	/**
