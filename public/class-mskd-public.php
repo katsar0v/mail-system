@@ -9,12 +9,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use MSKD\Traits\Email_Header_Footer;
+
 /**
  * Class MSKD_Public
  *
  * Handles public-facing functionality
  */
 class MSKD_Public {
+
+	use Email_Header_Footer;
 
 	/**
 	 * Initialize public hooks
@@ -553,6 +557,30 @@ class MSKD_Public {
 			$site_name
 		);
 
+		// Use SMTP mailer to respect configured from address and sender name.
+		require_once MSKD_PLUGIN_DIR . 'includes/services/class-mskd-smtp-mailer.php';
+		$settings    = get_option( 'mskd_settings', array() );
+		$body        = $this->get_opt_in_email_body( $first_name, $confirm_url, $site_name, $settings );
+		$smtp_mailer = new MSKD_SMTP_Mailer( $settings );
+
+		// Send email using SMTP mailer (respects from_email and from_name from settings).
+		$mail_sent = $smtp_mailer->send( $email, $subject, $body );
+		if ( ! $mail_sent ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional logging for debugging email failures.
+			error_log( 'MSKD: Failed to send opt-in confirmation email to ' . $email . '. Error: ' . $smtp_mailer->get_last_error() );
+		}
+	}
+
+	/**
+	 * Build the opt-in confirmation email body.
+	 *
+	 * @param string $first_name  Subscriber first name.
+	 * @param string $confirm_url Opt-in confirmation URL.
+	 * @param string $site_name   Site name.
+	 * @param array  $settings    Plugin settings.
+	 * @return string HTML email body with configured header/footer applied.
+	 */
+	private function get_opt_in_email_body( $first_name, $confirm_url, $site_name, array $settings ) {
 		$greeting = $first_name
 			/* translators: %s: Subscriber first name */
 			? sprintf( esc_html__( 'Hello %s,', 'mail-system' ), $first_name )
@@ -581,16 +609,41 @@ Best regards,
 			$site_name
 		);
 
-		// Use SMTP mailer to respect configured from address and sender name.
-		require_once MSKD_PLUGIN_DIR . 'includes/services/class-mskd-smtp-mailer.php';
-		$settings    = get_option( 'mskd_settings', array() );
-		$smtp_mailer = new MSKD_SMTP_Mailer( $settings );
+		$body = $this->format_plain_text_email_body( $body, $confirm_url );
 
-		// Send email using SMTP mailer (respects from_email and from_name from settings).
-		$mail_sent = $smtp_mailer->send( $email, $subject, $body );
-		if ( ! $mail_sent ) {
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional logging for debugging email failures.
-			error_log( 'MSKD: Failed to send opt-in confirmation email to ' . $email . '. Error: ' . $smtp_mailer->get_last_error() );
+		return $this->apply_header_footer( $body, $settings );
+	}
+
+	/**
+	 * Format a translated plain-text email body as safe HTML paragraphs.
+	 *
+	 * @param string $body        Plain-text email body.
+	 * @param string $confirm_url Opt-in confirmation URL.
+	 * @return string HTML email body.
+	 */
+	private function format_plain_text_email_body( $body, $confirm_url ) {
+		$escaped_body        = esc_html( $body );
+		$escaped_confirm_url = esc_html( $confirm_url );
+		$confirm_link        = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url( $confirm_url ),
+			$escaped_confirm_url
+		);
+
+		$escaped_body = str_replace( $escaped_confirm_url, $confirm_link, $escaped_body );
+		$paragraphs   = preg_split( '/\R{2,}/', trim( $escaped_body ) );
+		$html         = '';
+
+		foreach ( $paragraphs as $paragraph ) {
+			$paragraph = trim( $paragraph );
+
+			if ( '' === $paragraph ) {
+				continue;
+			}
+
+			$html .= '<p>' . nl2br( $paragraph ) . '</p>';
 		}
+
+		return $html;
 	}
 }
