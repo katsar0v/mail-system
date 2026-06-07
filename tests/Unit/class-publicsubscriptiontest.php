@@ -336,6 +336,45 @@ class PublicSubscriptionTest extends TestCase {
 	}
 
 	/**
+	 * Test opt-in email body includes configured header and footer.
+	 */
+	public function test_opt_in_email_body_applies_header_and_footer(): void {
+		$method = new \ReflectionMethod( $this->public, 'get_opt_in_email_body' );
+		$method->setAccessible( true );
+
+		$settings = array(
+			'email_header' => '<div class="header">Hello {first_name} {last_name} ({email})</div>',
+			'email_footer' => '<div class="footer">{unsubscribe_link} - {unsubscribe_url}</div>',
+		);
+
+		$body = $method->invoke(
+			$this->public,
+			'maria@example.com',
+			'Maria',
+			'Ivanova',
+			'https://example.com/?mskd_confirm=abc123def456abc123def456abc12345',
+			'Sebeotkrivatel.com',
+			$settings,
+			'unsub123def456abc123def456abc12345'
+		);
+
+		$this->assertStringStartsWith( '<div class="header">Hello Maria Ivanova (maria@example.com)</div>', $body );
+		$this->assertStringContainsString( '<p>Hello Maria,</p>', $body );
+		$this->assertStringContainsString( '<a href="https://example.com/?mskd_confirm=abc123def456abc123def456abc12345">https://example.com/?mskd_confirm=abc123def456abc123def456abc12345</a>', $body );
+		$this->assertStringContainsString( '<a href="https://example.com?mskd_unsubscribe=unsub123def456abc123def456abc12345">Unsubscribe</a>', $body );
+		$this->assertStringEndsWith( '<div class="footer"><a href="https://example.com?mskd_unsubscribe=unsub123def456abc123def456abc12345">Unsubscribe</a> - https://example.com?mskd_unsubscribe=unsub123def456abc123def456abc12345</div>', $body );
+		$this->assertStringNotContainsString( '{first_name}', $body );
+		$this->assertStringNotContainsString( '{unsubscribe_link}', $body );
+
+		$header_position  = strpos( $body, 'Hello Maria Ivanova' );
+		$content_position = strpos( $body, '<p>Hello Maria' );
+		$footer_position  = strpos( $body, 'Unsubscribe' );
+
+		$this->assertLessThan( $content_position, $header_position, 'Header should come before confirmation content' );
+		$this->assertLessThan( $footer_position, $content_position, 'Confirmation content should come before footer' );
+	}
+
+	/**
 	 * Test AJAX subscribe returns error for invalid email.
 	 */
 	public function test_ajax_subscribe_invalid_email_returns_error(): void {

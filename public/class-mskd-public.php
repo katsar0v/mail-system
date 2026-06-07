@@ -9,12 +9,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use MSKD\Traits\Email_Header_Footer;
+
 /**
  * Class MSKD_Public
  *
  * Handles public-facing functionality
  */
 class MSKD_Public {
+
+	use Email_Header_Footer;
 
 	/**
 	 * Initialize public hooks
@@ -405,10 +409,12 @@ class MSKD_Public {
 					);
 				}
 
-				$subscriber_id = $existing->id;
+				$subscriber_id     = $existing->id;
+				$recipient_name    = $first_name ? $first_name : $existing->first_name;
+				$recipient_surname = $last_name ? $last_name : $existing->last_name;
 
 				// Send opt-in confirmation email.
-				$this->send_opt_in_email( $email, $first_name ? $first_name : $existing->first_name, $opt_in_token );
+				$this->send_opt_in_email( $email, $recipient_name, $recipient_surname, $opt_in_token, $existing->unsubscribe_token ?? '' );
 			} elseif ( 'inactive' === $existing->status ) {
 				// Already inactive, resend confirmation email with existing token if valid.
 				// Only generate new token if existing one is empty.
@@ -441,10 +447,12 @@ class MSKD_Public {
 					}
 				}
 
-				$subscriber_id = $existing->id;
+				$subscriber_id     = $existing->id;
+				$recipient_name    = $first_name ? $first_name : $existing->first_name;
+				$recipient_surname = $last_name ? $last_name : $existing->last_name;
 
 				// Resend opt-in confirmation email.
-				$this->send_opt_in_email( $email, $first_name ? $first_name : $existing->first_name, $opt_in_token );
+				$this->send_opt_in_email( $email, $recipient_name, $recipient_surname, $opt_in_token, $existing->unsubscribe_token ?? '' );
 			} else {
 				// Already active - return early with message.
 				wp_send_json_success(
@@ -485,7 +493,7 @@ class MSKD_Public {
 			$subscriber_id = $wpdb->insert_id;
 
 			// Send opt-in confirmation email.
-			$this->send_opt_in_email( $email, $first_name, $opt_in_token );
+			$this->send_opt_in_email( $email, $first_name, $last_name, $opt_in_token, $unsubscribe_token );
 		}
 
 		// Add to list if specified.
@@ -535,9 +543,11 @@ class MSKD_Public {
 	 *
 	 * @param string $email        Subscriber email address.
 	 * @param string $first_name   Subscriber first name.
+	 * @param string $last_name    Subscriber last name.
 	 * @param string $opt_in_token Opt-in confirmation token.
+	 * @param string $unsubscribe_token Subscriber unsubscribe token.
 	 */
-	private function send_opt_in_email( $email, $first_name, $opt_in_token ) {
+	private function send_opt_in_email( $email, $first_name, $last_name, $opt_in_token, $unsubscribe_token ) {
 		$confirm_url = add_query_arg(
 			array(
 				'mskd_confirm' => $opt_in_token,
@@ -553,6 +563,33 @@ class MSKD_Public {
 			$site_name
 		);
 
+		// Use SMTP mailer to respect configured from address and sender name.
+		require_once MSKD_PLUGIN_DIR . 'includes/services/class-mskd-smtp-mailer.php';
+		$settings    = get_option( 'mskd_settings', array() );
+		$body        = $this->get_opt_in_email_body( $email, $first_name, $last_name, $confirm_url, $site_name, $settings, $unsubscribe_token );
+		$smtp_mailer = new MSKD_SMTP_Mailer( $settings );
+
+		// Send email using SMTP mailer (respects from_email and from_name from settings).
+		$mail_sent = $smtp_mailer->send( $email, $subject, $body );
+		if ( ! $mail_sent ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional logging for debugging email failures.
+			error_log( 'MSKD: Failed to send opt-in confirmation email to ' . $email . '. Error: ' . $smtp_mailer->get_last_error() );
+		}
+	}
+
+	/**
+	 * Build the opt-in confirmation email body.
+	 *
+	 * @param string $email       Subscriber email address.
+	 * @param string $first_name  Subscriber first name.
+	 * @param string $last_name   Subscriber last name.
+	 * @param string $confirm_url Opt-in confirmation URL.
+	 * @param string $site_name   Site name.
+	 * @param array  $settings    Plugin settings.
+	 * @param string $unsubscribe_token Subscriber unsubscribe token.
+	 * @return string HTML email body with configured header/footer applied.
+	 */
+	private function get_opt_in_email_body( $email, $first_name, $last_name, $confirm_url, $site_name, array $settings, $unsubscribe_token ) {
 		$greeting = $first_name
 			/* translators: %s: Subscriber first name */
 			? sprintf( esc_html__( 'Hello %s,', 'mail-system' ), $first_name )
@@ -581,16 +618,78 @@ Best regards,
 			$site_name
 		);
 
-		// Use SMTP mailer to respect configured from address and sender name.
-		require_once MSKD_PLUGIN_DIR . 'includes/services/class-mskd-smtp-mailer.php';
-		$settings    = get_option( 'mskd_settings', array() );
-		$smtp_mailer = new MSKD_SMTP_Mailer( $settings );
+		$body = $this->format_plain_text_email_body( $body, $confirm_url );
 
-		// Send email using SMTP mailer (respects from_email and from_name from settings).
-		$mail_sent = $smtp_mailer->send( $email, $subject, $body );
-		if ( ! $mail_sent ) {
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional logging for debugging email failures.
-			error_log( 'MSKD: Failed to send opt-in confirmation email to ' . $email . '. Error: ' . $smtp_mailer->get_last_error() );
+		$body = $this->apply_header_footer( $body, $settings );
+
+		return $this->replace_opt_in_email_placeholders( $body, $email, $first_name, $last_name, $unsubscribe_token );
+	}
+
+	/**
+	 * Replace header/footer placeholders for opt-in confirmation emails.
+	 *
+	 * @param string $content           Email content.
+	 * @param string $email             Subscriber email address.
+	 * @param string $first_name        Subscriber first name.
+	 * @param string $last_name         Subscriber last name.
+	 * @param string $unsubscribe_token Subscriber unsubscribe token.
+	 * @return string Email content with placeholders replaced.
+	 */
+	private function replace_opt_in_email_placeholders( $content, $email, $first_name, $last_name, $unsubscribe_token ) {
+		$unsubscribe_url  = '';
+		$unsubscribe_link = '';
+
+		if ( ! empty( $unsubscribe_token ) ) {
+			$unsubscribe_url  = add_query_arg(
+				array(
+					'mskd_unsubscribe' => $unsubscribe_token,
+				),
+				home_url()
+			);
+			$unsubscribe_link = '<a href="' . esc_url( $unsubscribe_url ) . '">' . esc_html__( 'Unsubscribe', 'mail-system' ) . '</a>';
 		}
+
+		$placeholders = array(
+			'{first_name}'       => esc_html( $first_name ),
+			'{last_name}'        => esc_html( $last_name ),
+			'{email}'            => esc_html( $email ),
+			'{unsubscribe_link}' => $unsubscribe_link,
+			'{unsubscribe_url}'  => esc_url( $unsubscribe_url ),
+		);
+
+		return str_replace( array_keys( $placeholders ), array_values( $placeholders ), $content );
+	}
+
+	/**
+	 * Format a translated plain-text email body as safe HTML paragraphs.
+	 *
+	 * @param string $body        Plain-text email body.
+	 * @param string $confirm_url Opt-in confirmation URL.
+	 * @return string HTML email body.
+	 */
+	private function format_plain_text_email_body( $body, $confirm_url ) {
+		$escaped_body        = esc_html( $body );
+		$escaped_confirm_url = esc_html( $confirm_url );
+		$confirm_link        = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url( $confirm_url ),
+			$escaped_confirm_url
+		);
+
+		$escaped_body = str_replace( $escaped_confirm_url, $confirm_link, $escaped_body );
+		$paragraphs   = preg_split( '/\R{2,}/', trim( $escaped_body ) );
+		$html         = '';
+
+		foreach ( $paragraphs as $paragraph ) {
+			$paragraph = trim( $paragraph );
+
+			if ( '' === $paragraph ) {
+				continue;
+			}
+
+			$html .= '<p>' . nl2br( $paragraph ) . '</p>';
+		}
+
+		return $html;
 	}
 }

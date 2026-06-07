@@ -32,7 +32,7 @@ We implemented a secure AJAX endpoint that applies the complete email transforma
 - Updated `.pot` template with new preview strings
 - Added Bulgarian (`bg_BG`) translations
 - Added German (`de_DE`) translations
-- **Note:** `.mo` files should be compiled with `composer translations` in Docker environment
+- **Note:** `.mo` files should be compiled with `composer translations`
 
 ## Technical Details
 
@@ -177,7 +177,7 @@ We implemented a secure AJAX endpoint that applies the complete email transforma
 
 ## Deployment Notes
 
-1. **Translation Compilation:** After deployment, run `composer translations` in Docker to compile `.po` files to `.mo` files.
+1. **Translation Compilation:** After deployment, run `composer translations` to compile `.po` files to `.mo` files.
 
 2. **Cache Clearing:** Clear WordPress object cache if using persistent caching (Redis, Memcached).
 
