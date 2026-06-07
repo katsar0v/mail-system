@@ -343,26 +343,32 @@ class PublicSubscriptionTest extends TestCase {
 		$method->setAccessible( true );
 
 		$settings = array(
-			'email_header' => '<div class="header">Company Header</div>',
-			'email_footer' => '<div class="footer">Company Footer</div>',
+			'email_header' => '<div class="header">Hello {first_name} {last_name} ({email})</div>',
+			'email_footer' => '<div class="footer">{unsubscribe_link} - {unsubscribe_url}</div>',
 		);
 
 		$body = $method->invoke(
 			$this->public,
+			'maria@example.com',
 			'Maria',
+			'Ivanova',
 			'https://example.com/?mskd_confirm=abc123def456abc123def456abc12345',
 			'Sebeotkrivatel.com',
-			$settings
+			$settings,
+			'unsub123def456abc123def456abc12345'
 		);
 
-		$this->assertStringStartsWith( '<div class="header">Company Header</div>', $body );
+		$this->assertStringStartsWith( '<div class="header">Hello Maria Ivanova (maria@example.com)</div>', $body );
 		$this->assertStringContainsString( '<p>Hello Maria,</p>', $body );
 		$this->assertStringContainsString( '<a href="https://example.com/?mskd_confirm=abc123def456abc123def456abc12345">https://example.com/?mskd_confirm=abc123def456abc123def456abc12345</a>', $body );
-		$this->assertStringEndsWith( '<div class="footer">Company Footer</div>', $body );
+		$this->assertStringContainsString( '<a href="https://example.com?mskd_unsubscribe=unsub123def456abc123def456abc12345">Unsubscribe</a>', $body );
+		$this->assertStringEndsWith( '<div class="footer"><a href="https://example.com?mskd_unsubscribe=unsub123def456abc123def456abc12345">Unsubscribe</a> - https://example.com?mskd_unsubscribe=unsub123def456abc123def456abc12345</div>', $body );
+		$this->assertStringNotContainsString( '{first_name}', $body );
+		$this->assertStringNotContainsString( '{unsubscribe_link}', $body );
 
-		$header_position  = strpos( $body, 'Company Header' );
-		$content_position = strpos( $body, 'Hello Maria' );
-		$footer_position  = strpos( $body, 'Company Footer' );
+		$header_position  = strpos( $body, 'Hello Maria Ivanova' );
+		$content_position = strpos( $body, '<p>Hello Maria' );
+		$footer_position  = strpos( $body, 'Unsubscribe' );
 
 		$this->assertLessThan( $content_position, $header_position, 'Header should come before confirmation content' );
 		$this->assertLessThan( $footer_position, $content_position, 'Confirmation content should come before footer' );
