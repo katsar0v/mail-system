@@ -637,8 +637,8 @@
             }
 
             // Toggle bulk action controls based on selected action
-            $('#mskd-bulk-action').on('change', function() {
-                var action = $(this).val();
+            function syncBulkActionControls() {
+                var action = $('#mskd-bulk-action').val();
                 if (action === 'assign_lists' || action === 'remove_lists') {
                     $('#mskd-bulk-list-wrapper').show();
                     $('#mskd-bulk-apply').show();
@@ -651,7 +651,13 @@
                     $('#mskd-bulk-list-wrapper').hide();
                     $('#mskd-bulk-apply').hide();
                 }
-            });
+            }
+
+            $('#mskd-bulk-action').on('change', syncBulkActionControls);
+
+            // Some browsers restore the select's previous value on page load/refresh
+            // without firing a change event, leaving the Apply button hidden. Sync once on init.
+            syncBulkActionControls();
 
             // Select all checkboxes
             $('#mskd-select-all').on('change', function() {
