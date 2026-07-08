@@ -849,6 +849,9 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 }
 
 .mskd-wizard-actions .button .dashicons {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	font-size: 16px;
 	width: 16px;
 	height: 16px;
@@ -861,7 +864,10 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 	gap: 8px;
 }
 
-.mskd-wizard-actions .button-hero .dashicons {
+.mskd-wizard-actions .button.button-hero .dashicons {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	font-size: 18px;
 	width: 18px;
 	height: 18px;
@@ -883,7 +889,10 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 	gap: 8px;
 }
 
-.mskd-visual-editor-launch .button-hero .dashicons {
+.mskd-visual-editor-launch .button.button-hero .dashicons {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	font-size: 18px;
 	width: 18px;
 	height: 18px;
