@@ -798,13 +798,14 @@
                                 $result.removeClass('mskd-bulk-error').addClass('mskd-bulk-success')
                                     .text(response.data.message);
 
-                                // Update status badges for the updated rows.
+                                // Update status badges only for the rows the server confirmed were updated.
                                 var statusLabel = targetStatus === 'active'
                                     ? (mskd_admin.strings.status_active || 'Active')
                                     : (mskd_admin.strings.status_inactive || 'Inactive');
+                                var updatedIds = (response.data && response.data.updated_ids) || [];
 
-                                $('.mskd-subscriber-checkbox:checked').each(function() {
-                                    var $badge = $(this).closest('tr').find('.mskd-status-column .mskd-status');
+                                updatedIds.forEach(function(subscriberId) {
+                                    var $badge = $('tr[data-subscriber-id="' + subscriberId + '"]').find('.mskd-status-column .mskd-status');
                                     $badge
                                         .removeClass('mskd-status-active mskd-status-inactive mskd-status-unsubscribed')
                                         .addClass('mskd-status-' + targetStatus)

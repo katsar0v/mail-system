@@ -230,7 +230,15 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 		// Get database lists for batch action dropdown.
 		// Get list assignments for all subscribers on this page.
 		$subscriber_service   = new \MSKD\Services\Subscriber_Service();
-		$subscriber_ids       = array_filter( array_map( fn( $s ) => isset( $s->id ) && ! isset( $s->source ) ? (int) $s->id : null, $all_subscribers ) );
+		$subscriber_ids       = array_filter(
+			array_map(
+				function ( $s ) {
+					$is_editable = isset( $s->is_editable ) ? $s->is_editable : true;
+					return isset( $s->id ) && $is_editable ? (int) $s->id : null;
+				},
+				$all_subscribers
+			)
+		);
 		$subscriber_lists_map = ! empty( $subscriber_ids ) ? $subscriber_service->batch_get_lists( $subscriber_ids ) : array();
 
 		$database_lists = array_filter(

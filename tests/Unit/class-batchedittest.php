@@ -229,13 +229,20 @@ class BatchEditTest extends TestCase {
 	public function test_batch_update_status_success(): void {
 		$wpdb = $this->wpdb;
 
-		// Mock get_row for get_by_id - return subscriber objects.
-		$wpdb->shouldReceive( 'get_row' )
+		// Mock get_results for batch_get_by_ids (existence check) - both subscribers exist.
+		$wpdb->shouldReceive( 'get_results' )
 			->andReturn(
-				(object) array(
-					'id'     => 1,
-					'email'  => 'test@example.com',
-					'status' => 'inactive',
+				array(
+					(object) array(
+						'id'     => 1,
+						'email'  => 'test1@example.com',
+						'status' => 'inactive',
+					),
+					(object) array(
+						'id'     => 2,
+						'email'  => 'test2@example.com',
+						'status' => 'inactive',
+					),
 				)
 			);
 
@@ -248,6 +255,7 @@ class BatchEditTest extends TestCase {
 		$this->assertEquals( 2, $result['success'] );
 		$this->assertEquals( 0, $result['failed'] );
 		$this->assertEmpty( $result['errors'] );
+		$this->assertEquals( array( 1, 2 ), $result['updated_ids'] );
 	}
 
 	/**
@@ -256,20 +264,15 @@ class BatchEditTest extends TestCase {
 	public function test_batch_update_status_with_missing_subscriber(): void {
 		$wpdb = $this->wpdb;
 
-		$call_count = 0;
-		// First subscriber exists, second doesn't.
-		$wpdb->shouldReceive( 'get_row' )
-			->andReturnUsing(
-				function () use ( &$call_count ) {
-					++$call_count;
-					if ( 1 === $call_count ) {
-							return (object) array(
-								'id'    => 1,
-								'email' => 'test1@example.com',
-							);
-					}
-					return null; // Second subscriber doesn't exist.
-				}
+		// Only subscriber 1 exists; 999 doesn't.
+		$wpdb->shouldReceive( 'get_results' )
+			->andReturn(
+				array(
+					(object) array(
+						'id'    => 1,
+						'email' => 'test1@example.com',
+					),
+				)
 			);
 
 		$wpdb->shouldReceive( 'update' )
@@ -281,6 +284,7 @@ class BatchEditTest extends TestCase {
 		$this->assertEquals( 1, $result['failed'] );
 		$this->assertCount( 1, $result['errors'] );
 		$this->assertStringContainsString( '999', $result['errors'][0] );
+		$this->assertEquals( array( 1 ), $result['updated_ids'] );
 	}
 
 	/**
@@ -292,6 +296,7 @@ class BatchEditTest extends TestCase {
 		$this->assertEquals( 0, $result['success'] );
 		$this->assertEquals( 0, $result['failed'] );
 		$this->assertEmpty( $result['errors'] );
+		$this->assertEmpty( $result['updated_ids'] );
 	}
 
 	/**
@@ -303,6 +308,7 @@ class BatchEditTest extends TestCase {
 		$this->assertEquals( 0, $result['success'] );
 		$this->assertEquals( 0, $result['failed'] );
 		$this->assertEmpty( $result['errors'] );
+		$this->assertEmpty( $result['updated_ids'] );
 	}
 
 	/**

@@ -477,11 +477,12 @@ class Admin_Ajax {
 
 			wp_send_json_success(
 				array(
-					'message' => $message,
-					'success' => $result['success'],
-					'failed'  => $result['failed'],
-					'errors'  => $result['errors'],
-					'status'  => $status,
+					'message'     => $message,
+					'success'     => $result['success'],
+					'failed'      => $result['failed'],
+					'errors'      => $result['errors'],
+					'status'      => $status,
+					'updated_ids' => $result['updated_ids'],
 				)
 			);
 		} else {
