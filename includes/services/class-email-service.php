@@ -104,12 +104,13 @@ class Email_Service {
 			'total_recipients' => count( $subscribers ),
 			'status'           => 'pending',
 			'scheduled_at'     => $scheduled_at,
+			'created_at'       => mskd_current_time_normalized(),
 		);
 
 		$this->wpdb->insert(
 			$this->campaigns_table,
 			$campaign_data,
-			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s' )
+			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s' )
 		);
 
 		$campaign_id = $this->wpdb->insert_id;
@@ -276,6 +277,7 @@ class Email_Service {
 				'body'          => $body,
 				'status'        => 'pending',
 				'scheduled_at'  => $scheduled_at,
+				'created_at'    => mskd_current_time_normalized(),
 			);
 		}
 
@@ -304,14 +306,15 @@ class Email_Service {
 			$values[] = $item['body'];
 			$values[] = $item['status'];
 			$values[] = $item['scheduled_at'];
+			$values[] = $item['created_at'];
 
-			$placeholders[] = '( %d, %d, %s, %s, %s, %s )';
+			$placeholders[] = '( %d, %d, %s, %s, %s, %s, %s )';
 		}
 
 		$placeholder_string = implode( ', ', $placeholders );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
-		$sql = "INSERT INTO {$this->queue_table} (campaign_id, subscriber_id, subject, body, status, scheduled_at) VALUES {$placeholder_string}";
+		$sql = "INSERT INTO {$this->queue_table} (campaign_id, subscriber_id, subject, body, status, scheduled_at, created_at) VALUES {$placeholder_string}";
 
 		$result = $this->wpdb->query( $this->wpdb->prepare( $sql, $values ) );
 
@@ -388,6 +391,7 @@ class Email_Service {
 			'total_recipients' => 1,
 			'status'           => $campaign_status,
 			'scheduled_at'     => $is_immediate ? mskd_current_time_normalized() : $scheduled_at,
+			'created_at'       => mskd_current_time_normalized(),
 		);
 
 		if ( $is_immediate ) {
@@ -398,8 +402,8 @@ class Email_Service {
 			$this->campaigns_table,
 			$campaign_data,
 			$is_immediate
-				? array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s' )
-				: array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s' )
+				? array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s' )
+				: array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s' )
 		);
 
 		$campaign_id = $this->wpdb->insert_id;
@@ -423,8 +427,9 @@ class Email_Service {
 				'sent_at'       => $sent ? mskd_current_time_normalized() : null,
 				'attempts'      => 1,
 				'error_message' => $sent ? null : $error_message,
+				'created_at'    => mskd_current_time_normalized(),
 			);
-			$format       = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s' );
+			$format       = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s' );
 		} else {
 			$queue_data = array(
 				'campaign_id'   => $campaign_id,
@@ -436,8 +441,9 @@ class Email_Service {
 				'sent_at'       => null,
 				'attempts'      => 0,
 				'error_message' => null,
+				'created_at'    => mskd_current_time_normalized(),
 			);
-			$format     = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s' );
+			$format     = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s' );
 		}
 
 		$result = $this->wpdb->insert( $this->queue_table, $queue_data, $format );

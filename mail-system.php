@@ -219,6 +219,23 @@ function mskd_current_time_normalized() {
 }
 
 /**
+ * Convert a Unix timestamp to a MySQL datetime string in the WordPress timezone.
+ *
+ * Unlike gmdate(), which always formats in UTC, this renders the given absolute
+ * timestamp using the WordPress Settings → General timezone, keeping all stored
+ * datetimes on a single, site-local convention regardless of the server/DB timezone.
+ *
+ * @param int $timestamp Unix timestamp (absolute).
+ * @return string MySQL datetime string in the WordPress timezone.
+ */
+function mskd_local_time_from_timestamp( $timestamp ) {
+	$wp_timezone = wp_timezone();
+	$date        = new DateTime( '@' . (int) $timestamp );
+	$date->setTimezone( $wp_timezone );
+	return $date->format( 'Y-m-d H:i:s' );
+}
+
+/**
  * Sanitize HTML content for email templates.
  *
  * Unlike wp_kses_post(), this function allows email-specific HTML tags
