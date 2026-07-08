@@ -40,6 +40,7 @@ class Admin_Ajax {
 		add_action( 'wp_ajax_mskd_batch_assign_lists', array( $this, 'batch_assign_lists' ) );
 		add_action( 'wp_ajax_mskd_batch_remove_lists', array( $this, 'batch_remove_lists' ) );
 		add_action( 'wp_ajax_mskd_batch_delete_subscribers', array( $this, 'batch_delete_subscribers' ) );
+		add_action( 'wp_ajax_mskd_batch_update_subscriber_status', array( $this, 'batch_update_subscriber_status' ) );
 		add_action( 'wp_ajax_mskd_delete_inactive_subscribers', array( $this, 'delete_inactive_subscribers' ) );
 		add_action( 'wp_ajax_mskd_preview_email', array( $this, 'preview_email' ) );
 	}
@@ -383,6 +384,105 @@ class Admin_Ajax {
 					'success' => $result['success'],
 					'failed'  => $result['failed'],
 					'errors'  => $result['errors'],
+				)
+			);
+		} else {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No subscribers were updated.', 'mail-system' ),
+					'errors'  => $result['errors'],
+				)
+			);
+		}
+	}
+
+	/**
+	 * AJAX handler: Batch update status for subscribers.
+	 *
+	 * @return void
+	 */
+	public function batch_update_subscriber_status(): void {
+		check_ajax_referer( 'mskd_admin_nonce', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'You do not have permission for this operation.', 'mail-system' ),
+				)
+			);
+		}
+
+		// Get subscriber IDs.
+		      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Array is sanitized with intval below.
+		if ( isset( $_POST['subscriber_ids'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Array is sanitized with intval below.
+			$subscriber_ids = wp_unslash( $_POST['subscriber_ids'] );
+		} else {
+			$subscriber_ids = array();
+		}
+		if ( ! is_array( $subscriber_ids ) ) {
+			$subscriber_ids = array();
+		}
+		$subscriber_ids = array_map( 'intval', $subscriber_ids );
+
+		// Get target status.
+		$status = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : '';
+
+		// Validate inputs.
+		if ( empty( $subscriber_ids ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'No subscribers selected.', 'mail-system' ),
+				)
+			);
+		}
+
+		$valid_statuses = array( 'active', 'inactive' );
+		if ( ! in_array( $status, $valid_statuses, true ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Invalid status.', 'mail-system' ),
+				)
+			);
+		}
+
+		// Perform batch status update.
+		$service = new Subscriber_Service();
+		$result  = $service->batch_update_status( $subscriber_ids, $status );
+
+		if ( $result['success'] > 0 ) {
+			$message = sprintf(
+				/* translators: %d: number of subscribers updated */
+				_n(
+					'%d subscriber updated successfully.',
+					'%d subscribers updated successfully.',
+					$result['success'],
+					'mail-system'
+				),
+				$result['success']
+			);
+
+			if ( $result['failed'] > 0 ) {
+				$message .= ' ' . sprintf(
+					/* translators: %d: number of subscribers that failed */
+					_n(
+						'%d subscriber failed.',
+						'%d subscribers failed.',
+						$result['failed'],
+						'mail-system'
+					),
+					$result['failed']
+				);
+			}
+
+			wp_send_json_success(
+				array(
+					'message'     => $message,
+					'success'     => $result['success'],
+					'failed'      => $result['failed'],
+					'errors'      => $result['errors'],
+					'status'      => $status,
+					'updated_ids' => $result['updated_ids'],
 				)
 			);
 		} else {

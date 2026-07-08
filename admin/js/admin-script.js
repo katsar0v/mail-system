@@ -644,7 +644,7 @@
                     $('#mskd-bulk-apply').show();
                     // Initialize SlimSelect when first shown
                     initBulkListsSlimSelect();
-                } else if (action === 'delete') {
+                } else if (action === 'delete' || action === 'set_active' || action === 'set_inactive') {
                     $('#mskd-bulk-list-wrapper').hide();
                     $('#mskd-bulk-apply').show();
                 } else {
@@ -747,6 +747,76 @@
                                 $('#mskd-select-all').prop('checked', false).prop('indeterminate', false);
                                 updateSelectedCount();
                                 
+                                // Reset form
+                                $('#mskd-bulk-action').val('');
+                                $('#mskd-bulk-apply').hide();
+                            } else {
+                                var errorMsg = (response.data && response.data.message)
+                                    ? response.data.message
+                                    : (mskd_admin.strings.error || 'Error occurred.');
+                                $result.removeClass('mskd-bulk-success').addClass('mskd-bulk-error')
+                                    .text(errorMsg);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            var errorMsg = mskd_admin.strings.error || 'Error occurred.';
+                            if (status === 'timeout') {
+                                errorMsg = mskd_admin.strings.timeout || 'Request timed out.';
+                            }
+                            $result.removeClass('mskd-bulk-success').addClass('mskd-bulk-error')
+                                .text(errorMsg);
+                        },
+                        complete: function() {
+                            $button.prop('disabled', false).text(originalText);
+                        }
+                    });
+                    return;
+                }
+
+                // Handle set active / set inactive actions
+                if (action === 'set_active' || action === 'set_inactive') {
+                    var targetStatus = action === 'set_active' ? 'active' : 'inactive';
+
+                    // Show loading state
+                    var originalText = $button.text();
+                    $button.prop('disabled', true).text(mskd_admin.strings.processing || 'Processing...');
+                    $result.removeClass('mskd-bulk-success mskd-bulk-error').text('');
+
+                    // Send AJAX request
+                    $.ajax({
+                        url: mskd_admin.ajax_url,
+                        type: 'POST',
+                        timeout: 60000,
+                        data: {
+                            action: 'mskd_batch_update_subscriber_status',
+                            nonce: mskd_admin.nonce,
+                            subscriber_ids: subscriberIds,
+                            status: targetStatus
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $result.removeClass('mskd-bulk-error').addClass('mskd-bulk-success')
+                                    .text(response.data.message);
+
+                                // Update status badges only for the rows the server confirmed were updated.
+                                var statusLabel = targetStatus === 'active'
+                                    ? (mskd_admin.strings.status_active || 'Active')
+                                    : (mskd_admin.strings.status_inactive || 'Inactive');
+                                var updatedIds = (response.data && response.data.updated_ids) || [];
+
+                                updatedIds.forEach(function(subscriberId) {
+                                    var $badge = $('tr[data-subscriber-id="' + subscriberId + '"]').find('.mskd-status-column .mskd-status');
+                                    $badge
+                                        .removeClass('mskd-status-active mskd-status-inactive mskd-status-unsubscribed')
+                                        .addClass('mskd-status-' + targetStatus)
+                                        .text(statusLabel);
+                                });
+
+                                // Clear checkboxes after success
+                                $('.mskd-subscriber-checkbox').prop('checked', false);
+                                $('#mskd-select-all').prop('checked', false).prop('indeterminate', false);
+                                updateSelectedCount();
+
                                 // Reset form
                                 $('#mskd-bulk-action').val('');
                                 $('#mskd-bulk-apply').hide();

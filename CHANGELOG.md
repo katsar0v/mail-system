@@ -20,6 +20,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed undefined variable `$class` (should be `$class_name`) in test bootstrap autoloader, which caused PHP 8.1 test failures due to undefined variable warnings being converted to exceptions.
 
 ### Added
+- **Bulk Subscriber Status Actions**
+  - New "Set active" and "Set inactive" options in the bulk actions dropdown on the Subscribers page
+  - Available whenever there are editable database subscribers to select, even if no lists exist yet
+  - `Subscriber_Service::batch_update_status()` validates the target status and updates selected subscribers, reporting success/failed counts and errors
+  - New `mskd_batch_update_subscriber_status` AJAX action, nonce- and capability-checked
+  - Status badges in the table update immediately after a successful bulk update
+  - Full translations in Bulgarian and German, unit tests covering success, missing subscriber, invalid/empty IDs, and invalid status cases
 - **Delete Unconfirmed and Inactive Subscribers**
   - New "Delete unconfirmed and inactive subscribers" button in Admin > Settings > Danger Zone
   - Deletes all subscribers with `inactive` (unconfirmed) status and their list associations

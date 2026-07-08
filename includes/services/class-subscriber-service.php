@@ -937,6 +937,79 @@ class Subscriber_Service {
 	}
 
 	/**
+	 * Batch update status for multiple subscribers.
+	 *
+	 * @param array  $subscriber_ids Array of subscriber IDs.
+	 * @param string $status         Target status (active or inactive).
+	 * @return array {
+	 *     @type int   $success     Number of subscribers updated successfully.
+	 *     @type int   $failed      Number of subscribers that failed.
+	 *     @type array $errors      Array of error messages for failed updates.
+	 *     @type array $updated_ids IDs of subscribers that were updated successfully.
+	 * }
+	 */
+	public function batch_update_status( array $subscriber_ids, string $status ): array {
+		$result = array(
+			'success'     => 0,
+			'failed'      => 0,
+			'errors'      => array(),
+			'updated_ids' => array(),
+		);
+
+		$valid_statuses = array( 'active', 'inactive' );
+		if ( ! in_array( $status, $valid_statuses, true ) ) {
+			$result['errors'][] = __( 'Invalid status.', 'mail-system' );
+			return $result;
+		}
+
+		if ( empty( $subscriber_ids ) ) {
+			return $result;
+		}
+
+		// Sanitize and validate IDs.
+		$subscriber_ids = array_map( 'intval', $subscriber_ids );
+		$subscriber_ids = array_filter(
+			$subscriber_ids,
+			function ( $id ) {
+				return $id > 0;
+			}
+		);
+
+		if ( empty( $subscriber_ids ) ) {
+			return $result;
+		}
+
+		// Fetch all existing subscribers in a single query instead of one per ID.
+		$existing_subscribers = $this->batch_get_by_ids( $subscriber_ids );
+
+		foreach ( $subscriber_ids as $subscriber_id ) {
+			if ( ! isset( $existing_subscribers[ $subscriber_id ] ) ) {
+				++$result['failed'];
+				$result['errors'][] = sprintf(
+					/* translators: %d: subscriber ID */
+					__( 'Subscriber ID %d not found.', 'mail-system' ),
+					$subscriber_id
+				);
+				continue;
+			}
+
+			if ( $this->update( $subscriber_id, array( 'status' => $status ) ) ) {
+				++$result['success'];
+				$result['updated_ids'][] = $subscriber_id;
+			} else {
+				++$result['failed'];
+				$result['errors'][] = sprintf(
+					/* translators: %d: subscriber ID */
+					__( 'Failed to update subscriber ID %d', 'mail-system' ),
+					$subscriber_id
+				);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Batch delete subscribers.
 	 *
 	 * Deletes multiple subscribers at once.

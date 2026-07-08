@@ -224,6 +224,105 @@ class BatchEditTest extends TestCase {
 	}
 
 	/**
+	 * Test batch update status to active for multiple subscribers.
+	 */
+	public function test_batch_update_status_success(): void {
+		$wpdb = $this->wpdb;
+
+		// Mock get_results for batch_get_by_ids (existence check) - both subscribers exist.
+		$wpdb->shouldReceive( 'get_results' )
+			->andReturn(
+				array(
+					(object) array(
+						'id'     => 1,
+						'email'  => 'test1@example.com',
+						'status' => 'inactive',
+					),
+					(object) array(
+						'id'     => 2,
+						'email'  => 'test2@example.com',
+						'status' => 'inactive',
+					),
+				)
+			);
+
+		// Mock update for the status change.
+		$wpdb->shouldReceive( 'update' )
+			->andReturn( 1 );
+
+		$result = $this->service->batch_update_status( array( 1, 2 ), 'active' );
+
+		$this->assertEquals( 2, $result['success'] );
+		$this->assertEquals( 0, $result['failed'] );
+		$this->assertEmpty( $result['errors'] );
+		$this->assertEquals( array( 1, 2 ), $result['updated_ids'] );
+	}
+
+	/**
+	 * Test batch update status with non-existent subscriber.
+	 */
+	public function test_batch_update_status_with_missing_subscriber(): void {
+		$wpdb = $this->wpdb;
+
+		// Only subscriber 1 exists; 999 doesn't.
+		$wpdb->shouldReceive( 'get_results' )
+			->andReturn(
+				array(
+					(object) array(
+						'id'    => 1,
+						'email' => 'test1@example.com',
+					),
+				)
+			);
+
+		$wpdb->shouldReceive( 'update' )
+			->andReturn( 1 );
+
+		$result = $this->service->batch_update_status( array( 1, 999 ), 'inactive' );
+
+		$this->assertEquals( 1, $result['success'] );
+		$this->assertEquals( 1, $result['failed'] );
+		$this->assertCount( 1, $result['errors'] );
+		$this->assertStringContainsString( '999', $result['errors'][0] );
+		$this->assertEquals( array( 1 ), $result['updated_ids'] );
+	}
+
+	/**
+	 * Test batch update status with empty subscriber IDs.
+	 */
+	public function test_batch_update_status_empty_subscribers(): void {
+		$result = $this->service->batch_update_status( array(), 'active' );
+
+		$this->assertEquals( 0, $result['success'] );
+		$this->assertEquals( 0, $result['failed'] );
+		$this->assertEmpty( $result['errors'] );
+		$this->assertEmpty( $result['updated_ids'] );
+	}
+
+	/**
+	 * Test batch update status filters out invalid IDs.
+	 */
+	public function test_batch_update_status_filters_invalid_ids(): void {
+		$result = $this->service->batch_update_status( array( -1, 0, -5 ), 'active' );
+
+		$this->assertEquals( 0, $result['success'] );
+		$this->assertEquals( 0, $result['failed'] );
+		$this->assertEmpty( $result['errors'] );
+		$this->assertEmpty( $result['updated_ids'] );
+	}
+
+	/**
+	 * Test batch update status with an invalid target status.
+	 */
+	public function test_batch_update_status_invalid_status(): void {
+		$result = $this->service->batch_update_status( array( 1, 2 ), 'unsubscribed' );
+
+		$this->assertEquals( 0, $result['success'] );
+		$this->assertEquals( 0, $result['failed'] );
+		$this->assertNotEmpty( $result['errors'] );
+	}
+
+	/**
 	 * Clean up after each test.
 	 */
 	protected function tearDown(): void {

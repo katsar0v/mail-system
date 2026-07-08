@@ -2720,3 +2720,20 @@ msgstr[1] "%d inaktive oder abgemeldete Abonnenten erfolgreich gelöscht."
 #: includes/Admin/class-admin-ajax.php
 msgid "No inactive or unsubscribed subscribers found to delete."
 msgstr "Keine inaktiven oder abgemeldeten Abonnenten zum Löschen gefunden."
+
+#: admin/partials/subscribers.php
+msgid "Set active"
+msgstr "Auf aktiv setzen"
+
+#: admin/partials/subscribers.php
+msgid "Set inactive"
+msgstr "Auf inaktiv setzen"
+
+#: includes/Admin/class-admin-ajax.php
+#: includes/services/class-subscriber-service.php
+msgid "Invalid status."
+msgstr "Ungültiger Status."
+
+#: includes/services/class-subscriber-service.php
+msgid "Failed to update subscriber ID %d"
+msgstr "Aktualisierung des Abonnenten mit ID %d fehlgeschlagen"
