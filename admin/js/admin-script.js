@@ -924,8 +924,9 @@
         $('.mskd-email-preview-iframe').each(function() {
             var $iframe = $(this);
             var content = $iframe.data('content');
+            var previewTarget = $iframe.attr('name');
             
-            if (!content) {
+            if (!content || !previewTarget) {
                 return;
             }
 
@@ -933,11 +934,8 @@
             var form = document.createElement('form');
             form.method = 'POST';
             form.action = mskd_admin.ajax_url + '?action=mskd_preview_email';
-            form.target = 'preview_frame_' + Date.now();
+            form.target = previewTarget;
             form.style.display = 'none';
-
-            // Set iframe name to match form target
-            $iframe.attr('name', form.target);
 
             // Add nonce
             var nonceInput = document.createElement('input');
@@ -963,8 +961,9 @@
         $('.mskd-campaign-preview-iframe').each(function() {
             var $iframe = $(this);
             var campaignId = $iframe.data('campaign-id');
+            var previewTarget = $iframe.attr('name');
             
-            if (!campaignId) {
+            if (!campaignId || !previewTarget) {
                 return;
             }
 
@@ -972,11 +971,8 @@
             var form = document.createElement('form');
             form.method = 'POST';
             form.action = mskd_admin.ajax_url + '?action=mskd_preview_email';
-            form.target = 'preview_campaign_' + campaignId;
+            form.target = previewTarget;
             form.style.display = 'none';
-
-            // Set iframe name to match form target
-            $iframe.attr('name', form.target);
 
             // Add nonce
             var nonceInput = document.createElement('input');
