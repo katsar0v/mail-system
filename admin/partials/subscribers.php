@@ -240,6 +240,10 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 			}
 		);
 
+		// Editable (database) subscribers on this page can be selected for bulk actions,
+		// independent of whether any lists exist.
+		$has_editable_subscribers = ! empty( $subscriber_ids );
+
 		// Calculate stats for the statistics box.
 		$total_subs_count    = MSKD_List_Provider::get_total_subscriber_count();
 		$active_subs_count   = MSKD_List_Provider::get_total_subscriber_count( 'active' );
@@ -296,13 +300,17 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 		</ul>
 
 		<!-- Bulk Actions -->
-		<?php if ( ! empty( $database_lists ) ) : ?>
+		<?php if ( $has_editable_subscribers ) : ?>
 		<div class="tablenav top mskd-bulk-actions-bar">
 			<div class="alignleft actions bulkactions mskd-bulk-actions-row">
 				<select name="mskd_bulk_action" id="mskd-bulk-action" class="mskd-bulk-action-select">
 					<option value=""><?php esc_html_e( 'Bulk actions', 'mail-system' ); ?></option>
-					<option value="assign_lists"><?php esc_html_e( 'Add to lists', 'mail-system' ); ?></option>
-					<option value="remove_lists"><?php esc_html_e( 'Remove from lists', 'mail-system' ); ?></option>
+					<?php if ( ! empty( $database_lists ) ) : ?>
+						<option value="assign_lists"><?php esc_html_e( 'Add to lists', 'mail-system' ); ?></option>
+						<option value="remove_lists"><?php esc_html_e( 'Remove from lists', 'mail-system' ); ?></option>
+					<?php endif; ?>
+					<option value="set_active"><?php esc_html_e( 'Set active', 'mail-system' ); ?></option>
+					<option value="set_inactive"><?php esc_html_e( 'Set inactive', 'mail-system' ); ?></option>
 					<option value="delete"><?php esc_html_e( 'Delete', 'mail-system' ); ?></option>
 				</select>
 
@@ -331,7 +339,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 		<table class="wp-list-table widefat fixed striped mskd-subscribers-table">
 			<thead>
 				<tr>
-					<?php if ( ! empty( $database_lists ) ) : ?>
+					<?php if ( $has_editable_subscribers ) : ?>
 					<td id="cb" class="manage-column column-cb check-column">
 						<input type="checkbox" id="mskd-select-all" />
 					</td>
@@ -350,8 +358,8 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 						$is_external = isset( $sub->source ) && 'external' === $sub->source;
 						$is_editable = isset( $sub->is_editable ) ? $sub->is_editable : true;
 						?>
-						<tr<?php echo $is_external ? ' class="mskd-external-list"' : ''; ?>>
-							<?php if ( ! empty( $database_lists ) ) : ?>
+						<tr<?php echo $is_external ? ' class="mskd-external-list"' : ''; ?> data-subscriber-id="<?php echo esc_attr( $sub->id ); ?>">
+							<?php if ( $has_editable_subscribers ) : ?>
 							<th scope="row" class="check-column">
 								<?php if ( $is_editable && ! $is_external ) : ?>
 									<input type="checkbox" name="mskd_subscriber_ids[]" class="mskd-subscriber-checkbox" value="<?php echo esc_attr( $sub->id ); ?>" />
@@ -366,7 +374,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 									</span>
 								<?php endif; ?>
 							</td>
-							<td>
+							<td class="mskd-status-column">
 								<span class="mskd-status mskd-status-<?php echo esc_attr( $sub->status ); ?>">
 									<?php
 									$statuses = array(
@@ -418,7 +426,7 @@ if ( 'edit' === $current_action && $subscriber_id ) {
 					<?php endforeach; ?>
 				<?php else : ?>
 					<tr>
-						<td colspan="<?php echo ! empty( $database_lists ) ? '6' : '5'; ?>"><?php esc_html_e( 'No subscribers found.', 'mail-system' ); ?></td>
+						<td colspan="<?php echo $has_editable_subscribers ? '6' : '5'; ?>"><?php esc_html_e( 'No subscribers found.', 'mail-system' ); ?></td>
 					</tr>
 				<?php endif; ?>
 			</tbody>

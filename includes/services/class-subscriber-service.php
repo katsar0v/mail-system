@@ -937,6 +937,74 @@ class Subscriber_Service {
 	}
 
 	/**
+	 * Batch update status for multiple subscribers.
+	 *
+	 * @param array  $subscriber_ids Array of subscriber IDs.
+	 * @param string $status         Target status (active or inactive).
+	 * @return array {
+	 *     @type int   $success Number of subscribers updated successfully.
+	 *     @type int   $failed  Number of subscribers that failed.
+	 *     @type array $errors  Array of error messages for failed updates.
+	 * }
+	 */
+	public function batch_update_status( array $subscriber_ids, string $status ): array {
+		$result = array(
+			'success' => 0,
+			'failed'  => 0,
+			'errors'  => array(),
+		);
+
+		$valid_statuses = array( 'active', 'inactive' );
+		if ( ! in_array( $status, $valid_statuses, true ) ) {
+			$result['errors'][] = __( 'Invalid status.', 'mail-system' );
+			return $result;
+		}
+
+		if ( empty( $subscriber_ids ) ) {
+			return $result;
+		}
+
+		// Sanitize and validate IDs.
+		$subscriber_ids = array_map( 'intval', $subscriber_ids );
+		$subscriber_ids = array_filter(
+			$subscriber_ids,
+			function ( $id ) {
+				return $id > 0;
+			}
+		);
+
+		if ( empty( $subscriber_ids ) ) {
+			return $result;
+		}
+
+		foreach ( $subscriber_ids as $subscriber_id ) {
+			$subscriber = $this->get_by_id( $subscriber_id );
+			if ( ! $subscriber ) {
+				++$result['failed'];
+				$result['errors'][] = sprintf(
+					/* translators: %d: subscriber ID */
+					__( 'Subscriber ID %d not found.', 'mail-system' ),
+					$subscriber_id
+				);
+				continue;
+			}
+
+			if ( $this->update( $subscriber_id, array( 'status' => $status ) ) ) {
+				++$result['success'];
+			} else {
+				++$result['failed'];
+				$result['errors'][] = sprintf(
+					/* translators: %d: subscriber ID */
+					__( 'Failed to update subscriber ID %d', 'mail-system' ),
+					$subscriber_id
+				);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Batch delete subscribers.
 	 *
 	 * Deletes multiple subscribers at once.
