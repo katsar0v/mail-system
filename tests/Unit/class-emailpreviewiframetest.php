@@ -17,6 +17,11 @@ use Brain\Monkey\Functions;
 class EmailPreviewIframeTest extends TestCase {
 
 	/**
+	 * Mock user ID used for compose wizard session keys.
+	 */
+	private const MOCK_USER_ID = 7;
+
+	/**
 	 * Test queue detail renders a stable iframe target name.
 	 */
 	public function test_queue_detail_renders_campaign_preview_iframe_name(): void {
@@ -100,7 +105,7 @@ class EmailPreviewIframeTest extends TestCase {
 					return $value;
 				},
 				'get_current_user_id' => function () {
-					return 7;
+					return self::MOCK_USER_ID;
 				},
 				'get_transient'    => function () {
 					return array(
