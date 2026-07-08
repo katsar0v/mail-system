@@ -42,6 +42,23 @@ class MSKD_Cron_Handler {
 	 */
 	public function init() {
 		add_action( 'mskd_process_queue', array( $this, 'process_queue' ) );
+		$this->maybe_schedule_cron();
+	}
+
+	/**
+	 * Ensure the recurring queue event is scheduled.
+	 *
+	 * Self-heals the `mskd_process_queue` event so the queue keeps processing
+	 * even if the event was dropped from the WP-Cron array (e.g. during a plugin
+	 * update, a momentary deactivation, or when the custom schedule was
+	 * unavailable at reschedule time) without requiring re-activation.
+	 */
+	private function maybe_schedule_cron() {
+		if ( ! wp_next_scheduled( 'mskd_process_queue' ) ) {
+			// Schedule at the start of the next minute (00 seconds).
+			$next_minute = mskd_normalize_timestamp( time() + 60 );
+			wp_schedule_event( $next_minute, 'mskd_every_minute', 'mskd_process_queue' );
+		}
 	}
 
 	/**

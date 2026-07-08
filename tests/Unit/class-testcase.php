@@ -58,6 +58,9 @@ abstract class TestCase extends PHPUnitTestCase {
 				'esc_url'           => null,
 				'esc_html__'        => null,
 				'esc_attr__'        => null,
+				'esc_js'            => function ( $text, $domain = 'default' ) {
+					return $text;
+				},
 				'wp_kses_post'      => null,
 				'wp_strip_all_tags' => function ( $string, $remove_breaks = false ) {
 					return strip_tags( $string );

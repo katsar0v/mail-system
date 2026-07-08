@@ -37,6 +37,76 @@ class CronHandlerTest extends TestCase {
 	}
 
 	/**
+	 * Test that init registers the queue processing action.
+	 */
+	public function test_init_registers_process_queue_action(): void {
+		$added_action = false;
+
+		Functions\when( 'add_action' )->alias(
+			function ( $hook ) use ( &$added_action ) {
+				if ( 'mskd_process_queue' === $hook ) {
+					$added_action = true;
+				}
+				return true;
+			}
+		);
+		Functions\when( 'wp_next_scheduled' )->justReturn( 1234567890 );
+		Functions\when( 'wp_schedule_event' )->justReturn( true );
+
+		$this->cron_handler->init();
+
+		$this->assertTrue( $added_action, 'init should register the mskd_process_queue action.' );
+	}
+
+	/**
+	 * Test that init self-heals a missing cron event by re-scheduling it.
+	 */
+	public function test_init_reschedules_cron_when_missing(): void {
+		Functions\when( 'add_action' )->justReturn( true );
+		Functions\when( 'mskd_normalize_timestamp' )->returnArg( 1 );
+
+		// Event is missing from the WP-Cron array.
+		Functions\when( 'wp_next_scheduled' )->justReturn( false );
+
+		$scheduled_event = null;
+		Functions\when( 'wp_schedule_event' )->alias(
+			function ( $timestamp, $recurrence, $hook ) use ( &$scheduled_event ) {
+				$scheduled_event = array( $timestamp, $recurrence, $hook );
+				return true;
+			}
+		);
+
+		$this->cron_handler->init();
+
+		$this->assertNotNull( $scheduled_event, 'wp_schedule_event should be called when the event is missing.' );
+		$this->assertSame( 'mskd_every_minute', $scheduled_event[1] );
+		$this->assertSame( 'mskd_process_queue', $scheduled_event[2] );
+	}
+
+	/**
+	 * Test that init does not re-schedule when the cron event already exists.
+	 */
+	public function test_init_does_not_reschedule_when_event_exists(): void {
+		Functions\when( 'add_action' )->justReturn( true );
+		Functions\when( 'mskd_normalize_timestamp' )->returnArg( 1 );
+
+		// Event is already scheduled.
+		Functions\when( 'wp_next_scheduled' )->justReturn( 1234567890 );
+
+		$schedule_event_called = false;
+		Functions\when( 'wp_schedule_event' )->alias(
+			function () use ( &$schedule_event_called ) {
+				$schedule_event_called = true;
+				return true;
+			}
+		);
+
+		$this->cron_handler->init();
+
+		$this->assertFalse( $schedule_event_called, 'wp_schedule_event should NOT be called when the event already exists.' );
+	}
+
+	/**
 	 * Test that process_queue sends pending emails.
 	 */
 	public function test_process_queue_sends_pending_emails(): void {
