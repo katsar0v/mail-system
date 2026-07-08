@@ -355,6 +355,7 @@ $min_datetime = $now->format( 'Y-m-d\TH:i' );
 										<iframe
 											class="mskd-email-preview-iframe"
 											data-content="<?php echo esc_attr( $session_data['content'] ); ?>"
+											name="mskd_preview_compose"
 											style="width: 100%; height: 300px; border: 1px solid #ddd; border-radius: 4px; background: #fff;"
 											sandbox="allow-same-origin"
 											title="<?php esc_attr_e( 'Email content preview', 'mail-system' ); ?>"

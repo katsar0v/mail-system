@@ -228,7 +228,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 					<?php esc_html_e( 'Email Preview (with header & footer)', 'mail-system' ); ?>
 				</div>
 				<div class="mskd-email-body-preview">
-					<iframe class="mskd-email-iframe mskd-campaign-preview-iframe" data-campaign-id="<?php echo esc_attr( $campaign->id ); ?>" sandbox="allow-same-origin" title="<?php esc_attr_e( 'Email Preview', 'mail-system' ); ?>"></iframe>
+					<iframe class="mskd-email-iframe mskd-campaign-preview-iframe" data-campaign-id="<?php echo esc_attr( $campaign->id ); ?>" name="preview_campaign_<?php echo esc_attr( $campaign->id ); ?>" sandbox="allow-same-origin" title="<?php esc_attr_e( 'Email Preview', 'mail-system' ); ?>"></iframe>
 				</div>
 			</div>
 		</div>
