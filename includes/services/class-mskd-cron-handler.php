@@ -227,7 +227,7 @@ class MSKD_Cron_Handler {
 						$wpdb->prefix . 'mskd_queue',
 						array(
 							'status'        => 'pending',
-							'scheduled_at'  => gmdate( 'Y-m-d H:i:s', $retry_timestamp ),
+							'scheduled_at'  => mskd_local_time_from_timestamp( $retry_timestamp ),
 							'error_message' => $retry_message,
 						),
 						array( 'id' => $item->id ),
@@ -327,7 +327,7 @@ class MSKD_Cron_Handler {
 
 		// Normalize to 00 seconds.
 		$timeout_timestamp = mskd_normalize_timestamp( strtotime( '-' . self::PROCESSING_TIMEOUT_MINUTES . ' minutes' ) );
-		$timeout_threshold = gmdate( 'Y-m-d H:i:s', $timeout_timestamp );
+		$timeout_threshold = mskd_local_time_from_timestamp( $timeout_timestamp );
 
 		// Find emails stuck in processing status.
 		$stuck_items = $wpdb->get_results(
