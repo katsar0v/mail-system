@@ -109,7 +109,7 @@ class TimezoneConsistencyTest extends TestCase {
 		$retry_dt    = new \DateTime( $retry_local, $tz );
 		$diff_minutes = ( $retry_dt->getTimestamp() - $now_dt->getTimestamp() ) / 60;
 
-		$this->assertSame( 2.0, $diff_minutes, 'Retry delay must be honored on non-UTC sites.' );
+		$this->assertSame( 2, $diff_minutes, 'Retry delay must be honored on non-UTC sites.' );
 		$this->assertGreaterThan( $now_local, $retry_local );
 	}
 
