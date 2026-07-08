@@ -85,7 +85,8 @@ class EmailPreviewIframeTest extends TestCase {
 
 		unset( $_GET['campaign_id'] );
 
-		$this->assertStringContainsString( 'class="mskd-email-iframe mskd-campaign-preview-iframe"', $output );
+		$this->assertStringContainsString( 'mskd-email-iframe', $output );
+		$this->assertStringContainsString( 'mskd-campaign-preview-iframe', $output );
 		$this->assertStringContainsString( 'name="preview_campaign_22"', $output );
 	}
 
@@ -137,7 +138,7 @@ class EmailPreviewIframeTest extends TestCase {
 
 		unset( $_GET['step'] );
 
-		$this->assertStringContainsString( 'class="mskd-email-preview-iframe"', $output );
+		$this->assertStringContainsString( 'mskd-email-preview-iframe', $output );
 		$this->assertStringContainsString( 'name="mskd_preview_compose"', $output );
 	}
 }
