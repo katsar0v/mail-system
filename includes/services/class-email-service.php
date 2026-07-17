@@ -44,6 +44,13 @@ class Email_Service {
 	private $campaigns_table;
 
 	/**
+	 * Click analytics table name.
+	 *
+	 * @var string
+	 */
+	private $clicks_table;
+
+	/**
 	 * Subscriber service instance.
 	 *
 	 * @var Subscriber_Service
@@ -65,6 +72,7 @@ class Email_Service {
 		$this->wpdb               = $wpdb;
 		$this->queue_table        = $wpdb->prefix . 'mskd_queue';
 		$this->campaigns_table    = $wpdb->prefix . 'mskd_campaigns';
+		$this->clicks_table       = $wpdb->prefix . 'mskd_clicks';
 		$this->subscriber_service = new Subscriber_Service();
 		$this->tracking_service   = new Email_Tracking_Service();
 	}
@@ -287,6 +295,7 @@ class Email_Service {
 				'scheduled_at'   => $scheduled_at,
 				'created_at'     => mskd_current_time_normalized(),
 				'tracking_token' => $this->tracking_service->generate_token(),
+				'click_token'    => $this->tracking_service->generate_token(),
 			);
 		}
 
@@ -317,14 +326,15 @@ class Email_Service {
 			$values[] = $item['scheduled_at'];
 			$values[] = $item['created_at'];
 			$values[] = $item['tracking_token'];
+			$values[] = $item['click_token'];
 
-			$placeholders[] = '( %d, %d, %s, %s, %s, %s, %s, %s )';
+			$placeholders[] = '( %d, %d, %s, %s, %s, %s, %s, %s, %s )';
 		}
 
 		$placeholder_string = implode( ', ', $placeholders );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
-		$sql = "INSERT INTO {$this->queue_table} (campaign_id, subscriber_id, subject, body, status, scheduled_at, created_at, tracking_token) VALUES {$placeholder_string}";
+		$sql = "INSERT INTO {$this->queue_table} (campaign_id, subscriber_id, subject, body, status, scheduled_at, created_at, tracking_token, click_token) VALUES {$placeholder_string}";
 
 		$result = $this->wpdb->query( $this->wpdb->prepare( $sql, $values ) );
 
@@ -348,7 +358,8 @@ class Email_Service {
 	 *     @type string $bcc             Optional. Comma-separated list of Bcc email addresses.
 	 *     @type string $from_email      Optional. Custom sender email address.
 	 *     @type string $from_name       Optional. Custom sender name.
-	 *     @type string $tracking_token  Optional. Pre-generated token for an immediate send.
+	 *     @type string $tracking_token  Optional. Pre-generated open token for an immediate send.
+	 *     @type string $click_token     Optional. Pre-generated click token for an immediate send.
 	 * }
 	 * @return int|false Queue item ID on success, false on failure.
 	 */
@@ -365,9 +376,13 @@ class Email_Service {
 		$from_email      = $data['from_email'] ?? null;
 		$from_name       = $data['from_name'] ?? null;
 		$tracking_token  = isset( $data['tracking_token'] ) ? (string) $data['tracking_token'] : '';
+		$click_token     = isset( $data['click_token'] ) ? (string) $data['click_token'] : '';
 
 		if ( ! $this->tracking_service->is_valid_token( $tracking_token ) ) {
 			$tracking_token = $this->tracking_service->generate_token();
+		}
+		if ( ! $this->tracking_service->is_valid_token( $click_token ) ) {
+			$click_token = $this->tracking_service->generate_token();
 		}
 
 		if ( empty( $recipient_email ) || empty( $subject ) || empty( $body ) ) {
@@ -445,8 +460,9 @@ class Email_Service {
 				'error_message'  => $sent ? null : $error_message,
 				'created_at'     => mskd_current_time_normalized(),
 				'tracking_token' => $tracking_token,
+				'click_token'    => $click_token,
 			);
-			$format       = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s' );
+			$format       = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s' );
 		} else {
 			$queue_data = array(
 				'campaign_id'    => $campaign_id,
@@ -460,8 +476,9 @@ class Email_Service {
 				'error_message'  => null,
 				'created_at'     => mskd_current_time_normalized(),
 				'tracking_token' => $tracking_token,
+				'click_token'    => $click_token,
 			);
-			$format     = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s' );
+			$format     = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s' );
 		}
 
 		$result = $this->wpdb->insert( $this->queue_table, $queue_data, $format );
@@ -711,6 +728,8 @@ class Email_Service {
 	 * @return bool True on success.
 	 */
 	public function truncate_queue(): bool {
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are hardcoded and safe.
+		$this->wpdb->query( "TRUNCATE TABLE {$this->clicks_table}" );
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are hardcoded and safe.
 		$this->wpdb->query( "TRUNCATE TABLE {$this->queue_table}" );
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are hardcoded and safe.

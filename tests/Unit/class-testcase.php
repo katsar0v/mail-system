@@ -122,9 +122,12 @@ abstract class TestCase extends PHPUnitTestCase {
 				'admin_url'       => function ( $path = '' ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
-				'add_query_arg'   => function ( $args, $url = '' ) {
-					return $url . '?' . http_build_query( $args );
-				},
+					'add_query_arg'   => function ( $args, $url = '' ) {
+						return $url . '?' . http_build_query( $args );
+					},
+					'wp_parse_url'    => function ( $url, $component = -1 ) {
+						return parse_url( $url, $component );
+					},
 				'plugin_dir_path' => function ( $file ) {
 					return dirname( $file ) . '/';
 				},
@@ -158,9 +161,12 @@ abstract class TestCase extends PHPUnitTestCase {
 					}
 					return array_merge( $defaults, $args );
 				},
-				'wp_generate_password' => function ( $length = 12, $special_chars = true ) {
-					return substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' ), 0, $length );
-				},
+					'wp_generate_password' => function ( $length = 12, $special_chars = true ) {
+						return substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' ), 0, $length );
+					},
+					'wp_salt'              => function () {
+						return 'unit-test-site-salt';
+					},
 				'current_time'         => function ( $type ) {
 					return $type === 'mysql' ? gmdate( 'Y-m-d H:i:s' ) : time();
 				},

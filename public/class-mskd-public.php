@@ -26,10 +26,67 @@ class MSKD_Public {
 	public function init() {
 		add_action( 'init', array( $this, 'handle_unsubscribe' ) );
 		add_action( 'init', array( $this, 'handle_opt_in_confirmation' ) );
+		add_action( 'template_redirect', array( $this, 'handle_click_tracking' ), 0 );
 		add_action( 'template_redirect', array( $this, 'handle_open_tracking' ), 0 );
 		add_shortcode( 'mskd_subscribe_form', array( $this, 'subscribe_form_shortcode' ) );
 		add_action( 'wp_ajax_mskd_subscribe', array( $this, 'ajax_subscribe' ) );
 		add_action( 'wp_ajax_nopriv_mskd_subscribe', array( $this, 'ajax_subscribe' ) );
+	}
+
+	/**
+	 * Validate a signed email click, record GET requests, and redirect.
+	 *
+	 * HEAD requests resolve and redirect without changing analytics. Other
+	 * methods, malformed payloads, and unknown recipient tokens are rejected.
+	 *
+	 * @return void
+	 */
+	public function handle_click_tracking() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Signed public tracking payload authenticates the request.
+		if ( ! isset( $_GET['mskd_track_click'] ) ) {
+			return;
+		}
+
+		$request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) ) : 'GET';
+		if ( ! in_array( $request_method, array( 'GET', 'HEAD' ), true ) ) {
+			status_header( 405 );
+			nocache_headers();
+			header( 'Allow: GET, HEAD' );
+			exit;
+		}
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- All fields are authenticated by the HMAC below.
+		$token       = is_string( $_GET['mskd_track_click'] ) ? strtolower( sanitize_text_field( wp_unslash( $_GET['mskd_track_click'] ) ) ) : '';
+		$link_value  = isset( $_GET['link'] ) && is_string( $_GET['link'] ) ? sanitize_text_field( wp_unslash( $_GET['link'] ) ) : '';
+		$encoded_url = isset( $_GET['url'] ) && is_string( $_GET['url'] ) ? sanitize_text_field( wp_unslash( $_GET['url'] ) ) : '';
+		$signature   = isset( $_GET['sig'] ) && is_string( $_GET['sig'] ) ? strtolower( sanitize_text_field( wp_unslash( $_GET['sig'] ) ) ) : '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		$link_index = ctype_digit( $link_value ) ? (int) $link_value : 0;
+
+		$tracking_service = new \MSKD\Services\Email_Tracking_Service();
+		$destination      = $tracking_service->resolve_click(
+			$token,
+			$link_index,
+			$encoded_url,
+			$signature,
+			'GET' === $request_method
+		);
+
+		if ( false === $destination ) {
+			status_header( 400 );
+			nocache_headers();
+			header( 'Content-Type: text/plain; charset=UTF-8' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Plain translated text response with a fixed content type.
+			echo esc_html__( 'Invalid tracking link.', 'mail-system' );
+			exit;
+		}
+
+		nocache_headers();
+		header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0', true );
+		header( 'Referrer-Policy: no-referrer' );
+		wp_redirect( $destination, 302 );
+		exit;
 	}
 
 	/**

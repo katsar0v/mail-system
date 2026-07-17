@@ -90,7 +90,9 @@ $campaigns = $wpdb->get_results(
 	        COALESCE(q.processing_count, 0) as processing_count,
 	        COALESCE(q.cancelled_count, 0) as cancelled_count,
 	        COALESCE(q.opened_count, 0) as opened_count,
-	        COALESCE(q.open_count, 0) as open_count
+	        COALESCE(q.open_count, 0) as open_count,
+	        COALESCE(clicks.unique_clickers, 0) as unique_clickers,
+	        COALESCE(clicks.total_clicks, 0) as total_clicks
     FROM {$wpdb->prefix}mskd_campaigns c
     LEFT JOIN (
         SELECT 
@@ -105,7 +107,13 @@ $campaigns = $wpdb->get_results(
         FROM {$wpdb->prefix}mskd_queue
         WHERE campaign_id IS NOT NULL
         GROUP BY campaign_id
-    ) q ON c.id = q.campaign_id"
+	    ) q ON c.id = q.campaign_id
+	    LEFT JOIN (
+	        SELECT campaign_id, COUNT(DISTINCT queue_id) as unique_clickers, SUM(click_count) as total_clicks
+	        FROM {$wpdb->prefix}mskd_clicks
+	        WHERE campaign_id IS NOT NULL
+	        GROUP BY campaign_id
+	    ) clicks ON c.id = clicks.campaign_id"
 		. $where .
 		' ORDER BY c.created_at DESC LIMIT %d OFFSET %d',
 		$per_page,
@@ -231,6 +239,7 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Recipients', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 180px;"><?php esc_html_e( 'Progress', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 130px;"><?php esc_html_e( 'Opens', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 130px;"><?php esc_html_e( 'Clicks', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Status', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 140px;"><?php esc_html_e( 'Created', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 140px;"><?php esc_html_e( 'Scheduled for', 'mail-system' ); ?></th>
@@ -255,9 +264,12 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 					$cancelled        = intval( $campaign->cancelled_count );
 					$opened           = intval( $campaign->opened_count );
 					$open_count       = intval( $campaign->open_count );
+					$unique_clickers  = intval( $campaign->unique_clickers );
+					$total_clicks     = intval( $campaign->total_clicks );
 					$completed        = $sent + $failed + $cancelled;
 					$progress_percent = $total > 0 ? round( ( $completed / $total ) * 100 ) : 0;
 					$open_rate        = $sent > 0 ? round( ( $opened / $sent ) * 100, 1 ) : 0;
+					$click_rate       = $sent > 0 ? round( ( $unique_clickers / $sent ) * 100, 1 ) : 0;
 					?>
 					<tr>
 						<td><?php echo esc_html( $campaign->id ); ?></td>
@@ -300,6 +312,21 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 										/* translators: %d: tracking pixel load count */
 										esc_html__( 'Loads: %d', 'mail-system' ),
 										$open_count
+									);
+									?>
+								</small>
+							<?php endif; ?>
+						</td>
+						<td>
+							<strong><?php echo esc_html( $unique_clickers ); ?></strong>
+							<small>(<?php echo esc_html( $click_rate ); ?>% CTR)</small>
+							<?php if ( $total_clicks > 0 ) : ?>
+								<br><small>
+									<?php
+									printf(
+										/* translators: %d: total tracked link clicks */
+										esc_html__( 'Total: %d', 'mail-system' ),
+										$total_clicks
 									);
 									?>
 								</small>
@@ -366,7 +393,7 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 				<?php endforeach; ?>
 			<?php else : ?>
 				<tr>
-					<td colspan="10"><?php esc_html_e( 'No campaigns in queue.', 'mail-system' ); ?></td>
+					<td colspan="11"><?php esc_html_e( 'No campaigns in queue.', 'mail-system' ); ?></td>
 				</tr>
 			<?php endif; ?>
 		</tbody>

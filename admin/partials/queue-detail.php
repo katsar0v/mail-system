@@ -41,9 +41,14 @@ if ( $status_filter ) {
 }
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only analytics filter.
-$opened_filter = isset( $_GET['engagement'] ) && 'opened' === sanitize_text_field( wp_unslash( $_GET['engagement'] ) );
+$engagement_filter = isset( $_GET['engagement'] ) ? sanitize_text_field( wp_unslash( $_GET['engagement'] ) ) : '';
+$opened_filter     = 'opened' === $engagement_filter;
+$clicked_filter    = 'clicked' === $engagement_filter;
 if ( $opened_filter ) {
 	$where .= ' AND q.opened_at IS NOT NULL';
+}
+if ( $clicked_filter ) {
+	$where .= " AND EXISTS (SELECT 1 FROM {$wpdb->prefix}mskd_clicks clicked_filter WHERE clicked_filter.queue_id = q.id)";
 }
 
 // Get queue stats for this campaign.
@@ -74,6 +79,21 @@ $opened_count     = $queue_stats->opened ?? 0;
 $open_count       = $queue_stats->open_count ?? 0;
 $open_rate        = $sent_count > 0 ? round( ( $opened_count / $sent_count ) * 100, 1 ) : 0;
 
+// Get click totals separately so multiple clicked links cannot inflate recipient counts.
+$click_stats = $wpdb->get_row(
+	$wpdb->prepare(
+		"SELECT COUNT(DISTINCT queue_id) as unique_clickers, COALESCE(SUM(click_count), 0) as total_clicks
+		FROM {$wpdb->prefix}mskd_clicks
+		WHERE campaign_id = %d",
+		$campaign_id
+	)
+);
+
+$unique_clickers = $click_stats->unique_clickers ?? 0;
+$total_clicks    = $click_stats->total_clicks ?? 0;
+$click_rate      = $sent_count > 0 ? round( ( $unique_clickers / $sent_count ) * 100, 1 ) : 0;
+$click_to_open   = $opened_count > 0 ? round( ( $unique_clickers / $opened_count ) * 100, 1 ) : 0;
+
 // Get total count for current filter.
 $total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}mskd_queue q" . $where );
 $total_pages = ceil( $total_items / $per_page );
@@ -81,13 +101,34 @@ $total_pages = ceil( $total_items / $per_page );
 // Get queue items for this campaign.
 $queue_items = $wpdb->get_results(
 	$wpdb->prepare(
-		"SELECT q.*, s.email, s.first_name, s.last_name 
+		"SELECT q.*, s.email, s.first_name, s.last_name,
+			COALESCE(clicks.total_clicks, 0) as total_clicks,
+			clicks.first_clicked_at,
+			clicks.last_clicked_at
     FROM {$wpdb->prefix}mskd_queue q
-    LEFT JOIN {$wpdb->prefix}mskd_subscribers s ON q.subscriber_id = s.id"
+	LEFT JOIN {$wpdb->prefix}mskd_subscribers s ON q.subscriber_id = s.id
+	LEFT JOIN (
+		SELECT queue_id, SUM(click_count) as total_clicks, MIN(first_clicked_at) as first_clicked_at, MAX(last_clicked_at) as last_clicked_at
+		FROM {$wpdb->prefix}mskd_clicks
+		GROUP BY queue_id
+	) clicks ON clicks.queue_id = q.id"
 		. $where .
 		' ORDER BY q.id ASC LIMIT %d OFFSET %d',
 		$per_page,
 		$offset
+	)
+);
+
+// Aggregate each stable link position across campaign recipients.
+$link_stats = $wpdb->get_results(
+	$wpdb->prepare(
+		"SELECT link_index, MAX(display_url) as display_url, COUNT(DISTINCT queue_id) as unique_clickers,
+			SUM(click_count) as total_clicks, MIN(first_clicked_at) as first_clicked_at, MAX(last_clicked_at) as last_clicked_at
+		FROM {$wpdb->prefix}mskd_clicks
+		WHERE campaign_id = %d
+		GROUP BY link_index
+		ORDER BY link_index ASC",
+		$campaign_id
 	)
 );
 
@@ -197,6 +238,21 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 						)
 					</small>
 				</span>
+				<span class="mskd-stat-clicked">
+					↗ <strong><?php echo esc_html( $unique_clickers ); ?></strong> <?php _e( 'clicked', 'mail-system' ); ?>
+					<small>
+						(<?php echo esc_html( $click_rate ); ?>% CTR;
+						<?php echo esc_html( $click_to_open ); ?>% CTOR;
+						<?php
+						printf(
+							/* translators: %d: total tracked link clicks */
+							esc_html__( 'Total: %d', 'mail-system' ),
+							$total_clicks
+						);
+						?>
+							)
+					</small>
+				</span>
 				<?php if ( $failed_count > 0 ) : ?>
 					<span class="mskd-stat-failed">
 						✗ <strong><?php echo esc_html( $failed_count ); ?></strong> <?php _e( 'failed', 'mail-system' ); ?>
@@ -216,7 +272,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 		</div>
 
 		<p class="description">
-			<?php esc_html_e( 'Open tracking is approximate: image blocking can miss opens, while email privacy proxies and prefetching can record an open before the recipient reads the message.', 'mail-system' ); ?>
+			<?php esc_html_e( 'Engagement analytics are approximate. Image privacy proxies can create opens, while security scanners and link prefetching can create clicks before a person interacts with the email. Messages carrying BCC are intentionally untracked to prevent incorrect recipient attribution.', 'mail-system' ); ?>
 		</p>
 
 		<?php if ( $can_cancel ) : ?>
@@ -267,7 +323,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 	<ul class="subsubsub">
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id ) ); ?>" 
-				class="<?php echo empty( $status_filter ) && ! $opened_filter ? 'current' : ''; ?>">
+				class="<?php echo empty( $status_filter ) && ! $opened_filter && ! $clicked_filter ? 'current' : ''; ?>">
 				<?php _e( 'All', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $total_count ); ?>)</span>
 			</a> |
@@ -281,7 +337,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id . '&status=sent' ) ); ?>"
-				class="<?php echo 'sent' === $status_filter && ! $opened_filter ? 'current' : ''; ?>">
+				class="<?php echo 'sent' === $status_filter && ! $opened_filter && ! $clicked_filter ? 'current' : ''; ?>">
 				<?php _e( 'Sent', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $sent_count ); ?>)</span>
 			</a> |
@@ -291,6 +347,13 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				class="<?php echo $opened_filter ? 'current' : ''; ?>">
 				<?php _e( 'Opened', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $opened_count ); ?>)</span>
+			</a> |
+		</li>
+		<li>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id . '&engagement=clicked' ) ); ?>"
+				class="<?php echo $clicked_filter ? 'current' : ''; ?>">
+				<?php _e( 'Clicked', 'mail-system' ); ?>
+				<span class="count">(<?php echo esc_html( $unique_clickers ); ?>)</span>
 			</a> |
 		</li>
 		<li>
@@ -309,6 +372,39 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 		</li>
 	</ul>
 
+	<?php if ( ! empty( $link_stats ) ) : ?>
+		<h2><?php esc_html_e( 'Link performance', 'mail-system' ); ?></h2>
+		<table class="wp-list-table widefat fixed striped">
+			<thead>
+				<tr>
+					<th scope="col" style="width: 70px;"><?php esc_html_e( 'Link', 'mail-system' ); ?></th>
+					<th scope="col"><?php esc_html_e( 'Destination', 'mail-system' ); ?></th>
+					<th scope="col" style="width: 130px;"><?php esc_html_e( 'Unique clickers', 'mail-system' ); ?></th>
+					<th scope="col" style="width: 110px;"><?php esc_html_e( 'Total clicks', 'mail-system' ); ?></th>
+					<th scope="col" style="width: 100px;"><?php esc_html_e( 'Click rate', 'mail-system' ); ?></th>
+					<th scope="col" style="width: 150px;"><?php esc_html_e( 'First click', 'mail-system' ); ?></th>
+					<th scope="col" style="width: 150px;"><?php esc_html_e( 'Last click', 'mail-system' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $link_stats as $link ) : ?>
+					<?php $link_rate = $sent_count > 0 ? round( ( $link->unique_clickers / $sent_count ) * 100, 1 ) : 0; ?>
+					<tr>
+						<td>#<?php echo esc_html( (int) $link->link_index ); ?></td>
+						<td><code><?php echo esc_html( $link->display_url ); ?></code></td>
+						<td><?php echo esc_html( (int) $link->unique_clickers ); ?></td>
+						<td><?php echo esc_html( (int) $link->total_clicks ); ?></td>
+						<td><?php echo esc_html( $link_rate ); ?>%</td>
+						<td><?php echo esc_html( date_i18n( 'd.m.Y H:i', strtotime( $link->first_clicked_at ) ) ); ?></td>
+						<td><?php echo esc_html( date_i18n( 'd.m.Y H:i', strtotime( $link->last_clicked_at ) ) ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php endif; ?>
+
+	<h2><?php esc_html_e( 'Recipients', 'mail-system' ); ?></h2>
+
 	<table class="wp-list-table widefat fixed striped">
 		<thead>
 			<tr>
@@ -318,6 +414,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				<th scope="col" style="width: 80px;"><?php _e( 'Attempts', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 140px;"><?php _e( 'Sent', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 160px;"><?php _e( 'Opened', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 180px;"><?php _e( 'Clicks', 'mail-system' ); ?></th>
 				<th scope="col"><?php _e( 'Error', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 80px;"><?php _e( 'Actions', 'mail-system' ); ?></th>
 			</tr>
@@ -389,6 +486,23 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 							<?php endif; ?>
 						</td>
 						<td>
+							<?php if ( $item->first_clicked_at ) : ?>
+								<?php echo esc_html( date_i18n( 'd.m.Y H:i', strtotime( $item->first_clicked_at ) ) ); ?>
+								<br><small>
+									<?php
+									printf(
+										/* translators: 1: total clicks, 2: last click date */
+										esc_html__( '%1$d total; last %2$s', 'mail-system' ),
+										(int) $item->total_clicks,
+										esc_html( date_i18n( 'd.m.Y H:i', strtotime( $item->last_clicked_at ) ) )
+									);
+									?>
+								</small>
+							<?php else : ?>
+								—
+							<?php endif; ?>
+						</td>
+						<td>
 							<?php if ( $item->error_message ) : ?>
 								<small class="mskd-error-msg"><?php echo esc_html( $item->error_message ); ?></small>
 							<?php else : ?>
@@ -417,7 +531,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				<?php endforeach; ?>
 			<?php else : ?>
 				<tr>
-					<td colspan="8"><?php _e( 'No emails in this campaign.', 'mail-system' ); ?></td>
+					<td colspan="9"><?php _e( 'No emails in this campaign.', 'mail-system' ); ?></td>
 				</tr>
 			<?php endif; ?>
 		</tbody>
@@ -434,6 +548,9 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				}
 				if ( $opened_filter ) {
 					$base_url .= '&engagement=opened';
+				}
+				if ( $clicked_filter ) {
+					$base_url .= '&engagement=clicked';
 				}
 				echo paginate_links(
 					array(

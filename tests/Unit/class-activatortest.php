@@ -84,8 +84,8 @@ class ActivatorTest extends TestCase {
 		// Run activation.
 		\MSKD_Activator::activate();
 
-		// Verify all 6 tables are created.
-		$this->assertCount( 6, $db_delta_calls, 'Should call dbDelta 6 times for 6 tables' );
+		// Verify all 7 tables are created.
+		$this->assertCount( 7, $db_delta_calls, 'Should call dbDelta 7 times for 7 tables' );
 
 		// Check table names in SQL.
 		$all_sql = implode( ' ', $db_delta_calls );
@@ -94,11 +94,14 @@ class ActivatorTest extends TestCase {
 		$this->assertStringContainsString( 'wp_mskd_subscriber_list', $all_sql, 'Should create subscriber_list pivot table' );
 		$this->assertStringContainsString( 'wp_mskd_campaigns', $all_sql, 'Should create campaigns table' );
 		$this->assertStringContainsString( 'wp_mskd_queue', $all_sql, 'Should create queue table' );
+		$this->assertStringContainsString( 'wp_mskd_clicks', $all_sql, 'Should create click analytics table' );
 		$this->assertStringContainsString( 'wp_mskd_templates', $all_sql, 'Should create templates table' );
 		$this->assertStringContainsString( 'tracking_token varchar(64)', $all_sql, 'Queue should include a tracking token' );
 		$this->assertStringContainsString( 'opened_at datetime', $all_sql, 'Queue should include first-open timestamp' );
 		$this->assertStringContainsString( 'open_count int(11) UNSIGNED', $all_sql, 'Queue should include open count' );
 		$this->assertStringContainsString( 'UNIQUE KEY tracking_token', $all_sql, 'Tracking token should be unique' );
+		$this->assertStringContainsString( 'click_token varchar(64)', $all_sql, 'Queue should include a separate click token' );
+		$this->assertStringContainsString( 'UNIQUE KEY queue_link', $all_sql, 'Click aggregates should be unique per recipient link' );
 
 		// Verify update_option was called.
 		$this->assertCount( 2, $update_option_calls, 'Should call update_option twice' );

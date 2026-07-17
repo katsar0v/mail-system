@@ -151,11 +151,12 @@ class Email_Service_Test extends TestCase {
 		$this->wpdb->shouldReceive( 'query' )
 			->once()
 			->with(
-				Mockery::on(
-					function ( $query ) {
-						return false !== strpos( $query, 'tracking_token' )
-							&& 3 === preg_match_all( "/'[a-f0-9]{64}'/", $query );
-					}
+					Mockery::on(
+						function ( $query ) {
+							return false !== strpos( $query, 'tracking_token' )
+								&& false !== strpos( $query, 'click_token' )
+								&& 6 === preg_match_all( "/'[a-f0-9]{64}'/", $query );
+						}
 				)
 			)
 			->andReturn( 3 ); // 3 items inserted.

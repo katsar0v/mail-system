@@ -22,6 +22,7 @@ delete_option( 'mskd_db_version' );
 // Drop custom tables.
 $tables = array(
 	$wpdb->prefix . 'mskd_subscriber_list',
+	$wpdb->prefix . 'mskd_clicks',
 	$wpdb->prefix . 'mskd_queue',
 	$wpdb->prefix . 'mskd_subscribers',
 	$wpdb->prefix . 'mskd_lists',
