@@ -26,9 +26,45 @@ class MSKD_Public {
 	public function init() {
 		add_action( 'init', array( $this, 'handle_unsubscribe' ) );
 		add_action( 'init', array( $this, 'handle_opt_in_confirmation' ) );
+		add_action( 'template_redirect', array( $this, 'handle_open_tracking' ), 0 );
 		add_shortcode( 'mskd_subscribe_form', array( $this, 'subscribe_form_shortcode' ) );
 		add_action( 'wp_ajax_mskd_subscribe', array( $this, 'ajax_subscribe' ) );
 		add_action( 'wp_ajax_nopriv_mskd_subscribe', array( $this, 'ajax_subscribe' ) );
+	}
+
+	/**
+	 * Record an email open and return a transparent 1x1 GIF.
+	 *
+	 * Unknown tokens receive the same response so the endpoint does not reveal
+	 * whether a queue record exists.
+	 *
+	 * @return void
+	 */
+	public function handle_open_tracking() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The random recipient token authenticates this public image request.
+		if ( ! isset( $_GET['mskd_track_open'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Type checked and sanitized immediately below.
+		$raw_token = wp_unslash( $_GET['mskd_track_open'] );
+		$token     = is_string( $raw_token ) ? strtolower( sanitize_text_field( $raw_token ) ) : '';
+
+		$tracking_service = new \MSKD\Services\Email_Tracking_Service();
+		$tracking_service->record_open( $token );
+
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Static transparent GIF payload.
+		$pixel = base64_decode( 'R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==' );
+
+		status_header( 200 );
+		nocache_headers();
+		header( 'Content-Type: image/gif' );
+		header( 'Content-Length: ' . strlen( $pixel ) );
+		header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0', true );
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Binary transparent GIF response.
+		echo $pixel;
+		exit;
 	}
 
 	/**

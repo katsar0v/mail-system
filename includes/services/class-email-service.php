@@ -51,6 +51,13 @@ class Email_Service {
 	private $subscriber_service;
 
 	/**
+	 * Email tracking service instance.
+	 *
+	 * @var Email_Tracking_Service
+	 */
+	private $tracking_service;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -59,6 +66,7 @@ class Email_Service {
 		$this->queue_table        = $wpdb->prefix . 'mskd_queue';
 		$this->campaigns_table    = $wpdb->prefix . 'mskd_campaigns';
 		$this->subscriber_service = new Subscriber_Service();
+		$this->tracking_service   = new Email_Tracking_Service();
 	}
 
 	/**
@@ -271,13 +279,14 @@ class Email_Service {
 			}
 
 			$queue_items[] = array(
-				'campaign_id'   => $campaign_id,
-				'subscriber_id' => (int) $db_subscriber->id,
-				'subject'       => $subject,
-				'body'          => $body,
-				'status'        => 'pending',
-				'scheduled_at'  => $scheduled_at,
-				'created_at'    => mskd_current_time_normalized(),
+				'campaign_id'    => $campaign_id,
+				'subscriber_id'  => (int) $db_subscriber->id,
+				'subject'        => $subject,
+				'body'           => $body,
+				'status'         => 'pending',
+				'scheduled_at'   => $scheduled_at,
+				'created_at'     => mskd_current_time_normalized(),
+				'tracking_token' => $this->tracking_service->generate_token(),
 			);
 		}
 
@@ -307,14 +316,15 @@ class Email_Service {
 			$values[] = $item['status'];
 			$values[] = $item['scheduled_at'];
 			$values[] = $item['created_at'];
+			$values[] = $item['tracking_token'];
 
-			$placeholders[] = '( %d, %d, %s, %s, %s, %s, %s )';
+			$placeholders[] = '( %d, %d, %s, %s, %s, %s, %s, %s )';
 		}
 
 		$placeholder_string = implode( ', ', $placeholders );
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
-		$sql = "INSERT INTO {$this->queue_table} (campaign_id, subscriber_id, subject, body, status, scheduled_at, created_at) VALUES {$placeholder_string}";
+		$sql = "INSERT INTO {$this->queue_table} (campaign_id, subscriber_id, subject, body, status, scheduled_at, created_at, tracking_token) VALUES {$placeholder_string}";
 
 		$result = $this->wpdb->query( $this->wpdb->prepare( $sql, $values ) );
 
@@ -338,6 +348,7 @@ class Email_Service {
 	 *     @type string $bcc             Optional. Comma-separated list of Bcc email addresses.
 	 *     @type string $from_email      Optional. Custom sender email address.
 	 *     @type string $from_name       Optional. Custom sender name.
+	 *     @type string $tracking_token  Optional. Pre-generated token for an immediate send.
 	 * }
 	 * @return int|false Queue item ID on success, false on failure.
 	 */
@@ -353,6 +364,11 @@ class Email_Service {
 		$bcc             = $data['bcc'] ?? '';
 		$from_email      = $data['from_email'] ?? null;
 		$from_name       = $data['from_name'] ?? null;
+		$tracking_token  = isset( $data['tracking_token'] ) ? (string) $data['tracking_token'] : '';
+
+		if ( ! $this->tracking_service->is_valid_token( $tracking_token ) ) {
+			$tracking_token = $this->tracking_service->generate_token();
+		}
 
 		if ( empty( $recipient_email ) || empty( $subject ) || empty( $body ) ) {
 			return false;
@@ -418,32 +434,34 @@ class Email_Service {
 		if ( $is_immediate ) {
 			$queue_status = $sent ? 'sent' : 'failed';
 			$queue_data   = array(
-				'campaign_id'   => $campaign_id,
-				'subscriber_id' => $subscriber_id,
-				'subject'       => $subject,
-				'body'          => $body,
-				'status'        => $queue_status,
-				'scheduled_at'  => mskd_current_time_normalized(),
-				'sent_at'       => $sent ? mskd_current_time_normalized() : null,
-				'attempts'      => 1,
-				'error_message' => $sent ? null : $error_message,
-				'created_at'    => mskd_current_time_normalized(),
+				'campaign_id'    => $campaign_id,
+				'subscriber_id'  => $subscriber_id,
+				'subject'        => $subject,
+				'body'           => $body,
+				'status'         => $queue_status,
+				'scheduled_at'   => mskd_current_time_normalized(),
+				'sent_at'        => $sent ? mskd_current_time_normalized() : null,
+				'attempts'       => 1,
+				'error_message'  => $sent ? null : $error_message,
+				'created_at'     => mskd_current_time_normalized(),
+				'tracking_token' => $tracking_token,
 			);
-			$format       = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s' );
+			$format       = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s' );
 		} else {
 			$queue_data = array(
-				'campaign_id'   => $campaign_id,
-				'subscriber_id' => $subscriber_id,
-				'subject'       => $subject,
-				'body'          => $body,
-				'status'        => 'pending',
-				'scheduled_at'  => $scheduled_at,
-				'sent_at'       => null,
-				'attempts'      => 0,
-				'error_message' => null,
-				'created_at'    => mskd_current_time_normalized(),
+				'campaign_id'    => $campaign_id,
+				'subscriber_id'  => $subscriber_id,
+				'subject'        => $subject,
+				'body'           => $body,
+				'status'         => 'pending',
+				'scheduled_at'   => $scheduled_at,
+				'sent_at'        => null,
+				'attempts'       => 0,
+				'error_message'  => null,
+				'created_at'     => mskd_current_time_normalized(),
+				'tracking_token' => $tracking_token,
 			);
-			$format     = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s' );
+			$format     = array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s' );
 		}
 
 		$result = $this->wpdb->insert( $this->queue_table, $queue_data, $format );

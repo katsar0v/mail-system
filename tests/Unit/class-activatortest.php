@@ -95,6 +95,10 @@ class ActivatorTest extends TestCase {
 		$this->assertStringContainsString( 'wp_mskd_campaigns', $all_sql, 'Should create campaigns table' );
 		$this->assertStringContainsString( 'wp_mskd_queue', $all_sql, 'Should create queue table' );
 		$this->assertStringContainsString( 'wp_mskd_templates', $all_sql, 'Should create templates table' );
+		$this->assertStringContainsString( 'tracking_token varchar(64)', $all_sql, 'Queue should include a tracking token' );
+		$this->assertStringContainsString( 'opened_at datetime', $all_sql, 'Queue should include first-open timestamp' );
+		$this->assertStringContainsString( 'open_count int(11) UNSIGNED', $all_sql, 'Queue should include open count' );
+		$this->assertStringContainsString( 'UNIQUE KEY tracking_token', $all_sql, 'Tracking token should be unique' );
 
 		// Verify update_option was called.
 		$this->assertCount( 2, $update_option_calls, 'Should call update_option twice' );

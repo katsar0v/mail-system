@@ -40,6 +40,12 @@ if ( $status_filter ) {
 	$where .= $wpdb->prepare( ' AND q.status = %s', $status_filter );
 }
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only analytics filter.
+$opened_filter = isset( $_GET['engagement'] ) && 'opened' === sanitize_text_field( wp_unslash( $_GET['engagement'] ) );
+if ( $opened_filter ) {
+	$where .= ' AND q.opened_at IS NOT NULL';
+}
+
 // Get queue stats for this campaign.
 $queue_stats = $wpdb->get_row(
 	$wpdb->prepare(
@@ -48,8 +54,10 @@ $queue_stats = $wpdb->get_row(
         SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
         SUM(CASE WHEN status = 'processing' THEN 1 ELSE 0 END) as processing,
         SUM(CASE WHEN status = 'sent' THEN 1 ELSE 0 END) as sent,
-        SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END) as failed,
-        SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled
+	        SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END) as failed,
+	        SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled,
+	        SUM(CASE WHEN opened_at IS NOT NULL THEN 1 ELSE 0 END) as opened,
+	        SUM(open_count) as open_count
     FROM {$wpdb->prefix}mskd_queue
     WHERE campaign_id = %d",
 		$campaign_id
@@ -62,6 +70,9 @@ $processing_count = $queue_stats->processing ?? 0;
 $sent_count       = $queue_stats->sent ?? 0;
 $failed_count     = $queue_stats->failed ?? 0;
 $cancelled_count  = $queue_stats->cancelled ?? 0;
+$opened_count     = $queue_stats->opened ?? 0;
+$open_count       = $queue_stats->open_count ?? 0;
+$open_rate        = $sent_count > 0 ? round( ( $opened_count / $sent_count ) * 100, 1 ) : 0;
 
 // Get total count for current filter.
 $total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}mskd_queue q" . $where );
@@ -172,6 +183,20 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				<span class="mskd-stat-sent">
 					✓ <strong><?php echo esc_html( $sent_count ); ?></strong> <?php _e( 'sent', 'mail-system' ); ?>
 				</span>
+				<span class="mskd-stat-opened">
+					◉ <strong><?php echo esc_html( $opened_count ); ?></strong> <?php _e( 'opened', 'mail-system' ); ?>
+					<small>
+						(<?php echo esc_html( $open_rate ); ?>%;
+						<?php
+						printf(
+							/* translators: %d: tracking pixel load count */
+							esc_html__( 'Loads: %d', 'mail-system' ),
+							$open_count
+						);
+						?>
+						)
+					</small>
+				</span>
 				<?php if ( $failed_count > 0 ) : ?>
 					<span class="mskd-stat-failed">
 						✗ <strong><?php echo esc_html( $failed_count ); ?></strong> <?php _e( 'failed', 'mail-system' ); ?>
@@ -189,6 +214,10 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				<?php endif; ?>
 			</div>
 		</div>
+
+		<p class="description">
+			<?php esc_html_e( 'Open tracking is approximate: image blocking can miss opens, while email privacy proxies and prefetching can record an open before the recipient reads the message.', 'mail-system' ); ?>
+		</p>
 
 		<?php if ( $can_cancel ) : ?>
 			<div class="mskd-campaign-actions">
@@ -238,7 +267,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 	<ul class="subsubsub">
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id ) ); ?>" 
-				class="<?php echo empty( $status_filter ) ? 'current' : ''; ?>">
+				class="<?php echo empty( $status_filter ) && ! $opened_filter ? 'current' : ''; ?>">
 				<?php _e( 'All', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $total_count ); ?>)</span>
 			</a> |
@@ -252,9 +281,16 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 		</li>
 		<li>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id . '&status=sent' ) ); ?>"
-				class="<?php echo $status_filter === 'sent' ? 'current' : ''; ?>">
+				class="<?php echo 'sent' === $status_filter && ! $opened_filter ? 'current' : ''; ?>">
 				<?php _e( 'Sent', 'mail-system' ); ?>
 				<span class="count">(<?php echo esc_html( $sent_count ); ?>)</span>
+			</a> |
+		</li>
+		<li>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id . '&engagement=opened' ) ); ?>"
+				class="<?php echo $opened_filter ? 'current' : ''; ?>">
+				<?php _e( 'Opened', 'mail-system' ); ?>
+				<span class="count">(<?php echo esc_html( $opened_count ); ?>)</span>
 			</a> |
 		</li>
 		<li>
@@ -281,6 +317,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				<th scope="col" style="width: 100px;"><?php _e( 'Status', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 80px;"><?php _e( 'Attempts', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 140px;"><?php _e( 'Sent', 'mail-system' ); ?></th>
+				<th scope="col" style="width: 160px;"><?php _e( 'Opened', 'mail-system' ); ?></th>
 				<th scope="col"><?php _e( 'Error', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 80px;"><?php _e( 'Actions', 'mail-system' ); ?></th>
 			</tr>
@@ -336,6 +373,22 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 							<?php echo $item->sent_at ? esc_html( date_i18n( 'd.m.Y H:i', strtotime( $item->sent_at ) ) ) : '—'; ?>
 						</td>
 						<td>
+							<?php if ( $item->opened_at ) : ?>
+								<?php echo esc_html( date_i18n( 'd.m.Y H:i', strtotime( $item->opened_at ) ) ); ?>
+								<br><small>
+									<?php
+									printf(
+										/* translators: %d: tracking pixel load count */
+										esc_html__( 'Loads: %d', 'mail-system' ),
+										(int) $item->open_count
+									);
+									?>
+								</small>
+							<?php else : ?>
+								—
+							<?php endif; ?>
+						</td>
+						<td>
 							<?php if ( $item->error_message ) : ?>
 								<small class="mskd-error-msg"><?php echo esc_html( $item->error_message ); ?></small>
 							<?php else : ?>
@@ -364,7 +417,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				<?php endforeach; ?>
 			<?php else : ?>
 				<tr>
-					<td colspan="7"><?php _e( 'No emails in this campaign.', 'mail-system' ); ?></td>
+					<td colspan="8"><?php _e( 'No emails in this campaign.', 'mail-system' ); ?></td>
 				</tr>
 			<?php endif; ?>
 		</tbody>
@@ -378,6 +431,9 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 				$base_url = admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign_id );
 				if ( $status_filter ) {
 					$base_url .= '&status=' . $status_filter;
+				}
+				if ( $opened_filter ) {
+					$base_url .= '&engagement=opened';
 				}
 				echo paginate_links(
 					array(

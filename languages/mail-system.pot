@@ -2678,3 +2678,29 @@ msgstr ""
 #: includes/services/class-subscriber-service.php
 msgid "Failed to update subscriber ID %d"
 msgstr ""
+
+#: admin/partials/queue.php
+msgid "Opens"
+msgstr ""
+
+#: admin/partials/queue.php
+msgid "Total tracking pixel loads"
+msgstr ""
+
+#. translators: %d: tracking pixel load count
+#: admin/partials/queue-detail.php admin/partials/queue.php
+#, php-format
+msgid "Loads: %d"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "opened"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Open tracking is approximate: image blocking can miss opens, while email privacy proxies and prefetching can record an open before the recipient reads the message."
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Opened"
+msgstr ""

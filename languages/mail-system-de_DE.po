@@ -2737,3 +2737,29 @@ msgstr "Ungültiger Status."
 #: includes/services/class-subscriber-service.php
 msgid "Failed to update subscriber ID %d"
 msgstr "Aktualisierung des Abonnenten mit ID %d fehlgeschlagen"
+
+#: admin/partials/queue.php
+msgid "Opens"
+msgstr "Öffnungen"
+
+#: admin/partials/queue.php
+msgid "Total tracking pixel loads"
+msgstr "Tracking-Pixel-Ladevorgänge insgesamt"
+
+#. translators: %d: tracking pixel load count
+#: admin/partials/queue-detail.php admin/partials/queue.php
+#, php-format
+msgid "Loads: %d"
+msgstr "Ladevorgänge: %d"
+
+#: admin/partials/queue-detail.php
+msgid "opened"
+msgstr "geöffnet"
+
+#: admin/partials/queue-detail.php
+msgid "Open tracking is approximate: image blocking can miss opens, while email privacy proxies and prefetching can record an open before the recipient reads the message."
+msgstr "Die Öffnungsverfolgung ist nur annähernd: Das Blockieren von Bildern kann Öffnungen übersehen, während Datenschutz-Proxys und Vorabladen eine Öffnung erfassen können, bevor der Empfänger die Nachricht liest."
+
+#: admin/partials/queue-detail.php
+msgid "Opened"
+msgstr "Geöffnet"

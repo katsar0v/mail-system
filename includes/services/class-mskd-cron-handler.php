@@ -38,6 +38,13 @@ class MSKD_Cron_Handler {
 	private $smtp_mailer = null;
 
 	/**
+	 * Email tracking service instance.
+	 *
+	 * @var \MSKD\Services\Email_Tracking_Service|null
+	 */
+	private $tracking_service = null;
+
+	/**
 	 * Initialize cron hooks
 	 */
 	public function init() {
@@ -109,7 +116,8 @@ class MSKD_Cron_Handler {
 
 		// Initialize mailer (uses SMTP if configured, otherwise PHP mail).
 		require_once MSKD_PLUGIN_DIR . 'includes/services/class-mskd-smtp-mailer.php';
-		$this->smtp_mailer = new MSKD_SMTP_Mailer( $settings );
+		$this->smtp_mailer      = new MSKD_SMTP_Mailer( $settings );
+		$this->tracking_service = new \MSKD\Services\Email_Tracking_Service();
 
 		foreach ( $queue_items as $item ) {
 			// Skip items with invalid email.
@@ -140,9 +148,11 @@ class MSKD_Cron_Handler {
 			);
 
 			// Prepare email content with header, footer, and placeholders.
-			$body    = $this->apply_header_footer( $item->body, $settings );
-			$body    = $this->replace_placeholders( $body, $item );
-			$subject = $this->replace_placeholders( $item->subject, $item );
+			$tracking_token = isset( $item->tracking_token ) ? (string) $item->tracking_token : '';
+			$body           = $this->apply_header_footer( $item->body, $settings );
+			$body           = $this->replace_placeholders( $body, $item );
+			$body           = $this->tracking_service->append_tracking_pixel( $body, $tracking_token );
+			$subject        = $this->replace_placeholders( $item->subject, $item );
 
 			// Prepare headers for Bcc if available.
 			// For regular campaigns, only send Bcc with the first email (bcc_sent = 0).

@@ -19,7 +19,7 @@ class MSKD_Activator {
 	/**
 	 * Database version for tracking schema updates
 	 */
-	const DB_VERSION = '1.6.0';
+	const DB_VERSION = '1.7.0';
 
 	/**
 	 * Activate the plugin
@@ -199,6 +199,12 @@ class MSKD_Activator {
 				);
 			}
 		}
+
+		// Upgrade from 1.6.0 to 1.7.0: Add per-recipient open tracking fields.
+		if ( version_compare( $from_version, '1.7.0', '<' ) ) {
+			// dbDelta adds any missing tracking columns and indexes while preserving queue data.
+			self::create_tables();
+		}
 	}
 
 	/**
@@ -284,6 +290,9 @@ class MSKD_Activator {
             status enum('pending','processing','sent','failed') DEFAULT 'pending',
             scheduled_at datetime DEFAULT CURRENT_TIMESTAMP,
             sent_at datetime DEFAULT NULL,
+            tracking_token varchar(64) DEFAULT NULL,
+            opened_at datetime DEFAULT NULL,
+            open_count int(11) UNSIGNED DEFAULT 0,
             attempts int(11) DEFAULT 0,
             error_message text,
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
@@ -291,7 +300,9 @@ class MSKD_Activator {
             KEY campaign_id (campaign_id),
             KEY subscriber_id (subscriber_id),
             KEY status (status),
-            KEY scheduled_at (scheduled_at)
+            KEY scheduled_at (scheduled_at),
+            UNIQUE KEY tracking_token (tracking_token),
+            KEY opened_at (opened_at)
         ) $charset_collate;";
 
 		// Templates table.
