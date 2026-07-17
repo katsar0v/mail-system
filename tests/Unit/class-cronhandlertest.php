@@ -543,6 +543,81 @@ class CronHandlerTest extends TestCase {
 	}
 
 	/**
+	 * A queued message without Bcc contains both open and click tracking.
+	 */
+	public function test_process_queue_adds_engagement_tracking_without_bcc(): void {
+		$token       = str_repeat( 'a', 64 );
+		$click_token = str_repeat( 'b', 64 );
+		$item        = (object) array(
+			'id'                => 41,
+			'campaign_id'       => null,
+			'subscriber_id'     => 100,
+			'email'             => 'tracked@example.com',
+			'first_name'        => 'Tracked',
+			'last_name'         => 'User',
+			'subject'           => 'Tracked message',
+			'body'              => '<html><body><a href="https://destination.example/path?user=42">Read</a></body></html>',
+			'status'            => 'pending',
+			'attempts'          => 0,
+			'unsubscribe_token' => 'unsubscribe-token',
+			'tracking_token'    => $token,
+			'click_token'       => $click_token,
+			'bcc'               => '',
+			'bcc_sent'          => 0,
+			'campaign_type'     => 'one_time',
+			'from_email'        => null,
+			'from_name'         => null,
+		);
+
+		$this->prepare_single_queue_send( $item );
+		\PHPMailer\PHPMailer\PHPMailer::$lastBody = '';
+
+		$this->cron_handler->process_queue();
+
+		$this->assertStringContainsString( 'mskd_track_click=' . $click_token, \PHPMailer\PHPMailer\PHPMailer::$lastBody );
+		$this->assertStringContainsString( 'mskd_track_open=' . $token, \PHPMailer\PHPMailer\PHPMailer::$lastBody );
+	}
+
+	/**
+	 * A body shared with Bcc recipients is not tagged to the primary recipient.
+	 */
+	public function test_process_queue_disables_engagement_tracking_for_bcc_copy(): void {
+		$token       = str_repeat( 'c', 64 );
+		$click_token = str_repeat( 'd', 64 );
+		$item        = (object) array(
+			'id'                => 42,
+			'campaign_id'       => null,
+			'subscriber_id'     => 101,
+			'email'             => 'primary@example.com',
+			'first_name'        => 'Primary',
+			'last_name'         => 'User',
+			'subject'           => 'Bcc message',
+			'body'              => '<html><body><a href="https://destination.example/path">Read</a></body></html>',
+			'status'            => 'pending',
+			'attempts'          => 0,
+			'unsubscribe_token' => 'unsubscribe-token',
+			'tracking_token'    => $token,
+			'click_token'       => $click_token,
+			'bcc'               => 'audit@example.com',
+			'bcc_sent'          => 0,
+			'campaign_type'     => 'one_time',
+			'from_email'        => null,
+			'from_name'         => null,
+		);
+
+		$this->prepare_single_queue_send( $item );
+		\PHPMailer\PHPMailer\PHPMailer::$lastBody = '';
+		\PHPMailer\PHPMailer\PHPMailer::$lastBcc  = array();
+
+		$this->cron_handler->process_queue();
+
+		$this->assertStringNotContainsString( 'mskd_track_click', \PHPMailer\PHPMailer\PHPMailer::$lastBody );
+		$this->assertStringNotContainsString( 'mskd_track_open', \PHPMailer\PHPMailer\PHPMailer::$lastBody );
+		$this->assertSame( array( 'audit@example.com' ), \PHPMailer\PHPMailer\PHPMailer::$lastBcc );
+		$this->assertStringContainsString( 'href="https://destination.example/path"', \PHPMailer\PHPMailer\PHPMailer::$lastBody );
+	}
+
+	/**
 	 * Test that attempts counter is incremented.
 	 */
 	public function test_attempts_counter_incremented(): void {
@@ -771,5 +846,39 @@ class CronHandlerTest extends TestCase {
 
 		// If we got here without errors, the constant was used as fallback.
 		$this->assertTrue( true );
+	}
+
+	/**
+	 * Configure database and settings mocks for one successful queue send.
+	 *
+	 * @param object $item Queue item to return.
+	 * @return void
+	 */
+	private function prepare_single_queue_send( $item ): void {
+		$wpdb = $this->setup_wpdb_mock();
+
+		$wpdb->shouldReceive( 'get_results' )
+			->once()
+			->with( Mockery::on( fn( $query ) => false !== strpos( $query, "status = 'processing'" ) ) )
+			->andReturn( array() );
+		$wpdb->shouldReceive( 'get_results' )
+			->once()
+			->with( Mockery::on( fn( $query ) => false !== strpos( $query, "status = 'pending'" ) ) )
+			->andReturn( array( $item ) );
+		$wpdb->shouldReceive( 'update' )->twice()->andReturn( 1 );
+
+		Functions\when( 'get_option' )->alias(
+			function ( $option, $default = false ) {
+				if ( 'mskd_settings' === $option ) {
+					return array(
+						'smtp_enabled' => true,
+						'smtp_host'    => 'smtp.example.com',
+						'from_name'    => 'Test',
+						'from_email'   => 'test@example.com',
+					);
+				}
+				return $default;
+			}
+		);
 	}
 }

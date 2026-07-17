@@ -474,10 +474,16 @@ class Admin_Email {
 			// Replace subscriber placeholders (including those in header/footer).
 			$body_with_wrapper = $this->replace_one_time_placeholders( $body_with_wrapper, $recipient_email, $recipient_name );
 
-			// Add the same per-recipient open tracking used by queued sends.
-			$tracking_service  = new Email_Tracking_Service();
-			$tracking_token    = $tracking_service->generate_token();
-			$body_with_wrapper = $tracking_service->append_tracking_pixel( $body_with_wrapper, $tracking_token );
+			// Add the same per-recipient engagement tracking used by queued sends.
+			// Bcc copies share this body, so disable both pixel and link tracking
+			// when Bcc is present to avoid attributing their activity to the To user.
+			$tracking_service = new Email_Tracking_Service();
+			$tracking_token   = $tracking_service->generate_token();
+			$click_token      = $tracking_service->generate_token();
+			if ( empty( $bcc ) ) {
+				$body_with_wrapper = $tracking_service->rewrite_links( $body_with_wrapper, $click_token );
+				$body_with_wrapper = $tracking_service->append_tracking_pixel( $body_with_wrapper, $tracking_token );
+			}
 
 			// Build headers array including Bcc if provided.
 			$headers = array();
@@ -512,6 +518,7 @@ class Admin_Email {
 					'from_email'      => $from_email,
 					'from_name'       => $from_name,
 					'tracking_token'  => $tracking_token,
+					'click_token'     => $click_token,
 				)
 			);
 

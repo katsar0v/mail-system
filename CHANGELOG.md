@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Secure email click analytics (#113)**
+  - Rewrites eligible campaign and one-time email links through HMAC-signed, recipient-specific redirect URLs
+  - Records privacy-safe first/last click timestamps, repeat counts, inferred opens, unique clickers, CTR/CTOR, and per-link performance
+  - Excludes unsubscribe/confirmation links, unsupported schemes, and `data-mskd-no-track` anchors
+  - Prevents BCC attribution by disabling open and click tracking on any message copy carrying BCC
+  - Adds schema version 1.8.0, uninstall/truncate cleanup, public redirect validation, and automated security/send-path coverage
 - **Per-recipient email open analytics (#111)**
   - Adds an unpredictable tracking token and invisible 1×1 pixel to newly queued campaign and one-time emails
   - Records the first open timestamp and total pixel load count without storing IP addresses or user-agent data

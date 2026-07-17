@@ -19,7 +19,7 @@ class MSKD_Activator {
 	/**
 	 * Database version for tracking schema updates
 	 */
-	const DB_VERSION = '1.7.0';
+	const DB_VERSION = '1.8.0';
 
 	/**
 	 * Activate the plugin
@@ -200,9 +200,9 @@ class MSKD_Activator {
 			}
 		}
 
-		// Upgrade from 1.6.0 to 1.7.0: Add per-recipient open tracking fields.
-		if ( version_compare( $from_version, '1.7.0', '<' ) ) {
-			// dbDelta adds any missing tracking columns and indexes while preserving queue data.
+		// Upgrade through 1.8.0: Add per-recipient open and click analytics fields.
+		if ( version_compare( $from_version, '1.8.0', '<' ) ) {
+			// dbDelta adds missing analytics columns, tables, and indexes while preserving queue data.
 			self::create_tables();
 		}
 	}
@@ -291,6 +291,7 @@ class MSKD_Activator {
             scheduled_at datetime DEFAULT CURRENT_TIMESTAMP,
             sent_at datetime DEFAULT NULL,
             tracking_token varchar(64) DEFAULT NULL,
+			click_token varchar(64) DEFAULT NULL,
             opened_at datetime DEFAULT NULL,
             open_count int(11) UNSIGNED DEFAULT 0,
             attempts int(11) DEFAULT 0,
@@ -302,8 +303,29 @@ class MSKD_Activator {
             KEY status (status),
             KEY scheduled_at (scheduled_at),
             UNIQUE KEY tracking_token (tracking_token),
+			UNIQUE KEY click_token (click_token),
             KEY opened_at (opened_at)
         ) $charset_collate;";
+
+		// Per-recipient and per-link click aggregates. Exact redirect targets are
+		// carried only in signed links; the table stores a query-free display URL.
+		$table_clicks = $wpdb->prefix . 'mskd_clicks';
+		$sql_clicks   = "CREATE TABLE $table_clicks (
+			id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+			queue_id bigint(20) UNSIGNED NOT NULL,
+			campaign_id bigint(20) UNSIGNED DEFAULT NULL,
+			link_index smallint(5) UNSIGNED NOT NULL,
+			display_url varchar(500) NOT NULL,
+			first_clicked_at datetime NOT NULL,
+			last_clicked_at datetime NOT NULL,
+			click_count int(11) UNSIGNED DEFAULT 1,
+			PRIMARY KEY (id),
+			UNIQUE KEY queue_link (queue_id, link_index),
+			KEY campaign_id (campaign_id),
+			KEY link_index (link_index),
+			KEY first_clicked_at (first_clicked_at),
+			KEY last_clicked_at (last_clicked_at)
+		) $charset_collate;";
 
 		// Templates table.
 		$table_templates = $wpdb->prefix . 'mskd_templates';
@@ -330,6 +352,7 @@ class MSKD_Activator {
 		dbDelta( $sql_subscriber_list );
 		dbDelta( $sql_campaigns );
 		dbDelta( $sql_queue );
+		dbDelta( $sql_clicks );
 		dbDelta( $sql_templates );
 	}
 
