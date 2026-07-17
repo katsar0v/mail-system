@@ -105,7 +105,7 @@ class MSKD_SMTP_Mailer {
 		$this->last_error = '';
 		$this->debug_log  = array();
 
-		if ( mskd_is_local_environment() ) {
+		if ( MSKD_Environment::is_local() ) {
 			$this->last_error = __( 'Email delivery is disabled in local environments.', 'mail-system' );
 			return false;
 		}
@@ -213,7 +213,7 @@ class MSKD_SMTP_Mailer {
 		$this->last_error = '';
 		$this->debug_log  = array();
 
-		if ( mskd_is_local_environment() ) {
+		if ( MSKD_Environment::is_local() ) {
 			$this->last_error = __( 'Email delivery is disabled in local environments.', 'mail-system' );
 			return array(
 				'success' => false,

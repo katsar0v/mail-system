@@ -78,12 +78,3 @@ class MSKD_Environment {
 			|| ( strlen( $host ) > 5 && '.test' === substr( $host, -5 ) );
 	}
 }
-
-/**
- * Determine whether Mail System should disable email delivery locally.
- *
- * @return bool True when delivery must be disabled.
- */
-function mskd_is_local_environment() {
-	return MSKD_Environment::is_local();
-}

@@ -29,6 +29,11 @@ class SmtpMailerTest extends TestCase {
 	 */
 	protected function setUp(): void {
 		parent::setUp();
+		Functions\when( 'apply_filters' )->alias(
+			function ( $hook, $is_local ) {
+				return $is_local;
+			}
+		);
 
 		// Load the SMTP mailer class.
 		require_once \MSKD_PLUGIN_DIR . 'includes/services/class-mskd-smtp-mailer.php';

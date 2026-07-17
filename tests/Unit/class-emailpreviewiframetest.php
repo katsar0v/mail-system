@@ -45,6 +45,12 @@ class EmailPreviewIframeTest extends TestCase {
 		$queue_stats->sent       = 1;
 		$queue_stats->failed     = 0;
 		$queue_stats->cancelled  = 0;
+		$queue_stats->opened    = 0;
+		$queue_stats->open_count = 0;
+
+		$click_stats                  = new \stdClass();
+		$click_stats->unique_clickers = 0;
+		$click_stats->total_clicks    = 0;
 
 		$wpdb->shouldReceive( 'get_row' )
 			->once()
@@ -52,12 +58,15 @@ class EmailPreviewIframeTest extends TestCase {
 		$wpdb->shouldReceive( 'get_row' )
 			->once()
 			->andReturn( $queue_stats );
+		$wpdb->shouldReceive( 'get_row' )
+			->once()
+			->andReturn( $click_stats );
 		$wpdb->shouldReceive( 'get_var' )
 			->once()
 			->andReturn( 1 );
 		$wpdb->shouldReceive( 'get_results' )
-			->once()
-			->andReturn( array() );
+			->twice()
+			->andReturn( array(), array() );
 
 		Functions\stubs(
 			array(

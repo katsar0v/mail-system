@@ -21,6 +21,11 @@ class AdminNoticesTest extends TestCase {
 	 */
 	protected function setUp(): void {
 		parent::setUp();
+		Functions\when( 'apply_filters' )->alias(
+			function ( $hook, $is_local ) {
+				return $is_local;
+			}
+		);
 
 		require_once \MSKD_PLUGIN_DIR . 'includes/Admin/class-admin-notices.php';
 	}

@@ -48,7 +48,7 @@ class Admin_Notices {
 	 * @return void
 	 */
 	public function show_local_environment_notice(): void {
-		if ( ! current_user_can( 'manage_options' ) || ! $this->is_plugin_page() || ! \mskd_is_local_environment() ) {
+		if ( ! current_user_can( 'manage_options' ) || ! $this->is_plugin_page() || ! \MSKD_Environment::is_local() ) {
 			return;
 		}
 		?>

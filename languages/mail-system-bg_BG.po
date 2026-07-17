@@ -2699,3 +2699,93 @@ msgstr "Изпращането на имейли е деактивирано в 
 #: includes/Admin/class-admin-notices.php
 msgid "Mail System does not send email in local environments. Queued email will remain pending until this site is no longer detected as local."
 msgstr "Mail System не изпраща имейли в локални среди. Имейлите в опашката ще останат в изчакване, докато сайтът вече не бъде разпознат като локален."
+
+#: admin/partials/queue.php
+msgid "Opens"
+msgstr "Отваряния"
+
+#: admin/partials/queue.php
+msgid "Total tracking pixel loads"
+msgstr "Общо зареждания на проследяващия пиксел"
+
+#. translators: %d: tracking pixel load count
+#: admin/partials/queue-detail.php admin/partials/queue.php
+#, php-format
+msgid "Loads: %d"
+msgstr "Зареждания: %d"
+
+#: admin/partials/queue-detail.php
+msgid "opened"
+msgstr "отворени"
+
+#: admin/partials/queue-detail.php
+msgid "Open tracking is approximate: image blocking can miss opens, while email privacy proxies and prefetching can record an open before the recipient reads the message."
+msgstr "Проследяването на отварянията е приблизително: блокирането на изображения може да пропусне отваряния, а прокситата за поверителност на имейлите и предварителното зареждане могат да отчетат отваряне, преди получателят да е прочел съобщението."
+
+#: admin/partials/queue-detail.php
+msgid "Opened"
+msgstr "Отворени"
+
+#: admin/partials/queue-detail.php
+msgid "clicked"
+msgstr "кликнали"
+
+#. translators: %d: total tracked link clicks
+#: admin/partials/queue-detail.php admin/partials/queue.php
+#, php-format
+msgid "Total: %d"
+msgstr "Общо: %d"
+
+#: admin/partials/queue-detail.php
+msgid "Engagement analytics are approximate. Image privacy proxies can create opens, while security scanners and link prefetching can create clicks before a person interacts with the email. Messages carrying BCC are intentionally untracked to prevent incorrect recipient attribution."
+msgstr "Анализите на ангажираността са приблизителни. Прокситата за поверителност на изображенията могат да създадат отваряния, а скенерите за сигурност и предварителното зареждане на линкове могат да създадат кликове, преди човек да взаимодейства с имейла. Съобщенията с BCC умишлено не се проследяват, за да се предотврати неправилно приписване към получател."
+
+#: admin/partials/queue-detail.php
+msgid "Clicked"
+msgstr "Кликнали"
+
+#: admin/partials/queue-detail.php
+msgid "Link performance"
+msgstr "Ефективност на линковете"
+
+#: admin/partials/queue-detail.php
+msgid "Link"
+msgstr "Линк"
+
+#: admin/partials/queue-detail.php
+msgid "Destination"
+msgstr "Дестинация"
+
+#: admin/partials/queue-detail.php
+msgid "Unique clickers"
+msgstr "Уникални кликнали"
+
+#: admin/partials/queue-detail.php
+msgid "Total clicks"
+msgstr "Общо кликове"
+
+#: admin/partials/queue-detail.php
+msgid "Click rate"
+msgstr "Процент кликове"
+
+#: admin/partials/queue-detail.php
+msgid "First click"
+msgstr "Първи клик"
+
+#: admin/partials/queue-detail.php
+msgid "Last click"
+msgstr "Последен клик"
+
+#: admin/partials/queue-detail.php admin/partials/queue.php
+msgid "Clicks"
+msgstr "Кликове"
+
+#. translators: 1: total clicks, 2: last click date
+#: admin/partials/queue-detail.php
+#, php-format
+msgid "%1$d total; last %2$s"
+msgstr "%1$d общо; последен %2$s"
+
+#: public/class-mskd-public.php
+msgid "Invalid tracking link."
+msgstr "Невалиден проследяващ линк."

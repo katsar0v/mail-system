@@ -151,7 +151,7 @@ class OneTimeEmailTest extends TestCase {
 			'recipient_email'          => 'user@example.com',
 			'recipient_name'           => 'Test User',
 			'subject'                  => 'Hello {recipient_name}!',
-			'body'                     => 'Dear {recipient_name}, your email is {recipient_email}.',
+			'body'                     => 'Dear {recipient_name}, your email is {recipient_email}. <a href="https://example.org/account?user=42">Account</a>',
 		);
 
 		Functions\expect( 'wp_verify_nonce' )
@@ -268,8 +268,11 @@ class OneTimeEmailTest extends TestCase {
 				}
 			);
 
+		\PHPMailer\PHPMailer\PHPMailer::$lastBody = '';
 		$this->admin->handle_actions();
 		$this->assertTrue( $success_called, 'add_settings_error should be called for success' );
+		$this->assertStringContainsString( 'mskd_track_click=', \PHPMailer\PHPMailer\PHPMailer::$lastBody );
+		$this->assertStringContainsString( 'mskd_track_open=', \PHPMailer\PHPMailer\PHPMailer::$lastBody );
 	}
 
 	/**

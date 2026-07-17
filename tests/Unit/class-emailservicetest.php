@@ -150,6 +150,15 @@ class Email_Service_Test extends TestCase {
 		// Mock batch insert for queue items.
 		$this->wpdb->shouldReceive( 'query' )
 			->once()
+			->with(
+					Mockery::on(
+						function ( $query ) {
+							return false !== strpos( $query, 'tracking_token' )
+								&& false !== strpos( $query, 'click_token' )
+								&& 6 === preg_match_all( "/'[a-f0-9]{64}'/", $query );
+						}
+				)
+			)
 			->andReturn( 3 ); // 3 items inserted.
 
 		// Note: prepare() is already mocked in create_wpdb_mock() with andReturnUsing().

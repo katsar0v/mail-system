@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Local email delivery guard (#114)** — outgoing email, SMTP connection tests, and queue processing are blocked when WordPress reports a `local` environment or the site uses a common local-development hostname. Administrators see a persistent warning on Mail System pages, and detection remains filterable for project-specific setups.
+- **Secure email click analytics (#113)**
+  - Rewrites eligible campaign and one-time email links through HMAC-signed, recipient-specific redirect URLs
+  - Records privacy-safe first/last click timestamps, repeat counts, inferred opens, unique clickers, CTR/CTOR, and per-link performance
+  - Excludes unsubscribe/confirmation links, unsupported schemes, and `data-mskd-no-track` anchors
+  - Prevents BCC attribution by disabling open and click tracking on any message copy carrying BCC
+  - Adds schema version 1.8.0, uninstall/truncate cleanup, public redirect validation, and automated security/send-path coverage
+- **Per-recipient email open analytics (#111)**
+  - Adds an unpredictable tracking token and invisible 1×1 pixel to newly queued campaign and one-time emails
+  - Records the first open timestamp and total pixel load count without storing IP addresses or user-agent data
+  - Shows unique opens, open rates, and per-recipient sent/open timestamps in the Queue overview and campaign detail screens
+  - Includes a database upgrade to schema version 1.7.0, unit coverage, and an in-product caveat explaining image blocking, privacy proxy, and prefetch limitations
+
 ### Fixed
 - **Bulk actions Apply button not showing** — on the Subscribers page, if a browser restored the bulk actions dropdown's previous value on page load/refresh without firing a `change` event, the Apply button stayed hidden even though a bulk action was selected and subscribers were checked. The button's visibility is now synced on page load, not only on `change`.
 - **Opt-in confirmation email wrappers** — confirmation emails now apply the configured email header and footer and replace wrapper template variables (`{first_name}`, `{last_name}`, `{email}`, `{unsubscribe_link}`, `{unsubscribe_url}`) before sending.

@@ -30,6 +30,11 @@ class EnvironmentTest extends TestCase {
 	 */
 	public function test_detects_wordpress_local_environment(): void {
 		$GLOBALS['mskd_test_environment_type'] = 'local';
+		Functions\when( 'apply_filters' )->alias(
+			function ( $hook, $is_local ) {
+				return $is_local;
+			}
+		);
 
 		$this->assertTrue( \MSKD_Environment::is_local() );
 	}
@@ -44,6 +49,11 @@ class EnvironmentTest extends TestCase {
 	public function test_detects_local_hostname( string $host ): void {
 		Functions\when( 'home_url' )->justReturn( 'http://' . $host );
 		Functions\when( 'site_url' )->justReturn( 'https://example.com' );
+		Functions\when( 'apply_filters' )->alias(
+			function ( $hook, $is_local ) {
+				return $is_local;
+			}
+		);
 
 		$this->assertTrue( \MSKD_Environment::is_local() );
 	}

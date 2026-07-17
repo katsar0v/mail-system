@@ -2742,3 +2742,93 @@ msgstr "Der E-Mail-Versand ist in lokalen Umgebungen deaktiviert."
 #: includes/Admin/class-admin-notices.php
 msgid "Mail System does not send email in local environments. Queued email will remain pending until this site is no longer detected as local."
 msgstr "Mail System sendet in lokalen Umgebungen keine E-Mails. E-Mails in der Warteschlange bleiben ausstehend, bis diese Website nicht mehr als lokal erkannt wird."
+
+#: admin/partials/queue.php
+msgid "Opens"
+msgstr "Öffnungen"
+
+#: admin/partials/queue.php
+msgid "Total tracking pixel loads"
+msgstr "Tracking-Pixel-Ladevorgänge insgesamt"
+
+#. translators: %d: tracking pixel load count
+#: admin/partials/queue-detail.php admin/partials/queue.php
+#, php-format
+msgid "Loads: %d"
+msgstr "Ladevorgänge: %d"
+
+#: admin/partials/queue-detail.php
+msgid "opened"
+msgstr "geöffnet"
+
+#: admin/partials/queue-detail.php
+msgid "Open tracking is approximate: image blocking can miss opens, while email privacy proxies and prefetching can record an open before the recipient reads the message."
+msgstr "Die Öffnungsverfolgung ist nur annähernd: Das Blockieren von Bildern kann Öffnungen übersehen, während Datenschutz-Proxys und Vorabladen eine Öffnung erfassen können, bevor der Empfänger die Nachricht liest."
+
+#: admin/partials/queue-detail.php
+msgid "Opened"
+msgstr "Geöffnet"
+
+#: admin/partials/queue-detail.php
+msgid "clicked"
+msgstr "geklickt"
+
+#. translators: %d: total tracked link clicks
+#: admin/partials/queue-detail.php admin/partials/queue.php
+#, php-format
+msgid "Total: %d"
+msgstr "Gesamt: %d"
+
+#: admin/partials/queue-detail.php
+msgid "Engagement analytics are approximate. Image privacy proxies can create opens, while security scanners and link prefetching can create clicks before a person interacts with the email. Messages carrying BCC are intentionally untracked to prevent incorrect recipient attribution."
+msgstr "Engagement-Analysen sind Näherungswerte. Bild-Datenschutz-Proxys können Öffnungen erzeugen, während Sicherheitsscanner und das Vorabladen von Links Klicks erzeugen können, bevor eine Person mit der E-Mail interagiert. Nachrichten mit BCC werden absichtlich nicht verfolgt, um eine falsche Zuordnung zu Empfängern zu verhindern."
+
+#: admin/partials/queue-detail.php
+msgid "Clicked"
+msgstr "Geklickt"
+
+#: admin/partials/queue-detail.php
+msgid "Link performance"
+msgstr "Link-Performance"
+
+#: admin/partials/queue-detail.php
+msgid "Link"
+msgstr "Link"
+
+#: admin/partials/queue-detail.php
+msgid "Destination"
+msgstr "Ziel"
+
+#: admin/partials/queue-detail.php
+msgid "Unique clickers"
+msgstr "Eindeutige Klicker"
+
+#: admin/partials/queue-detail.php
+msgid "Total clicks"
+msgstr "Klicks insgesamt"
+
+#: admin/partials/queue-detail.php
+msgid "Click rate"
+msgstr "Klickrate"
+
+#: admin/partials/queue-detail.php
+msgid "First click"
+msgstr "Erster Klick"
+
+#: admin/partials/queue-detail.php
+msgid "Last click"
+msgstr "Letzter Klick"
+
+#: admin/partials/queue-detail.php admin/partials/queue.php
+msgid "Clicks"
+msgstr "Klicks"
+
+#. translators: 1: total clicks, 2: last click date
+#: admin/partials/queue-detail.php
+#, php-format
+msgid "%1$d total; last %2$s"
+msgstr "%1$d insgesamt; zuletzt %2$s"
+
+#: public/class-mskd-public.php
+msgid "Invalid tracking link."
+msgstr "Ungültiger Tracking-Link."

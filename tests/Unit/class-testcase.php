@@ -135,6 +135,9 @@ abstract class TestCase extends PHPUnitTestCase {
 				'add_query_arg'   => function ( $args, $url = '' ) {
 					return $url . '?' . http_build_query( $args );
 				},
+				'wp_parse_url'    => function ( $url, $component = -1 ) {
+					return parse_url( $url, $component );
+				},
 				'plugin_dir_path' => function ( $file ) {
 					return dirname( $file ) . '/';
 				},
@@ -156,9 +159,6 @@ abstract class TestCase extends PHPUnitTestCase {
 				'delete_option' => function () {
 					return true;
 				},
-				'apply_filters' => function ( $hook, $value ) {
-					return $value;
-				},
 			)
 		);
 
@@ -173,6 +173,9 @@ abstract class TestCase extends PHPUnitTestCase {
 				},
 				'wp_generate_password' => function ( $length = 12, $special_chars = true ) {
 					return substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' ), 0, $length );
+				},
+				'wp_salt'              => function () {
+					return 'unit-test-site-salt';
 				},
 				'current_time'         => function ( $type ) {
 					return $type === 'mysql' ? gmdate( 'Y-m-d H:i:s' ) : time();

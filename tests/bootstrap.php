@@ -111,21 +111,29 @@ if ( ! file_exists( $phpmailer_dir . '/PHPMailer.php' ) ) {
 		'<?php
 namespace PHPMailer\PHPMailer;
 class PHPMailer {
-    public $Host = "";
+	public static $lastBody = "";
+	public static $lastBcc = array();
+	public $Host = "";
     public $Port = 587;
     public $SMTPSecure = "";
     public $SMTPAuth = false;
     public $Username = "";
     public $Password = "";
-    public $CharSet = "UTF-8";
+	public $CharSet = "UTF-8";
+	public $Subject = "";
+	public $Body = "";
+	public $AltBody = "";
+	public $SMTPDebug = 0;
+	public $Debugoutput;
     public function __construct($exceptions = null) {}
     public function isSMTP() {}
     public function isMail() {}
     public function setFrom($address, $name = "") {}
     public function addReplyTo($address, $name = "") {}
-    public function addAddress($address, $name = "") {}
-    public function isHTML($isHtml = true) {}
-    public function send() { return true; }
+	public function addAddress($address, $name = "") {}
+	public function addBCC($address, $name = "") { self::$lastBcc[] = $address; }
+	public function isHTML($isHtml = true) {}
+	public function send() { self::$lastBody = $this->Body; return true; }
 }
 '
 	);
