@@ -27,6 +27,7 @@ The plugin ships without a required build step and works out of the box without 
 | New campaign | Compose a campaign from a template, select target lists, and queue or publish immediately. |
 | One-time email | Send a single ad-hoc email to a specific subscriber without creating a campaign. |
 | Sending queue | Emails are queued and dispatched by WP-Cron at a configurable rate (default: 10/minute). |
+| Email analytics | Review sent totals, unique opens, unique clickers, CTR/CTOR, repeat activity, and per-link performance. |
 | SMTP | Configure an external SMTP server with SSL or TLS for reliable delivery. |
 | Import / Export | Bulk import and export subscribers and lists in CSV or JSON format. |
 | Subscription shortcode | `[mskd_subscribe_form]` renders a signup form on any page or post. |
@@ -50,7 +51,7 @@ The plugin ships without a required build step and works out of the box without 
 | Templates | `mskd-templates` | Save and manage reusable email templates. |
 | New campaign | `mskd-compose` | Compose and queue a newsletter campaign. |
 | One-time email | `mskd-one-time-email` | Send a single email to one subscriber. |
-| Queue | `mskd-queue` | Inspect pending and sent queue entries. |
+| Queue | `mskd-queue` | Inspect delivery status and per-campaign open/click analytics. |
 | Settings | `mskd-settings` | Configure SMTP, sending rate, and plugin options. |
 | Import / Export | `mskd-import-export` | Bulk import or export subscribers and lists (CSV or JSON). |
 | Shortcodes | `mskd-shortcodes` | Reference for available shortcodes and parameters. |
@@ -147,8 +148,21 @@ The plugin creates custom tables using the active WordPress table prefix.
 | `mskd_lists` | Mailing list definitions. |
 | `mskd_subscriber_list` | Many-to-many subscriber-to-list relationships. |
 | `mskd_queue` | Queued email jobs and delivery status. |
+| `mskd_clicks` | Per-recipient, per-link click aggregates with privacy-safe display URLs. |
 
 The plugin stores settings in `mskd_settings` and database versioning in `mskd_db_version`.
+
+### Engagement Analytics
+
+Every newly queued recipient receives a unique, non-identifying tracking URL. When the recipient's email client loads the invisible image, the queue row records its first-open timestamp and increments its pixel-load count. The Queue screen reports unique opens and calculates open rate against successfully sent emails.
+
+Open data is approximate. Email clients that block remote images can cause missed opens, while privacy proxies and image prefetching can load the pixel before a recipient reads the message. The plugin does not store IP addresses or user-agent strings for these events.
+
+Eligible `http://` and `https://` links are routed through a recipient-specific, HMAC-signed redirect URL. A valid click records first/last timestamps and a repeat-click count, then redirects to the original destination. Clicks also infer an open when the tracking pixel was blocked. The Queue screen reports unique clickers, total clicks, CTR, CTOR, per-recipient activity, and per-link performance. Stored reporting labels retain only the destination origin (scheme, host, and port), and no IP address, user-agent, device, or location data is retained.
+
+Click aggregates follow the queue's lifecycle: clearing all campaigns clears their click rows, and uninstalling the plugin drops the click analytics table.
+
+Unsubscribe and confirmation links, non-web schemes, and anchors carrying `data-mskd-no-track` are never rewritten. Messages sent with BCC are intentionally left untracked because the To and BCC recipients share one message body; this prevents BCC activity from being attributed to the primary recipient. Click counts remain approximate because security scanners and email clients may prefetch tracked links before a person clicks them.
 
 ## Development
 

@@ -38,6 +38,13 @@ class MSKD_Cron_Handler {
 	private $smtp_mailer = null;
 
 	/**
+	 * Email tracking service instance.
+	 *
+	 * @var \MSKD\Services\Email_Tracking_Service|null
+	 */
+	private $tracking_service = null;
+
+	/**
 	 * Initialize cron hooks
 	 */
 	public function init() {
@@ -109,7 +116,9 @@ class MSKD_Cron_Handler {
 
 		// Initialize mailer (uses SMTP if configured, otherwise PHP mail).
 		require_once MSKD_PLUGIN_DIR . 'includes/services/class-mskd-smtp-mailer.php';
-		$this->smtp_mailer = new MSKD_SMTP_Mailer( $settings );
+		$this->smtp_mailer      = new MSKD_SMTP_Mailer( $settings );
+		$this->tracking_service = new \MSKD\Services\Email_Tracking_Service();
+		$bcc_sent_campaigns     = array();
 
 		foreach ( $queue_items as $item ) {
 			// Skip items with invalid email.
@@ -139,11 +148,6 @@ class MSKD_Cron_Handler {
 				array( '%d' )
 			);
 
-			// Prepare email content with header, footer, and placeholders.
-			$body    = $this->apply_header_footer( $item->body, $settings );
-			$body    = $this->replace_placeholders( $body, $item );
-			$subject = $this->replace_placeholders( $item->subject, $item );
-
 			// Prepare headers for Bcc if available.
 			// For regular campaigns, only send Bcc with the first email (bcc_sent = 0).
 			// For one_time campaigns, always send Bcc (they only have one email).
@@ -155,7 +159,7 @@ class MSKD_Cron_Handler {
 				if ( 'one_time' === $item->campaign_type ) {
 					// One-time emails: always send Bcc.
 					$should_send_bcc = true;
-				} elseif ( ! empty( $item->campaign_id ) && empty( $item->bcc_sent ) ) {
+				} elseif ( ! empty( $item->campaign_id ) && empty( $item->bcc_sent ) && ! isset( $bcc_sent_campaigns[ (int) $item->campaign_id ] ) ) {
 					// Regular campaigns: send Bcc only if not already sent.
 					$should_send_bcc = true;
 				}
@@ -169,6 +173,20 @@ class MSKD_Cron_Handler {
 						}
 					}
 				}
+			}
+
+			// Prepare email content with header, footer, and placeholders. A message
+			// carrying Bcc is deliberately untracked: otherwise a Bcc recipient's
+			// image load or click would be credited to the primary queue recipient.
+			$tracking_token = isset( $item->tracking_token ) ? (string) $item->tracking_token : '';
+			$click_token    = isset( $item->click_token ) ? (string) $item->click_token : '';
+			$body           = $this->apply_header_footer( $item->body, $settings );
+			$body           = $this->replace_placeholders( $body, $item );
+			$subject        = $this->replace_placeholders( $item->subject, $item );
+
+			if ( ! $should_send_bcc ) {
+				$body = $this->tracking_service->rewrite_links( $body, $click_token );
+				$body = $this->tracking_service->append_tracking_pixel( $body, $tracking_token );
 			}
 
 			// Send email using SMTP mailer.
@@ -209,6 +227,7 @@ class MSKD_Cron_Handler {
 						array( '%d' ),
 						array( '%d' )
 					);
+					$bcc_sent_campaigns[ (int) $item->campaign_id ] = true;
 				}
 
 				// Log Bcc recipients for audit/compliance.

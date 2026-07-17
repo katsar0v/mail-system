@@ -2678,3 +2678,93 @@ msgstr ""
 #: includes/services/class-subscriber-service.php
 msgid "Failed to update subscriber ID %d"
 msgstr ""
+
+#: admin/partials/queue.php
+msgid "Opens"
+msgstr ""
+
+#: admin/partials/queue.php
+msgid "Total tracking pixel loads"
+msgstr ""
+
+#. translators: %d: tracking pixel load count
+#: admin/partials/queue-detail.php admin/partials/queue.php
+#, php-format
+msgid "Loads: %d"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "opened"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Open tracking is approximate: image blocking can miss opens, while email privacy proxies and prefetching can record an open before the recipient reads the message."
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Opened"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "clicked"
+msgstr ""
+
+#. translators: %d: total tracked link clicks
+#: admin/partials/queue-detail.php admin/partials/queue.php
+#, php-format
+msgid "Total: %d"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Engagement analytics are approximate. Image privacy proxies can create opens, while security scanners and link prefetching can create clicks before a person interacts with the email. Messages carrying BCC are intentionally untracked to prevent incorrect recipient attribution."
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Clicked"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Link performance"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Link"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Destination"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Unique clickers"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Total clicks"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Click rate"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "First click"
+msgstr ""
+
+#: admin/partials/queue-detail.php
+msgid "Last click"
+msgstr ""
+
+#: admin/partials/queue-detail.php admin/partials/queue.php
+msgid "Clicks"
+msgstr ""
+
+#. translators: 1: total clicks, 2: last click date
+#: admin/partials/queue-detail.php
+#, php-format
+msgid "%1$d total; last %2$s"
+msgstr ""
+
+#: public/class-mskd-public.php
+msgid "Invalid tracking link."
+msgstr ""
