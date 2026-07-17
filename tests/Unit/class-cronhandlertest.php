@@ -29,6 +29,11 @@ class CronHandlerTest extends TestCase {
 	 */
 	protected function setUp(): void {
 		parent::setUp();
+		Functions\when( 'apply_filters' )->alias(
+			function ( $hook, $is_local ) {
+				return $is_local;
+			}
+		);
 
 		// Load the cron handler class.
 		require_once \MSKD_PLUGIN_DIR . 'includes/services/class-mskd-cron-handler.php';
@@ -183,6 +188,21 @@ class CronHandlerTest extends TestCase {
 		$this->cron_handler->process_queue();
 
 		// If we got here without errors, the queue was processed successfully.
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Test that local delivery protection leaves the queue untouched.
+	 */
+	public function test_process_queue_does_not_mutate_queue_in_local_environment(): void {
+		$GLOBALS['mskd_test_environment_type'] = 'local';
+		$this->wpdb                           = Mockery::mock( 'wpdb' );
+		$this->wpdb->shouldNotReceive( 'get_results' );
+		$this->wpdb->shouldNotReceive( 'update' );
+		$GLOBALS['wpdb'] = $this->wpdb;
+
+		$this->cron_handler->process_queue();
+
 		$this->assertTrue( true );
 	}
 

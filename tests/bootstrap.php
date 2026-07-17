@@ -26,6 +26,17 @@ define( 'MSKD_PLUGIN_URL', 'https://example.com/wp-content/plugins/mail-system/'
 define( 'MSKD_PLUGIN_BASENAME', 'mail-system/mail-system.php' );
 define( 'MSKD_BATCH_SIZE', 10 );
 
+if ( ! function_exists( 'wp_get_environment_type' ) ) {
+	/**
+	 * Return the test WordPress environment type.
+	 *
+	 * @return string
+	 */
+	function wp_get_environment_type() {
+		return $GLOBALS['mskd_test_environment_type'] ?? 'production';
+	}
+}
+
 // Register plugin autoloader for traits and namespaced classes.
 spl_autoload_register(
 	function ( $class_name ) {

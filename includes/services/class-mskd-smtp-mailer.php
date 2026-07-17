@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once MSKD_PLUGIN_DIR . 'includes/class-mskd-environment.php';
+
 /**
  * Class MSKD_SMTP_Mailer
  *
@@ -102,6 +104,11 @@ class MSKD_SMTP_Mailer {
 	public function send( $to, $subject, $body, $headers = array(), $from_email = null, $from_name = null ) {
 		$this->last_error = '';
 		$this->debug_log  = array();
+
+		if ( MSKD_Environment::is_local() ) {
+			$this->last_error = __( 'Email delivery is disabled in local environments.', 'mail-system' );
+			return false;
+		}
 
 		// Create a local PHPMailer instance to avoid conflicts with global instance.
 		require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
@@ -205,6 +212,14 @@ class MSKD_SMTP_Mailer {
 	public function test_connection( $from_email = null ) {
 		$this->last_error = '';
 		$this->debug_log  = array();
+
+		if ( MSKD_Environment::is_local() ) {
+			$this->last_error = __( 'Email delivery is disabled in local environments.', 'mail-system' );
+			return array(
+				'success' => false,
+				'message' => $this->last_error,
+			);
+		}
 
 		// Check if SMTP is enabled.
 		if ( ! $this->is_smtp_enabled() ) {

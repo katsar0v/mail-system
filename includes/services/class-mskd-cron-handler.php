@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once MSKD_PLUGIN_DIR . 'includes/class-mskd-environment.php';
+
 use MSKD\Traits\Email_Header_Footer;
 
 /**
@@ -75,6 +77,11 @@ class MSKD_Cron_Handler {
 	 * All subscribers (internal, external, one-time) are stored in the subscribers table.
 	 */
 	public function process_queue() {
+		// Keep queued email pending while local delivery is disabled.
+		if ( MSKD_Environment::is_local() ) {
+			return;
+		}
+
 		global $wpdb;
 
 		// Record the cron run timestamp at the start of processing.

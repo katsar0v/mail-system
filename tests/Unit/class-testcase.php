@@ -41,6 +41,7 @@ abstract class TestCase extends PHPUnitTestCase {
 	 * Tear down test environment.
 	 */
 	protected function tearDown(): void {
+		unset( $GLOBALS['mskd_test_environment_type'] );
 		Monkey\tearDown();
 		Mockery::close();
 		parent::tearDown();
@@ -78,6 +79,9 @@ abstract class TestCase extends PHPUnitTestCase {
 					return $text;
 				},
 				'_e'         => function ( $text, $domain = 'default' ) {
+					echo $text;
+				},
+				'esc_html_e' => function ( $text, $domain = 'default' ) {
 					echo $text;
 				},
 				'esc_html__' => function ( $text, $domain = 'default' ) {
@@ -119,15 +123,21 @@ abstract class TestCase extends PHPUnitTestCase {
 				'home_url'        => function ( $path = '' ) {
 					return 'https://example.com' . $path;
 				},
+				'site_url'        => function ( $path = '' ) {
+					return 'https://example.com' . $path;
+				},
+				'wp_parse_url'    => function ( $url, $component = -1 ) {
+					return parse_url( $url, $component );
+				},
 				'admin_url'       => function ( $path = '' ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
-					'add_query_arg'   => function ( $args, $url = '' ) {
-						return $url . '?' . http_build_query( $args );
-					},
-					'wp_parse_url'    => function ( $url, $component = -1 ) {
-						return parse_url( $url, $component );
-					},
+				'add_query_arg'   => function ( $args, $url = '' ) {
+					return $url . '?' . http_build_query( $args );
+				},
+				'wp_parse_url'    => function ( $url, $component = -1 ) {
+					return parse_url( $url, $component );
+				},
 				'plugin_dir_path' => function ( $file ) {
 					return dirname( $file ) . '/';
 				},
@@ -161,12 +171,12 @@ abstract class TestCase extends PHPUnitTestCase {
 					}
 					return array_merge( $defaults, $args );
 				},
-					'wp_generate_password' => function ( $length = 12, $special_chars = true ) {
-						return substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' ), 0, $length );
-					},
-					'wp_salt'              => function () {
-						return 'unit-test-site-salt';
-					},
+				'wp_generate_password' => function ( $length = 12, $special_chars = true ) {
+					return substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' ), 0, $length );
+				},
+				'wp_salt'              => function () {
+					return 'unit-test-site-salt';
+				},
 				'current_time'         => function ( $type ) {
 					return $type === 'mysql' ? gmdate( 'Y-m-d H:i:s' ) : time();
 				},

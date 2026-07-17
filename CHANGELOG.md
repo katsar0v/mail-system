@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Local email delivery guard (#114)** — outgoing email, SMTP connection tests, and queue processing are blocked when WordPress reports a `local` environment or the site uses a common local-development hostname. Administrators see a persistent warning on Mail System pages, and detection remains filterable for project-specific setups.
 - **Secure email click analytics (#113)**
   - Rewrites eligible campaign and one-time email links through HMAC-signed, recipient-specific redirect URLs
   - Records privacy-safe first/last click timestamps, repeat counts, inferred opens, unique clickers, CTR/CTOR, and per-link performance
