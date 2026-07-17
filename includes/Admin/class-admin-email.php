@@ -521,14 +521,18 @@ class Admin_Email {
 					'success'
 				);
 			} else {
-				$error_message = __( 'Error sending one-time email.', 'mail-system' );
-				if ( ! empty( $this->last_mail_error ) ) {
-					$error_message .= ' ' . sprintf(
-						__( 'Reason: %s', 'mail-system' ),
-						esc_html( $this->last_mail_error )
-					);
+				if ( \mskd_is_local_environment() ) {
+					$error_message = $this->last_mail_error;
 				} else {
-					$error_message .= ' ' . __( 'Please try again.', 'mail-system' );
+					$error_message = __( 'Error sending one-time email.', 'mail-system' );
+					if ( ! empty( $this->last_mail_error ) ) {
+						$error_message .= ' ' . sprintf(
+							__( 'Reason: %s', 'mail-system' ),
+							esc_html( $this->last_mail_error )
+						);
+					} else {
+						$error_message .= ' ' . __( 'Please try again.', 'mail-system' );
+					}
 				}
 				add_settings_error( 'mskd_messages', 'mskd_error', $error_message, 'error' );
 			}

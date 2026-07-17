@@ -100,6 +100,35 @@ class SmtpMailerTest extends TestCase {
 	}
 
 	/**
+	 * Test that local environments block normal sends before PHPMailer is loaded.
+	 */
+	public function test_send_is_blocked_in_local_environment(): void {
+		$GLOBALS['mskd_test_environment_type'] = 'local';
+		$this->smtp_mailer                      = new \MSKD_SMTP_Mailer();
+
+		$this->assertFalse(
+			$this->smtp_mailer->send( 'test@example.com', 'Test Subject', '<p>Test Body</p>' )
+		);
+		$this->assertSame(
+			'Email delivery is disabled in local environments.',
+			$this->smtp_mailer->get_last_error()
+		);
+	}
+
+	/**
+	 * Test that local environments block SMTP test messages.
+	 */
+	public function test_connection_is_blocked_in_local_environment(): void {
+		$GLOBALS['mskd_test_environment_type'] = 'local';
+		$this->smtp_mailer                      = new \MSKD_SMTP_Mailer();
+
+		$result = $this->smtp_mailer->test_connection();
+
+		$this->assertFalse( $result['success'] );
+		$this->assertSame( 'Email delivery is disabled in local environments.', $result['message'] );
+	}
+
+	/**
 	 * Test that get_last_error returns empty string initially.
 	 */
 	public function test_get_last_error_returns_empty_initially(): void {

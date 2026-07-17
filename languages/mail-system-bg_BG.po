@@ -2108,6 +2108,7 @@ msgid "No content to preview."
 msgstr "Няма съдържание за преглед."
 
 #: includes/Admin/class-admin.php
+#: includes/Admin/class-admin-ajax.php
 msgid "No subscribers selected."
 msgstr "Не са избрани абонати."
 
@@ -2640,10 +2641,6 @@ msgid_plural "%d subscribers deleted successfully."
 msgstr[0] "%d абонат е изтрит успешно."
 msgstr[1] "%d абонати са изтрити успешно."
 
-#: includes/Admin/class-admin-ajax.php
-msgid "No subscribers selected."
-msgstr "Не са избрани абонати."
-
 #: includes/services/class-subscriber-service.php
 msgid "Failed to delete subscriber ID %d"
 msgstr "Неуспешно изтриване на абонат с ID %d"
@@ -2694,3 +2691,11 @@ msgstr "Невалиден статус."
 #: includes/services/class-subscriber-service.php
 msgid "Failed to update subscriber ID %d"
 msgstr "Неуспешно обновяване на абонат с ID %d"
+
+#: includes/services/class-mskd-smtp-mailer.php
+msgid "Email delivery is disabled in local environments."
+msgstr "Изпращането на имейли е деактивирано в локални среди."
+
+#: includes/Admin/class-admin-notices.php
+msgid "Mail System does not send email in local environments. Queued email will remain pending until this site is no longer detected as local."
+msgstr "Mail System не изпраща имейли в локални среди. Имейлите в опашката ще останат в изчакване, докато сайтът вече не бъде разпознат като локален."

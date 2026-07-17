@@ -41,6 +41,7 @@ abstract class TestCase extends PHPUnitTestCase {
 	 * Tear down test environment.
 	 */
 	protected function tearDown(): void {
+		unset( $GLOBALS['mskd_test_environment_type'] );
 		Monkey\tearDown();
 		Mockery::close();
 		parent::tearDown();
@@ -78,6 +79,9 @@ abstract class TestCase extends PHPUnitTestCase {
 					return $text;
 				},
 				'_e'         => function ( $text, $domain = 'default' ) {
+					echo $text;
+				},
+				'esc_html_e' => function ( $text, $domain = 'default' ) {
 					echo $text;
 				},
 				'esc_html__' => function ( $text, $domain = 'default' ) {
@@ -119,6 +123,12 @@ abstract class TestCase extends PHPUnitTestCase {
 				'home_url'        => function ( $path = '' ) {
 					return 'https://example.com' . $path;
 				},
+				'site_url'        => function ( $path = '' ) {
+					return 'https://example.com' . $path;
+				},
+				'wp_parse_url'    => function ( $url, $component = -1 ) {
+					return parse_url( $url, $component );
+				},
 				'admin_url'       => function ( $path = '' ) {
 					return 'https://example.com/wp-admin/' . $path;
 				},
@@ -145,6 +155,9 @@ abstract class TestCase extends PHPUnitTestCase {
 				},
 				'delete_option' => function () {
 					return true;
+				},
+				'apply_filters' => function ( $hook, $value ) {
+					return $value;
 				},
 			)
 		);

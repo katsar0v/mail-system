@@ -187,6 +187,21 @@ class CronHandlerTest extends TestCase {
 	}
 
 	/**
+	 * Test that local delivery protection leaves the queue untouched.
+	 */
+	public function test_process_queue_does_not_mutate_queue_in_local_environment(): void {
+		$GLOBALS['mskd_test_environment_type'] = 'local';
+		$this->wpdb                           = Mockery::mock( 'wpdb' );
+		$this->wpdb->shouldNotReceive( 'get_results' );
+		$this->wpdb->shouldNotReceive( 'update' );
+		$GLOBALS['wpdb'] = $this->wpdb;
+
+		$this->cron_handler->process_queue();
+
+		$this->assertTrue( true );
+	}
+
+	/**
 	 * Test that process_queue respects batch size.
 	 */
 	public function test_process_queue_respects_batch_size(): void {

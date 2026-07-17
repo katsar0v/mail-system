@@ -2142,6 +2142,7 @@ msgid "No content to preview."
 msgstr "Kein Inhalt zum Anzeigen."
 
 #: includes/Admin/class-admin.php
+#: includes/Admin/class-admin-ajax.php
 msgid "No subscribers selected."
 msgstr "Keine Abonnenten ausgewählt."
 
@@ -2683,10 +2684,6 @@ msgid_plural "%d subscribers deleted successfully."
 msgstr[0] "%d Abonnent erfolgreich gelöscht."
 msgstr[1] "%d Abonnenten erfolgreich gelöscht."
 
-#: includes/Admin/class-admin-ajax.php
-msgid "No subscribers selected."
-msgstr "Keine Abonnenten ausgewählt."
-
 #: includes/services/class-subscriber-service.php
 msgid "Failed to delete subscriber ID %d"
 msgstr "Löschen des Abonnenten mit ID %d fehlgeschlagen"
@@ -2737,3 +2734,11 @@ msgstr "Ungültiger Status."
 #: includes/services/class-subscriber-service.php
 msgid "Failed to update subscriber ID %d"
 msgstr "Aktualisierung des Abonnenten mit ID %d fehlgeschlagen"
+
+#: includes/services/class-mskd-smtp-mailer.php
+msgid "Email delivery is disabled in local environments."
+msgstr "Der E-Mail-Versand ist in lokalen Umgebungen deaktiviert."
+
+#: includes/Admin/class-admin-notices.php
+msgid "Mail System does not send email in local environments. Queued email will remain pending until this site is no longer detected as local."
+msgstr "Mail System sendet in lokalen Umgebungen keine E-Mails. E-Mails in der Warteschlange bleiben ausstehend, bis diese Website nicht mehr als lokal erkannt wird."

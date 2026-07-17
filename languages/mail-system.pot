@@ -2678,3 +2678,11 @@ msgstr ""
 #: includes/services/class-subscriber-service.php
 msgid "Failed to update subscriber ID %d"
 msgstr ""
+
+#: includes/services/class-mskd-smtp-mailer.php
+msgid "Email delivery is disabled in local environments."
+msgstr ""
+
+#: includes/Admin/class-admin-notices.php
+msgid "Mail System does not send email in local environments. Queued email will remain pending until this site is no longer detected as local."
+msgstr ""

@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once MSKD_PLUGIN_DIR . 'includes/class-mskd-environment.php';
+
 /**
  * Class Admin_Notices
  *
@@ -33,10 +35,30 @@ class Admin_Notices {
 	 * @return void
 	 */
 	public function init(): void {
+		add_action( 'admin_notices', array( $this, 'show_local_environment_notice' ) );
 		add_action( 'admin_notices', array( $this, 'show_cron_notice' ) );
 		add_action( 'admin_notices', array( $this, 'show_share_notice' ) );
 		add_action( 'admin_notices', array( $this, 'show_database_upgrade_notice' ) );
 		add_action( 'admin_init', array( $this, 'handle_database_upgrade' ) );
+	}
+
+	/**
+	 * Show a persistent warning when email delivery is disabled locally.
+	 *
+	 * @return void
+	 */
+	public function show_local_environment_notice(): void {
+		if ( ! current_user_can( 'manage_options' ) || ! $this->is_plugin_page() || ! \mskd_is_local_environment() ) {
+			return;
+		}
+		?>
+		<div class="notice notice-warning">
+			<p>
+				<strong><?php esc_html_e( 'Mail System:', 'mail-system' ); ?></strong>
+				<?php esc_html_e( 'Mail System does not send email in local environments. Queued email will remain pending until this site is no longer detected as local.', 'mail-system' ); ?>
+			</p>
+		</div>
+		<?php
 	}
 
 	/**
