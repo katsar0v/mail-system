@@ -535,7 +535,7 @@ class Admin_Email {
 					'success'
 				);
 			} else {
-				if ( \mskd_is_local_environment() ) {
+				if ( \MSKD_Environment::is_local() ) {
 					$error_message = $this->last_mail_error;
 				} else {
 					$error_message = __( 'Error sending one-time email.', 'mail-system' );
