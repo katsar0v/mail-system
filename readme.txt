@@ -3,7 +3,7 @@ Contributors: katsarovdesign
 Tags: email, newsletter, mailing list, subscribers, bulgarian, български
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -89,6 +89,11 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 6. Настройки
 
 == Changelog ==
+
+= 1.1.2 =
+* Анализ на отваряния и кликвания в имейли с защита на личните данни
+* Защита срещу изпращане на имейли в локална среда
+* Подобрения в опашката, потвърждението за абонамент и SMTP криптирането
 
 = 1.1.1 =
 * Поправен проблем с липсващ превод за "Общо абонати"
