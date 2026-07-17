@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img alt="Version 1.1.1" src="https://img.shields.io/badge/version-1.1.1-1f6feb?style=for-the-badge">
+  <img alt="Version 1.1.2" src="https://img.shields.io/badge/version-1.1.2-1f6feb?style=for-the-badge">
   <img alt="WordPress 5.0+" src="https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=for-the-badge&logo=wordpress&logoColor=white">
   <img alt="PHP 7.4+" src="https://img.shields.io/badge/PHP-7.4%2B-777bb4?style=for-the-badge&logo=php&logoColor=white">
   <img alt="License GPL-2.0-or-later" src="https://img.shields.io/badge/license-GPL--2.0--or--later-0f766e?style=for-the-badge">

@@ -756,7 +756,7 @@ add_action( 'mskd_subscriber_unsubscribed', function( $email, $token ) {
 
 | Constant | Default | Description |
 |----------|---------|-------------|
-| `MSKD_VERSION` | `1.1.0` | Plugin version |
+| `MSKD_VERSION` | `1.1.2` | Plugin version |
 | `MSKD_BATCH_SIZE` | `10` | Emails per cron run (configurable via settings) |
 | `MSKD_PLUGIN_DIR` | — | Plugin directory path |
 | `MSKD_PLUGIN_URL` | — | Plugin URL |
