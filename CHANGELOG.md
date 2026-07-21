@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Security
+
+## [1.1.3] - 2026-07-21
+
+### Added
 - **JWT-authenticated REST API for campaign scheduling (#118)**
   - New `mail-system/v1` REST namespace: `GET /lists`, `POST /campaigns`, `GET /campaigns/{id}`, and `POST /campaigns/{id}/cancel`
   - Bearer-token authentication using self-contained HS256 JSON Web Tokens signed with a secret derived from the site's WordPress salts — no production Composer dependency
@@ -43,23 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Records the first open timestamp and total pixel load count without storing IP addresses or user-agent data
   - Shows unique opens, open rates, and per-recipient sent/open timestamps in the Queue overview and campaign detail screens
   - Includes a database upgrade to schema version 1.7.0, unit coverage, and an in-product caveat explaining image blocking, privacy proxy, and prefetch limitations
-
-### Fixed
-- **Bulk actions Apply button not showing** — on the Subscribers page, if a browser restored the bulk actions dropdown's previous value on page load/refresh without firing a `change` event, the Apply button stayed hidden even though a bulk action was selected and subscribers were checked. The button's visibility is now synced on page load, not only on `change`.
-- **Opt-in confirmation email wrappers** — confirmation emails now apply the configured email header and footer and replace wrapper template variables (`{first_name}`, `{last_name}`, `{email}`, `{unsubscribe_link}`, `{unsubscribe_url}`) before sending.
-- **SMTP password encryption delimiter handling** — encrypted payloads now encode the IV separately before adding the delimiter and still support legacy raw-IV payloads, preventing rare decrypt failures when random IV bytes contained the delimiter sequence.
-- **Database repair notice persisting infinitely** — when clicking "Repair Database Now", if the required database table or column did not exist (or `ALTER TABLE` silently failed), the repair notice was shown on every page load indefinitely. The handler now calls `MSKD_Activator::activate()` (which uses `dbDelta` to create missing tables and columns), verifies the schema afterwards, and — if still failing — shows an actionable error notice with the database error message. The schema check also now correctly detects a missing table (not just a missing column).
-- **Scheduling/queue timezone mixing** — the scheduling and queue system wrote datetimes from three different bases (WP-local `current_time`, UTC `gmdate`, and the MySQL `CURRENT_TIMESTAMP` default), then compared and rendered them as if identical. On sites whose WordPress timezone differs from UTC, this produced a phantom offset between the Queue "Created" and "Scheduled for" columns and broke retry/stuck-recovery timing (retries landed in the past and fired immediately). Retry `scheduled_at` and the stuck-recovery threshold now use the new site-local `mskd_local_time_from_timestamp()` helper, and campaign/queue `created_at` is set explicitly via `mskd_current_time_normalized()` instead of the DB-server-timezone default, so all writes, comparisons, and display share one convention.
-- **Email preview opening in a new tab** — email preview forms (campaign/queue detail and compose wizard) targeted a runtime-generated browsing-context name and then renamed the iframe to match, which is racy and often failed to bind, causing the preview to open in a new tab instead of inline. Preview iframes now render a stable server-side `name`, and the hidden preview form submits to that existing target.
-
-### Changed
-- **Renamed plugin slug** from `mail-system-by-katsarov-design` to `mail-system`. Updated main plugin file, all language files (`.pot`, `.po`, `.mo`), text domain references across all PHP source files, `package.json`, `bin/create-release.sh`, and documentation headers. DB table names, option keys, hooks, and constants are unchanged.
-- **Delete Inactive Subscribers button** now also deletes subscribers with `unsubscribed` status, in addition to `inactive` (unconfirmed). Updated button description, confirmation dialog, and success messages accordingly. Translations updated for Bulgarian and German.
-
-### Fixed
-- Fixed undefined variable `$class` (should be `$class_name`) in test bootstrap autoloader, which caused PHP 8.1 test failures due to undefined variable warnings being converted to exceptions.
-
-### Added
 - **Bulk Subscriber Status Actions**
   - New "Set active" and "Set inactive" options in the bulk actions dropdown on the Subscribers page
   - Available whenever there are editable database subscribers to select, even if no lists exist yet
@@ -86,15 +79,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Proper database cleanup (subscribers, list associations, and queue items)
   - Full translations in Bulgarian and German with pluralization support
 
+### Changed
+- **Renamed plugin slug** from `mail-system-by-katsarov-design` to `mail-system`. Updated main plugin file, all language files (`.pot`, `.po`, `.mo`), text domain references across all PHP source files, `package.json`, `bin/create-release.sh`, and documentation headers. DB table names, option keys, hooks, and constants are unchanged.
+- **Delete Inactive Subscribers button** now also deletes subscribers with `unsubscribed` status, in addition to `inactive` (unconfirmed). Updated button description, confirmation dialog, and success messages accordingly. Translations updated for Bulgarian and German.
+
 ### Fixed
-- **Compose Wizard Step 1 Validation**
-  - Fixed bug where "Please select at least one list" alert incorrectly appeared when clicking Continue in step 1
-  - List validation now only triggers in step 3 where list selection is available
+- **Bulk actions Apply button not showing** — on the Subscribers page, if a browser restored the bulk actions dropdown's previous value on page load/refresh without firing a `change` event, the Apply button stayed hidden even though a bulk action was selected and subscribers were checked. The button's visibility is now synced on page load, not only on `change`.
+- **Opt-in confirmation email wrappers** — confirmation emails now apply the configured email header and footer and replace wrapper template variables (`{first_name}`, `{last_name}`, `{email}`, `{unsubscribe_link}`, `{unsubscribe_url}`) before sending.
+- **SMTP password encryption delimiter handling** — encrypted payloads now encode the IV separately before adding the delimiter and still support legacy raw-IV payloads, preventing rare decrypt failures when random IV bytes contained the delimiter sequence.
+- **Database repair notice persisting infinitely** — when clicking "Repair Database Now", if the required database table or column did not exist (or `ALTER TABLE` silently failed), the repair notice was shown on every page load indefinitely. The handler now calls `MSKD_Activator::activate()` (which uses `dbDelta` to create missing tables and columns), verifies the schema afterwards, and — if still failing — shows an actionable error notice with the database error message. The schema check also now correctly detects a missing table (not just a missing column).
+- **Scheduling/queue timezone mixing** — the scheduling and queue system wrote datetimes from three different bases (WP-local `current_time`, UTC `gmdate`, and the MySQL `CURRENT_TIMESTAMP` default), then compared and rendered them as if identical. On sites whose WordPress timezone differs from UTC, this produced a phantom offset between the Queue "Created" and "Scheduled for" columns and broke retry/stuck-recovery timing (retries landed in the past and fired immediately). Retry `scheduled_at` and the stuck-recovery threshold now use the new site-local `mskd_local_time_from_timestamp()` helper, and campaign/queue `created_at` is set explicitly via `mskd_current_time_normalized()` instead of the DB-server-timezone default, so all writes, comparisons, and display share one convention.
+- **Email preview opening in a new tab** — email preview forms (campaign/queue detail and compose wizard) targeted a runtime-generated browsing-context name and then renamed the iframe to match, which is racy and often failed to bind, causing the preview to open in a new tab instead of inline. Preview iframes now render a stable server-side `name`, and the hidden preview form submits to that existing target.
+- Fixed undefined variable `$class` (should be `$class_name`) in test bootstrap autoloader, which caused PHP 8.1 test failures due to undefined variable warnings being converted to exceptions.
+- **Compose Wizard Step 1 Validation** — fixed bug where "Please select at least one list" alert incorrectly appeared when clicking Continue in step 1. List validation now only triggers in step 3 where list selection is available.
 
 ## [1.1.1] - 2025-12-19
 
 ### Added
-
 - **Lists Column in Subscribers Page** (Issue #84)
   - New "Lists" column displaying which list(s) each subscriber belongs to
   - Multiple lists are stacked vertically for easy readability
@@ -150,11 +151,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed variable naming to avoid overriding WordPress globals
   - Fixed indentation (spaces to tabs) in admin partials
   - Added proper Yoda condition checks
-
-### Performance
-- Improved performance when handling large email campaigns through batch processing
-- Reduced database queries by batching operations
-- Prevents memory issues when processing large subscriber lists
+- **Performance improvements**
+  - Improved performance when handling large email campaigns through batch processing
+  - Reduced database queries by batching operations
+  - Prevents memory issues when processing large subscriber lists
 
 ### Fixed
 - **Dedupe Subscribers in Campaign Queue**
@@ -187,6 +187,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed duplicate message definitions in `bg_BG.po` and `de_DE.po` preventing compilation
   - Corrected corrupted headers in German translation file
   - Recompiled MO files for both languages
+- **Missing Translation**
+  - Added missing translation for "Total Subscribers" in Bulgarian language
+- **Corrupted Bulgarian Translations** (PR #90)
+  - Removed msgcat merge markers that were showing in the UI
+  - Cleaned 9 translation entries with embedded `#-#-#-#-#` markers
+  - Recompiled Bulgarian MO file
 
 ### Security
 - **Critical XSS Vulnerability Fix**
@@ -200,21 +206,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added `wp_unslash()` before sanitization on GET parameters
   - Fixed unsanitized GET parameters in nonce verification
   - Improved REMOTE_ADDR handling with proper validation
-
-### Fixed
-- **Missing Translation**
-  - Added missing translation for "Total Subscribers" in Bulgarian language
-- **Corrupted Bulgarian Translations** (PR #90)
-  - Removed msgcat merge markers that were showing in the UI
-  - Cleaned 9 translation entries with embedded `#-#-#-#-#` markers
-  - Recompiled Bulgarian MO file
-
-### Planned
-- Open and click statistics
-- A/B testing
-- Integration with popular SMTP plugins
-
----
 
 ## [1.1.0] - 2025-11-28
 
@@ -319,15 +310,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dashboard with general statistics
   - WP-Cron warning (shown only within the plugin)
   - System cron recommendation
-
-### Technical Details
-- Requires PHP 7.4+
-- Requires WordPress 5.0+
-- Uses SMTP for sending (configurable)
-- 4 new database tables (mskd_subscribers, mskd_lists, mskd_subscriber_list, mskd_queue)
-- Automatic table creation on activation
-- Automatic cron job scheduling on activation
-- Automatic cron job removal on deactivation
+- **Technical requirements**
+  - Requires PHP 7.4+
+  - Requires WordPress 5.0+
+  - Uses SMTP for sending (configurable)
+  - 4 new database tables (mskd_subscribers, mskd_lists, mskd_subscriber_list, mskd_queue)
+  - Automatic table creation on activation
+  - Automatic cron job scheduling on activation
+  - Automatic cron job removal on deactivation
 
 ---
 
@@ -337,7 +327,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Minor** (0.X.0) - New features, backward compatible
 - **Patch** (0.0.X) - Bug fixes, backward compatible
 
-[Unreleased]: https://github.com/katsarov-design/mail-system/compare/1.1.2...HEAD
+[Unreleased]: https://github.com/katsarov-design/mail-system/compare/1.1.3...HEAD
+[1.1.3]: https://github.com/katsarov-design/mail-system/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/katsarov-design/mail-system/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/katsarov-design/mail-system/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/katsarov-design/mail-system/compare/1.0.0...1.1.0
