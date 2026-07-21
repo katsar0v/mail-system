@@ -72,6 +72,8 @@
 
 // Queue tables
 .mskd-table-responsive {
+  clear: both;
+  width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
