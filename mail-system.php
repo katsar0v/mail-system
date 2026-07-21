@@ -3,7 +3,7 @@
  * Plugin Name:       Mail System by Katsarov Design
  * Plugin URI:        https://katsarov.design/plugins/mail-system
  * Description:       Email newsletter management system with subscribers, lists, and sending queue.
- * Version:           1.1.2
+ * Version:           1.1.3
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Katsarov Design
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin constants
  */
-define( 'MSKD_VERSION', '1.1.2' );
+define( 'MSKD_VERSION', '1.1.3' );
 define( 'MSKD_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MSKD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'MSKD_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
