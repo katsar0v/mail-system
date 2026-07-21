@@ -230,11 +230,12 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 		</div>
 	<?php endif; ?>
 
-	<table class="wp-list-table widefat fixed striped">
+	<div class="mskd-table-responsive">
+	<table class="wp-list-table widefat striped mskd-queue-table">
 		<thead>
 			<tr>
 				<th scope="col" style="width: 50px;"><?php esc_html_e( 'ID', 'mail-system' ); ?></th>
-				<th scope="col"><?php esc_html_e( 'Subject', 'mail-system' ); ?></th>
+				<th scope="col" class="mskd-col-subject"><?php esc_html_e( 'Subject', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Type', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Recipients', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 180px;"><?php esc_html_e( 'Progress', 'mail-system' ); ?></th>
@@ -273,7 +274,7 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 					?>
 					<tr>
 						<td><?php echo esc_html( $campaign->id ); ?></td>
-						<td>
+						<td class="mskd-subject-cell">
 							<a href="<?php echo esc_url( admin_url( 'admin.php?page=mskd-queue&action=view&campaign_id=' . $campaign->id ) ); ?>">
 								<strong><?php echo esc_html( $campaign->subject ); ?></strong>
 							</a>
@@ -398,6 +399,7 @@ $emails_per_minute = isset( $settings['emails_per_minute'] ) ? absint( $settings
 			<?php endif; ?>
 		</tbody>
 	</table>
+	</div>
 
 	<!-- Pagination -->
 	<?php if ( $total_pages > 1 ) : ?>
