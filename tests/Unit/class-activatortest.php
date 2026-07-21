@@ -84,8 +84,8 @@ class ActivatorTest extends TestCase {
 		// Run activation.
 		\MSKD_Activator::activate();
 
-		// Verify all 7 tables are created.
-		$this->assertCount( 7, $db_delta_calls, 'Should call dbDelta 7 times for 7 tables' );
+		// Verify all 8 tables are created.
+		$this->assertCount( 8, $db_delta_calls, 'Should call dbDelta 8 times for 8 tables' );
 
 		// Check table names in SQL.
 		$all_sql = implode( ' ', $db_delta_calls );
@@ -96,7 +96,11 @@ class ActivatorTest extends TestCase {
 		$this->assertStringContainsString( 'wp_mskd_queue', $all_sql, 'Should create queue table' );
 		$this->assertStringContainsString( 'wp_mskd_clicks', $all_sql, 'Should create click analytics table' );
 		$this->assertStringContainsString( 'wp_mskd_templates', $all_sql, 'Should create templates table' );
+		$this->assertStringContainsString( 'wp_mskd_api_tokens', $all_sql, 'Should create API tokens table' );
 		$this->assertStringContainsString( 'tracking_token varchar(64)', $all_sql, 'Queue should include a tracking token' );
+		$this->assertStringContainsString( 'processing_started_at datetime', $all_sql, 'Queue should include the processing timestamp' );
+		$this->assertStringContainsString( "enum('pending','processing','sent','failed','cancelled')", $all_sql, 'Queue status should include the cancelled state' );
+		$this->assertStringContainsString( 'from_email varchar(255)', $all_sql, 'Campaigns should include the per-campaign sender email' );
 		$this->assertStringContainsString( 'opened_at datetime', $all_sql, 'Queue should include first-open timestamp' );
 		$this->assertStringContainsString( 'open_count int(11) UNSIGNED', $all_sql, 'Queue should include open count' );
 		$this->assertStringContainsString( 'UNIQUE KEY tracking_token', $all_sql, 'Tracking token should be unique' );

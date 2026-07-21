@@ -2,6 +2,13 @@
 
 This document provides comprehensive documentation for third-party plugin developers who want to extend or integrate with Mail System by Katsarov Design.
 
+> **Two integration surfaces.** This guide covers the **in-process PHP API** — WordPress
+> hooks and PHP service classes for code running inside the same WordPress install. If you
+> instead need to drive the plugin over HTTP from an **external** system (for example to
+> schedule newsletters from another application), see the JWT-authenticated
+> [REST API](rest-api.md). For an overview of how the layers fit together, see
+> [architecture.md](architecture.md).
+
 ## Table of Contents
 
 1. [Overview](#overview)

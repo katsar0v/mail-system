@@ -65,6 +65,13 @@ class Email_Service {
 	private $tracking_service;
 
 	/**
+	 * Number of recipients actually queued by the most recent queue_campaign() call.
+	 *
+	 * @var int
+	 */
+	private $last_queued_count = 0;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -140,9 +147,37 @@ class Email_Service {
 		update_option( 'mskd_total_campaigns_created', $total_campaigns + 1 );
 
 		// Add subscribers to queue using batch processing.
-		$queued = $this->batch_queue_subscribers( $campaign_id, $subscribers, $subject, $body, $scheduled_at );
+		$queued                  = $this->batch_queue_subscribers( $campaign_id, $subscribers, $subject, $body, $scheduled_at );
+		$this->last_queued_count = $queued;
 
 		return $campaign_id;
+	}
+
+	/**
+	 * Get the number of recipients actually queued by the most recent queue_campaign() call.
+	 *
+	 * @return int
+	 */
+	public function get_last_queued_count(): int {
+		return $this->last_queued_count;
+	}
+
+	/**
+	 * Execute a database transaction control statement.
+	 *
+	 * Wrapper kept separate so callers (e.g. the application layer) can coordinate an
+	 * atomic campaign write without duplicating the raw SQL.
+	 *
+	 * @param string $statement One of START TRANSACTION, COMMIT, ROLLBACK.
+	 * @return void
+	 */
+	public function transaction( string $statement ): void {
+		$allowed = array( 'START TRANSACTION', 'COMMIT', 'ROLLBACK' );
+		if ( ! in_array( $statement, $allowed, true ) ) {
+			return;
+		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transaction control, no caching applicable.
+		$this->wpdb->query( $statement );
 	}
 
 	/**

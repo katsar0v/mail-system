@@ -143,17 +143,28 @@ class MSKD_Cron_Handler {
 				continue;
 			}
 
-			// Mark as processing.
-			$wpdb->update(
+			// Atomically claim the item: only the worker that flips it from `pending`
+			// to `processing` proceeds. This prevents two overlapping cron runs from
+			// sending the same email twice.
+			$claimed = $wpdb->update(
 				$wpdb->prefix . 'mskd_queue',
 				array(
-					'status'   => 'processing',
-					'attempts' => $item->attempts + 1,
+					'status'                => 'processing',
+					'attempts'              => $item->attempts + 1,
+					'processing_started_at' => current_time( 'mysql' ),
 				),
-				array( 'id' => $item->id ),
-				array( '%s', '%d' ),
-				array( '%d' )
+				array(
+					'id'     => $item->id,
+					'status' => 'pending',
+				),
+				array( '%s', '%d', '%s' ),
+				array( '%d', '%s' )
 			);
+
+			if ( ! $claimed ) {
+				// Another cron run already claimed this item.
+				continue;
+			}
 
 			// Prepare headers for Bcc if available.
 			// For regular campaigns, only send Bcc with the first email (bcc_sent = 0).
@@ -372,13 +383,17 @@ class MSKD_Cron_Handler {
 		$timeout_timestamp = mskd_normalize_timestamp( strtotime( '-' . self::PROCESSING_TIMEOUT_MINUTES . ' minutes' ) );
 		$timeout_threshold = mskd_local_time_from_timestamp( $timeout_timestamp );
 
-		// Find emails stuck in processing status.
+		// Find emails stuck in processing status. Recovery is keyed off when the item
+		// was actually claimed (processing_started_at), not its original schedule, so a
+		// far-future scheduled item that gets claimed and then stalls is still recovered.
+		// Rows claimed before this column existed fall back to their schedule time.
 		$stuck_items = $wpdb->get_results(
 			$wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
 				"SELECT id, attempts FROM {$wpdb->prefix}mskd_queue
 		          WHERE status = 'processing'
-		          AND scheduled_at < %s",
+		          AND ( processing_started_at < %s OR ( processing_started_at IS NULL AND scheduled_at < %s ) )",
+				$timeout_threshold,
 				$timeout_threshold
 			)
 		);
@@ -389,12 +404,13 @@ class MSKD_Cron_Handler {
 				$wpdb->update(
 					$wpdb->prefix . 'mskd_queue',
 					array(
-						'status'        => 'pending',
-						'scheduled_at'  => mskd_current_time_normalized(),
-						'error_message' => __( 'Recovered after stuck in processing', 'mail-system' ),
+						'status'                => 'pending',
+						'scheduled_at'          => mskd_current_time_normalized(),
+						'processing_started_at' => null,
+						'error_message'         => __( 'Recovered after stuck in processing', 'mail-system' ),
 					),
 					array( 'id' => $item->id ),
-					array( '%s', '%s', '%s' ),
+					array( '%s', '%s', '%s', '%s' ),
 					array( '%d' )
 				);
 			} else {

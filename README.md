@@ -53,6 +53,7 @@ The plugin ships without a required build step and works out of the box without 
 | One-time email | `mskd-one-time-email` | Send a single email to one subscriber. |
 | Queue | `mskd-queue` | Inspect delivery status and per-campaign open/click analytics. |
 | Settings | `mskd-settings` | Configure SMTP, sending rate, and plugin options. |
+| API Access | `mskd-api` | Create and revoke JWT tokens for the REST API. |
 | Import / Export | `mskd-import-export` | Bulk import or export subscribers and lists (CSV or JSON). |
 | Shortcodes | `mskd-shortcodes` | Reference for available shortcodes and parameters. |
 
@@ -211,6 +212,8 @@ mail-system.php                  Plugin bootstrap and activation hooks
 includes/class-activator.php     Activation: table creation and cron scheduling
 includes/class-mskd-deactivator.php  Deactivation: cron teardown
 includes/Admin/                  Admin menu, controllers, assets, and notices
+includes/Application/            Application services: campaign scheduling and queries
+includes/Api/                    JWT codec, token service, and REST controller
 includes/services/               Business logic: email, subscriber, list, queue, SMTP, import/export
 admin/partials/                  WordPress admin templates
 admin/css/                       Admin styles
@@ -219,6 +222,31 @@ admin/editor/                    Visual email editor assets
 public/                          Front-end shortcode rendering
 tests/                           PHPUnit test suite
 languages/                       POT, PO, and MO translation files
+```
+
+See [`docs/architecture.md`](docs/architecture.md) for how the adapter, application, and
+persistence layers fit together.
+
+## REST API
+
+A JWT-authenticated REST API under `mail-system/v1` lets external systems schedule and
+inspect campaigns:
+
+- `GET /wp-json/mail-system/v1/lists` — available recipient lists
+- `POST /wp-json/mail-system/v1/campaigns` — schedule a newsletter
+- `GET /wp-json/mail-system/v1/campaigns/{id}` — campaign status and counts
+- `POST /wp-json/mail-system/v1/campaigns/{id}/cancel` — cancel unsent recipients
+
+Create and revoke bearer tokens under **Mail System → API Access** (each token has a name,
+scopes, and an expiry, and is shown only once). Full reference, request/response schemas,
+and cURL examples are in [`docs/rest-api.md`](docs/rest-api.md).
+
+```bash
+curl -X POST https://your-site.example/wp-json/mail-system/v1/campaigns \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Idempotency-Key: newsletter-2026-07-22" \
+  -H "Content-Type: application/json" \
+  -d '{"subject":"July newsletter","body":"<h1>Hello</h1>","list_ids":["12"]}'
 ```
 
 ## Internationalization
@@ -239,7 +267,7 @@ Bundled translations: English (`en_US`, default), Bulgarian (`bg_BG`), German (`
 
 ## Uninstall Behavior
 
-Uninstalling the plugin drops all custom tables (`mskd_subscribers`, `mskd_lists`, `mskd_subscriber_list`, `mskd_queue`), deletes stored options, and clears the scheduled cron event.
+Uninstalling the plugin drops all custom tables (`mskd_subscribers`, `mskd_lists`, `mskd_subscriber_list`, `mskd_queue`, `mskd_campaigns`, `mskd_templates`, `mskd_clicks`, `mskd_api_tokens`), deletes stored options, and clears the scheduled cron event.
 
 ## License
 

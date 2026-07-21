@@ -120,6 +120,13 @@ class Admin {
 	private Admin_Visual_Editor $visual_editor;
 
 	/**
+	 * API Access controller.
+	 *
+	 * @var Admin_Api
+	 */
+	private Admin_Api $api;
+
+	/**
 	 * Constructor - initialize controllers.
 	 */
 	public function __construct() {
@@ -133,6 +140,7 @@ class Admin {
 		$this->import_export = new Admin_Import_Export();
 		$this->templates     = new Admin_Templates();
 		$this->visual_editor = new Admin_Visual_Editor();
+		$this->api           = new Admin_Api();
 
 		// Initialize infrastructure controllers.
 		$this->dashboard = new Admin_Dashboard();
@@ -149,6 +157,7 @@ class Admin {
 				'import_export' => $this->import_export,
 				'templates'     => $this->templates,
 				'visual_editor' => $this->visual_editor,
+				'api'           => $this->api,
 			)
 		);
 	}
@@ -189,6 +198,16 @@ class Admin {
 		$this->settings->handle_actions();
 		$this->import_export->handle_actions();
 		$this->templates->handle_actions();
+		$this->api->handle_actions();
+	}
+
+	/**
+	 * Get the API Access controller.
+	 *
+	 * @return Admin_Api
+	 */
+	public function get_api_controller(): Admin_Api {
+		return $this->api;
 	}
 
 	/**

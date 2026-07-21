@@ -8,12 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **JWT-authenticated REST API for campaign scheduling (#118)**
+  - New `mail-system/v1` REST namespace: `GET /lists`, `POST /campaigns`, `GET /campaigns/{id}`, and `POST /campaigns/{id}/cancel`
+  - Bearer-token authentication using self-contained HS256 JSON Web Tokens signed with a secret derived from the site's WordPress salts — no production Composer dependency
+  - Scopes (`campaigns:read`, `campaigns:write`) enforced per route; `Idempotency-Key` header prevents duplicate scheduling on client retries; optional ISO-8601 `scheduled_at` with rejection of malformed or past times
+  - New **Mail System → API Access** admin page to create tokens (name, expiry of 30/90/365 days or never, scopes) and revoke them; generated tokens are shown once and only a hash of each token identifier is stored, so deleting a token immediately and irreversibly revokes it
+  - New `docs/rest-api.md` (endpoint reference, cURL examples, error catalogue, `Authorization`-header troubleshooting) and `docs/architecture.md` (layering overview)
+- **Reusable campaign application service** — `MSKD\Application\Campaign_Service` centralizes campaign validation, list resolution, recipient deduplication and scheduling so the admin compose wizard and the REST API enforce identical rules. `MSKD\Application\Campaign_Query_Service` provides campaign status and list read models.
 
 ### Changed
+- Campaign creation is now **transactional**: the campaign row and its queue entries are committed together, and a campaign that ends up with zero deliverable recipients is rolled back instead of being reported as a successful, empty send. The admin compose controller reports the actual number of recipients queued.
+- The compose controller now delegates recipient resolution, Bcc validation and scheduling to the shared `Campaign_Service` rather than duplicating that logic.
 
 ### Fixed
+- **Fresh-install schema drift** — a brand-new installation's campaigns table was missing the `bcc`, `bcc_sent`, `from_email`, and `from_name` columns that every campaign insert expects, and the queue `status` enum omitted the `cancelled` state that cancellation code writes. The canonical schema now includes them, and an upgrade path (schema version 1.9.0) repairs existing installs.
 
 ### Security
+- **Duplicate delivery from overlapping cron runs** — the queue worker now atomically claims each pending item (a guarded `pending → processing` transition backed by a new `processing_started_at` column and a composite `(status, scheduled_at)` index) before sending, so two concurrent cron runs can no longer send the same email twice. Stuck-item recovery is keyed off when an item was actually claimed rather than its original schedule.
+- REST-supplied email bodies are constrained to the plugin's email-safe HTML allowlist (`mskd_kses_email`), and the JWT decoder accepts only `HS256`, rejecting the `alg:none` bypass and asymmetric-to-symmetric algorithm-confusion attacks.
 
 ## [1.1.2] - 2026-07-17
 

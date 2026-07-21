@@ -18,12 +18,18 @@ global $wpdb;
 // Delete plugin options.
 delete_option( 'mskd_settings' );
 delete_option( 'mskd_db_version' );
+delete_option( 'mskd_total_campaigns_created' );
+delete_option( 'mskd_share_notice_dismissed' );
+delete_option( 'mskd_last_cron_run' );
 
 // Drop custom tables.
 $tables = array(
+	$wpdb->prefix . 'mskd_api_tokens',
 	$wpdb->prefix . 'mskd_subscriber_list',
 	$wpdb->prefix . 'mskd_clicks',
 	$wpdb->prefix . 'mskd_queue',
+	$wpdb->prefix . 'mskd_campaigns',
+	$wpdb->prefix . 'mskd_templates',
 	$wpdb->prefix . 'mskd_subscribers',
 	$wpdb->prefix . 'mskd_lists',
 );

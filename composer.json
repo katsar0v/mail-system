@@ -36,6 +36,8 @@
         "psr-4": {
             "MSKD\\Admin\\": "includes/Admin/",
             "MSKD\\Services\\": "includes/services/",
+            "MSKD\\Application\\": "includes/Application/",
+            "MSKD\\Api\\": "includes/Api/",
             "MSKD\\Traits\\": "includes/traits/",
             "MSKD\\Models\\": "includes/models/",
             "MSKD\\Tests\\": "tests/"
