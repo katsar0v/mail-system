@@ -150,6 +150,16 @@ class Admin_Menu {
 			array( $this->controllers['settings'], 'render' )
 		);
 
+		// API Access.
+		add_submenu_page(
+			self::PAGE_PREFIX . 'dashboard',
+			__( 'API Access', 'mail-system' ),
+			__( 'API Access', 'mail-system' ),
+			'manage_options',
+			self::PAGE_PREFIX . 'api',
+			array( $this->controllers['api'], 'render' )
+		);
+
 		// Import/Export.
 		add_submenu_page(
 			self::PAGE_PREFIX . 'dashboard',

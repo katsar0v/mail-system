@@ -244,72 +244,39 @@ class Admin_Email {
 			}
 		}
 
-		// Validate Bcc email addresses if provided.
-		$bcc_validation = $this->validate_bcc_emails( $bcc );
-		if ( true !== $bcc_validation ) {
-			add_settings_error(
-				'mskd_messages',
-				'mskd_error',
-				$bcc_validation,
-				'error'
-			);
-			return;
-		}
+		// Resolve scheduling from the compose form.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_actions() before calling this method.
+		$scheduled_at = $this->service->calculate_scheduled_time( wp_unslash( $_POST ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_actions() before calling this method.
+		$is_immediate = $this->service->is_immediate_send( wp_unslash( $_POST ) );
 
-		// Get active subscribers from selected lists with full data.
-		$all_subscribers = array();
-		$seen_emails     = array();
-
-		foreach ( $list_ids as $list_id ) {
-			$list_subscribers = \MSKD_List_Provider::get_list_subscribers_full( $list_id );
-			foreach ( $list_subscribers as $subscriber ) {
-				// Dedupe by email.
-				if ( ! in_array( $subscriber->email, $seen_emails, true ) ) {
-					$all_subscribers[] = $subscriber;
-					$seen_emails[]     = $subscriber->email;
-				}
-			}
-		}
-
-		if ( empty( $all_subscribers ) ) {
-			add_settings_error(
-				'mskd_messages',
-				'mskd_error',
-				__( 'No active subscribers in the selected lists.', 'mail-system' ),
-				'error'
-			);
-			return;
-		}
-
-		// Calculate scheduled time.
-		$scheduled_at = $this->service->calculate_scheduled_time( $_POST );
-		$is_immediate = $this->service->is_immediate_send( $_POST );
-
-		// Queue the campaign.
-		$campaign_id = $this->service->queue_campaign(
+		// Delegate validation, recipient resolution, deduplication and atomic persistence
+		// to the shared application service so admin and REST enforce identical rules.
+		$campaign_service = new \MSKD\Application\Campaign_Service( $this->service );
+		$result           = $campaign_service->schedule(
 			array(
 				'subject'      => $subject,
 				'body'         => $body,
 				'list_ids'     => $list_ids,
-				'subscribers'  => $all_subscribers,
-				'scheduled_at' => $scheduled_at,
 				'bcc'          => $bcc,
 				'from_email'   => $from_email,
 				'from_name'    => $from_name,
+				'scheduled_at' => $scheduled_at,
+				'is_immediate' => $is_immediate,
 			)
 		);
 
-		if ( ! $campaign_id ) {
+		if ( ! $result['success'] ) {
 			add_settings_error(
 				'mskd_messages',
 				'mskd_error',
-				__( 'Error creating campaign.', 'mail-system' ),
+				$result['error_message'],
 				'error'
 			);
 			return;
 		}
 
-		$queued = count( $all_subscribers );
+		$queued = $result['queued'];
 
 		if ( $is_immediate ) {
 			$message = sprintf(

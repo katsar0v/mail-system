@@ -37,6 +37,75 @@ if ( ! function_exists( 'wp_get_environment_type' ) ) {
 	}
 }
 
+if ( ! class_exists( 'WP_Error' ) ) {
+	/**
+	 * Minimal WP_Error polyfill for unit tests.
+	 */
+	class WP_Error {
+
+		/**
+		 * Error code.
+		 *
+		 * @var string
+		 */
+		private $code;
+
+		/**
+		 * Error message.
+		 *
+		 * @var string
+		 */
+		private $message;
+
+		/**
+		 * Error data.
+		 *
+		 * @var mixed
+		 */
+		private $data;
+
+		/**
+		 * Constructor.
+		 *
+		 * @param string $code    Error code.
+		 * @param string $message Error message.
+		 * @param mixed  $data    Error data.
+		 */
+		public function __construct( $code = '', $message = '', $data = '' ) {
+			$this->code    = $code;
+			$this->message = $message;
+			$this->data    = $data;
+		}
+
+		/**
+		 * Get the error code.
+		 *
+		 * @return string
+		 */
+		public function get_error_code() {
+			return $this->code;
+		}
+
+		/**
+		 * Get the error message.
+		 *
+		 * @return string
+		 */
+		public function get_error_message() {
+			return $this->message;
+		}
+
+		/**
+		 * Get the error data.
+		 *
+		 * @return mixed
+		 */
+		public function get_error_data() {
+			return $this->data;
+		}
+	}
+}
+
 // Register plugin autoloader for traits and namespaced classes.
 spl_autoload_register(
 	function ( $class_name ) {

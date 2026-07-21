@@ -2832,3 +2832,208 @@ msgstr "%1$d insgesamt; zuletzt %2$s"
 #: public/class-mskd-public.php
 msgid "Invalid tracking link."
 msgstr "Ungültiger Tracking-Link."
+
+#: admin/partials/api-access.php:26
+msgid "30 days"
+msgstr "30 Tage"
+
+#: admin/partials/api-access.php:28
+msgid "365 days"
+msgstr "365 Tage"
+
+#: admin/partials/api-access.php:27
+msgid "90 days"
+msgstr "90 Tage"
+
+#: admin/partials/api-access.php:75
+msgid "A label to help you recognize this token later."
+msgstr "Eine Bezeichnung, die Ihnen hilft, dieses Token später wiederzuerkennen."
+
+#: includes/Application/class-campaign-service.php:87
+msgid "A message body is required."
+msgstr "Ein Nachrichtentext ist erforderlich."
+
+#: includes/Application/class-campaign-service.php:84
+msgid "A subject is required."
+msgstr "Ein Betreff ist erforderlich."
+
+#: includes/Api/class-token-service.php:131
+msgid "A token name is required."
+msgstr "Ein Token-Name ist erforderlich."
+
+#: admin/partials/api-access.php:35
+msgid "API Access"
+msgstr "API-Zugriff"
+
+#: admin/partials/api-access.php:114
+msgid "Active tokens"
+msgstr "Aktive Tokens"
+
+#: includes/Api/class-rest-controller.php:173
+msgid "An Idempotency-Key header is required."
+msgstr "Ein Idempotency-Key-Header ist erforderlich."
+
+#: includes/Application/class-campaign-service.php:90
+msgid "At least one recipient list is required."
+msgstr "Mindestens eine Empfängerliste ist erforderlich."
+
+#: includes/Api/class-token-service.php:136
+msgid "At least one valid scope is required."
+msgstr "Mindestens ein gültiger Geltungsbereich ist erforderlich."
+
+#: includes/Api/class-token-service.php:200
+msgid "Authentication token is missing."
+msgstr "Authentifizierungs-Token fehlt."
+
+#. translators: %s: REST API base URL
+#: admin/partials/api-access.php:46
+#, php-format
+msgid "Base URL: %s"
+msgstr "Basis-URL: %s"
+
+#: admin/partials/api-access.php:55
+msgid "Copy this token now. For your security it is shown only once and cannot be retrieved later."
+msgstr "Kopieren Sie dieses Token jetzt. Aus Sicherheitsgründen wird es nur einmal angezeigt und kann später nicht mehr abgerufen werden."
+
+#: admin/partials/api-access.php:40
+msgid "Create JSON Web Tokens (JWT) to authenticate REST API requests, for example to schedule newsletters from an external system."
+msgstr "Erstellen Sie JSON Web Tokens (JWT), um REST-API-Anfragen zu authentifizieren, zum Beispiel um Newsletter aus einem externen System zu planen."
+
+#: admin/partials/api-access.php:66
+msgid "Create a new token"
+msgstr "Neues Token erstellen"
+
+#: admin/partials/api-access.php:123
+msgid "Expires"
+msgstr "Läuft ab"
+
+#: admin/partials/api-access.php:95
+msgid "Expiry"
+msgstr "Ablauf"
+
+#: admin/partials/api-access.php:109
+msgid "Generate token"
+msgstr "Token generieren"
+
+#: admin/partials/api-access.php:125
+msgid "Last used"
+msgstr "Zuletzt verwendet"
+
+#: admin/partials/api-access.php:134
+#: admin/partials/api-access.php:136
+msgid "Never"
+msgstr "Nie"
+
+#: admin/partials/api-access.php:29
+msgid "Never expires"
+msgstr "Läuft nie ab"
+
+#: admin/partials/api-access.php:116
+msgid "No API tokens have been created yet."
+msgstr "Es wurden noch keine API-Tokens erstellt."
+
+#: includes/Application/class-campaign-service.php:113
+msgid "No active subscribers were found in the selected lists."
+msgstr "In den ausgewählten Listen wurden keine aktiven Abonnenten gefunden."
+
+#: includes/Application/class-campaign-service.php:151
+msgid "No deliverable recipients remained when the campaign was queued."
+msgstr "Beim Einreihen der Kampagne verblieben keine zustellbaren Empfänger."
+
+#: admin/partials/api-access.php:21
+msgid "Read (list lookup, campaign status)"
+msgstr "Lesen (Listenabfrage, Kampagnenstatus)"
+
+#: admin/partials/api-access.php:142
+msgid "Revoke"
+msgstr "Widerrufen"
+
+#: admin/partials/api-access.php:138
+msgid "Revoke this token? Applications using it will stop working immediately."
+msgstr "Dieses Token widerrufen? Anwendungen, die es verwenden, funktionieren sofort nicht mehr."
+
+#: admin/partials/api-access.php:79
+#: admin/partials/api-access.php:122
+msgid "Scopes"
+msgstr "Geltungsbereiche"
+
+#: admin/partials/api-access.php:60
+msgid "Send it as an HTTP header:"
+msgstr "Senden Sie es als HTTP-Header:"
+
+#: includes/Api/class-token-service.php:232
+msgid "The API token has been revoked."
+msgstr "Das API-Token wurde widerrufen."
+
+#: includes/Api/class-token-service.php:221
+#: includes/Api/class-token-service.php:237
+msgid "The API token has expired."
+msgstr "Das API-Token ist abgelaufen."
+
+#: includes/Api/class-token-service.php:206
+#: includes/Api/class-token-service.php:211
+#: includes/Api/class-token-service.php:226
+msgid "The API token is invalid."
+msgstr "Das API-Token ist ungültig."
+
+#: includes/Api/class-token-service.php:218
+msgid "The API token is not yet valid."
+msgstr "Das API-Token ist noch nicht gültig."
+
+#: includes/Application/class-campaign-service.php:142
+msgid "The campaign could not be created."
+msgstr "Die Kampagne konnte nicht erstellt werden."
+
+#: includes/Application/class-campaign-service.php:95
+msgid "The custom sender email address is invalid."
+msgstr "Die benutzerdefinierte Absender-E-Mail-Adresse ist ungültig."
+
+#: includes/Api/class-rest-controller.php:335
+msgid "The scheduled_at value is in the past."
+msgstr "Der Wert von scheduled_at liegt in der Vergangenheit."
+
+#: includes/Api/class-rest-controller.php:325
+msgid "The scheduled_at value is not a valid ISO-8601 timestamp."
+msgstr "Der Wert von scheduled_at ist kein gültiger ISO-8601-Zeitstempel."
+
+#: includes/Api/class-token-service.php:179
+msgid "The token could not be saved."
+msgstr "Das Token konnte nicht gespeichert werden."
+
+#: includes/Api/class-token-service.php:242
+msgid "The token owner is no longer allowed to use the API."
+msgstr "Der Token-Inhaber ist nicht mehr berechtigt, die API zu verwenden."
+
+#: includes/Api/class-rest-controller.php:267
+msgid "This campaign can no longer be cancelled."
+msgstr "Diese Kampagne kann nicht mehr abgebrochen werden."
+
+#: includes/Api/class-rest-controller.php:144
+msgid "This token does not have the required scope."
+msgstr "Dieses Token verfügt nicht über den erforderlichen Geltungsbereich."
+
+#: admin/partials/api-access.php:54
+msgid "Token created"
+msgstr "Token erstellt"
+
+#: admin/partials/api-access.php:71
+msgid "Token name"
+msgstr "Token-Name"
+
+#. translators: %s: List identifier
+#: includes/Application/class-campaign-service.php:223
+#, php-format
+msgid "Unknown list: %s"
+msgstr "Unbekannte Liste: %s"
+
+#: admin/partials/api-access.php:22
+msgid "Write (schedule and cancel campaigns)"
+msgstr "Schreiben (Kampagnen planen und abbrechen)"
+
+#: admin/partials/api-access.php:91
+msgid "Write access requires the read scope for the corresponding lookups."
+msgstr "Schreibzugriff erfordert den Lese-Geltungsbereich für die entsprechenden Abfragen."
+
+#: admin/partials/api-access.php:74
+msgid "e.g. Newsletter scheduler"
+msgstr "z. B. Newsletter-Planer"

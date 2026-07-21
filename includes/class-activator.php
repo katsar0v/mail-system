@@ -19,7 +19,7 @@ class MSKD_Activator {
 	/**
 	 * Database version for tracking schema updates
 	 */
-	const DB_VERSION = '1.8.0';
+	const DB_VERSION = '1.9.0';
 
 	/**
 	 * Activate the plugin
@@ -205,6 +205,73 @@ class MSKD_Activator {
 			// dbDelta adds missing analytics columns, tables, and indexes while preserving queue data.
 			self::create_tables();
 		}
+
+		// Upgrade to 1.9.0: JWT REST API support, queue-claiming safety, and schema drift repair.
+		if ( version_compare( $from_version, '1.9.0', '<' ) ) {
+			self::upgrade_to_190();
+		}
+	}
+
+	/**
+	 * Upgrade routine for schema version 1.9.0.
+	 *
+	 * Repairs campaign schema drift (from_email/from_name on installs created from the
+	 * buggy fresh-install schema), adds the queue-claiming safety fields, extends the
+	 * queue status enum with `cancelled`, and creates the API tokens table.
+	 */
+	private static function upgrade_to_190() {
+		global $wpdb;
+
+		$table_queue     = $wpdb->prefix . 'mskd_queue';
+		$table_campaigns = $wpdb->prefix . 'mskd_campaigns';
+
+		// Ensure the campaigns table carries per-campaign sender columns even on installs
+		// that were created from the previously-incomplete fresh-install schema.
+		self::maybe_add_column( $table_campaigns, 'bcc', 'ADD COLUMN bcc text DEFAULT NULL AFTER list_ids' );
+		self::maybe_add_column( $table_campaigns, 'bcc_sent', 'ADD COLUMN bcc_sent tinyint(1) DEFAULT 0 AFTER bcc' );
+		self::maybe_add_column( $table_campaigns, 'from_email', 'ADD COLUMN from_email varchar(255) DEFAULT NULL AFTER bcc_sent' );
+		self::maybe_add_column( $table_campaigns, 'from_name', 'ADD COLUMN from_name varchar(255) DEFAULT NULL AFTER from_email' );
+
+		// Extend the queue status enum with `cancelled` (dbDelta cannot alter enum members).
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
+		$wpdb->query(
+			"ALTER TABLE {$table_queue} MODIFY COLUMN status enum('pending','processing','sent','failed','cancelled') DEFAULT 'pending'"
+		);
+
+		// Add the processing timestamp used for atomic claiming and stuck-job recovery.
+		self::maybe_add_column( $table_queue, 'processing_started_at', 'ADD COLUMN processing_started_at datetime DEFAULT NULL AFTER sent_at' );
+
+		// Add a composite index that backs the claim query (status + due time).
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
+		$index_exists = $wpdb->get_results(
+			$wpdb->prepare( "SHOW INDEX FROM {$table_queue} WHERE Key_name = %s", 'status_scheduled' )
+		);
+		if ( empty( $index_exists ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
+			$wpdb->query( "ALTER TABLE {$table_queue} ADD KEY status_scheduled (status, scheduled_at)" );
+		}
+
+		// Create the API tokens table.
+		self::create_api_tokens_table();
+	}
+
+	/**
+	 * Add a column to a table only when it does not already exist.
+	 *
+	 * @param string $table       Fully-qualified table name.
+	 * @param string $column      Column name to check.
+	 * @param string $alter_clause The ALTER TABLE clause (without the table name), e.g. "ADD COLUMN foo int".
+	 */
+	private static function maybe_add_column( $table, $column, $alter_clause ) {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
+		$exists = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$table} LIKE %s", $column ) );
+
+		if ( empty( $exists ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table and clause are internal, hardcoded, and safe.
+			$wpdb->query( "ALTER TABLE {$table} {$alter_clause}" );
+		}
 	}
 
 	/**
@@ -266,6 +333,10 @@ class MSKD_Activator {
             subject varchar(255) NOT NULL,
             body longtext NOT NULL,
             list_ids text DEFAULT NULL,
+            bcc text DEFAULT NULL,
+            bcc_sent tinyint(1) DEFAULT 0,
+            from_email varchar(255) DEFAULT NULL,
+            from_name varchar(255) DEFAULT NULL,
             type enum('campaign','one_time') DEFAULT 'campaign',
             total_recipients int(11) DEFAULT 0,
             status enum('pending','processing','completed','cancelled') DEFAULT 'pending',
@@ -275,7 +346,8 @@ class MSKD_Activator {
             PRIMARY KEY (id),
             KEY status (status),
             KEY scheduled_at (scheduled_at),
-            KEY type (type)
+            KEY type (type),
+            KEY from_email (from_email)
         ) $charset_collate;";
 
 		// Queue table.
@@ -287,9 +359,10 @@ class MSKD_Activator {
             subscriber_data text DEFAULT NULL,
             subject varchar(255) NOT NULL,
             body longtext NOT NULL,
-            status enum('pending','processing','sent','failed') DEFAULT 'pending',
+            status enum('pending','processing','sent','failed','cancelled') DEFAULT 'pending',
             scheduled_at datetime DEFAULT CURRENT_TIMESTAMP,
             sent_at datetime DEFAULT NULL,
+            processing_started_at datetime DEFAULT NULL,
             tracking_token varchar(64) DEFAULT NULL,
 			click_token varchar(64) DEFAULT NULL,
             opened_at datetime DEFAULT NULL,
@@ -302,6 +375,7 @@ class MSKD_Activator {
             KEY subscriber_id (subscriber_id),
             KEY status (status),
             KEY scheduled_at (scheduled_at),
+            KEY status_scheduled (status, scheduled_at),
             UNIQUE KEY tracking_token (tracking_token),
 			UNIQUE KEY click_token (click_token),
             KEY opened_at (opened_at)
@@ -345,6 +419,23 @@ class MSKD_Activator {
             KEY status (status)
         ) $charset_collate;";
 
+		// API tokens table (JWT authentication for the REST API).
+		$table_api_tokens = $wpdb->prefix . 'mskd_api_tokens';
+		$sql_api_tokens   = "CREATE TABLE $table_api_tokens (
+            id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            name varchar(191) NOT NULL,
+            jti_hash char(64) NOT NULL,
+            user_id bigint(20) UNSIGNED NOT NULL,
+            scopes varchar(255) NOT NULL DEFAULT '',
+            expires_at datetime DEFAULT NULL,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            last_used_at datetime DEFAULT NULL,
+            PRIMARY KEY (id),
+            UNIQUE KEY jti_hash (jti_hash),
+            KEY user_id (user_id),
+            KEY expires_at (expires_at)
+        ) $charset_collate;";
+
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		dbDelta( $sql_subscribers );
@@ -354,6 +445,35 @@ class MSKD_Activator {
 		dbDelta( $sql_queue );
 		dbDelta( $sql_clicks );
 		dbDelta( $sql_templates );
+		dbDelta( $sql_api_tokens );
+	}
+
+	/**
+	 * Create the API tokens table (used for upgrades).
+	 */
+	private static function create_api_tokens_table() {
+		global $wpdb;
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$table_api_tokens = $wpdb->prefix . 'mskd_api_tokens';
+		$sql_api_tokens   = "CREATE TABLE $table_api_tokens (
+            id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            name varchar(191) NOT NULL,
+            jti_hash char(64) NOT NULL,
+            user_id bigint(20) UNSIGNED NOT NULL,
+            scopes varchar(255) NOT NULL DEFAULT '',
+            expires_at datetime DEFAULT NULL,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            last_used_at datetime DEFAULT NULL,
+            PRIMARY KEY (id),
+            UNIQUE KEY jti_hash (jti_hash),
+            KEY user_id (user_id),
+            KEY expires_at (expires_at)
+        ) $charset_collate;";
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $sql_api_tokens );
 	}
 
 	/**

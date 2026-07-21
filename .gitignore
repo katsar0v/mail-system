@@ -27,3 +27,6 @@ public/css/
 
 # Project configuration
 .kilocode/
+
+# Session notes / scratch artifacts
+session-*.md

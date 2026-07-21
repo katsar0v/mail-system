@@ -65,6 +65,13 @@ class Email_Service {
 	private $tracking_service;
 
 	/**
+	 * Number of recipients actually queued by the most recent queue_campaign() call.
+	 *
+	 * @var int
+	 */
+	private $last_queued_count = 0;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -140,9 +147,37 @@ class Email_Service {
 		update_option( 'mskd_total_campaigns_created', $total_campaigns + 1 );
 
 		// Add subscribers to queue using batch processing.
-		$queued = $this->batch_queue_subscribers( $campaign_id, $subscribers, $subject, $body, $scheduled_at );
+		$queued                  = $this->batch_queue_subscribers( $campaign_id, $subscribers, $subject, $body, $scheduled_at );
+		$this->last_queued_count = $queued;
 
 		return $campaign_id;
+	}
+
+	/**
+	 * Get the number of recipients actually queued by the most recent queue_campaign() call.
+	 *
+	 * @return int
+	 */
+	public function get_last_queued_count(): int {
+		return $this->last_queued_count;
+	}
+
+	/**
+	 * Execute a database transaction control statement.
+	 *
+	 * Wrapper kept separate so callers (e.g. the application layer) can coordinate an
+	 * atomic campaign write without duplicating the raw SQL.
+	 *
+	 * @param string $statement One of START TRANSACTION, COMMIT, ROLLBACK.
+	 * @return void
+	 */
+	public function transaction( string $statement ): void {
+		$allowed = array( 'START TRANSACTION', 'COMMIT', 'ROLLBACK' );
+		if ( ! in_array( $statement, $allowed, true ) ) {
+			return;
+		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transaction control, no caching applicable.
+		$this->wpdb->query( $statement );
 	}
 
 	/**
@@ -549,28 +584,36 @@ class Email_Service {
 			return false;
 		}
 
-		// Cancel all pending/processing queue items for this campaign.
+		// Only pending items are safe to cancel. A processing item may already be
+		// inside the mailer and must be allowed to finish rather than being reported
+		// as cancelled while the message is delivered.
 		$cancelled_count = $this->wpdb->query(
 			$this->wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
 				"UPDATE {$this->queue_table}
 		               SET status = 'cancelled', error_message = %s
-		               WHERE campaign_id = %d AND status IN ('pending', 'processing')",
+		               WHERE campaign_id = %d AND status = 'pending'",
 				__( 'Campaign cancelled by administrator', 'mail-system' ),
 				$id
 			)
 		);
 
-		// Update campaign status.
-		$this->wpdb->update(
-			$this->campaigns_table,
-			array(
-				'status'       => 'cancelled',
-				'completed_at' => current_time( 'mysql' ),
-			),
-			array( 'id' => $id ),
-			array( '%s', '%s' ),
-			array( '%d' )
+		// Mark the campaign cancelled only if no worker has claimed an item. The
+		// worker's guarded claim also refuses cancelled campaigns, closing the race
+		// between this check and the claim.
+		$this->wpdb->query(
+			$this->wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are hardcoded and safe.
+				"UPDATE {$this->campaigns_table} AS c
+				 SET status = 'cancelled', completed_at = %s
+				 WHERE c.id = %d AND c.status IN ('pending', 'processing')
+				 AND NOT EXISTS (
+					 SELECT 1 FROM {$this->queue_table} q
+					 WHERE q.campaign_id = c.id AND q.status = 'processing'
+				 )",
+				current_time( 'mysql' ),
+				$id
+			)
 		);
 
 		return $cancelled_count;

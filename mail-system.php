@@ -43,6 +43,8 @@ define( 'MSKD_BATCH_SIZE', 10 ); // Number of emails to send per minute.
  * - MSKD_* (legacy): MSKD_Admin, MSKD_Cron_Handler, etc.
  * - MSKD\Admin\* (PSR-4): MSKD\Admin\Admin, MSKD\Admin\Admin_Email, etc.
  * - MSKD\Services\* (PSR-4): MSKD\Services\List_Service, etc.
+ * - MSKD\Application\* (PSR-4): MSKD\Application\Campaign_Service, etc.
+ * - MSKD\Api\* (PSR-4): MSKD\Api\Rest_Controller, MSKD\Api\Token_Service, etc.
  */
 spl_autoload_register(
 	function ( $class_name ) {
@@ -172,6 +174,10 @@ function mskd_init() {
 	require_once MSKD_PLUGIN_DIR . 'includes/services/class-mskd-cron-handler.php';
 	$cron = new MSKD_Cron_Handler();
 	$cron->init();
+
+	// Register the JWT-authenticated REST API.
+	$rest_controller = new \MSKD\Api\Rest_Controller();
+	add_action( 'rest_api_init', array( $rest_controller, 'register_routes' ) );
 }
 add_action( 'plugins_loaded', 'mskd_init' );
 

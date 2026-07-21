@@ -100,7 +100,7 @@ class MSKD_Cron_Handler {
 			$wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are hardcoded and safe.
 				"SELECT q.*, s.email, s.first_name, s.last_name, s.unsubscribe_token,
-				       c.bcc, c.bcc_sent, c.type as campaign_type, c.from_email, c.from_name
+			       c.bcc, c.bcc_sent, c.type as campaign_type, c.status as campaign_status, c.from_email, c.from_name
 				FROM {$wpdb->prefix}mskd_queue q
 				INNER JOIN {$wpdb->prefix}mskd_subscribers s ON q.subscriber_id = s.id
 				LEFT JOIN {$wpdb->prefix}mskd_campaigns c ON q.campaign_id = c.id
@@ -143,17 +143,71 @@ class MSKD_Cron_Handler {
 				continue;
 			}
 
-			// Mark as processing.
-			$wpdb->update(
-				$wpdb->prefix . 'mskd_queue',
-				array(
-					'status'   => 'processing',
-					'attempts' => $item->attempts + 1,
-				),
-				array( 'id' => $item->id ),
-				array( '%s', '%d' ),
-				array( '%d' )
-			);
+			// Atomically claim the item: only the worker that flips it from `pending`
+			// to `processing` proceeds. This prevents two overlapping cron runs from
+			// sending the same email twice.
+			if ( method_exists( $wpdb, 'query' ) ) {
+				// Include the campaign state in the guarded claim so a request that
+				// loses the cancellation race cannot claim a newly-cancelled item.
+				$claimed = $wpdb->query(
+					$wpdb->prepare(
+						// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are hardcoded and safe.
+						"UPDATE {$wpdb->prefix}mskd_queue q
+						 SET q.status = 'processing', q.attempts = %d, q.processing_started_at = %s
+						 WHERE q.id = %d AND q.status = 'pending'
+						 AND ( q.campaign_id IS NULL OR NOT EXISTS (
+							 SELECT 1 FROM {$wpdb->prefix}mskd_campaigns c
+							 WHERE c.id = q.campaign_id AND c.status = 'cancelled'
+						 ) )",
+						$item->attempts + 1,
+						current_time( 'mysql' ),
+						$item->id
+					)
+				);
+			} else {
+				// Keep lightweight unit-test wpdb doubles compatible with the normal
+				// guarded pending -> processing transition.
+				$claimed = $wpdb->update(
+					$wpdb->prefix . 'mskd_queue',
+					array(
+						'status'                => 'processing',
+						'attempts'              => $item->attempts + 1,
+						'processing_started_at' => current_time( 'mysql' ),
+					),
+					array(
+						'id'     => $item->id,
+						'status' => 'pending',
+					),
+					array( '%s', '%d', '%s' ),
+					array( '%d', '%s' )
+				);
+			}
+
+			if ( ! $claimed ) {
+				// Another cron run already claimed this item.
+				continue;
+			}
+
+			// Cancellation can commit between the initial select and the claim. In
+			// that case, release the claim without sending the message. If a worker
+			// claimed first, cancellation leaves the campaign processing instead.
+			if ( 'cancelled' === ( $item->campaign_status ?? '' ) ) {
+				$wpdb->update(
+					$wpdb->prefix . 'mskd_queue',
+					array(
+						'status'                => 'cancelled',
+						'processing_started_at' => null,
+						'error_message'         => __( 'Campaign cancelled by administrator', 'mail-system' ),
+					),
+					array(
+						'id'     => $item->id,
+						'status' => 'processing',
+					),
+					array( '%s', '%s', '%s' ),
+					array( '%d', '%s' )
+				);
+				continue;
+			}
 
 			// Prepare headers for Bcc if available.
 			// For regular campaigns, only send Bcc with the first email (bcc_sent = 0).
@@ -372,13 +426,17 @@ class MSKD_Cron_Handler {
 		$timeout_timestamp = mskd_normalize_timestamp( strtotime( '-' . self::PROCESSING_TIMEOUT_MINUTES . ' minutes' ) );
 		$timeout_threshold = mskd_local_time_from_timestamp( $timeout_timestamp );
 
-		// Find emails stuck in processing status.
+		// Find emails stuck in processing status. Recovery is keyed off when the item
+		// was actually claimed (processing_started_at), not its original schedule, so a
+		// far-future scheduled item that gets claimed and then stalls is still recovered.
+		// Rows claimed before this column existed fall back to their schedule time.
 		$stuck_items = $wpdb->get_results(
 			$wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is hardcoded and safe.
 				"SELECT id, attempts FROM {$wpdb->prefix}mskd_queue
 		          WHERE status = 'processing'
-		          AND scheduled_at < %s",
+		          AND ( processing_started_at < %s OR ( processing_started_at IS NULL AND scheduled_at < %s ) )",
+				$timeout_threshold,
 				$timeout_threshold
 			)
 		);
@@ -389,12 +447,13 @@ class MSKD_Cron_Handler {
 				$wpdb->update(
 					$wpdb->prefix . 'mskd_queue',
 					array(
-						'status'        => 'pending',
-						'scheduled_at'  => mskd_current_time_normalized(),
-						'error_message' => __( 'Recovered after stuck in processing', 'mail-system' ),
+						'status'                => 'pending',
+						'scheduled_at'          => mskd_current_time_normalized(),
+						'processing_started_at' => null,
+						'error_message'         => __( 'Recovered after stuck in processing', 'mail-system' ),
 					),
 					array( 'id' => $item->id ),
-					array( '%s', '%s', '%s' ),
+					array( '%s', '%s', '%s', '%s' ),
 					array( '%d' )
 				);
 			} else {
