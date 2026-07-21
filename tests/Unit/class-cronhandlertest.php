@@ -486,6 +486,121 @@ class CronHandlerTest extends TestCase {
 	}
 
 	/**
+	 * A queue item whose campaign was cancelled after selection is released without
+	 * being sent: it is claimed, then flipped to `cancelled`, and never marked `sent`.
+	 */
+	public function test_process_queue_releases_items_for_cancelled_campaign(): void {
+		$wpdb = $this->setup_wpdb_mock();
+
+		$queue_items = array(
+			(object) array(
+				'id'                => 1,
+				'campaign_id'       => 7,
+				'subscriber_id'     => 100,
+				'email'             => 'user@example.com',
+				'first_name'        => 'Test',
+				'last_name'         => 'User',
+				'subject'           => 'Subject',
+				'body'              => 'Body',
+				'status'            => 'pending',
+				'campaign_status'   => 'cancelled',
+				'attempts'          => 0,
+				'unsubscribe_token' => 'abc123def456abc123def456abc12345',
+				'from_email'        => null,
+				'from_name'         => null,
+			),
+		);
+
+		// First get_results is for recover_stuck_emails (returns empty).
+		$wpdb->shouldReceive( 'get_results' )
+			->once()
+			->with(
+				Mockery::on(
+					function ( $query ) {
+						return strpos( $query, "status = 'processing'" ) !== false;
+					}
+				)
+			)
+			->andReturn( array() );
+
+		// Second get_results is for queue items.
+		$wpdb->shouldReceive( 'get_results' )
+			->once()
+			->with(
+				Mockery::on(
+					function ( $query ) {
+						return strpos( $query, "status = 'pending'" ) !== false;
+					}
+				)
+			)
+			->andReturn( $queue_items );
+
+		// Claim: mark as processing.
+		$wpdb->shouldReceive( 'update' )
+			->once()
+			->with(
+				'wp_mskd_queue',
+				Mockery::on(
+					function ( $data ) {
+						return 'processing' === $data['status'];
+					}
+				),
+				Mockery::type( 'array' ),
+				Mockery::type( 'array' ),
+				Mockery::type( 'array' )
+			)
+			->andReturn( 1 );
+
+		// Release: a cancelled campaign short-circuits delivery.
+		$wpdb->shouldReceive( 'update' )
+			->once()
+			->with(
+				'wp_mskd_queue',
+				Mockery::on(
+					function ( $data ) {
+						return 'cancelled' === $data['status'];
+					}
+				),
+				Mockery::type( 'array' ),
+				Mockery::type( 'array' ),
+				Mockery::type( 'array' )
+			)
+			->andReturn( 1 );
+
+		// The message must never be marked sent.
+		$wpdb->shouldReceive( 'update' )
+			->with(
+				'wp_mskd_queue',
+				Mockery::on(
+					function ( $data ) {
+						return isset( $data['status'] ) && 'sent' === $data['status'];
+					}
+				),
+				Mockery::any(),
+				Mockery::any(),
+				Mockery::any()
+			)
+			->never();
+
+		Functions\when( 'get_option' )->alias(
+			function ( $option, $default = false ) {
+				if ( 'mskd_settings' === $option ) {
+					return array(
+						'smtp_enabled' => true,
+						'smtp_host'    => 'smtp.example.com',
+					);
+				}
+				return $default;
+			}
+		);
+
+		$this->cron_handler->process_queue();
+
+		// Reaching here without an unmet expectation proves the item was released, not sent.
+		$this->assertTrue( true );
+	}
+
+	/**
 	 * Test placeholder replacement in email content.
 	 */
 	public function test_placeholder_replacement(): void {

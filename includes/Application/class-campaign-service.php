@@ -122,6 +122,9 @@ class Campaign_Service {
 			: ( $scheduled_at <= mskd_current_time_normalized() );
 
 		// Persist atomically: campaign row and its queue entries succeed or fail together.
+		// Atomicity relies on the plugin tables using InnoDB (the MySQL/MariaDB default);
+		// on a MyISAM install these statements are silently ignored and the write is not
+		// rolled back.
 		$this->email_service->transaction( 'START TRANSACTION' );
 
 		$campaign_id = $this->email_service->queue_campaign(

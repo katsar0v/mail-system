@@ -192,8 +192,9 @@ curl https://your-site.example/wp-json/mail-system/v1/campaigns/42 \
 
 ### POST /campaigns/{id}/cancel
 
-Cancels every unsent (`pending`/`processing`) queue entry for a campaign. Already-sent
-emails are unaffected.
+Cancels every queued (`pending`) entry for a campaign. An entry already being sent
+(`processing`) is allowed to finish, so an in-flight email is never reported as
+cancelled after delivery has started. Already-sent emails are unaffected.
 
 **Required scope:** `campaigns:write`
 

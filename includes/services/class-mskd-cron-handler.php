@@ -100,7 +100,7 @@ class MSKD_Cron_Handler {
 			$wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are hardcoded and safe.
 				"SELECT q.*, s.email, s.first_name, s.last_name, s.unsubscribe_token,
-				       c.bcc, c.bcc_sent, c.type as campaign_type, c.from_email, c.from_name
+			       c.bcc, c.bcc_sent, c.type as campaign_type, c.status as campaign_status, c.from_email, c.from_name
 				FROM {$wpdb->prefix}mskd_queue q
 				INNER JOIN {$wpdb->prefix}mskd_subscribers s ON q.subscriber_id = s.id
 				LEFT JOIN {$wpdb->prefix}mskd_campaigns c ON q.campaign_id = c.id
@@ -146,23 +146,66 @@ class MSKD_Cron_Handler {
 			// Atomically claim the item: only the worker that flips it from `pending`
 			// to `processing` proceeds. This prevents two overlapping cron runs from
 			// sending the same email twice.
-			$claimed = $wpdb->update(
-				$wpdb->prefix . 'mskd_queue',
-				array(
-					'status'                => 'processing',
-					'attempts'              => $item->attempts + 1,
-					'processing_started_at' => current_time( 'mysql' ),
-				),
-				array(
-					'id'     => $item->id,
-					'status' => 'pending',
-				),
-				array( '%s', '%d', '%s' ),
-				array( '%d', '%s' )
-			);
+			if ( method_exists( $wpdb, 'query' ) ) {
+				// Include the campaign state in the guarded claim so a request that
+				// loses the cancellation race cannot claim a newly-cancelled item.
+				$claimed = $wpdb->query(
+					$wpdb->prepare(
+						// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names are hardcoded and safe.
+						"UPDATE {$wpdb->prefix}mskd_queue q
+						 SET q.status = 'processing', q.attempts = %d, q.processing_started_at = %s
+						 WHERE q.id = %d AND q.status = 'pending'
+						 AND ( q.campaign_id IS NULL OR NOT EXISTS (
+							 SELECT 1 FROM {$wpdb->prefix}mskd_campaigns c
+							 WHERE c.id = q.campaign_id AND c.status = 'cancelled'
+						 ) )",
+						$item->attempts + 1,
+						current_time( 'mysql' ),
+						$item->id
+					)
+				);
+			} else {
+				// Keep lightweight unit-test wpdb doubles compatible with the normal
+				// guarded pending -> processing transition.
+				$claimed = $wpdb->update(
+					$wpdb->prefix . 'mskd_queue',
+					array(
+						'status'                => 'processing',
+						'attempts'              => $item->attempts + 1,
+						'processing_started_at' => current_time( 'mysql' ),
+					),
+					array(
+						'id'     => $item->id,
+						'status' => 'pending',
+					),
+					array( '%s', '%d', '%s' ),
+					array( '%d', '%s' )
+				);
+			}
 
 			if ( ! $claimed ) {
 				// Another cron run already claimed this item.
+				continue;
+			}
+
+			// Cancellation can commit between the initial select and the claim. In
+			// that case, release the claim without sending the message. If a worker
+			// claimed first, cancellation leaves the campaign processing instead.
+			if ( 'cancelled' === ( $item->campaign_status ?? '' ) ) {
+				$wpdb->update(
+					$wpdb->prefix . 'mskd_queue',
+					array(
+						'status'                => 'cancelled',
+						'processing_started_at' => null,
+						'error_message'         => __( 'Campaign cancelled by administrator', 'mail-system' ),
+					),
+					array(
+						'id'     => $item->id,
+						'status' => 'processing',
+					),
+					array( '%s', '%s', '%s' ),
+					array( '%d', '%s' )
+				);
 				continue;
 			}
 

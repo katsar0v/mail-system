@@ -60,6 +60,19 @@ class Rest_Controller_Test extends TestCase {
 	}
 
 	/**
+	 * Relative expressions are rejected: only ISO-8601 timestamps are accepted, not
+	 * the natural-language forms DateTime would otherwise parse.
+	 */
+	public function test_parse_scheduled_at_relative_is_rejected(): void {
+		foreach ( array( 'tomorrow', '+1 day', 'now', 'next monday' ) as $relative ) {
+			$result = Rest_Controller::parse_scheduled_at( $relative );
+
+			$this->assertArrayHasKey( 'error', $result, "Expected '{$relative}' to be rejected." );
+			$this->assertSame( 'invalid_schedule', $result['error'] );
+		}
+	}
+
+	/**
 	 * Application error codes map to sensible HTTP statuses.
 	 */
 	public function test_status_for_error_mapping(): void {

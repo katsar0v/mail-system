@@ -38,6 +38,11 @@ class Rest_Controller {
 	const IDEMPOTENCY_TTL = DAY_IN_SECONDS;
 
 	/**
+	 * Maximum time an abandoned idempotency lock may block retries.
+	 */
+	const IDEMPOTENCY_LOCK_TTL = HOUR_IN_SECONDS;
+
+	/**
 	 * Token service.
 	 *
 	 * @var Token_Service
@@ -182,52 +187,109 @@ class Rest_Controller {
 			return new \WP_REST_Response( $stored, 200 );
 		}
 
-		$params = is_array( $request->get_json_params() ) ? $request->get_json_params() : array();
+		// Transient reads and writes are not atomic. Guard the critical section with a
+		// database-level mutex so two concurrent retries with the same key cannot both
+		// create a campaign.
+		$lock_key = $idem_key . '_lock';
+		if ( ! $this->acquire_lock( $lock_key ) ) {
+			$stored = get_transient( $idem_key );
+			if ( is_array( $stored ) ) {
+				return new \WP_REST_Response( $stored, 200 );
+			}
 
-		// Resolve scheduling from an optional ISO-8601 timestamp.
-		$schedule = self::parse_scheduled_at( $params['scheduled_at'] ?? '' );
-		if ( isset( $schedule['error'] ) ) {
-			return new \WP_Error( $schedule['error'], $schedule['message'], array( 'status' => 400 ) );
-		}
-
-		$list_ids = isset( $params['list_ids'] ) ? (array) $params['list_ids'] : array();
-		$bcc      = $params['bcc'] ?? '';
-
-		$campaign_service = new Campaign_Service();
-		$result           = $campaign_service->schedule(
-			array(
-				'subject'      => isset( $params['subject'] ) ? sanitize_text_field( (string) $params['subject'] ) : '',
-				// REST content is untrusted: constrain it to the email-safe HTML allowlist.
-				'body'         => isset( $params['body'] ) ? mskd_kses_email( (string) $params['body'] ) : '',
-				'list_ids'     => array_map( 'sanitize_text_field', $list_ids ),
-				'bcc'          => $bcc,
-				'from_email'   => isset( $params['from_email'] ) ? sanitize_email( (string) $params['from_email'] ) : '',
-				'from_name'    => isset( $params['from_name'] ) ? sanitize_text_field( (string) $params['from_name'] ) : '',
-				'scheduled_at' => $schedule['scheduled_at'],
-				'is_immediate' => $schedule['is_immediate'],
-			)
-		);
-
-		if ( ! $result['success'] ) {
 			return new \WP_Error(
-				$result['error_code'],
-				$result['error_message'],
-				array( 'status' => self::status_for_error( $result['error_code'] ) )
+				'idempotency_in_progress',
+				__( 'Another request with this Idempotency-Key is already being processed.', 'mail-system' ),
+				array( 'status' => 409 )
 			);
 		}
 
-		$response_body = array(
-			'campaign_id'      => $result['campaign_id'],
-			'status'           => $result['is_immediate'] ? 'queued' : 'scheduled',
-			'scheduled_at'     => $result['scheduled_at'],
-			'is_immediate'     => $result['is_immediate'],
-			'queued'           => $result['queued'],
-			'total_recipients' => $result['total_recipients'],
-		);
+		try {
+			$params = is_array( $request->get_json_params() ) ? $request->get_json_params() : array();
 
-		set_transient( $idem_key, $response_body, self::IDEMPOTENCY_TTL );
+			// Resolve scheduling from an optional ISO-8601 timestamp.
+			$schedule = self::parse_scheduled_at( $params['scheduled_at'] ?? '' );
+			if ( isset( $schedule['error'] ) ) {
+				return new \WP_Error( $schedule['error'], $schedule['message'], array( 'status' => 400 ) );
+			}
 
-		return new \WP_REST_Response( $response_body, 201 );
+			$list_ids = isset( $params['list_ids'] ) ? (array) $params['list_ids'] : array();
+			$bcc      = $params['bcc'] ?? '';
+
+			$campaign_service = new Campaign_Service();
+			$result           = $campaign_service->schedule(
+				array(
+					'subject'      => isset( $params['subject'] ) ? sanitize_text_field( (string) $params['subject'] ) : '',
+					// REST content is untrusted: constrain it to the email-safe HTML allowlist.
+					'body'         => isset( $params['body'] ) ? mskd_kses_email( (string) $params['body'] ) : '',
+					'list_ids'     => array_map( 'sanitize_text_field', $list_ids ),
+					'bcc'          => $bcc,
+					'from_email'   => isset( $params['from_email'] ) ? sanitize_email( (string) $params['from_email'] ) : '',
+					'from_name'    => isset( $params['from_name'] ) ? sanitize_text_field( (string) $params['from_name'] ) : '',
+					'scheduled_at' => $schedule['scheduled_at'],
+					'is_immediate' => $schedule['is_immediate'],
+				)
+			);
+
+			if ( ! $result['success'] ) {
+				return new \WP_Error(
+					$result['error_code'],
+					$result['error_message'],
+					array( 'status' => self::status_for_error( $result['error_code'] ) )
+				);
+			}
+
+			$response_body = array(
+				'campaign_id'      => $result['campaign_id'],
+				'status'           => $result['is_immediate'] ? 'queued' : 'scheduled',
+				'scheduled_at'     => $result['scheduled_at'],
+				'is_immediate'     => $result['is_immediate'],
+				'queued'           => $result['queued'],
+				'total_recipients' => $result['total_recipients'],
+			);
+
+			set_transient( $idem_key, $response_body, self::IDEMPOTENCY_TTL );
+
+			return new \WP_REST_Response( $response_body, 201 );
+		} finally {
+			delete_option( $lock_key );
+		}
+	}
+
+	/**
+	 * Acquire a short-lived, database-level mutex.
+	 *
+	 * Uses `INSERT IGNORE` against the options table: the UNIQUE `option_name` index
+	 * makes acquisition atomic, so exactly one concurrent caller inserts the row and
+	 * wins. A lock older than IDEMPOTENCY_LOCK_TTL is treated as abandoned (left behind
+	 * by a crashed request) and reclaimed. Mirrors WP_Upgrader::create_lock().
+	 *
+	 * @param string $lock_key Option name to use as the lock.
+	 * @return bool True when the lock was acquired.
+	 */
+	private function acquire_lock( string $lock_key ): bool {
+		global $wpdb;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Atomic mutex acquisition; $wpdb->options is safe and caching would defeat the lock.
+		$acquired = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no')", $lock_key, (string) time() ) );
+
+		if ( $acquired ) {
+			return true;
+		}
+
+		// The row already exists. Reclaim it only if the previous holder crashed and
+		// left it behind past the TTL.
+		$held_since = (int) get_option( $lock_key, 0 );
+		if ( $held_since > 0 && ( time() - $held_since ) <= self::IDEMPOTENCY_LOCK_TTL ) {
+			return false;
+		}
+
+		delete_option( $lock_key );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Atomic mutex acquisition; $wpdb->options is safe and caching would defeat the lock.
+		$acquired = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no')", $lock_key, (string) time() ) );
+
+		return (bool) $acquired;
 	}
 
 	/**
@@ -267,10 +329,12 @@ class Rest_Controller {
 			return new \WP_Error( 'not_cancellable', __( 'This campaign can no longer be cancelled.', 'mail-system' ), array( 'status' => 409 ) );
 		}
 
+		$campaign = $email_service->get_campaign( $id );
+
 		return new \WP_REST_Response(
 			array(
 				'campaign_id' => $id,
-				'status'      => 'cancelled',
+				'status'      => $campaign ? $campaign->status : 'cancelled',
 				'cancelled'   => (int) $cancelled,
 			),
 			200
@@ -313,6 +377,15 @@ class Rest_Controller {
 			return array(
 				'scheduled_at' => '',
 				'is_immediate' => true,
+			);
+		}
+
+		// Require an ISO-8601-style date prefix (YYYY-MM-DD...) so relative expressions
+		// DateTime would otherwise accept ("tomorrow", "+1 day", "now") are rejected.
+		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}/', $raw ) ) {
+			return array(
+				'error'   => 'invalid_schedule',
+				'message' => __( 'The scheduled_at value is not a valid ISO-8601 timestamp.', 'mail-system' ),
 			);
 		}
 

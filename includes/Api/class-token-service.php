@@ -233,8 +233,16 @@ class Token_Service {
 		}
 
 		// Enforce the persisted expiry too, independently of the token's own claim.
-		if ( ! empty( $record->expires_at ) && strtotime( $record->expires_at . ' UTC' ) <= ( $now - self::LEEWAY ) ) {
-			return new \WP_Error( 'expired_token', __( 'The API token has expired.', 'mail-system' ), array( 'status' => 401 ) );
+		if ( ! empty( $record->expires_at ) ) {
+			try {
+				// Database datetimes are stored in the WordPress site timezone, not UTC.
+				$record_expiry = new \DateTime( (string) $record->expires_at, wp_timezone() );
+				if ( $record_expiry->getTimestamp() <= ( $now - self::LEEWAY ) ) {
+					return new \WP_Error( 'expired_token', __( 'The API token has expired.', 'mail-system' ), array( 'status' => 401 ) );
+				}
+			} catch ( \Exception $e ) {
+				return new \WP_Error( 'invalid_token', __( 'The API token is invalid.', 'mail-system' ), array( 'status' => 401 ) );
+			}
 		}
 
 		// The creator must still be an administrator; losing the capability disables the token.
