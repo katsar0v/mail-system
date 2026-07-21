@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The compose controller now delegates recipient resolution, Bcc validation and scheduling to the shared `Campaign_Service` rather than duplicating that logic.
 
 ### Fixed
+- **Full-width admin queue layout (#122)** — the queue table now clears the floated status filters and uses the available WordPress admin content width without forcing page-level horizontal scrolling.
 - **Fresh-install schema drift** — a brand-new installation's campaigns table was missing the `bcc`, `bcc_sent`, `from_email`, and `from_name` columns that every campaign insert expects, and the queue `status` enum omitted the `cancelled` state that cancellation code writes. The canonical schema now includes them, and an upgrade path (schema version 1.9.0) repairs existing installs.
 
 ### Security

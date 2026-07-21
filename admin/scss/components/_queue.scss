@@ -72,20 +72,21 @@
 
 // Queue tables
 .mskd-table-responsive {
+  clear: both;
+  width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .mskd-queue-table {
+  width: 100%;
   min-width: 100%;
 
   .mskd-col-subject {
-    width: 100%;
-    min-width: 220px;
+    width: auto;
   }
 
   .mskd-subject-cell {
-    min-width: 220px;
     word-break: normal;
     overflow-wrap: anywhere;
 
