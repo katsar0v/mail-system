@@ -2789,3 +2789,208 @@ msgstr "%1$d общо; последен %2$s"
 #: public/class-mskd-public.php
 msgid "Invalid tracking link."
 msgstr "Невалиден проследяващ линк."
+
+#: admin/partials/api-access.php:26
+msgid "30 days"
+msgstr "30 дни"
+
+#: admin/partials/api-access.php:28
+msgid "365 days"
+msgstr "365 дни"
+
+#: admin/partials/api-access.php:27
+msgid "90 days"
+msgstr "90 дни"
+
+#: admin/partials/api-access.php:75
+msgid "A label to help you recognize this token later."
+msgstr "Етикет, който да ви помогне да разпознаете този токен по-късно."
+
+#: includes/Application/class-campaign-service.php:87
+msgid "A message body is required."
+msgstr "Изисква се съдържание на съобщението."
+
+#: includes/Application/class-campaign-service.php:84
+msgid "A subject is required."
+msgstr "Изисква се тема."
+
+#: includes/Api/class-token-service.php:131
+msgid "A token name is required."
+msgstr "Изисква се име на токена."
+
+#: admin/partials/api-access.php:35
+msgid "API Access"
+msgstr "API достъп"
+
+#: admin/partials/api-access.php:114
+msgid "Active tokens"
+msgstr "Активни токени"
+
+#: includes/Api/class-rest-controller.php:173
+msgid "An Idempotency-Key header is required."
+msgstr "Изисква се заглавка Idempotency-Key."
+
+#: includes/Application/class-campaign-service.php:90
+msgid "At least one recipient list is required."
+msgstr "Изисква се поне един списък с получатели."
+
+#: includes/Api/class-token-service.php:136
+msgid "At least one valid scope is required."
+msgstr "Изисква се поне един валиден обхват."
+
+#: includes/Api/class-token-service.php:200
+msgid "Authentication token is missing."
+msgstr "Липсва токен за удостоверяване."
+
+#. translators: %s: REST API base URL
+#: admin/partials/api-access.php:46
+#, php-format
+msgid "Base URL: %s"
+msgstr "Базов URL: %s"
+
+#: admin/partials/api-access.php:55
+msgid "Copy this token now. For your security it is shown only once and cannot be retrieved later."
+msgstr "Копирайте този токен сега. За вашата сигурност той се показва само веднъж и не може да бъде възстановен по-късно."
+
+#: admin/partials/api-access.php:40
+msgid "Create JSON Web Tokens (JWT) to authenticate REST API requests, for example to schedule newsletters from an external system."
+msgstr "Създавайте JSON Web токени (JWT) за удостоверяване на заявки към REST API, например за планиране на бюлетини от външна система."
+
+#: admin/partials/api-access.php:66
+msgid "Create a new token"
+msgstr "Създаване на нов токен"
+
+#: admin/partials/api-access.php:123
+msgid "Expires"
+msgstr "Изтича"
+
+#: admin/partials/api-access.php:95
+msgid "Expiry"
+msgstr "Изтичане"
+
+#: admin/partials/api-access.php:109
+msgid "Generate token"
+msgstr "Генериране на токен"
+
+#: admin/partials/api-access.php:125
+msgid "Last used"
+msgstr "Последно използван"
+
+#: admin/partials/api-access.php:134
+#: admin/partials/api-access.php:136
+msgid "Never"
+msgstr "Никога"
+
+#: admin/partials/api-access.php:29
+msgid "Never expires"
+msgstr "Никога не изтича"
+
+#: admin/partials/api-access.php:116
+msgid "No API tokens have been created yet."
+msgstr "Все още не са създадени API токени."
+
+#: includes/Application/class-campaign-service.php:113
+msgid "No active subscribers were found in the selected lists."
+msgstr "Не бяха намерени активни абонати в избраните списъци."
+
+#: includes/Application/class-campaign-service.php:151
+msgid "No deliverable recipients remained when the campaign was queued."
+msgstr "Не останаха получатели за доставка при добавянето на кампанията в опашката."
+
+#: admin/partials/api-access.php:21
+msgid "Read (list lookup, campaign status)"
+msgstr "Четене (преглед на списъци, статус на кампании)"
+
+#: admin/partials/api-access.php:142
+msgid "Revoke"
+msgstr "Отмяна"
+
+#: admin/partials/api-access.php:138
+msgid "Revoke this token? Applications using it will stop working immediately."
+msgstr "Да се отмени ли този токен? Приложенията, които го използват, ще спрат да работят незабавно."
+
+#: admin/partials/api-access.php:79
+#: admin/partials/api-access.php:122
+msgid "Scopes"
+msgstr "Обхвати"
+
+#: admin/partials/api-access.php:60
+msgid "Send it as an HTTP header:"
+msgstr "Изпратете го като HTTP заглавка:"
+
+#: includes/Api/class-token-service.php:232
+msgid "The API token has been revoked."
+msgstr "API токенът е отменен."
+
+#: includes/Api/class-token-service.php:221
+#: includes/Api/class-token-service.php:237
+msgid "The API token has expired."
+msgstr "API токенът е изтекъл."
+
+#: includes/Api/class-token-service.php:206
+#: includes/Api/class-token-service.php:211
+#: includes/Api/class-token-service.php:226
+msgid "The API token is invalid."
+msgstr "API токенът е невалиден."
+
+#: includes/Api/class-token-service.php:218
+msgid "The API token is not yet valid."
+msgstr "API токенът все още не е валиден."
+
+#: includes/Application/class-campaign-service.php:142
+msgid "The campaign could not be created."
+msgstr "Кампанията не можа да бъде създадена."
+
+#: includes/Application/class-campaign-service.php:95
+msgid "The custom sender email address is invalid."
+msgstr "Персонализираният имейл адрес на подателя е невалиден."
+
+#: includes/Api/class-rest-controller.php:335
+msgid "The scheduled_at value is in the past."
+msgstr "Стойността на scheduled_at е в миналото."
+
+#: includes/Api/class-rest-controller.php:325
+msgid "The scheduled_at value is not a valid ISO-8601 timestamp."
+msgstr "Стойността на scheduled_at не е валидна ISO-8601 времева отметка."
+
+#: includes/Api/class-token-service.php:179
+msgid "The token could not be saved."
+msgstr "Токенът не можа да бъде запазен."
+
+#: includes/Api/class-token-service.php:242
+msgid "The token owner is no longer allowed to use the API."
+msgstr "Собственикът на токена вече няма право да използва API."
+
+#: includes/Api/class-rest-controller.php:267
+msgid "This campaign can no longer be cancelled."
+msgstr "Тази кампания вече не може да бъде отменена."
+
+#: includes/Api/class-rest-controller.php:144
+msgid "This token does not have the required scope."
+msgstr "Този токен няма необходимия обхват."
+
+#: admin/partials/api-access.php:54
+msgid "Token created"
+msgstr "Токенът е създаден"
+
+#: admin/partials/api-access.php:71
+msgid "Token name"
+msgstr "Име на токена"
+
+#. translators: %s: List identifier
+#: includes/Application/class-campaign-service.php:223
+#, php-format
+msgid "Unknown list: %s"
+msgstr "Непознат списък: %s"
+
+#: admin/partials/api-access.php:22
+msgid "Write (schedule and cancel campaigns)"
+msgstr "Запис (планиране и отмяна на кампании)"
+
+#: admin/partials/api-access.php:91
+msgid "Write access requires the read scope for the corresponding lookups."
+msgstr "Достъпът за запис изисква обхват за четене за съответните справки."
+
+#: admin/partials/api-access.php:74
+msgid "e.g. Newsletter scheduler"
+msgstr "напр. Планировчик на бюлетини"
