@@ -114,12 +114,13 @@ $queue_items = $wpdb->get_results(
 		</li>
 	</ul>
 
-	<table class="wp-list-table widefat fixed striped">
+	<div class="mskd-table-responsive">
+	<table class="wp-list-table widefat striped mskd-queue-table">
 		<thead>
 			<tr>
 				<th scope="col" style="width: 50px;"><?php esc_html_e( 'ID', 'mail-system' ); ?></th>
 				<th scope="col"><?php esc_html_e( 'Recipient', 'mail-system' ); ?></th>
-				<th scope="col"><?php esc_html_e( 'Subject', 'mail-system' ); ?></th>
+				<th scope="col" class="mskd-col-subject"><?php esc_html_e( 'Subject', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 100px;"><?php esc_html_e( 'Status', 'mail-system' ); ?></th>
 				<th scope="col" style="width: 80px;"><?php esc_html_e( 'Attempts', 'mail-system' ); ?></th>
 				<th scope="col"><?php esc_html_e( 'Scheduled', 'mail-system' ); ?></th>
@@ -161,7 +162,7 @@ $queue_items = $wpdb->get_results(
 								<em><?php esc_html_e( 'Deleted subscriber', 'mail-system' ); ?></em>
 							<?php endif; ?>
 						</td>
-						<td><?php echo esc_html( $item->subject ); ?></td>
+						<td class="mskd-subject-cell"><?php echo esc_html( $item->subject ); ?></td>
 						<td>
 							<span class="mskd-status mskd-status-<?php echo esc_attr( $item->status ); ?>">
 								<?php
@@ -230,6 +231,7 @@ $queue_items = $wpdb->get_results(
 			<?php endif; ?>
 		</tbody>
 	</table>
+	</div>
 
 	<!-- Pagination -->
 	<?php if ( $total_pages > 1 ) : ?>

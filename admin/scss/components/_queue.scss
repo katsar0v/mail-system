@@ -70,6 +70,32 @@
   margin-top: 4px;
 }
 
+// Queue tables
+.mskd-table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mskd-queue-table {
+  min-width: 100%;
+
+  .mskd-col-subject {
+    width: 100%;
+    min-width: 220px;
+  }
+
+  .mskd-subject-cell {
+    min-width: 220px;
+    word-break: normal;
+    overflow-wrap: anywhere;
+
+    a {
+      display: inline-block;
+      max-width: 100%;
+    }
+  }
+}
+
 // Campaign Type Badges
 .mskd-badge-onetime {
   background: $color-info-bg;
