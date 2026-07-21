@@ -371,6 +371,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 			</a>
 		</li>
 	</ul>
+	<br class="clear">
 
 	<?php if ( ! empty( $link_stats ) ) : ?>
 		<h2><?php esc_html_e( 'Link performance', 'mail-system' ); ?></h2>
