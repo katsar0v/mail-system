@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference &amp; Developer Guide - Mail System by Katsarov Design</title>
+    <meta name="description" content="Developer guide for Mail System by Katsarov Design: WordPress hooks, PHP service classes, database schema, email templates, and integration examples.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="doc-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body class="doc-body">
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span class="logo-text">Mail System</span>
+                </a>
+                <nav class="nav">
+                    <a href="index.html#features" data-en="Features" data-bg="Функции">Features</a>
+                    <a href="index.html#installation" data-en="Installation" data-bg="Инсталация">Installation</a>
+                    <a href="index.html#docs" data-en="Documentation" data-bg="Документация">Documentation</a>
+                    <a href="https://github.com/katsar0v/mail-system" target="_blank" rel="noopener" class="nav-github">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <button class="lang-switcher" id="langSwitcher" aria-label="Switch language">
+                        <span class="lang-current">EN</span>
+                    </button>
+                </nav>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="doc-main">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html" data-en="Home" data-bg="Начало">Home</a>
+                <span class="sep">/</span>
+                <a href="index.html#docs" data-en="Documentation" data-bg="Документация">Documentation</a>
+                <span class="sep">/</span>
+                <span class="current">API Reference</span>
+            </nav>
+
+            <div class="doc-hero">
+                <span class="doc-eyebrow" data-en="Developer Guide" data-bg="Ръководство за разработчици">Developer Guide</span>
+                <h1>API Reference &amp; Developer Guide</h1>
+                <p class="doc-lead" data-en="Comprehensive documentation for third-party developers who want to extend or integrate with Mail System by Katsarov Design." data-bg="Изчерпателна документация за разработчици на трети страни, които искат да разширят или интегрират Mail System от Katsarov Design.">Comprehensive documentation for third-party developers who want to extend or integrate with Mail System by Katsarov Design.</p>
+            </div>
+
+            <div class="doc-layout">
+                <aside class="doc-sidebar">
+                    <button class="doc-toc-toggle" id="docTocToggle" aria-expanded="false" aria-controls="docToc" data-en="On this page" data-bg="На тази страница">On this page</button>
+                    <nav class="doc-toc" id="docToc" aria-label="On this page">
+                        <p class="doc-toc-title" data-en="On this page" data-bg="На тази страница">On this page</p>
+                        <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#quick-start">Quick Start</a></li>
+                    <li><a href="#hooks-reference">Hooks Reference</a></li>
+                    <li><a href="#services-api">Services API</a></li>
+                    <li><a href="#database-schema">Database Schema</a></li>
+                    <li><a href="#email-templates">Email Templates</a></li>
+                    <li><a href="#examples">Examples</a></li>
+                    <li><a href="#best-practices">Best Practices</a></li>
+                    <li><a href="#troubleshooting">Troubleshooting</a></li>
+                    <li><a href="#constants">Constants</a></li>
+                    <li><a href="#support">Support</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <article class="doc-content">
+<blockquote>
+<p><strong>Two integration surfaces.</strong> This guide covers the <strong>in-process PHP API</strong> — WordPress
+hooks and PHP service classes for code running inside the same WordPress install. If you
+instead need to drive the plugin over HTTP from an <strong>external</strong> system (for example to
+schedule newsletters from another application), see the JWT-authenticated
+<a href="https://github.com/katsar0v/mail-system/blob/main/docs/rest-api.md">REST API</a>. For an overview of how the layers fit together, see
+<a href="https://github.com/katsar0v/mail-system/blob/main/docs/architecture.md">architecture.md</a>.</p>
+</blockquote>
+<h2 id="overview" class="doc-heading doc-h2">Overview<a class="heading-anchor" href="#overview" aria-label="Permalink to this section">#</a></h2>
+<p>The Mail System provides a hook-based architecture that allows third-party plugins to:</p>
+<ul>
+<li><strong>Register external lists</strong> - Add automated/dynamic subscriber lists</li>
+<li><strong>Register external subscribers</strong> - Add subscribers from external sources (CRM, WooCommerce, etc.)</li>
+<li><strong>Control editability</strong> - Lock specific lists or subscribers from being modified</li>
+<li><strong>Extend email functionality</strong> - Modify email content, add custom placeholders</li>
+<li><strong>Manage email templates</strong> - Create, edit, and use reusable email templates</li>
+</ul>
+<h3 id="key-concepts" class="doc-heading doc-h3">Key Concepts<a class="heading-anchor" href="#key-concepts" aria-label="Permalink to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Database entities</strong></td>
+<td>Lists and subscribers stored in <code>mskd_*</code> tables</td>
+</tr>
+<tr>
+<td><strong>External entities</strong></td>
+<td>Lists and subscribers provided dynamically via hooks</td>
+</tr>
+<tr>
+<td><strong>External ID prefix</strong></td>
+<td>All external IDs are prefixed with <code>ext_</code> automatically</td>
+</tr>
+<tr>
+<td><strong>Provider</strong></td>
+<td>Name of the plugin/source providing external entities</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="quick-start" class="doc-heading doc-h2">Quick Start<a class="heading-anchor" href="#quick-start" aria-label="Permalink to this section">#</a></h2>
+<h3 id="register-an-external-list" class="doc-heading doc-h3">Register an External List<a class="heading-anchor" href="#register-an-external-list" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">add_filter( &#39;mskd_register_external_lists&#39;, &#39;my_plugin_register_lists&#39; );
+
+function my_plugin_register_lists( $lists ) {
+    $lists[] = array(
+        &#39;id&#39;          =&gt; &#39;my_plugin_vip_users&#39;,
+        &#39;name&#39;        =&gt; &#39;VIP Users&#39;,
+        &#39;description&#39; =&gt; &#39;Users with VIP membership&#39;,
+        &#39;provider&#39;    =&gt; &#39;My Plugin&#39;,
+        &#39;subscriber_callback&#39; =&gt; &#39;my_plugin_get_vip_subscribers&#39;,
+    );
+    return $lists;
+}
+
+function my_plugin_get_vip_subscribers() {
+    // Return array of subscriber arrays
+    // &#39;email&#39; is required, &#39;first_name&#39; and &#39;last_name&#39; are optional
+    return array(
+        array(
+            &#39;email&#39;      =&gt; &#39;john@example.com&#39;,
+            &#39;first_name&#39; =&gt; &#39;John&#39;,
+            &#39;last_name&#39;  =&gt; &#39;Doe&#39;,
+        ),
+        array(
+            &#39;email&#39;      =&gt; &#39;jane@example.com&#39;,
+            &#39;first_name&#39; =&gt; &#39;Jane&#39;,
+            &#39;last_name&#39;  =&gt; &#39;Smith&#39;,
+        ),
+        array(
+            &#39;email&#39;      =&gt; &#39;user@example.com&#39;, // Minimal - only email
+        ),
+    );
+}
+</code></pre>
+<h3 id="register-external-subscribers" class="doc-heading doc-h3">Register External Subscribers<a class="heading-anchor" href="#register-external-subscribers" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">add_filter( &#39;mskd_register_external_subscribers&#39;, &#39;my_plugin_register_subscribers&#39;, 10, 2 );
+
+function my_plugin_register_subscribers( $subscribers, $args ) {
+    $subscribers[] = array(
+        &#39;id&#39;         =&gt; &#39;crm_contact_123&#39;,
+        &#39;email&#39;      =&gt; &#39;john@example.com&#39;,
+        &#39;first_name&#39; =&gt; &#39;John&#39;,
+        &#39;last_name&#39;  =&gt; &#39;Doe&#39;,
+        &#39;status&#39;     =&gt; &#39;active&#39;,
+        &#39;provider&#39;   =&gt; &#39;My CRM Plugin&#39;,
+    );
+    return $subscribers;
+}
+</code></pre>
+<hr>
+<h2 id="hooks-reference" class="doc-heading doc-h2">Hooks Reference<a class="heading-anchor" href="#hooks-reference" aria-label="Permalink to this section">#</a></h2>
+<h3 id="lists-hooks" class="doc-heading doc-h3">Lists Hooks<a class="heading-anchor" href="#lists-hooks" aria-label="Permalink to this section">#</a></h3>
+<h4 id="mskd_register_external_lists" class="doc-heading doc-h4"><code>mskd_register_external_lists</code><a class="heading-anchor" href="#mskd_register_external_lists" aria-label="Permalink to this section">#</a></h4>
+<p>Register external/automated subscriber lists that appear alongside database lists.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>string|int</td>
+<td>Yes</td>
+<td>Unique identifier (auto-prefixed with <code>ext_</code>)</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Yes</td>
+<td>Display name in admin interface</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>No</td>
+<td>Description shown in lists table</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>string</td>
+<td>No</td>
+<td>Plugin/provider name. Default: &quot;External&quot;</td>
+</tr>
+<tr>
+<td><code>subscriber_callback</code></td>
+<td>callable</td>
+<td>No</td>
+<td>Returns array of subscriber arrays (see format below)</td>
+</tr>
+</tbody></table></div>
+<p><strong>Example:</strong></p>
+<pre><code class="language-php">add_filter( &#39;mskd_register_external_lists&#39;, function( $lists ) {
+    $lists[] = array(
+        &#39;id&#39;                  =&gt; &#39;recent_buyers&#39;,
+        &#39;name&#39;                =&gt; &#39;Recent Buyers&#39;,
+        &#39;description&#39;         =&gt; &#39;Customers who purchased in the last 30 days&#39;,
+        &#39;provider&#39;            =&gt; &#39;WooCommerce&#39;,
+        &#39;subscriber_callback&#39; =&gt; &#39;get_recent_buyer_emails&#39;,
+    );
+    return $lists;
+});
+</code></pre>
+<h4 id="mskd_list_is_editable" class="doc-heading doc-h4"><code>mskd_list_is_editable</code><a class="heading-anchor" href="#mskd_list_is_editable" aria-label="Permalink to this section">#</a></h4>
+<p>Control whether a database list can be edited. External lists are always non-editable.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>$is_editable</code> (bool) - Current editable status</li>
+<li><code>$list_id</code> (int) - The list ID</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-php">add_filter( &#39;mskd_list_is_editable&#39;, function( $is_editable, $list_id ) {
+    // Lock system lists
+    $locked = array( 1, 2, 3 );
+    return in_array( $list_id, $locked, true ) ? false : $is_editable;
+}, 10, 2 );
+</code></pre>
+<hr>
+<h3 id="subscribers-hooks" class="doc-heading doc-h3">Subscribers Hooks<a class="heading-anchor" href="#subscribers-hooks" aria-label="Permalink to this section">#</a></h3>
+<h4 id="mskd_register_external_subscribers" class="doc-heading doc-h4"><code>mskd_register_external_subscribers</code><a class="heading-anchor" href="#mskd_register_external_subscribers" aria-label="Permalink to this section">#</a></h4>
+<p>Register external subscribers that appear in the Subscribers admin page.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>string|int</td>
+<td>Yes</td>
+<td>Unique identifier (auto-prefixed with <code>ext_</code>)</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>string</td>
+<td>Yes</td>
+<td>Valid email address</td>
+</tr>
+<tr>
+<td><code>first_name</code></td>
+<td>string</td>
+<td>No</td>
+<td>Subscriber&#39;s first name</td>
+</tr>
+<tr>
+<td><code>last_name</code></td>
+<td>string</td>
+<td>No</td>
+<td>Subscriber&#39;s last name</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>string</td>
+<td>No</td>
+<td><code>active</code>, <code>inactive</code>, or <code>unsubscribed</code></td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>string</td>
+<td>No</td>
+<td>Plugin/provider name</td>
+</tr>
+<tr>
+<td><code>lists</code></td>
+<td>array</td>
+<td>No</td>
+<td>Array of list IDs subscriber belongs to</td>
+</tr>
+</tbody></table></div>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>$subscribers</code> (array) - Current external subscribers</li>
+<li><code>$args</code> (array) - Query arguments (status filter, pagination)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-php">add_filter( &#39;mskd_register_external_subscribers&#39;, function( $subscribers, $args ) {
+    // Respect status filter
+    $my_subs = get_my_external_subscribers();
+    
+    if ( ! empty( $args[&#39;status&#39;] ) ) {
+        $my_subs = array_filter( $my_subs, function( $sub ) use ( $args ) {
+            return $sub[&#39;status&#39;] === $args[&#39;status&#39;];
+        });
+    }
+    
+    return array_merge( $subscribers, $my_subs );
+}, 10, 2 );
+</code></pre>
+<h4 id="mskd_subscriber_is_editable" class="doc-heading doc-h4"><code>mskd_subscriber_is_editable</code><a class="heading-anchor" href="#mskd_subscriber_is_editable" aria-label="Permalink to this section">#</a></h4>
+<p>Control whether a database subscriber can be edited.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>$is_editable</code> (bool) - Current editable status</li>
+<li><code>$subscriber_id</code> (int) - The subscriber ID</li>
+</ul>
+<hr>
+<h3 id="email-hooks" class="doc-heading doc-h3">Email Hooks<a class="heading-anchor" href="#email-hooks" aria-label="Permalink to this section">#</a></h3>
+<h4 id="mskd_process_queue" class="doc-heading doc-h4"><code>mskd_process_queue</code><a class="heading-anchor" href="#mskd_process_queue" aria-label="Permalink to this section">#</a></h4>
+<p>Action hook triggered by WP-Cron to process the email queue.</p>
+<h4 id="mskd_subscriber_unsubscribed" class="doc-heading doc-h4"><code>mskd_subscriber_unsubscribed</code><a class="heading-anchor" href="#mskd_subscriber_unsubscribed" aria-label="Permalink to this section">#</a></h4>
+<p>Fired when a subscriber unsubscribes.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>$email</code> (string) - Subscriber&#39;s email</li>
+<li><code>$token</code> (string) - Unsubscribe token</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-php">add_action( &#39;mskd_subscriber_unsubscribed&#39;, function( $email, $token ) {
+    // Sync unsubscribe with external system
+    if ( strpos( $token, &#39;ext_&#39; ) === 0 ) {
+        my_crm_mark_unsubscribed( $email );
+    }
+}, 10, 2 );
+</code></pre>
+<hr>
+<h2 id="services-api" class="doc-heading doc-h2">Services API<a class="heading-anchor" href="#services-api" aria-label="Permalink to this section">#</a></h2>
+<h3 id="mskd_list_provider" class="doc-heading doc-h3">MSKD_List_Provider<a class="heading-anchor" href="#mskd_list_provider" aria-label="Permalink to this section">#</a></h3>
+<p>Static class for list and subscriber management.</p>
+<pre><code class="language-php">require_once MSKD_PLUGIN_DIR . &#39;includes/services/class-mskd-list-provider.php&#39;;
+</code></pre>
+<h4 id="list-methods" class="doc-heading doc-h4">List Methods<a class="heading-anchor" href="#list-methods" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>get_all_lists()</code></td>
+<td>Get all lists (database + external)</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_database_lists()</code></td>
+<td>Get only database lists</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_external_lists()</code></td>
+<td>Get external lists from filter</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_list( $list_id )</code></td>
+<td>Get a single list by ID</td>
+<td><code>object|null</code></td>
+</tr>
+<tr>
+<td><code>is_list_editable( $list_id )</code></td>
+<td>Check if list can be edited</td>
+<td><code>bool</code></td>
+</tr>
+<tr>
+<td><code>list_exists( $list_id )</code></td>
+<td>Check if list exists</td>
+<td><code>bool</code></td>
+</tr>
+<tr>
+<td><code>get_list_subscriber_count( $list )</code></td>
+<td>Get total subscriber count</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>get_list_active_subscriber_count( $list )</code></td>
+<td>Get active subscriber count</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>get_list_subscriber_ids( $list )</code></td>
+<td>Get active subscriber IDs</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_list_subscribers_full( $list )</code></td>
+<td>Get full subscriber objects</td>
+<td><code>array</code></td>
+</tr>
+</tbody></table></div>
+<h4 id="subscriber-methods" class="doc-heading doc-h4">Subscriber Methods<a class="heading-anchor" href="#subscriber-methods" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>get_all_subscribers( $args )</code></td>
+<td>Get all subscribers</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_database_subscribers( $args )</code></td>
+<td>Get database subscribers</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_external_subscribers( $args )</code></td>
+<td>Get external subscribers</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_subscriber( $id )</code></td>
+<td>Get subscriber by ID</td>
+<td><code>object|null</code></td>
+</tr>
+<tr>
+<td><code>is_external_id( $id )</code></td>
+<td>Check if ID is external (<code>ext_*</code>)</td>
+<td><code>bool</code></td>
+</tr>
+<tr>
+<td><code>is_subscriber_editable( $id )</code></td>
+<td>Check if subscriber can be edited</td>
+<td><code>bool</code></td>
+</tr>
+<tr>
+<td><code>get_total_subscriber_count( $status )</code></td>
+<td>Get total count by status</td>
+<td><code>int</code></td>
+</tr>
+</tbody></table></div>
+<h4 id="utility-methods" class="doc-heading doc-h4">Utility Methods<a class="heading-anchor" href="#utility-methods" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>invalidate_cache()</code></td>
+<td>Clear external lists cache</td>
+</tr>
+</tbody></table></div>
+<p><strong>Usage Example:</strong></p>
+<pre><code class="language-php">// Get all lists
+$all_lists = MSKD_List_Provider::get_all_lists();
+
+// Get external list by ID
+$list = MSKD_List_Provider::get_list( &#39;ext_my_plugin_users&#39; );
+
+// Get subscriber count
+$count = MSKD_List_Provider::get_list_active_subscriber_count( $list );
+
+// Get subscribers for a list
+$subscriber_ids = MSKD_List_Provider::get_list_subscriber_ids( $list );
+</code></pre>
+<hr>
+<h3 id="mskd_smtp_mailer" class="doc-heading doc-h3">MSKD_SMTP_Mailer<a class="heading-anchor" href="#mskd_smtp_mailer" aria-label="Permalink to this section">#</a></h3>
+<p>SMTP email sending service using PHPMailer.</p>
+<pre><code class="language-php">require_once MSKD_PLUGIN_DIR . &#39;includes/services/class-smtp-mailer.php&#39;;
+
+$mailer = new MSKD_SMTP_Mailer();
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>is_enabled()</code></td>
+<td>Check if SMTP is configured</td>
+<td><code>bool</code></td>
+</tr>
+<tr>
+<td><code>send( $to, $subject, $body, $headers )</code></td>
+<td>Send an email</td>
+<td><code>bool</code></td>
+</tr>
+<tr>
+<td><code>test_connection()</code></td>
+<td>Test SMTP connection</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_last_error()</code></td>
+<td>Get last error message</td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td><code>get_debug_log()</code></td>
+<td>Get debug log array</td>
+<td><code>array</code></td>
+</tr>
+</tbody></table></div>
+<hr>
+<h3 id="template_service" class="doc-heading doc-h3">Template_Service<a class="heading-anchor" href="#template_service" aria-label="Permalink to this section">#</a></h3>
+<p>Service for managing email templates.</p>
+<pre><code class="language-php">use MSKD\Services\Template_Service;
+
+$template_service = new Template_Service();
+</code></pre>
+<h4 id="methods" class="doc-heading doc-h4">Methods<a class="heading-anchor" href="#methods" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>get_all( $args )</code></td>
+<td>Get all templates with optional filters</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_by_id( $id )</code></td>
+<td>Get template by ID</td>
+<td><code>object|null</code></td>
+</tr>
+<tr>
+<td><code>get_by_name( $name )</code></td>
+<td>Get template by name</td>
+<td><code>object|null</code></td>
+</tr>
+<tr>
+<td><code>create( $data )</code></td>
+<td>Create a new template</td>
+<td><code>int|false</code></td>
+</tr>
+<tr>
+<td><code>update( $id, $data )</code></td>
+<td>Update a template</td>
+<td><code>bool</code></td>
+</tr>
+<tr>
+<td><code>delete( $id )</code></td>
+<td>Delete a template</td>
+<td><code>bool</code></td>
+</tr>
+<tr>
+<td><code>duplicate( $id )</code></td>
+<td>Duplicate a template</td>
+<td><code>int|false</code></td>
+</tr>
+<tr>
+<td><code>count( $type, $status )</code></td>
+<td>Get template count</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>get_predefined()</code></td>
+<td>Get all predefined templates</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_custom()</code></td>
+<td>Get all custom templates</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>get_active()</code></td>
+<td>Get all active templates</td>
+<td><code>array</code></td>
+</tr>
+<tr>
+<td><code>install_defaults()</code></td>
+<td>Install default predefined templates</td>
+<td><code>void</code></td>
+</tr>
+</tbody></table></div>
+<h4 id="usage-example" class="doc-heading doc-h4">Usage Example<a class="heading-anchor" href="#usage-example" aria-label="Permalink to this section">#</a></h4>
+<pre><code class="language-php">use MSKD\Services\Template_Service;
+
+$template_service = new Template_Service();
+
+// Create a custom template
+$template_id = $template_service-&gt;create( array(
+    &#39;name&#39;    =&gt; &#39;My Newsletter Template&#39;,
+    &#39;subject&#39; =&gt; &#39;Weekly Newsletter&#39;,
+    &#39;content&#39; =&gt; &#39;&lt;h1&gt;Hello {first_name}!&lt;/h1&gt;&lt;p&gt;Your content here...&lt;/p&gt;&#39;,
+    &#39;type&#39;    =&gt; &#39;custom&#39;,
+    &#39;status&#39;  =&gt; &#39;active&#39;,
+) );
+
+// Get a template by ID
+$template = $template_service-&gt;get_by_id( $template_id );
+
+// Update a template
+$template_service-&gt;update( $template_id, array(
+    &#39;subject&#39; =&gt; &#39;Updated Weekly Newsletter&#39;,
+) );
+
+// Duplicate a template
+$new_id = $template_service-&gt;duplicate( $template_id );
+
+// Delete a template (only custom templates can be deleted)
+$template_service-&gt;delete( $template_id );
+</code></pre>
+<hr>
+<h2 id="database-schema" class="doc-heading doc-h2">Database Schema<a class="heading-anchor" href="#database-schema" aria-label="Permalink to this section">#</a></h2>
+<h3 id="tables" class="doc-heading doc-h3">Tables<a class="heading-anchor" href="#tables" aria-label="Permalink to this section">#</a></h3>
+<p>All tables use the <code>{$wpdb-&gt;prefix}mskd_</code> prefix.</p>
+<h4 id="mskd_subscribers" class="doc-heading doc-h4"><code>mskd_subscribers</code><a class="heading-anchor" href="#mskd_subscribers" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>bigint(20)</td>
+<td>Primary key</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td>varchar(255)</td>
+<td>Unique email address</td>
+</tr>
+<tr>
+<td><code>first_name</code></td>
+<td>varchar(100)</td>
+<td>First name</td>
+</tr>
+<tr>
+<td><code>last_name</code></td>
+<td>varchar(100)</td>
+<td>Last name</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td><code>active</code>, <code>inactive</code>, <code>unsubscribed</code></td>
+</tr>
+<tr>
+<td><code>unsubscribe_token</code></td>
+<td>varchar(64)</td>
+<td>Unique unsubscribe token</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>Creation timestamp</td>
+</tr>
+<tr>
+<td><code>updated_at</code></td>
+<td>datetime</td>
+<td>Last update timestamp</td>
+</tr>
+</tbody></table></div>
+<h4 id="mskd_lists" class="doc-heading doc-h4"><code>mskd_lists</code><a class="heading-anchor" href="#mskd_lists" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>bigint(20)</td>
+<td>Primary key</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>varchar(255)</td>
+<td>List name</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>text</td>
+<td>List description</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>Creation timestamp</td>
+</tr>
+</tbody></table></div>
+<h4 id="mskd_subscriber_list" class="doc-heading doc-h4"><code>mskd_subscriber_list</code><a class="heading-anchor" href="#mskd_subscriber_list" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>bigint(20)</td>
+<td>Primary key</td>
+</tr>
+<tr>
+<td><code>subscriber_id</code></td>
+<td>bigint(20)</td>
+<td>FK to subscribers</td>
+</tr>
+<tr>
+<td><code>list_id</code></td>
+<td>bigint(20)</td>
+<td>FK to lists</td>
+</tr>
+<tr>
+<td><code>subscribed_at</code></td>
+<td>datetime</td>
+<td>Subscription timestamp</td>
+</tr>
+</tbody></table></div>
+<h4 id="mskd_templates" class="doc-heading doc-h4"><code>mskd_templates</code><a class="heading-anchor" href="#mskd_templates" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>bigint(20)</td>
+<td>Primary key</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>varchar(255)</td>
+<td>Template name</td>
+</tr>
+<tr>
+<td><code>subject</code></td>
+<td>varchar(255)</td>
+<td>Default email subject</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>longtext</td>
+<td>HTML email content</td>
+</tr>
+<tr>
+<td><code>json_content</code></td>
+<td>longtext</td>
+<td>JSON content for visual editor</td>
+</tr>
+<tr>
+<td><code>thumbnail</code></td>
+<td>varchar(500)</td>
+<td>Thumbnail image URL</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>enum</td>
+<td><code>predefined</code>, <code>custom</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td><code>active</code>, <code>inactive</code></td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>Creation timestamp</td>
+</tr>
+<tr>
+<td><code>updated_at</code></td>
+<td>datetime</td>
+<td>Last update timestamp</td>
+</tr>
+</tbody></table></div>
+<h4 id="mskd_queue" class="doc-heading doc-h4"><code>mskd_queue</code><a class="heading-anchor" href="#mskd_queue" aria-label="Permalink to this section">#</a></h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>bigint(20)</td>
+<td>Primary key</td>
+</tr>
+<tr>
+<td><code>subscriber_id</code></td>
+<td>bigint(20)</td>
+<td>FK to subscribers (0 for external)</td>
+</tr>
+<tr>
+<td><code>subscriber_data</code></td>
+<td>text</td>
+<td>JSON data for external subscribers</td>
+</tr>
+<tr>
+<td><code>subject</code></td>
+<td>varchar(255)</td>
+<td>Email subject</td>
+</tr>
+<tr>
+<td><code>body</code></td>
+<td>longtext</td>
+<td>Email body (HTML)</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td><code>pending</code>, <code>processing</code>, <code>sent</code>, <code>failed</code></td>
+</tr>
+<tr>
+<td><code>scheduled_at</code></td>
+<td>datetime</td>
+<td>Scheduled send time</td>
+</tr>
+<tr>
+<td><code>sent_at</code></td>
+<td>datetime</td>
+<td>Actual send time</td>
+</tr>
+<tr>
+<td><code>attempts</code></td>
+<td>int</td>
+<td>Retry attempt count</td>
+</tr>
+<tr>
+<td><code>error_message</code></td>
+<td>text</td>
+<td>Last error message</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>Creation timestamp</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="email-templates" class="doc-heading doc-h2">Email Templates<a class="heading-anchor" href="#email-templates" aria-label="Permalink to this section">#</a></h2>
+<p>The Mail System includes a comprehensive email templates feature that allows users to create reusable email templates.</p>
+<h3 id="template-types" class="doc-heading doc-h3">Template Types<a class="heading-anchor" href="#template-types" aria-label="Permalink to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Predefined</strong></td>
+<td>Built-in templates provided by the system. Cannot be deleted but can be duplicated.</td>
+</tr>
+<tr>
+<td><strong>Custom</strong></td>
+<td>User-created templates. Can be edited, duplicated, and deleted.</td>
+</tr>
+</tbody></table></div>
+<h3 id="default-templates" class="doc-heading doc-h3">Default Templates<a class="heading-anchor" href="#default-templates" aria-label="Permalink to this section">#</a></h3>
+<p>The system includes the following predefined templates:</p>
+<ol>
+<li><strong>Blank Template</strong> - An empty starting point</li>
+<li><strong>Newsletter</strong> - Standard newsletter layout with header, content area, and footer</li>
+<li><strong>Welcome Email</strong> - Template for welcoming new subscribers</li>
+<li><strong>Promotional</strong> - Template for promotional offers with call-to-action buttons</li>
+</ol>
+<h3 id="using-templates" class="doc-heading doc-h3">Using Templates<a class="heading-anchor" href="#using-templates" aria-label="Permalink to this section">#</a></h3>
+<p>Templates can be used when composing a new email:</p>
+<ol>
+<li>Navigate to <strong>Emails &gt; Templates</strong></li>
+<li>Click <strong>&quot;Use&quot;</strong> on any template</li>
+<li>The compose form will be pre-filled with the template&#39;s subject and content</li>
+<li>Modify as needed and send</li>
+</ol>
+<h3 id="template-placeholders" class="doc-heading doc-h3">Template Placeholders<a class="heading-anchor" href="#template-placeholders" aria-label="Permalink to this section">#</a></h3>
+<p>All templates support the standard email placeholders:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>{first_name}</code></td>
+<td>Subscriber&#39;s first name</td>
+</tr>
+<tr>
+<td><code>{last_name}</code></td>
+<td>Subscriber&#39;s last name</td>
+</tr>
+<tr>
+<td><code>{email}</code></td>
+<td>Subscriber&#39;s email address</td>
+</tr>
+<tr>
+<td><code>{unsubscribe_link}</code></td>
+<td>HTML link to unsubscribe</td>
+</tr>
+<tr>
+<td><code>{unsubscribe_url}</code></td>
+<td>Raw unsubscribe URL</td>
+</tr>
+</tbody></table></div>
+<h3 id="programmatic-template-usage" class="doc-heading doc-h3">Programmatic Template Usage<a class="heading-anchor" href="#programmatic-template-usage" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">use MSKD\Services\Template_Service;
+
+$template_service = new Template_Service();
+
+// Get a template
+$template = $template_service-&gt;get_by_id( 1 );
+
+// Use the template content
+$subject = $template-&gt;subject;
+$content = $template-&gt;content;
+
+// Apply placeholders
+$content = str_replace(
+    array( &#39;{first_name}&#39;, &#39;{last_name}&#39;, &#39;{email}&#39; ),
+    array( $subscriber-&gt;first_name, $subscriber-&gt;last_name, $subscriber-&gt;email ),
+    $content
+);
+</code></pre>
+<hr>
+<h2 id="examples" class="doc-heading doc-h2">Examples<a class="heading-anchor" href="#examples" aria-label="Permalink to this section">#</a></h2>
+<h3 id="woocommerce-integration" class="doc-heading doc-h3">WooCommerce Integration<a class="heading-anchor" href="#woocommerce-integration" aria-label="Permalink to this section">#</a></h3>
+<p>Complete example of integrating WooCommerce customers:</p>
+<pre><code class="language-php">&lt;?php
+/**
+ * Plugin Name: MSKD WooCommerce Integration
+ * Description: Adds WooCommerce customer lists to Mail System
+ */
+
+class MSKD_WooCommerce_Integration {
+    
+    public function __construct() {
+        add_filter( &#39;mskd_register_external_lists&#39;, array( $this, &#39;register_lists&#39; ) );
+        add_filter( &#39;mskd_register_external_subscribers&#39;, array( $this, &#39;register_subscribers&#39; ), 10, 2 );
+    }
+    
+    public function register_lists( $lists ) {
+        if ( ! class_exists( &#39;WooCommerce&#39; ) ) {
+            return $lists;
+        }
+        
+        // Recent Customers
+        $lists[] = array(
+            &#39;id&#39;                  =&gt; &#39;wc_recent_customers&#39;,
+            &#39;name&#39;                =&gt; &#39;Recent Customers (30 days)&#39;,
+            &#39;description&#39;         =&gt; &#39;Customers with orders in the last 30 days&#39;,
+            &#39;provider&#39;            =&gt; &#39;WooCommerce&#39;,
+            &#39;subscriber_callback&#39; =&gt; array( $this, &#39;get_recent_customers&#39; ),
+        );
+        
+        // VIP Customers
+        $lists[] = array(
+            &#39;id&#39;                  =&gt; &#39;wc_vip_customers&#39;,
+            &#39;name&#39;                =&gt; &#39;VIP Customers&#39;,
+            &#39;description&#39;         =&gt; &#39;Customers with total spend over $500&#39;,
+            &#39;provider&#39;            =&gt; &#39;WooCommerce&#39;,
+            &#39;subscriber_callback&#39; =&gt; array( $this, &#39;get_vip_customers&#39; ),
+        );
+        
+        return $lists;
+    }
+    
+    public function register_subscribers( $subscribers, $args ) {
+        if ( ! class_exists( &#39;WooCommerce&#39; ) ) {
+            return $subscribers;
+        }
+        
+        $customers = get_users( array( &#39;role&#39; =&gt; &#39;customer&#39;, &#39;number&#39; =&gt; 100 ) );
+        
+        foreach ( $customers as $customer ) {
+            $sub = array(
+                &#39;id&#39;         =&gt; &#39;wc_customer_&#39; . $customer-&gt;ID,
+                &#39;email&#39;      =&gt; $customer-&gt;user_email,
+                &#39;first_name&#39; =&gt; get_user_meta( $customer-&gt;ID, &#39;billing_first_name&#39;, true ),
+                &#39;last_name&#39;  =&gt; get_user_meta( $customer-&gt;ID, &#39;billing_last_name&#39;, true ),
+                &#39;status&#39;     =&gt; &#39;active&#39;,
+                &#39;provider&#39;   =&gt; &#39;WooCommerce&#39;,
+            );
+            
+            // Apply status filter if provided
+            if ( empty( $args[&#39;status&#39;] ) || $sub[&#39;status&#39;] === $args[&#39;status&#39;] ) {
+                $subscribers[] = $sub;
+            }
+        }
+        
+        return $subscribers;
+    }
+    
+    public function get_recent_customers() {
+        global $wpdb;
+        
+        return $wpdb-&gt;get_col( $wpdb-&gt;prepare(
+            &quot;SELECT DISTINCT pm.meta_value 
+            FROM {$wpdb-&gt;postmeta} pm
+            INNER JOIN {$wpdb-&gt;posts} p ON p.ID = pm.post_id
+            WHERE pm.meta_key = &#39;_billing_email&#39;
+            AND p.post_type = &#39;shop_order&#39;
+            AND p.post_date &gt; %s&quot;,
+            date( &#39;Y-m-d&#39;, strtotime( &#39;-30 days&#39; ) )
+        ) );
+    }
+    
+    public function get_vip_customers() {
+        global $wpdb;
+        
+        if ( ! class_exists( &#39;WC_Customer&#39; ) ) {
+            return array();
+        }
+        
+        return $wpdb-&gt;get_col(
+            &quot;SELECT email FROM {$wpdb-&gt;prefix}wc_customer_lookup 
+            WHERE total_spend &gt; 500&quot;
+        );
+    }
+}
+
+new MSKD_WooCommerce_Integration();
+</code></pre>
+<h3 id="crm-integration-with-external-subscribers" class="doc-heading doc-h3">CRM Integration with External Subscribers<a class="heading-anchor" href="#crm-integration-with-external-subscribers" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">&lt;?php
+/**
+ * Plugin Name: MSKD CRM Integration
+ */
+
+add_filter( &#39;mskd_register_external_lists&#39;, function( $lists ) {
+    $lists[] = array(
+        &#39;id&#39;                  =&gt; &#39;crm_leads&#39;,
+        &#39;name&#39;                =&gt; &#39;CRM Leads&#39;,
+        &#39;description&#39;         =&gt; &#39;Active leads from CRM system&#39;,
+        &#39;provider&#39;            =&gt; &#39;My CRM&#39;,
+        &#39;subscriber_callback&#39; =&gt; &#39;get_crm_leads&#39;,
+    );
+    return $lists;
+});
+
+function get_crm_leads() {
+    // Fetch from CRM API and return subscriber arrays
+    $leads = my_crm_api_get_leads();
+    
+    return array_map( function( $lead ) {
+        return array(
+            &#39;email&#39;      =&gt; $lead-&gt;email,
+            &#39;first_name&#39; =&gt; $lead-&gt;first_name,
+            &#39;last_name&#39;  =&gt; $lead-&gt;last_name,
+        );
+    }, $leads );
+}
+</code></pre>
+<hr>
+<h2 id="best-practices" class="doc-heading doc-h2">Best Practices<a class="heading-anchor" href="#best-practices" aria-label="Permalink to this section">#</a></h2>
+<h3 id="1-use-unique-prefixes" class="doc-heading doc-h3">1. Use Unique Prefixes<a class="heading-anchor" href="#1-use-unique-prefixes" aria-label="Permalink to this section">#</a></h3>
+<p>Prevent ID collisions by prefixing with your plugin slug:</p>
+<pre><code class="language-php">// ✅ Good
+&#39;id&#39; =&gt; &#39;myplugin_premium_users&#39;
+
+// ❌ Bad - may collide
+&#39;id&#39; =&gt; &#39;premium_users&#39;
+</code></pre>
+<h3 id="2-cache-expensive-queries" class="doc-heading doc-h3">2. Cache Expensive Queries<a class="heading-anchor" href="#2-cache-expensive-queries" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">function get_premium_subscribers() {
+    $cache_key = &#39;myplugin_premium_subs&#39;;
+    $cached = wp_cache_get( $cache_key, &#39;mskd_external&#39; );
+    
+    if ( false !== $cached ) {
+        return $cached;
+    }
+    
+    global $wpdb;
+    $result = $wpdb-&gt;get_col( /* expensive query */ );
+    
+    wp_cache_set( $cache_key, $result, &#39;mskd_external&#39;, HOUR_IN_SECONDS );
+    
+    return $result;
+}
+</code></pre>
+<h3 id="3-always-return-arrays" class="doc-heading doc-h3">3. Always Return Arrays<a class="heading-anchor" href="#3-always-return-arrays" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">function get_my_subscribers() {
+    $result = some_function();
+    return is_array( $result ) ? $result : array();
+}
+</code></pre>
+<h3 id="4-respect-query-arguments" class="doc-heading doc-h3">4. Respect Query Arguments<a class="heading-anchor" href="#4-respect-query-arguments" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">add_filter( &#39;mskd_register_external_subscribers&#39;, function( $subscribers, $args ) {
+    $my_subs = get_my_subscribers();
+    
+    // Apply status filter
+    if ( ! empty( $args[&#39;status&#39;] ) ) {
+        $my_subs = array_filter( $my_subs, function( $sub ) use ( $args ) {
+            return $sub[&#39;status&#39;] === $args[&#39;status&#39;];
+        });
+    }
+    
+    return array_merge( $subscribers, $my_subs );
+}, 10, 2 );
+</code></pre>
+<h3 id="5-document-your-lists" class="doc-heading doc-h3">5. Document Your Lists<a class="heading-anchor" href="#5-document-your-lists" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">$lists[] = array(
+    &#39;id&#39;          =&gt; &#39;wc_repeat_buyers&#39;,
+    &#39;name&#39;        =&gt; &#39;Repeat Buyers&#39;,
+    &#39;description&#39; =&gt; &#39;Customers with 3+ orders. Updated hourly via cron.&#39;,
+    &#39;provider&#39;    =&gt; &#39;WooCommerce Pro&#39;,
+);
+</code></pre>
+<h3 id="6-handle-unsubscribes" class="doc-heading doc-h3">6. Handle Unsubscribes<a class="heading-anchor" href="#6-handle-unsubscribes" aria-label="Permalink to this section">#</a></h3>
+<pre><code class="language-php">add_action( &#39;mskd_subscriber_unsubscribed&#39;, function( $email, $token ) {
+    // Sync with external system
+    my_crm_mark_unsubscribed( $email );
+}, 10, 2 );
+</code></pre>
+<hr>
+<h2 id="troubleshooting" class="doc-heading doc-h2">Troubleshooting<a class="heading-anchor" href="#troubleshooting" aria-label="Permalink to this section">#</a></h2>
+<h3 id="list-not-appearing" class="doc-heading doc-h3">List Not Appearing<a class="heading-anchor" href="#list-not-appearing" aria-label="Permalink to this section">#</a></h3>
+<ol>
+<li>Ensure your filter runs before admin pages load (<code>plugins_loaded</code> or earlier)</li>
+<li>Verify list has required <code>id</code> and <code>name</code> properties</li>
+<li>Check PHP error log for exceptions</li>
+</ol>
+<h3 id="subscriber-count-shows-0" class="doc-heading doc-h3">Subscriber Count Shows 0<a class="heading-anchor" href="#subscriber-count-shows-0" aria-label="Permalink to this section">#</a></h3>
+<ol>
+<li>Verify callback returns array of arrays with <code>email</code> key</li>
+<li>Test callback directly: <code>var_dump( your_callback() );</code></li>
+<li>Check for PHP errors in the callback function</li>
+</ol>
+<h3 id="emails-not-sending" class="doc-heading doc-h3">Emails Not Sending<a class="heading-anchor" href="#emails-not-sending" aria-label="Permalink to this section">#</a></h3>
+<ol>
+<li>Verify <code>subscriber_callback</code> is callable</li>
+<li>Check queue table for error messages</li>
+<li>Ensure SMTP is configured in Settings</li>
+<li>Review <code>MSKD_Cron_Handler::MAX_ATTEMPTS</code> (default: 3)</li>
+</ol>
+<h3 id="external-subscriber-cant-receive-emails" class="doc-heading doc-h3">External Subscriber Can&#39;t Receive Emails<a class="heading-anchor" href="#external-subscriber-cant-receive-emails" aria-label="Permalink to this section">#</a></h3>
+<ol>
+<li>Ensure <code>subscriber_callback</code> returns array of arrays with <code>email</code> key</li>
+<li>Optionally include <code>first_name</code> and <code>last_name</code> for personalization</li>
+<li>Data is stored as JSON in <code>subscriber_data</code> column</li>
+</ol>
+<hr>
+<h2 id="constants" class="doc-heading doc-h2">Constants<a class="heading-anchor" href="#constants" aria-label="Permalink to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>MSKD_VERSION</code></td>
+<td><code>1.1.2</code></td>
+<td>Plugin version</td>
+</tr>
+<tr>
+<td><code>MSKD_BATCH_SIZE</code></td>
+<td><code>10</code></td>
+<td>Emails per cron run (configurable via settings)</td>
+</tr>
+<tr>
+<td><code>MSKD_PLUGIN_DIR</code></td>
+<td>—</td>
+<td>Plugin directory path</td>
+</tr>
+<tr>
+<td><code>MSKD_PLUGIN_URL</code></td>
+<td>—</td>
+<td>Plugin URL</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="support" class="doc-heading doc-h2">Support<a class="heading-anchor" href="#support" aria-label="Permalink to this section">#</a></h2>
+<p>For questions, bug reports, or feature requests:</p>
+<ul>
+<li><strong>Website:</strong> <a href="https://katsarov.design">katsarov.design</a></li>
+<li><strong>GitHub:</strong> <a href="https://github.com/katsar0v/mail-system/issues">Repository Issues</a></li>
+</ul>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span class="logo-text">Mail System</span>
+                    </div>
+                    <p data-en="Email newsletter management for WordPress" data-bg="Управление на имейл бюлетини за WordPress">Email newsletter management for WordPress</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4 data-en="Resources" data-bg="Ресурси">Resources</h4>
+                        <a href="https://github.com/katsar0v/mail-system" target="_blank" rel="noopener">GitHub</a>
+                        <a href="https://github.com/katsar0v/mail-system/releases" target="_blank" rel="noopener" data-en="Releases" data-bg="Версии">Releases</a>
+                        <a href="https://github.com/katsar0v/mail-system/issues" target="_blank" rel="noopener" data-en="Issues" data-bg="Проблеми">Issues</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4 data-en="Documentation" data-bg="Документация">Documentation</h4>
+                        <a href="api-reference.html">API Reference</a>
+                        <a href="email-header-footer.md">Email Header/Footer</a>
+                        <a href="scss-guidelines.md">SCSS Guidelines</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4 data-en="Author" data-bg="Автор">Author</h4>
+                        <a href="https://katsarov.design" target="_blank" rel="noopener">Katsarov Design</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-en="Licensed under GPL v2 or later" data-bg="Лицензиран под GPL v2 или по-нова версия">Licensed under GPL v2 or later</p>
+                <p>© 2025 Katsarov Design</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+    <script src="doc-page.js" defer></script>
+</body>
+</html>
