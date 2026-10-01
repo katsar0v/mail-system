@@ -250,4 +250,68 @@ class SmtpMailerTest extends TestCase {
 
 		$this->assertTrue( $this->smtp_mailer->is_enabled() );
 	}
+
+	/**
+	 * Block elements are separated instead of being glued together.
+	 */
+	public function test_html_to_text_separates_paragraphs(): void {
+		$text = \MSKD_SMTP_Mailer::html_to_text( '<p>First paragraph</p><p>Second<br>line</p>' );
+
+		$this->assertSame( "First paragraph\n\nSecond\nline", $text );
+	}
+
+	/**
+	 * Link targets, including the unsubscribe link, are kept as "label (url)".
+	 */
+	public function test_html_to_text_keeps_link_targets(): void {
+		$html = '<p>Hi Alice</p><p><a href="https://example.com/page">Link</a> '
+			. '<a href="https://example.com/unsubscribe?token=a1&amp;list=2">Unsubscribe</a></p>';
+
+		$text = \MSKD_SMTP_Mailer::html_to_text( $html );
+
+		$this->assertStringContainsString( 'Link (https://example.com/page)', $text );
+		$this->assertStringContainsString( 'Unsubscribe (https://example.com/unsubscribe?token=a1&list=2)', $text );
+	}
+
+	/**
+	 * A confirmation URL must not fuse with the sentence that follows it.
+	 */
+	public function test_html_to_text_does_not_fuse_url_with_following_text(): void {
+		$html = "<p>Confirm your subscription:</p>\n<p><a href=\"https://example.test?mskd_confirm=abc\">https://example.test?mskd_confirm=abc</a></p>\n<p>If you did not sign up, ignore this.</p>";
+
+		$text = \MSKD_SMTP_Mailer::html_to_text( $html );
+
+		// The URL appears once (label equals target) and sits on its own line.
+		$this->assertSame( 1, substr_count( $text, 'https://example.test?mskd_confirm=abc' ) );
+		$this->assertStringContainsString( "\nhttps://example.test?mskd_confirm=abc\n", $text );
+	}
+
+	/**
+	 * Anchors, empty targets and mailto links that repeat their label add no noise.
+	 */
+	public function test_html_to_text_skips_redundant_link_targets(): void {
+		$text = \MSKD_SMTP_Mailer::html_to_text( '<a href="#top">Top</a> <a href="mailto:a@b.co">a@b.co</a> <a href="https://x.test/">Home</a>' );
+
+		$this->assertSame( 'Top a@b.co Home (https://x.test/)', $text );
+	}
+
+	/**
+	 * Lists, entities, non-breaking spaces and non-rendered blocks are handled.
+	 */
+	public function test_html_to_text_handles_lists_entities_and_style_blocks(): void {
+		$html = '<style>p { color: red; }</style><ul><li>One</li><li>Two &amp; three</li></ul><p>a&nbsp;b &euro;5</p>';
+
+		$text = \MSKD_SMTP_Mailer::html_to_text( $html );
+
+		$this->assertSame( "- One\n- Two & three\n\na b €5", $text );
+	}
+
+	/**
+	 * Source indentation and newlines collapse like they do when HTML is rendered.
+	 */
+	public function test_html_to_text_collapses_source_whitespace(): void {
+		$text = \MSKD_SMTP_Mailer::html_to_text( "<p>\n    Hello\n    world\n</p>\n\n\n<p>Bye</p>" );
+
+		$this->assertSame( "Hello world\n\nBye", $text );
+	}
 }
