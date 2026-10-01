@@ -52,6 +52,16 @@ class Import_Export_Service {
 	const CSV_ESCAPE = '';
 
 	/**
+	 * Leading characters that can trigger formula execution in spreadsheet applications.
+	 *
+	 * Export prefixes values starting with one of these with a single quote; import removes
+	 * that quote again, so both directions must use the same list.
+	 *
+	 * @var string[]
+	 */
+	const CSV_FORMULA_CHARS = array( '=', '+', '-', '@', "\t", "\r", "\n", '|' );
+
+	/**
 	 * Maximum file size for imports (5MB).
 	 *
 	 * @var int
@@ -359,10 +369,7 @@ class Import_Export_Service {
 			}
 
 			// Map row to associative array.
-			$data = array();
-			foreach ( $headers as $index => $header ) {
-				$data[ $header ] = isset( $row[ $index ] ) ? trim( $row[ $index ] ) : '';
-			}
+			$data = $this->map_csv_row( $headers, $row );
 
 			// Validate email.
 			if ( empty( $data['email'] ) || ! is_email( $data['email'] ) ) {
@@ -613,10 +620,7 @@ class Import_Export_Service {
 			}
 
 			// Map row to associative array.
-			$data = array();
-			foreach ( $headers as $index => $header ) {
-				$data[ $header ] = isset( $row[ $index ] ) ? trim( $row[ $index ] ) : '';
-			}
+			$data = $this->map_csv_row( $headers, $row );
 
 			// Validate name.
 			if ( empty( $data['name'] ) ) {
@@ -725,16 +729,62 @@ class Import_Export_Service {
 
 		$value = (string) $value;
 
-		// Characters that can trigger formula execution in spreadsheet applications.
-		$dangerous_chars = array( '=', '+', '-', '@', "\t", "\r", "\n", '|' );
-
-		// Check if the value starts with a dangerous character.
-		if ( isset( $value[0] ) && in_array( $value[0], $dangerous_chars, true ) ) {
+		// Check if the value starts with a character that can trigger formula execution.
+		if ( isset( $value[0] ) && in_array( $value[0], self::CSV_FORMULA_CHARS, true ) ) {
 			// Prefix with single quote to prevent formula execution.
 			return "'" . $value;
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Reverse sanitize_csv_value() for a value read from a CSV file.
+	 *
+	 * Removes the single quote that export adds in front of values starting with a
+	 * formula character, so an export -> import round trip preserves the original value.
+	 * A quote followed by any other character is real data and is left untouched.
+	 *
+	 * @param string $value The value read from the CSV file.
+	 * @return string The original value.
+	 */
+	private function unescape_csv_value( string $value ): string {
+		if ( isset( $value[1] ) && "'" === $value[0] && in_array( $value[1], self::CSV_FORMULA_CHARS, true ) ) {
+			return substr( $value, 1 );
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Map a CSV row onto its (normalized) headers, undoing the export formula guard.
+	 *
+	 * The "lists" column holds several semicolon-separated names that export guards
+	 * individually, so each name is unescaped on its own.
+	 *
+	 * @param array $headers Normalized header names.
+	 * @param array $row     Raw row from fgetcsv().
+	 * @return array Associative array of header => value.
+	 */
+	private function map_csv_row( array $headers, array $row ): array {
+		$data = array();
+		foreach ( $headers as $index => $header ) {
+			$value = isset( $row[ $index ] ) ? trim( $row[ $index ] ) : '';
+
+			if ( 'lists' === $header ) {
+				$names = array();
+				foreach ( explode( ';', $value ) as $name ) {
+					$names[] = $this->unescape_csv_value( trim( $name ) );
+				}
+				$value = implode( ';', $names );
+			} else {
+				$value = $this->unescape_csv_value( $value );
+			}
+
+			$data[ $header ] = $value;
+		}
+
+		return $data;
 	}
 
 	/**

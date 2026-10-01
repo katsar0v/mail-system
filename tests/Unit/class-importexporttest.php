@@ -218,6 +218,82 @@ class ImportExportTest extends TestCase {
 	}
 
 	/**
+	 * Values the export guarded with a leading quote come back unchanged after import.
+	 */
+	public function test_csv_round_trip_removes_formula_guard_quote(): void {
+		$this->wpdb->shouldReceive( 'get_var' )->andReturn( 1 );
+		$this->wpdb->shouldReceive( 'get_col' )->andReturn( array( 1, 2 ) );
+		$this->wpdb->shouldReceive( 'get_results' )
+			->andReturn(
+				array(
+					(object) array(
+						'id'         => 1,
+						'email'      => 'dash@example.com',
+						'first_name' => '-Dash',
+						'last_name'  => '=Eq',
+						'status'     => 'active',
+						'created_at' => '2024-01-15 10:00:00',
+					),
+				)
+			);
+		$this->wpdb->shouldReceive( 'get_row' )
+			->andReturnUsing(
+				function () {
+					static $names = array( '=Formula List', '@Mention' );
+					return (object) array(
+						'id'   => 1,
+						'name' => array_shift( $names ),
+					);
+				}
+			);
+
+		$file = tempnam( sys_get_temp_dir(), 'mskd_test' );
+		$csv  = $this->service->export_subscribers_csv();
+		file_put_contents( $file, $csv );
+
+		// Sanity check: export really did guard the values.
+		$this->assertStringContainsString( "'-Dash", $csv );
+		$this->assertStringContainsString( "'=Eq", $csv );
+
+		$result = $this->service->parse_subscribers_csv( $file );
+		unlink( $file );
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertSame( '-Dash', $result['rows'][0]['first_name'] );
+		$this->assertSame( '=Eq', $result['rows'][0]['last_name'] );
+		// Each list name in the semicolon-separated column is guarded on its own.
+		$this->assertSame( '=Formula List;@Mention', $result['rows'][0]['lists'] );
+	}
+
+	/**
+	 * A leading quote that was not added by the export guard is real data.
+	 */
+	public function test_parse_csv_keeps_quote_not_added_by_formula_guard(): void {
+		$file = tempnam( sys_get_temp_dir(), 'mskd_test' );
+		file_put_contents( $file, "email,first_name,last_name\njohn@example.com,'Johnny,\"'\"\n" );
+
+		$result = $this->service->parse_subscribers_csv( $file );
+		unlink( $file );
+
+		$this->assertSame( "'Johnny", $result['rows'][0]['first_name'] );
+		$this->assertSame( "'", $result['rows'][0]['last_name'] );
+	}
+
+	/**
+	 * List import also removes the formula guard quote.
+	 */
+	public function test_parse_lists_csv_removes_formula_guard_quote(): void {
+		$file = tempnam( sys_get_temp_dir(), 'mskd_test' );
+		file_put_contents( $file, "name,description\n'=Weekly,'+Digest\n" );
+
+		$result = $this->service->parse_lists_csv( $file );
+		unlink( $file );
+
+		$this->assertSame( '=Weekly', $result['rows'][0]['name'] );
+		$this->assertSame( '+Digest', $result['rows'][0]['description'] );
+	}
+
+	/**
 	 * Test parse subscribers CSV validates email column.
 	 */
 	public function test_parse_subscribers_csv_requires_email_column(): void {
