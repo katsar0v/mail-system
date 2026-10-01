@@ -3236,3 +3236,7 @@ msgstr "Das Feld „list_ids“ muss ein Array von Listenkennungen (Zeichenkette
 #: includes/Api/class-rest-controller.php:352
 msgid "This Idempotency-Key was already used with a different request payload."
 msgstr "Dieser Idempotency-Key wurde bereits mit einer anderen Anfrage verwendet."
+
+#: admin/partials/import-export.php:154
+msgid "Comma, semicolon or tab separated files are detected automatically."
+msgstr "Durch Komma, Semikolon oder Tabulator getrennte Dateien werden automatisch erkannt."

@@ -82,7 +82,7 @@ You can also activate it from `Plugins` in the WordPress admin. No Composer or `
    - Common providers: Gmail (`smtp.gmail.com:587`, TLS, App Password), Mailgun (`smtp.mailgun.org:587`, TLS), SendGrid (`smtp.sendgrid.net:587`, TLS, username `apikey`).
    - Use the **Send test email** button to verify the connection.
 4. Go to `Lists` and create at least one mailing list.
-5. Go to `Subscribers` and add subscribers, or use `Import / Export` to bulk-import from CSV.
+5. Go to `Subscribers` and add subscribers, or use `Import / Export` to bulk-import from CSV. Comma-, semicolon- and tab-separated files are accepted (the delimiter is detected automatically), so "CSV" files saved by Excel in Bulgarian or German locales import without conversion.
 6. Go to `Templates` to create a reusable email template using the visual editor.
 7. Go to `New campaign`, select a template and target lists, and send or queue the campaign.
 

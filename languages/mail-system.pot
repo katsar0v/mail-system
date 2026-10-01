@@ -3204,3 +3204,7 @@ msgstr ""
 #: includes/Api/class-rest-controller.php:352
 msgid "This Idempotency-Key was already used with a different request payload."
 msgstr ""
+
+#: admin/partials/import-export.php:154
+msgid "Comma, semicolon or tab separated files are detected automatically."
+msgstr ""

@@ -30,7 +30,8 @@ class Import_Export_Service {
 	const SUPPORTED_FORMATS = array( 'csv' );
 
 	/**
-	 * CSV delimiter.
+	 * CSV delimiter used for export, and the fallback when an import file's delimiter
+	 * cannot be detected (imports also accept ";" and tab).
 	 *
 	 * @var string
 	 */
@@ -329,8 +330,11 @@ class Import_Export_Service {
 			rewind( $handle );
 		}
 
+		// Accept comma, semicolon or tab separated files.
+		$delimiter = $this->detect_handle_delimiter( $handle );
+
 		// Read headers.
-		$headers = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
+		$headers = fgetcsv( $handle, 0, $delimiter, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
 
 		if ( ! $headers ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Reading uploaded file for validation.
@@ -360,7 +364,7 @@ class Import_Export_Service {
 
 		// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition -- Standard CSV reading pattern.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fgetcsv -- Reading uploaded file for validation.
-		while ( false !== ( $row = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE ) ) ) {
+		while ( false !== ( $row = fgetcsv( $handle, 0, $delimiter, self::CSV_ENCLOSURE, self::CSV_ESCAPE ) ) ) {
 			++$row_number;
 
 			// Skip empty rows.
@@ -578,9 +582,12 @@ class Import_Export_Service {
 			rewind( $handle );
 		}
 
+		// Accept comma, semicolon or tab separated files.
+		$delimiter = $this->detect_handle_delimiter( $handle );
+
 		// Read headers.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fgetcsv -- Reading uploaded file for validation.
-		$headers = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
+		$headers = fgetcsv( $handle, 0, $delimiter, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
 
 		if ( ! $headers ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Reading uploaded file for validation.
@@ -611,7 +618,7 @@ class Import_Export_Service {
 
 		// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition -- Standard CSV reading pattern.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fgetcsv -- Reading uploaded file for validation.
-		while ( false !== ( $row = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE ) ) ) {
+		while ( false !== ( $row = fgetcsv( $handle, 0, $delimiter, self::CSV_ENCLOSURE, self::CSV_ESCAPE ) ) ) {
 			++$row_number;
 
 			// Skip empty rows.
@@ -785,6 +792,54 @@ class Import_Export_Service {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Guess the field delimiter of a CSV file from its header line.
+	 *
+	 * Excel in many locales (e.g. Bulgarian, German) saves "CSV" with ";" or tabs instead of
+	 * commas. The candidate that occurs most often outside quoted text wins; a tie or a
+	 * header without any candidate falls back to the standard comma.
+	 *
+	 * @param string|false $header_line First line of the file (without BOM).
+	 * @return string One of ",", ";" or "\t".
+	 */
+	private function detect_delimiter( $header_line ): string {
+		if ( ! is_string( $header_line ) || '' === $header_line ) {
+			return self::CSV_DELIMITER;
+		}
+
+		// Ignore delimiters inside quoted header names.
+		$unquoted = preg_replace( '/"[^"]*"/', '', $header_line );
+
+		$delimiter = self::CSV_DELIMITER;
+		$best      = 0;
+		foreach ( array( self::CSV_DELIMITER, ';', "\t" ) as $candidate ) {
+			$count = substr_count( $unquoted, $candidate );
+			if ( $count > $best ) {
+				$best      = $count;
+				$delimiter = $candidate;
+			}
+		}
+
+		return $delimiter;
+	}
+
+	/**
+	 * Detect the delimiter of an open CSV file and leave the pointer at the header line.
+	 *
+	 * Must be called right after the BOM has been consumed.
+	 *
+	 * @param resource $handle Open file handle.
+	 * @return string Detected delimiter.
+	 */
+	private function detect_handle_delimiter( $handle ): string {
+		$start = ftell( $handle );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fgets -- Reading uploaded file for validation.
+		$line = fgets( $handle );
+		fseek( $handle, false === $start ? 0 : $start );
+
+		return $this->detect_delimiter( $line );
 	}
 
 	/**

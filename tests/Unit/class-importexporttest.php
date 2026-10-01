@@ -294,6 +294,125 @@ class ImportExportTest extends TestCase {
 	}
 
 	/**
+	 * Write CSV content to a temp file and parse it as a subscriber import.
+	 *
+	 * @param string $content CSV file content.
+	 * @return array Parse result.
+	 */
+	private function parse_subscribers_from_string( string $content ): array {
+		$file = tempnam( sys_get_temp_dir(), 'mskd_test' );
+		file_put_contents( $file, $content );
+		$result = $this->service->parse_subscribers_csv( $file );
+		unlink( $file );
+
+		return $result;
+	}
+
+	/**
+	 * Excel in bg/de locales saves semicolon-delimited "CSV".
+	 */
+	public function test_parse_subscribers_csv_accepts_semicolon_delimiter(): void {
+		$result = $this->parse_subscribers_from_string(
+			"email;first_name;last_name;status\njohn@example.com;John;Doe;active\njane@example.com;Jane;Smith;inactive\n"
+		);
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertSame( array( 'email', 'first_name', 'last_name', 'status' ), $result['headers'] );
+		$this->assertCount( 2, $result['rows'] );
+		$this->assertSame( 'john@example.com', $result['rows'][0]['email'] );
+		$this->assertSame( 'Doe', $result['rows'][0]['last_name'] );
+		$this->assertSame( 'inactive', $result['rows'][1]['status'] );
+		$this->assertEmpty( $result['errors'] );
+	}
+
+	/**
+	 * Tab-delimited files are detected too.
+	 */
+	public function test_parse_subscribers_csv_accepts_tab_delimiter(): void {
+		$result = $this->parse_subscribers_from_string(
+			"email\tfirst_name\tlast_name\njohn@example.com\tJohn\tDoe\n"
+		);
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertSame( 'John', $result['rows'][0]['first_name'] );
+		$this->assertSame( 'Doe', $result['rows'][0]['last_name'] );
+	}
+
+	/**
+	 * A UTF-8 BOM (as written by Excel) in front of a semicolon header is skipped first.
+	 */
+	public function test_parse_subscribers_csv_semicolon_with_bom(): void {
+		$result = $this->parse_subscribers_from_string(
+			"\xEF\xBB\xBFemail;first_name\njohn@example.com;Иван\n"
+		);
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertSame( array( 'email', 'first_name' ), $result['headers'] );
+		$this->assertSame( 'Иван', $result['rows'][0]['first_name'] );
+	}
+
+	/**
+	 * In a semicolon file the quoted "lists" value keeps its own semicolon separators.
+	 */
+	public function test_parse_subscribers_csv_semicolon_file_keeps_quoted_lists_value(): void {
+		$result = $this->parse_subscribers_from_string(
+			"email;first_name;lists\njohn@example.com;John;\"Newsletter;Updates\"\n"
+		);
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertSame( 'John', $result['rows'][0]['first_name'] );
+		$this->assertSame( 'Newsletter;Updates', $result['rows'][0]['lists'] );
+	}
+
+	/**
+	 * Delimiters inside quoted header names do not confuse detection, and commas still win by default.
+	 */
+	public function test_parse_subscribers_csv_comma_file_is_unchanged(): void {
+		$result = $this->parse_subscribers_from_string(
+			"email,first_name,lists\njohn@example.com,John,\"Newsletter;Updates\"\n"
+		);
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertSame( 'John', $result['rows'][0]['first_name'] );
+		$this->assertSame( 'Newsletter;Updates', $result['rows'][0]['lists'] );
+	}
+
+	/**
+	 * A single-column file (no delimiter at all) falls back to the comma and still parses.
+	 */
+	public function test_parse_subscribers_csv_single_column_file(): void {
+		$result = $this->parse_subscribers_from_string( "email\njohn@example.com\n" );
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertSame( 'john@example.com', $result['rows'][0]['email'] );
+	}
+
+	/**
+	 * An empty file still reports a header error rather than crashing in detection.
+	 */
+	public function test_parse_subscribers_csv_empty_file_reports_header_error(): void {
+		$result = $this->parse_subscribers_from_string( '' );
+
+		$this->assertFalse( $result['valid'] );
+	}
+
+	/**
+	 * List imports accept semicolon-delimited files as well.
+	 */
+	public function test_parse_lists_csv_accepts_semicolon_delimiter(): void {
+		$file = tempnam( sys_get_temp_dir(), 'mskd_test' );
+		file_put_contents( $file, "name;description\nNewsletter;Weekly news\nUpdates;Product updates\n" );
+
+		$result = $this->service->parse_lists_csv( $file );
+		unlink( $file );
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertCount( 2, $result['rows'] );
+		$this->assertSame( 'Newsletter', $result['rows'][0]['name'] );
+		$this->assertSame( 'Product updates', $result['rows'][1]['description'] );
+	}
+
+	/**
 	 * Test parse subscribers CSV validates email column.
 	 */
 	public function test_parse_subscribers_csv_requires_email_column(): void {
