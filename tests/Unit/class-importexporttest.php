@@ -280,6 +280,86 @@ class ImportExportTest extends TestCase {
 	}
 
 	/**
+	 * Build a row set that tries to re-activate an existing unsubscribed subscriber.
+	 *
+	 * @return array
+	 */
+	private function unsubscribed_row_fixture(): array {
+		$this->wpdb->shouldReceive( 'get_row' )
+			->andReturn(
+				(object) array(
+					'id'     => 1,
+					'email'  => 'carol@example.test',
+					'status' => 'unsubscribed',
+				)
+			);
+
+		return array(
+			array(
+				'email'      => 'carol@example.test',
+				'first_name' => 'Carol',
+				'last_name'  => '',
+				'status'     => 'active',
+				'lists'      => '',
+			),
+		);
+	}
+
+	/**
+	 * An import must not re-activate an unsubscribed subscriber by default.
+	 */
+	public function test_import_update_existing_keeps_unsubscribed_status(): void {
+		$rows = $this->unsubscribed_row_fixture();
+
+		$updates = array();
+		$this->wpdb->shouldReceive( 'update' )
+			->andReturnUsing(
+				function ( $table, $data ) use ( &$updates ) {
+					$updates[] = $data;
+					return 1;
+				}
+			);
+
+		$result = $this->service->import_subscribers( $rows, array( 'update_existing' => true ) );
+
+		$this->assertSame( 1, $result['updated'] );
+		$this->assertSame( 1, $result['kept_unsubscribed'] );
+		$this->assertNotEmpty( $updates );
+		foreach ( $updates as $data ) {
+			$this->assertArrayNotHasKey( 'status', $data );
+		}
+	}
+
+	/**
+	 * With allow_resubscribe the CSV status is applied to an unsubscribed subscriber.
+	 */
+	public function test_import_update_existing_resubscribes_when_allowed(): void {
+		$rows = $this->unsubscribed_row_fixture();
+
+		$updates = array();
+		$this->wpdb->shouldReceive( 'update' )
+			->andReturnUsing(
+				function ( $table, $data ) use ( &$updates ) {
+					$updates[] = $data;
+					return 1;
+				}
+			);
+
+		$result = $this->service->import_subscribers(
+			$rows,
+			array(
+				'update_existing'   => true,
+				'allow_resubscribe' => true,
+			)
+		);
+
+		$this->assertSame( 1, $result['updated'] );
+		$this->assertSame( 0, $result['kept_unsubscribed'] );
+		$statuses = array_column( $updates, 'status' );
+		$this->assertContains( 'active', $statuses );
+	}
+
+	/**
 	 * Test parse lists CSV requires name column.
 	 */
 	public function test_parse_lists_csv_requires_name_column(): void {

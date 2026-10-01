@@ -3184,3 +3184,19 @@ msgstr "Получателят вече не е активен; доставка
 #: includes/services/class-queue-maintenance.php:152
 msgid "Recipient unsubscribed before delivery; delivery cancelled."
 msgstr "Получателят се отписа преди доставката; доставката е отменена."
+
+#: admin/partials/import-export.php:198
+msgid "Allow re-activating unsubscribed subscribers"
+msgstr "Позволи повторно активиране на отписани абонати"
+
+#: admin/partials/import-export.php:200
+msgid "Warning: this overrides their opt-out. Only enable it if you have fresh consent. Applies only together with \"Update existing subscribers\"."
+msgstr "Внимание: това отменя отписването им. Включете го само ако имате ново съгласие. Действа само заедно с „Актуализирай съществуващи абонати“."
+
+#. translators: %d: number of unsubscribed subscribers whose status was preserved
+#: includes/Admin/class-admin-import-export.php:289
+#, php-format
+msgid "%d unsubscribed subscriber kept unsubscribed."
+msgid_plural "%d unsubscribed subscribers kept unsubscribed."
+msgstr[0] "%d отписан абонат остана отписан."
+msgstr[1] "%d отписани абонати останаха отписани."
