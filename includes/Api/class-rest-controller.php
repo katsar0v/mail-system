@@ -207,6 +207,12 @@ class Rest_Controller {
 		try {
 			$params = is_array( $request->get_json_params() ) ? $request->get_json_params() : array();
 
+			// Reject wrongly typed fields instead of coercing them (e.g. an array subject to "Array").
+			$param_error = self::validate_campaign_params( $params );
+			if ( null !== $param_error ) {
+				return $param_error;
+			}
+
 			// Resolve scheduling from an optional ISO-8601 timestamp.
 			$schedule = self::parse_scheduled_at( $params['scheduled_at'] ?? '' );
 			if ( isset( $schedule['error'] ) ) {
@@ -224,7 +230,9 @@ class Rest_Controller {
 					'body'         => isset( $params['body'] ) ? mskd_kses_email( (string) $params['body'] ) : '',
 					'list_ids'     => array_map( 'sanitize_text_field', $list_ids ),
 					'bcc'          => $bcc,
-					'from_email'   => isset( $params['from_email'] ) ? sanitize_email( (string) $params['from_email'] ) : '',
+					// Not sanitized here: sanitize_email() would turn an invalid address into '' and the
+					// sender would silently fall back to the default. Campaign_Service validates it.
+					'from_email'   => isset( $params['from_email'] ) ? trim( $params['from_email'] ) : '',
 					'from_name'    => isset( $params['from_name'] ) ? sanitize_text_field( (string) $params['from_name'] ) : '',
 					'scheduled_at' => $schedule['scheduled_at'],
 					'is_immediate' => $schedule['is_immediate'],
@@ -254,6 +262,46 @@ class Rest_Controller {
 		} finally {
 			delete_option( $lock_key );
 		}
+	}
+
+	/**
+	 * Validate the JSON types of the POST /campaigns fields.
+	 *
+	 * Text fields must be strings, and `list_ids` must be an array (or a single value) of
+	 * strings/integers. Anything else is rejected with a 400 rather than cast.
+	 *
+	 * @param array $params Decoded JSON body.
+	 * @return \WP_Error|null Error naming the first offending field, or null when valid.
+	 */
+	public static function validate_campaign_params( array $params ): ?\WP_Error {
+		foreach ( array( 'subject', 'body', 'from_email', 'from_name' ) as $field ) {
+			if ( isset( $params[ $field ] ) && ! is_string( $params[ $field ] ) ) {
+				return new \WP_Error(
+					'invalid_param',
+					sprintf(
+						/* translators: %s: Request field name */
+						__( 'The "%s" field must be a string.', 'mail-system' ),
+						$field
+					),
+					array( 'status' => 400 )
+				);
+			}
+		}
+
+		if ( isset( $params['list_ids'] ) ) {
+			$list_ids = is_array( $params['list_ids'] ) ? $params['list_ids'] : array( $params['list_ids'] );
+			foreach ( $list_ids as $list_id ) {
+				if ( ! is_string( $list_id ) && ! is_int( $list_id ) ) {
+					return new \WP_Error(
+						'invalid_param',
+						__( 'The "list_ids" field must be an array of list identifiers (strings or integers).', 'mail-system' ),
+						array( 'status' => 400 )
+					);
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**

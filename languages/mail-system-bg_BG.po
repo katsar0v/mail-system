@@ -3200,3 +3200,13 @@ msgid "%d unsubscribed subscriber kept unsubscribed."
 msgid_plural "%d unsubscribed subscribers kept unsubscribed."
 msgstr[0] "%d отписан абонат остана отписан."
 msgstr[1] "%d отписани абонати останаха отписани."
+
+#. translators: %s: Request field name
+#: includes/Api/class-rest-controller.php:283
+#, php-format
+msgid "The \"%s\" field must be a string."
+msgstr "Полето „%s“ трябва да е низ."
+
+#: includes/Api/class-rest-controller.php:297
+msgid "The \"list_ids\" field must be an array of list identifiers (strings or integers)."
+msgstr "Полето „list_ids“ трябва да е масив от идентификатори на списъци (низове или цели числа)."

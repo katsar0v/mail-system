@@ -3222,3 +3222,13 @@ msgid "%d unsubscribed subscriber kept unsubscribed."
 msgid_plural "%d unsubscribed subscribers kept unsubscribed."
 msgstr[0] "%d abgemeldeter Abonnent blieb abgemeldet."
 msgstr[1] "%d abgemeldete Abonnenten blieben abgemeldet."
+
+#. translators: %s: Request field name
+#: includes/Api/class-rest-controller.php:283
+#, php-format
+msgid "The \"%s\" field must be a string."
+msgstr "Das Feld „%s“ muss eine Zeichenkette sein."
+
+#: includes/Api/class-rest-controller.php:297
+msgid "The \"list_ids\" field must be an array of list identifiers (strings or integers)."
+msgstr "Das Feld „list_ids“ muss ein Array von Listenkennungen (Zeichenketten oder Ganzzahlen) sein."
