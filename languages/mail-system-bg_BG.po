@@ -3210,3 +3210,7 @@ msgstr "Полето „%s“ трябва да е низ."
 #: includes/Api/class-rest-controller.php:297
 msgid "The \"list_ids\" field must be an array of list identifiers (strings or integers)."
 msgstr "Полето „list_ids“ трябва да е масив от идентификатори на списъци (низове или цели числа)."
+
+#: includes/Api/class-rest-controller.php:352
+msgid "This Idempotency-Key was already used with a different request payload."
+msgstr "Този Idempotency-Key вече е използван с друго съдържание на заявката."

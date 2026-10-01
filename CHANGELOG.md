@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **`Idempotency-Key` is now bound to the request payload (#137)** — re-using a key with a different `POST /campaigns` payload returns `422 idempotency_key_reused` instead of replaying the original campaign with `200`, so a client bug or key collision no longer looks like success. The same key with the same payload (JSON key order ignored) still replays the original response, and replay entries cached by earlier versions keep working until they expire.
 - **Themed API Reference documentation page** — the developer API reference is now published as a styled GitHub Pages subpage (`docs/api-reference.html`) that matches the project landing page, with a sticky "On this page" table of contents, syntax-highlighted PHP samples, copy-to-clipboard buttons on every code block, and a responsive layout. The Documentation links now open the rendered page instead of the raw Markdown file.
 
 ### Changed

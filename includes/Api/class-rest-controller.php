@@ -38,6 +38,13 @@ class Rest_Controller {
 	const IDEMPOTENCY_TTL = DAY_IN_SECONDS;
 
 	/**
+	 * Outcomes of looking up an Idempotency-Key in the replay cache.
+	 */
+	const IDEMPOTENCY_MISS     = 'miss';
+	const IDEMPOTENCY_REPLAY   = 'replay';
+	const IDEMPOTENCY_CONFLICT = 'conflict';
+
+	/**
 	 * Maximum time an abandoned idempotency lock may block retries.
 	 */
 	const IDEMPOTENCY_LOCK_TTL = HOUR_IN_SECONDS;
@@ -181,10 +188,14 @@ class Rest_Controller {
 		$user_id  = isset( $this->current_auth['user_id'] ) ? (int) $this->current_auth['user_id'] : 0;
 		$idem_key = 'mskd_idem_' . hash( 'sha256', $user_id . '|' . $idempotency_key );
 
-		$stored = get_transient( $idem_key );
-		if ( is_array( $stored ) ) {
-			// Replay: return the original outcome without creating a duplicate campaign.
-			return new \WP_REST_Response( $stored, 200 );
+		$params      = is_array( $request->get_json_params() ) ? $request->get_json_params() : array();
+		$fingerprint = self::payload_fingerprint( $params );
+
+		$replay = $this->idempotency_result( get_transient( $idem_key ), $fingerprint );
+		if ( null !== $replay ) {
+			// Replay the original outcome (or reject a key reused with another payload)
+			// without creating a duplicate campaign.
+			return $replay;
 		}
 
 		// Transient reads and writes are not atomic. Guard the critical section with a
@@ -192,9 +203,9 @@ class Rest_Controller {
 		// create a campaign.
 		$lock_key = $idem_key . '_lock';
 		if ( ! $this->acquire_lock( $lock_key ) ) {
-			$stored = get_transient( $idem_key );
-			if ( is_array( $stored ) ) {
-				return new \WP_REST_Response( $stored, 200 );
+			$replay = $this->idempotency_result( get_transient( $idem_key ), $fingerprint );
+			if ( null !== $replay ) {
+				return $replay;
 			}
 
 			return new \WP_Error(
@@ -205,8 +216,6 @@ class Rest_Controller {
 		}
 
 		try {
-			$params = is_array( $request->get_json_params() ) ? $request->get_json_params() : array();
-
 			// Reject wrongly typed fields instead of coercing them (e.g. an array subject to "Array").
 			$param_error = self::validate_campaign_params( $params );
 			if ( null !== $param_error ) {
@@ -256,7 +265,14 @@ class Rest_Controller {
 				'total_recipients' => $result['total_recipients'],
 			);
 
-			set_transient( $idem_key, $response_body, self::IDEMPOTENCY_TTL );
+			set_transient(
+				$idem_key,
+				array(
+					'fingerprint' => $fingerprint,
+					'response'    => $response_body,
+				),
+				self::IDEMPOTENCY_TTL
+			);
 
 			return new \WP_REST_Response( $response_body, 201 );
 		} finally {
@@ -299,6 +315,91 @@ class Rest_Controller {
 					);
 				}
 			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Fingerprint a request payload so an Idempotency-Key can be tied to what it created.
+	 *
+	 * Object key order does not matter; values and list order do.
+	 *
+	 * @param array $params Decoded JSON body.
+	 * @return string SHA-256 hex digest.
+	 */
+	public static function payload_fingerprint( array $params ): string {
+		$json = wp_json_encode( self::ksort_recursive( $params ) );
+
+		return hash( 'sha256', false === $json ? '' : $json );
+	}
+
+	/**
+	 * Sort an array by key at every depth so equal JSON objects encode identically.
+	 *
+	 * @param array $data Array to normalize.
+	 * @return array
+	 */
+	private static function ksort_recursive( array $data ): array {
+		ksort( $data );
+		foreach ( $data as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$data[ $key ] = self::ksort_recursive( $value );
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Decide what a cached Idempotency-Key entry means for the current request.
+	 *
+	 * @param mixed  $stored      Value read from the replay cache (false when absent).
+	 * @param string $fingerprint Fingerprint of the current request payload.
+	 * @return array { outcome: miss|replay|conflict, response: array|null }
+	 */
+	public static function classify_idempotency_entry( $stored, string $fingerprint ): array {
+		if ( ! is_array( $stored ) ) {
+			return array(
+				'outcome'  => self::IDEMPOTENCY_MISS,
+				'response' => null,
+			);
+		}
+
+		// Entries cached before payloads were fingerprinted hold the bare response body.
+		if ( ! isset( $stored['fingerprint'], $stored['response'] ) || ! is_array( $stored['response'] ) ) {
+			return array(
+				'outcome'  => self::IDEMPOTENCY_REPLAY,
+				'response' => $stored,
+			);
+		}
+
+		return array(
+			'outcome'  => hash_equals( (string) $stored['fingerprint'], $fingerprint ) ? self::IDEMPOTENCY_REPLAY : self::IDEMPOTENCY_CONFLICT,
+			'response' => $stored['response'],
+		);
+	}
+
+	/**
+	 * Turn a cached Idempotency-Key entry into a response, if it applies.
+	 *
+	 * @param mixed  $stored      Value read from the replay cache.
+	 * @param string $fingerprint Fingerprint of the current request payload.
+	 * @return \WP_REST_Response|\WP_Error|null Replay, 422 conflict, or null when nothing is cached.
+	 */
+	private function idempotency_result( $stored, string $fingerprint ) {
+		$entry = self::classify_idempotency_entry( $stored, $fingerprint );
+
+		if ( self::IDEMPOTENCY_REPLAY === $entry['outcome'] ) {
+			return new \WP_REST_Response( $entry['response'], 200 );
+		}
+
+		if ( self::IDEMPOTENCY_CONFLICT === $entry['outcome'] ) {
+			return new \WP_Error(
+				'idempotency_key_reused',
+				__( 'This Idempotency-Key was already used with a different request payload.', 'mail-system' ),
+				array( 'status' => 422 )
+			);
 		}
 
 		return null;
