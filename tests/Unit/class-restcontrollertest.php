@@ -11,6 +11,7 @@
 
 namespace MSKD\Tests\Unit;
 
+use Brain\Monkey\Functions;
 use MSKD\Api\Rest_Controller;
 
 /**
@@ -160,5 +161,126 @@ class Rest_Controller_Test extends TestCase {
 	public function test_invalid_sender_maps_to_bad_request(): void {
 		$this->assertSame( 400, Rest_Controller::status_for_error( 'invalid_sender' ) );
 		$this->assertSame( 400, Rest_Controller::status_for_error( 'invalid_param' ) );
+	}
+
+	/**
+	 * Stub wp_json_encode() for the fingerprint helper.
+	 */
+	private function stub_json_encode(): void {
+		Functions\when( 'wp_json_encode' )->alias(
+			function ( $data ) {
+				return json_encode( $data ); // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode -- Test stand-in for wp_json_encode().
+			}
+		);
+	}
+
+	/**
+	 * Identical payloads share a fingerprint regardless of object key order.
+	 */
+	public function test_payload_fingerprint_ignores_key_order(): void {
+		$this->stub_json_encode();
+
+		$a = array(
+			'subject'  => 'Hello',
+			'body'     => '<p>x</p>',
+			'list_ids' => array( '1', '2' ),
+			'meta'     => array(
+				'a' => 1,
+				'b' => 2,
+			),
+		);
+		$b = array(
+			'meta'     => array(
+				'b' => 2,
+				'a' => 1,
+			),
+			'list_ids' => array( '1', '2' ),
+			'body'     => '<p>x</p>',
+			'subject'  => 'Hello',
+		);
+
+		$this->assertSame( Rest_Controller::payload_fingerprint( $a ), Rest_Controller::payload_fingerprint( $b ) );
+	}
+
+	/**
+	 * Any value or list-order difference changes the fingerprint.
+	 */
+	public function test_payload_fingerprint_differs_for_different_payloads(): void {
+		$this->stub_json_encode();
+
+		$base = array(
+			'subject'  => 'Hello',
+			'list_ids' => array( '1', '2' ),
+		);
+
+		$this->assertNotSame(
+			Rest_Controller::payload_fingerprint( $base ),
+			Rest_Controller::payload_fingerprint( array_merge( $base, array( 'subject' => 'Other' ) ) )
+		);
+		$this->assertNotSame(
+			Rest_Controller::payload_fingerprint( $base ),
+			Rest_Controller::payload_fingerprint( array_merge( $base, array( 'list_ids' => array( '3' ) ) ) )
+		);
+	}
+
+	/**
+	 * Nothing cached means the request proceeds normally.
+	 */
+	public function test_classify_idempotency_entry_miss(): void {
+		$entry = Rest_Controller::classify_idempotency_entry( false, 'abc' );
+
+		$this->assertSame( Rest_Controller::IDEMPOTENCY_MISS, $entry['outcome'] );
+		$this->assertNull( $entry['response'] );
+	}
+
+	/**
+	 * Same key and same payload replays the original response.
+	 */
+	public function test_classify_idempotency_entry_replays_same_payload(): void {
+		$response = array(
+			'campaign_id' => 4,
+			'status'      => 'queued',
+		);
+
+		$entry = Rest_Controller::classify_idempotency_entry(
+			array(
+				'fingerprint' => 'abc',
+				'response'    => $response,
+			),
+			'abc'
+		);
+
+		$this->assertSame( Rest_Controller::IDEMPOTENCY_REPLAY, $entry['outcome'] );
+		$this->assertSame( $response, $entry['response'] );
+	}
+
+	/**
+	 * Same key with a different payload is a conflict, not a replay.
+	 */
+	public function test_classify_idempotency_entry_conflicts_on_different_payload(): void {
+		$entry = Rest_Controller::classify_idempotency_entry(
+			array(
+				'fingerprint' => 'abc',
+				'response'    => array( 'campaign_id' => 4 ),
+			),
+			'different'
+		);
+
+		$this->assertSame( Rest_Controller::IDEMPOTENCY_CONFLICT, $entry['outcome'] );
+	}
+
+	/**
+	 * Entries cached by an older version (bare response, no fingerprint) still replay.
+	 */
+	public function test_classify_idempotency_entry_replays_legacy_entry(): void {
+		$legacy = array(
+			'campaign_id' => 4,
+			'status'      => 'queued',
+		);
+
+		$entry = Rest_Controller::classify_idempotency_entry( $legacy, 'anything' );
+
+		$this->assertSame( Rest_Controller::IDEMPOTENCY_REPLAY, $entry['outcome'] );
+		$this->assertSame( $legacy, $entry['response'] );
 	}
 }

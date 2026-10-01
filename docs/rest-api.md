@@ -244,6 +244,12 @@ key (from the same token owner) is received again within 24 hours, the API retur
 **original** result with `200 OK` instead of creating a second campaign. This makes it
 safe to retry after a network timeout.
 
+The key is bound to the request payload. Re-using a key with a **different** payload
+(different subject, body, lists, schedule, …; JSON key order is ignored) is rejected with
+`422 idempotency_key_reused` instead of silently returning the earlier campaign, so a client
+bug or a key collision is visible. Use a new key for a new campaign. Requests that fail
+validation do not consume the key, so you can correct the payload and retry with the same key.
+
 A missing `Idempotency-Key` returns `400 missing_idempotency_key`.
 
 ## Errors
@@ -261,6 +267,7 @@ Errors use conventional HTTP status codes and a JSON body of the shape:
 | `403`  | `insufficient_scope`, `forbidden_token`                                                      | Authenticated but not authorized.              |
 | `404`  | `not_found`                                                                                  | Campaign does not exist.                       |
 | `409`  | `not_cancellable`                                                                            | Campaign can no longer be cancelled.           |
+| `422`  | `idempotency_key_reused`                                                                     | `Idempotency-Key` was already used with a different payload. |
 | `500`  | `db_error`                                                                                   | The campaign could not be persisted.           |
 
 ## Troubleshooting the Authorization header

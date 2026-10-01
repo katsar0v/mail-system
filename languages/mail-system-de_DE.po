@@ -3232,3 +3232,7 @@ msgstr "Das Feld „%s“ muss eine Zeichenkette sein."
 #: includes/Api/class-rest-controller.php:297
 msgid "The \"list_ids\" field must be an array of list identifiers (strings or integers)."
 msgstr "Das Feld „list_ids“ muss ein Array von Listenkennungen (Zeichenketten oder Ganzzahlen) sein."
+
+#: includes/Api/class-rest-controller.php:352
+msgid "This Idempotency-Key was already used with a different request payload."
+msgstr "Dieser Idempotency-Key wurde bereits mit einer anderen Anfrage verwendet."
