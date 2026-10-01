@@ -233,6 +233,11 @@ Actual delivery speed is governed by the **emails-per-minute** setting under
 
 ## Idempotency
 
+Fields are never coerced: `subject`, `body`, `from_email` and `from_name` must be JSON
+strings and `list_ids` must be an array of strings or integers, otherwise the request is
+rejected with `400 invalid_param` naming the field. An invalid `from_email` returns
+`400 invalid_sender` (it is not silently replaced by the default sender).
+
 `POST /campaigns` requires an `Idempotency-Key` header. Choose a unique, stable value
 per logical campaign (for example `newsletter-2026-07-22`). If a request with the same
 key (from the same token owner) is received again within 24 hours, the API returns the
@@ -251,7 +256,7 @@ Errors use conventional HTTP status codes and a JSON body of the shape:
 
 | Status | Codes                                                                                       | Meaning                                        |
 | ------ | ------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| `400`  | `missing_idempotency_key`, `missing_subject`, `missing_body`, `missing_lists`, `invalid_sender`, `invalid_bcc`, `unknown_list`, `no_recipients`, `invalid_schedule`, `past_schedule` | Malformed or invalid request. |
+| `400`  | `missing_idempotency_key`, `invalid_param`, `missing_subject`, `missing_body`, `missing_lists`, `invalid_sender`, `invalid_bcc`, `unknown_list`, `no_recipients`, `invalid_schedule`, `past_schedule` | Malformed or invalid request. |
 | `401`  | `missing_token`, `invalid_token`, `expired_token`, `revoked_token`                           | Authentication failed.                         |
 | `403`  | `insufficient_scope`, `forbidden_token`                                                      | Authenticated but not authorized.              |
 | `404`  | `not_found`                                                                                  | Campaign does not exist.                       |

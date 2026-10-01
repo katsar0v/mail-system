@@ -82,4 +82,83 @@ class Rest_Controller_Test extends TestCase {
 		$this->assertSame( 400, Rest_Controller::status_for_error( 'no_recipients' ) );
 		$this->assertSame( 400, Rest_Controller::status_for_error( null ) );
 	}
+
+	/**
+	 * Well-typed campaign payloads pass validation.
+	 */
+	public function test_validate_campaign_params_accepts_valid_payload(): void {
+		$this->assertNull(
+			Rest_Controller::validate_campaign_params(
+				array(
+					'subject'    => 'Hello',
+					'body'       => '<p>x</p>',
+					'list_ids'   => array( '1', 2, 'ext_customers' ),
+					'from_email' => 'sender@example.com',
+					'from_name'  => 'Sender',
+				)
+			)
+		);
+		// A single list identifier is still accepted.
+		$this->assertNull( Rest_Controller::validate_campaign_params( array( 'list_ids' => '1' ) ) );
+		// Missing fields are the campaign service's job (missing_subject etc.).
+		$this->assertNull( Rest_Controller::validate_campaign_params( array() ) );
+	}
+
+	/**
+	 * Array/object/number text fields are rejected instead of being stored as "Array".
+	 *
+	 * @dataProvider non_string_field_provider
+	 *
+	 * @param string $field Field name.
+	 * @param mixed  $value Wrongly typed value.
+	 */
+	public function test_validate_campaign_params_rejects_non_string_text_fields( string $field, $value ): void {
+		$error = Rest_Controller::validate_campaign_params(
+			array(
+				'subject'  => 'ok',
+				'body'     => '<p>ok</p>',
+				'list_ids' => array( '1' ),
+				$field     => $value,
+			)
+		);
+
+		$this->assertInstanceOf( \WP_Error::class, $error );
+		$this->assertSame( 'invalid_param', $error->get_error_code() );
+		$this->assertSame( array( 'status' => 400 ), $error->get_error_data() );
+		$this->assertStringContainsString( $field, $error->get_error_message() );
+	}
+
+	/**
+	 * Wrongly typed values for each text field.
+	 *
+	 * @return array
+	 */
+	public function non_string_field_provider(): array {
+		return array(
+			'array subject'     => array( 'subject', array( 'a', 'b' ) ),
+			'array body'        => array( 'body', array( '<p>x</p>' ) ),
+			'numeric from_name' => array( 'from_name', 42 ),
+			'array from_email'  => array( 'from_email', array( 'a@example.com' ) ),
+			'bool subject'      => array( 'subject', true ),
+		);
+	}
+
+	/**
+	 * Nested or non-scalar list identifiers are rejected.
+	 */
+	public function test_validate_campaign_params_rejects_invalid_list_ids(): void {
+		$error = Rest_Controller::validate_campaign_params( array( 'list_ids' => array( array( '1' ) ) ) );
+
+		$this->assertInstanceOf( \WP_Error::class, $error );
+		$this->assertSame( 'invalid_param', $error->get_error_code() );
+		$this->assertStringContainsString( 'list_ids', $error->get_error_message() );
+	}
+
+	/**
+	 * An invalid from_email reaches the campaign service and maps to a 400.
+	 */
+	public function test_invalid_sender_maps_to_bad_request(): void {
+		$this->assertSame( 400, Rest_Controller::status_for_error( 'invalid_sender' ) );
+		$this->assertSame( 400, Rest_Controller::status_for_error( 'invalid_param' ) );
+	}
 }
