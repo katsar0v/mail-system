@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Security
+
+## [1.1.4] - 2026-10-01
+
+### Added
 - **`Idempotency-Key` is now bound to the request payload (#137)** — re-using a key with a different `POST /campaigns` payload returns `422 idempotency_key_reused` instead of replaying the original campaign with `200`, so a client bug or key collision no longer looks like success. The same key with the same payload (JSON key order ignored) still replays the original response, and replay entries cached by earlier versions keep working until they expire.
 - **CSV import accepts semicolon- and tab-delimited files (#138)** — Excel in many locales, including Bulgarian and German, saves "CSV" with `;` as the delimiter, which previously failed with "The CSV file must contain an "email" column." The subscriber and list importers now detect comma, semicolon or tab from the header line (delimiters inside quoted text are ignored; a UTF-8 BOM is skipped first). Export is unchanged and still writes standard comma-separated files.
 - **Themed API Reference documentation page** — the developer API reference is now published as a styled GitHub Pages subpage (`docs/api-reference.html`) that matches the project landing page, with a sticky "On this page" table of contents, syntax-highlighted PHP samples, copy-to-clipboard buttons on every code block, and a responsive layout. The Documentation links now open the rendered page instead of the raw Markdown file.
@@ -25,8 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`POST /campaigns` validates field types and no longer drops an invalid `from_email` (#136)** — a non-string `subject`, `body`, `from_email` or `from_name` (or a malformed `list_ids`) is now rejected with `400 invalid_param` instead of being cast (an array subject was stored as the literal "Array"). An invalid `from_email` now returns `400 invalid_sender` instead of being silently emptied by `sanitize_email()`, which sent the campaign from the default sender.
 - **Campaigns no longer remain in progress after recipients unsubscribe** — pending queue rows for inactive or unsubscribed recipients are now cancelled and included in campaign completion. The cron worker repairs historical rows automatically, the unsubscribe path cancels new pending deliveries immediately, and the atomic queue claim rechecks subscriber activity to close the selection/send race.
 - **Bulgarian status labels no longer mix singular and plural** — the campaign queue showed a single campaign as "Завършена" (feminine singular) next to "Отменени" (plural), because one string served both the status badge of a single item and the filter links that count many. Status, type and subscriber labels that describe a single row now use context-qualified strings (`_x()`), so Bulgarian can render campaign badges as feminine singular ("Завършена", "Отменена", "Насрочена"), email badges as masculine singular ("Изпратен", "Неуспешен", "Отменен") and the filter links as plural ("Завършени", "Отменени", "Насрочени"). German keeps its existing wording, and the date columns "Sent"/"Opened"/"Scheduled" now read as column headers ("Изпратен на", "Gesendet am") instead of as filter labels.
-
-### Security
 
 ## [1.1.3] - 2026-07-21
 
@@ -340,7 +348,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Minor** (0.X.0) - New features, backward compatible
 - **Patch** (0.0.X) - Bug fixes, backward compatible
 
-[Unreleased]: https://github.com/katsarov-design/mail-system/compare/1.1.3...HEAD
+[Unreleased]: https://github.com/katsarov-design/mail-system/compare/1.1.4...HEAD
+[1.1.4]: https://github.com/katsarov-design/mail-system/compare/1.1.3...1.1.4
 [1.1.3]: https://github.com/katsarov-design/mail-system/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/katsarov-design/mail-system/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/katsarov-design/mail-system/compare/1.1.0...1.1.1
