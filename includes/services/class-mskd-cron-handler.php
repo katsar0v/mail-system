@@ -288,11 +288,14 @@ class MSKD_Cron_Handler {
 				$wpdb->update(
 					$wpdb->prefix . 'mskd_queue',
 					array(
-						'status'  => 'sent',
-						'sent_at' => current_time( 'mysql' ),
+						'status'                => 'sent',
+						'sent_at'               => current_time( 'mysql' ),
+						// Clear leftovers of earlier failed attempts and of the processing claim.
+						'error_message'         => null,
+						'processing_started_at' => null,
 					),
 					array( 'id' => $item->id ),
-					array( '%s', '%s' ),
+					array( '%s', '%s', '%s', '%s' ),
 					array( '%d' )
 				);
 
@@ -340,12 +343,13 @@ class MSKD_Cron_Handler {
 					$wpdb->update(
 						$wpdb->prefix . 'mskd_queue',
 						array(
-							'status'        => 'pending',
-							'scheduled_at'  => mskd_local_time_from_timestamp( $retry_timestamp ),
-							'error_message' => $retry_message,
+							'status'                => 'pending',
+							'scheduled_at'          => mskd_local_time_from_timestamp( $retry_timestamp ),
+							'error_message'         => $retry_message,
+							'processing_started_at' => null,
 						),
 						array( 'id' => $item->id ),
-						array( '%s', '%s', '%s' ),
+						array( '%s', '%s', '%s', '%s' ),
 						array( '%d' )
 					);
 				} else {

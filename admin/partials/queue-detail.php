@@ -504,7 +504,7 @@ $can_cancel = in_array( $campaign->status, array( 'pending', 'processing' ), tru
 							<?php endif; ?>
 						</td>
 						<td>
-							<?php if ( $item->error_message ) : ?>
+							<?php if ( $item->error_message && 'sent' !== $item->status ) : ?>
 								<small class="mskd-error-msg"><?php echo esc_html( $item->error_message ); ?></small>
 							<?php else : ?>
 								—

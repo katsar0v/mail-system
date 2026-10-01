@@ -548,6 +548,122 @@ class CronHandlerTest extends TestCase {
 	}
 
 	/**
+	 * Build a single pending queue item for send-outcome tests.
+	 *
+	 * @param int $attempts Attempts already made before this run.
+	 * @return array
+	 */
+	private function single_queue_item( int $attempts ): array {
+		return array(
+			(object) array(
+				'id'                => 1,
+				'subscriber_id'     => 100,
+				'email'             => 'user@example.com',
+				'first_name'        => 'Test',
+				'last_name'         => 'User',
+				'subject'           => 'Subject',
+				'body'              => 'Body',
+				'status'            => 'pending',
+				'attempts'          => $attempts,
+				'unsubscribe_token' => 'abc123def456abc123def456abc12345',
+				'from_email'        => null,
+				'from_name'         => null,
+			),
+		);
+	}
+
+	/**
+	 * Run process_queue() for one item and return every non-claim queue update payload.
+	 *
+	 * @param array $queue_items Items the pending-queue select returns.
+	 * @return array[] Update payloads written to the queue table after the claim.
+	 */
+	private function run_queue_and_collect_updates( array $queue_items ): array {
+		$wpdb = $this->setup_wpdb_mock();
+
+		$wpdb->shouldReceive( 'get_results' )
+			->once()
+			->with(
+				Mockery::on(
+					function ( $query ) {
+						return strpos( $query, "status = 'processing'" ) !== false;
+					}
+				)
+			)
+			->andReturn( array() );
+		$wpdb->shouldReceive( 'get_results' )
+			->once()
+			->with(
+				Mockery::on(
+					function ( $query ) {
+						return strpos( $query, "status = 'pending'" ) !== false;
+					}
+				)
+			)
+			->andReturn( $queue_items );
+
+		$updates = array();
+		$wpdb->shouldReceive( 'update' )
+			->andReturnUsing(
+				function ( $table, $data ) use ( &$updates ) {
+					if ( 'wp_mskd_queue' === $table && 'processing' !== $data['status'] ) {
+						$updates[] = $data;
+					}
+					return 1;
+				}
+			);
+
+		Functions\when( 'get_option' )->alias(
+			function ( $option, $default = false ) {
+				if ( 'mskd_settings' === $option ) {
+					return array(
+						'smtp_enabled' => true,
+						'smtp_host'    => 'smtp.example.com',
+					);
+				}
+				return $default;
+			}
+		);
+
+		$this->cron_handler->process_queue();
+
+		return $updates;
+	}
+
+	/**
+	 * A row that is finally sent must not keep the message of an earlier failed attempt.
+	 */
+	public function test_process_queue_clears_stale_error_when_marked_sent(): void {
+		$updates = $this->run_queue_and_collect_updates( $this->single_queue_item( 1 ) );
+
+		$this->assertCount( 1, $updates );
+		$this->assertSame( 'sent', $updates[0]['status'] );
+		$this->assertArrayHasKey( 'error_message', $updates[0] );
+		$this->assertNull( $updates[0]['error_message'] );
+		$this->assertArrayHasKey( 'processing_started_at', $updates[0] );
+		$this->assertNull( $updates[0]['processing_started_at'] );
+	}
+
+	/**
+	 * A row reset to pending for retry must drop its processing claim timestamp.
+	 */
+	public function test_process_queue_clears_processing_started_at_on_retry(): void {
+		\PHPMailer\PHPMailer\PHPMailer::$failSend = true;
+
+		try {
+			$updates = $this->run_queue_and_collect_updates( $this->single_queue_item( 0 ) );
+		} finally {
+			\PHPMailer\PHPMailer\PHPMailer::$failSend = false;
+		}
+
+		$this->assertCount( 1, $updates );
+		$this->assertSame( 'pending', $updates[0]['status'] );
+		$this->assertStringContainsString( 'Will retry', $updates[0]['error_message'] );
+		$this->assertArrayHasKey( 'processing_started_at', $updates[0] );
+		$this->assertNull( $updates[0]['processing_started_at'] );
+	}
+
+	/**
 	 * A queue item whose campaign was cancelled after selection is released without
 	 * being sent: it is claimed, then flipped to `cancelled`, and never marked `sent`.
 	 */
