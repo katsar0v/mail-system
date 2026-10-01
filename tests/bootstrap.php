@@ -172,8 +172,10 @@ if ( ! function_exists( "dbDelta" ) ) {
 	);
 }
 
-// Create mock PHPMailer classes for testing.
-if ( ! file_exists( $phpmailer_dir . '/PHPMailer.php' ) ) {
+// Create mock PHPMailer classes for testing. Regenerate a stub left over from an older
+// bootstrap that lacks the $failSend switch.
+// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Required for test setup.
+if ( ! file_exists( $phpmailer_dir . '/PHPMailer.php' ) || false === strpos( file_get_contents( $phpmailer_dir . '/PHPMailer.php' ), 'failSend' ) ) {
 // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Required for test setup.
 	file_put_contents(
 		$phpmailer_dir . '/PHPMailer.php',
@@ -182,6 +184,7 @@ namespace PHPMailer\PHPMailer;
 class PHPMailer {
 	public static $lastBody = "";
 	public static $lastBcc = array();
+	public static $failSend = false;
 	public $Host = "";
     public $Port = 587;
     public $SMTPSecure = "";
@@ -202,7 +205,7 @@ class PHPMailer {
 	public function addAddress($address, $name = "") {}
 	public function addBCC($address, $name = "") { self::$lastBcc[] = $address; }
 	public function isHTML($isHtml = true) {}
-	public function send() { self::$lastBody = $this->Body; return true; }
+	public function send() { self::$lastBody = $this->Body; return ! self::$failSend; }
 }
 '
 	);
