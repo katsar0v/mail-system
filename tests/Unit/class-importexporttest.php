@@ -640,9 +640,9 @@ class ImportExportTest extends TestCase {
 	}
 
 	/**
-	 * Test import subscribers with target_list_ids and existing subscriber replaces lists.
+	 * Importing into a target list adds it to an existing subscriber and keeps their other lists.
 	 */
-	public function test_import_subscribers_existing_with_target_list_ids_replaces_lists(): void {
+	public function test_import_subscribers_existing_with_target_list_ids_merges_lists(): void {
 		$rows = array(
 			array(
 				'email'      => 'existing@example.com',
@@ -653,52 +653,53 @@ class ImportExportTest extends TestCase {
 			),
 		);
 
-		// Mock get_row to return different results based on query.
 		$this->wpdb->shouldReceive( 'get_row' )
 			->andReturnUsing(
 				function ( $query ) {
 					// List lookup for target list validation.
 					if ( strpos( $query, 'mskd_lists' ) !== false ) {
 						return (object) array(
-							'id'   => 8,
+							'id'   => 3,
 							'name' => 'New Target List',
 						);
 					}
 					// Subscriber lookup.
 					if ( strpos( $query, 'mskd_subscribers' ) !== false ) {
 						return (object) array(
-							'id'    => 1,
-							'email' => 'existing@example.com',
+							'id'     => 1,
+							'email'  => 'existing@example.com',
+							'status' => 'active',
 						);
 					}
 					return null;
 				}
 			);
 
-		// Mock update subscriber.
-		$this->wpdb->shouldReceive( 'update' )
-			->andReturn( 1 );
+		// The subscriber is already a member of lists 1 and 2.
+		$this->wpdb->shouldReceive( 'get_col' )->andReturn( array( '1', '2' ) );
+		$this->wpdb->shouldReceive( 'update' )->andReturn( 1 );
+		$this->wpdb->shouldReceive( 'delete' )->andReturn( true );
 
-		// Mock delete existing list assignments (sync_lists replaces all).
-		$this->wpdb->shouldReceive( 'delete' )
-			->andReturn( true );
-
-		// Mock insert new list assignment.
-		$this->wpdb->insert_id = 1;
+		$inserted_list_ids = array();
 		$this->wpdb->shouldReceive( 'insert' )
-			->andReturn( 1 );
+			->andReturnUsing(
+				function ( $table, $data ) use ( &$inserted_list_ids ) {
+					$inserted_list_ids[] = $data['list_id'];
+					return 1;
+				}
+			);
 
 		$result = $this->service->import_subscribers(
 			$rows,
 			array(
 				'update_existing' => true,
-				'target_list_ids' => array( 8 ),
+				'target_list_ids' => array( 3 ),
 			)
 		);
 
-		$this->assertEquals( 0, $result['imported'] );
-		$this->assertEquals( 1, $result['updated'] );
-		$this->assertEquals( 0, $result['skipped'] );
+		$this->assertSame( 1, $result['updated'] );
+		sort( $inserted_list_ids );
+		$this->assertSame( array( 1, 2, 3 ), $inserted_list_ids );
 	}
 
 	/**
