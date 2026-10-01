@@ -124,6 +124,100 @@ class ImportExportTest extends TestCase {
 	}
 
 	/**
+	 * Export and parse must not raise PHP 8.4 "$escape must be provided" deprecations.
+	 *
+	 * Only observable on PHP 8.4+, where it fails without an explicit $escape argument.
+	 */
+	public function test_csv_functions_raise_no_deprecations(): void {
+		$this->wpdb->shouldReceive( 'get_var' )->andReturn( 1 );
+		$this->wpdb->shouldReceive( 'get_col' )->andReturn( array() );
+		$this->wpdb->shouldReceive( 'get_results' )
+			->andReturn(
+				array(
+					(object) array(
+						'id'               => 1,
+						'email'            => 'john@example.com',
+						'first_name'       => 'John',
+						'last_name'        => 'Doe',
+						'status'           => 'active',
+						'name'             => 'Newsletter',
+						'description'      => 'Weekly',
+						'subscriber_count' => 1,
+						'created_at'       => '2024-01-15 10:00:00',
+					),
+				)
+			);
+
+		$deprecations = array();
+		set_error_handler(
+			function ( $errno, $errstr ) use ( &$deprecations ) {
+				$deprecations[] = $errstr;
+				return true;
+			},
+			E_DEPRECATED
+		);
+
+		try {
+			$subscribers_csv = $this->service->export_subscribers_csv();
+			$lists_csv       = $this->service->export_lists_csv();
+
+			$subscribers_file = tempnam( sys_get_temp_dir(), 'mskd_test' );
+			$lists_file       = tempnam( sys_get_temp_dir(), 'mskd_test' );
+			file_put_contents( $subscribers_file, $subscribers_csv );
+			file_put_contents( $lists_file, $lists_csv );
+
+			$this->service->parse_subscribers_csv( $subscribers_file );
+			$this->service->parse_lists_csv( $lists_file );
+
+			unlink( $subscribers_file );
+			unlink( $lists_file );
+		} finally {
+			restore_error_handler();
+		}
+
+		$this->assertSame( array(), $deprecations );
+	}
+
+	/**
+	 * A trailing backslash must survive export -> import (no proprietary backslash escaping).
+	 */
+	public function test_csv_round_trip_preserves_backslashes(): void {
+		$this->wpdb->shouldReceive( 'get_var' )->andReturn( 1 );
+		$this->wpdb->shouldReceive( 'get_col' )->andReturn( array() );
+		$this->wpdb->shouldReceive( 'get_results' )
+			->andReturn(
+				array(
+					(object) array(
+						'id'         => 1,
+						'email'      => 'john@example.com',
+						'first_name' => 'John',
+						'last_name'  => 'Back\\',
+						'status'     => 'active',
+						'created_at' => '2024-01-15 10:00:00',
+					),
+					(object) array(
+						'id'         => 2,
+						'email'      => 'jane@example.com',
+						'first_name' => 'Jane',
+						'last_name'  => 'Smith',
+						'status'     => 'active',
+						'created_at' => '2024-01-15 10:00:00',
+					),
+				)
+			);
+
+		$file = tempnam( sys_get_temp_dir(), 'mskd_test' );
+		file_put_contents( $file, $this->service->export_subscribers_csv() );
+		$result = $this->service->parse_subscribers_csv( $file );
+		unlink( $file );
+
+		$this->assertTrue( $result['valid'] );
+		$this->assertCount( 2, $result['rows'] );
+		$this->assertSame( 'Back\\', $result['rows'][0]['last_name'] );
+		$this->assertSame( 'jane@example.com', $result['rows'][1]['email'] );
+	}
+
+	/**
 	 * Test parse subscribers CSV validates email column.
 	 */
 	public function test_parse_subscribers_csv_requires_email_column(): void {

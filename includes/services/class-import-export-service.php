@@ -44,6 +44,14 @@ class Import_Export_Service {
 	const CSV_ENCLOSURE = '"';
 
 	/**
+	 * CSV escape character. Empty string disables the proprietary backslash escape (RFC 4180),
+	 * and is required as an explicit argument since PHP 8.4.
+	 *
+	 * @var string
+	 */
+	const CSV_ESCAPE = '';
+
+	/**
 	 * Maximum file size for imports (5MB).
 	 *
 	 * @var int
@@ -109,7 +117,7 @@ class Import_Export_Service {
 
 		// Write headers.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fputcsv -- Using temp stream for CSV generation.
-		fputcsv( $output, $headers, self::CSV_DELIMITER, self::CSV_ENCLOSURE );
+		fputcsv( $output, $headers, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
 
 		// Write data rows.
 		foreach ( $subscribers as $subscriber ) {
@@ -132,7 +140,7 @@ class Import_Export_Service {
 			);
 
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fputcsv -- Using temp stream for CSV generation.
-			fputcsv( $output, $row, self::CSV_DELIMITER, self::CSV_ENCLOSURE );
+			fputcsv( $output, $row, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
 		}
 
 		rewind( $output );
@@ -168,7 +176,7 @@ class Import_Export_Service {
 
 		// Write headers.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fputcsv -- Using temp stream for CSV generation.
-		fputcsv( $output, $headers, self::CSV_DELIMITER, self::CSV_ENCLOSURE );
+		fputcsv( $output, $headers, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
 
 		foreach ( $lists as $list ) {
 			$row = array(
@@ -179,7 +187,7 @@ class Import_Export_Service {
 			);
 
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fputcsv -- Using temp stream for CSV generation.
-			fputcsv( $output, $row, self::CSV_DELIMITER, self::CSV_ENCLOSURE );
+			fputcsv( $output, $row, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
 		}
 
 		rewind( $output );
@@ -312,7 +320,7 @@ class Import_Export_Service {
 		}
 
 		// Read headers.
-		$headers = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE );
+		$headers = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
 
 		if ( ! $headers ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Reading uploaded file for validation.
@@ -342,7 +350,7 @@ class Import_Export_Service {
 
 		// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition -- Standard CSV reading pattern.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fgetcsv -- Reading uploaded file for validation.
-		while ( false !== ( $row = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE ) ) ) {
+		while ( false !== ( $row = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE ) ) ) {
 			++$row_number;
 
 			// Skip empty rows.
@@ -565,7 +573,7 @@ class Import_Export_Service {
 
 		// Read headers.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fgetcsv -- Reading uploaded file for validation.
-		$headers = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE );
+		$headers = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE );
 
 		if ( ! $headers ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Reading uploaded file for validation.
@@ -596,7 +604,7 @@ class Import_Export_Service {
 
 		// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition -- Standard CSV reading pattern.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fgetcsv -- Reading uploaded file for validation.
-		while ( false !== ( $row = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE ) ) ) {
+		while ( false !== ( $row = fgetcsv( $handle, 0, self::CSV_DELIMITER, self::CSV_ENCLOSURE, self::CSV_ESCAPE ) ) ) {
 			++$row_number;
 
 			// Skip empty rows.
