@@ -167,7 +167,7 @@ class MSKD_SMTP_Mailer {
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
 			$mailer->Body = $body;
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
-			$mailer->AltBody = wp_strip_all_tags( $body );
+			$mailer->AltBody = self::html_to_text( $body );
 
 			// Process additional headers.
 			$this->process_headers( $mailer, $headers );
@@ -201,6 +201,75 @@ class MSKD_SMTP_Mailer {
 			$this->log_error( $e->getMessage() );
 			return false;
 		}
+	}
+
+	/**
+	 * Convert an HTML email body into a readable plain-text alternative.
+	 *
+	 * Unlike a plain tag strip this keeps paragraph and line breaks, list markers and
+	 * the target of every link ("label (url)"), so the unsubscribe and opt-in
+	 * confirmation URLs stay usable in text-only mail clients.
+	 *
+	 * @param string $html HTML body.
+	 * @return string Plain-text body.
+	 */
+	public static function html_to_text( $html ) {
+		$text = (string) $html;
+
+		// Drop blocks that never render as text.
+		$text = preg_replace( '#<(head|style|script)\b[^>]*>.*?</\1\s*>#is', '', $text );
+
+		// Whitespace (incl. source newlines) collapses to a single space, as in HTML.
+		$text = preg_replace( '/\s+/', ' ', $text );
+
+		// Links: "label (url)", or just the URL when the label adds nothing.
+		$text = preg_replace_callback(
+			'#<a\b[^>]*?\shref\s*=\s*(?:"([^"]*)"|\'([^\']*)\')[^>]*>(.*?)</a\s*>#is',
+			function ( $matches ) {
+				$url   = trim( '' !== $matches[1] ? $matches[1] : ( $matches[2] ?? '' ) );
+				$label = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( $matches[3] ) ) );
+
+				$url_decoded   = html_entity_decode( $url, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+				$label_decoded = html_entity_decode( $label, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+
+				// Anchors, scripts and empty targets carry no useful address.
+				if ( '' === $url || 0 === strpos( $url, '#' ) || 0 === stripos( $url, 'javascript:' ) ) {
+					return $label;
+				}
+				if ( '' === $label ) {
+					return $url;
+				}
+
+				// The label already shows the address.
+				$bare_url = preg_replace( '#^(?:mailto:|https?://)#i', '', rtrim( $url_decoded, '/' ) );
+				if ( rtrim( $label_decoded, '/' ) === rtrim( $url_decoded, '/' ) || $label_decoded === $bare_url ) {
+					return $label;
+				}
+
+				return $label . ' (' . $url . ')';
+			},
+			$text
+		);
+
+		// Structural breaks.
+		$text = preg_replace( '#<br\b[^>]*>#i', "\n", $text );
+		$text = preg_replace( '#<(?:ul|ol)\b[^>]*>#i', "\n", $text );
+		$text = preg_replace( '#<li\b[^>]*>#i', '- ', $text );
+		$text = preg_replace( '#</li\s*>#i', "\n", $text );
+		$text = preg_replace( '#</(?:p|div|h[1-6]|table|ul|ol|blockquote|section|article|header|footer)\s*>|<hr\b[^>]*>#i', "\n\n", $text );
+		$text = preg_replace( '#</tr\s*>#i', "\n", $text );
+		$text = preg_replace( '#</t[dh]\s*>#i', ' ', $text );
+
+		$text = wp_strip_all_tags( $text );
+		$text = html_entity_decode( $text, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+
+		// Tidy: non-breaking spaces, runs of spaces, trailing/leading line spaces, blank-line runs.
+		$text = str_replace( "\xC2\xA0", ' ', $text );
+		$text = preg_replace( '/[ \t]+/', ' ', $text );
+		$text = preg_replace( '/ ?\n ?/', "\n", $text );
+		$text = preg_replace( '/\n{3,}/', "\n\n", $text );
+
+		return trim( $text );
 	}
 
 	/**
@@ -295,7 +364,7 @@ class MSKD_SMTP_Mailer {
 				$this->settings['smtp_port']
 			);
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer property.
-			$mailer->AltBody = wp_strip_all_tags( $mailer->Body );
+			$mailer->AltBody = self::html_to_text( $mailer->Body );
 
 			// Try to send.
 			$result = $mailer->send();
