@@ -200,6 +200,15 @@ $lists        = $list_service->get_all();
 									</span>
 								</label>
 								<label class="mskd-checkbox-item">
+									<input type="checkbox" name="allow_resubscribe" value="1">
+									<span class="mskd-checkbox-label">
+										<strong><?php esc_html_e( 'Allow re-activating unsubscribed subscribers', 'mail-system' ); ?></strong>
+										<span class="mskd-checkbox-description">
+											<?php esc_html_e( 'Warning: this overrides their opt-out. Only enable it if you have fresh consent. Applies only together with "Update existing subscribers".', 'mail-system' ); ?>
+										</span>
+									</span>
+								</label>
+								<label class="mskd-checkbox-item">
 									<input type="checkbox" name="assign_lists" value="1" checked>
 									<span class="mskd-checkbox-label">
 										<strong><?php esc_html_e( 'Assign to lists from file', 'mail-system' ); ?></strong>

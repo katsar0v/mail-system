@@ -237,10 +237,11 @@ class Admin_Import_Export {
 		}
 
 		$options = array(
-			'update_existing' => isset( $_POST['update_existing'] ) && '1' === $_POST['update_existing'],
-			'assign_lists'    => isset( $_POST['assign_lists'] ) && '1' === $_POST['assign_lists'],
-			'target_list_ids' => $target_list_ids,
-			'skip_existing'   => true,
+			'update_existing'   => isset( $_POST['update_existing'] ) && '1' === $_POST['update_existing'],
+			'assign_lists'      => isset( $_POST['assign_lists'] ) && '1' === $_POST['assign_lists'],
+			'allow_resubscribe' => isset( $_POST['allow_resubscribe'] ) && '1' === $_POST['allow_resubscribe'],
+			'target_list_ids'   => $target_list_ids,
+			'skip_existing'     => true,
 		);
 		// phpcs:enable
 
@@ -284,6 +285,19 @@ class Admin_Import_Export {
 						'mail-system'
 					),
 					$result['skipped']
+				);
+			}
+
+			if ( ! empty( $result['kept_unsubscribed'] ) ) {
+				$message_parts[] = sprintf(
+					/* translators: %d: number of unsubscribed subscribers whose status was preserved */
+					_n(
+						'%d unsubscribed subscriber kept unsubscribed.',
+						'%d unsubscribed subscribers kept unsubscribed.',
+						$result['kept_unsubscribed'],
+						'mail-system'
+					),
+					$result['kept_unsubscribed']
 				);
 			}
 

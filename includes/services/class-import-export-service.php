@@ -401,21 +401,24 @@ class Import_Export_Service {
 	 * @param array $options {
 	 *     Import options.
 	 *
-	 *     @type bool $update_existing Whether to update existing subscribers.
-	 *     @type bool $assign_lists    Whether to assign subscribers to lists.
+	 *     @type bool $update_existing    Whether to update existing subscribers.
+	 *     @type bool $assign_lists       Whether to assign subscribers to lists.
+	 *     @type bool $allow_resubscribe  Whether a CSV status may re-activate an unsubscribed subscriber.
 	 * }
 	 * @return array {
-	 *     @type int   $imported Number of imported subscribers.
-	 *     @type int   $updated  Number of updated subscribers.
-	 *     @type int   $skipped  Number of skipped subscribers.
-	 *     @type array $errors   Import errors.
+	 *     @type int   $imported          Number of imported subscribers.
+	 *     @type int   $updated           Number of updated subscribers.
+	 *     @type int   $skipped           Number of skipped subscribers.
+	 *     @type int   $kept_unsubscribed Number of unsubscribed subscribers whose status was preserved.
+	 *     @type array $errors            Import errors.
 	 * }
 	 */
 	public function import_subscribers( array $rows, array $options = array() ): array {
 		$defaults = array(
-			'update_existing' => false,
-			'assign_lists'    => true,
-			'target_list_ids' => array(),
+			'update_existing'   => false,
+			'assign_lists'      => true,
+			'target_list_ids'   => array(),
+			'allow_resubscribe' => false,
 		);
 		$options  = wp_parse_args( $options, $defaults );
 
@@ -430,10 +433,11 @@ class Import_Export_Service {
 			}
 		}
 
-		$imported = 0;
-		$updated  = 0;
-		$skipped  = 0;
-		$errors   = array();
+		$imported          = 0;
+		$updated           = 0;
+		$skipped           = 0;
+		$kept_unsubscribed = 0;
+		$errors            = array();
 
 		foreach ( $rows as $index => $row ) {
 			$email = sanitize_email( $row['email'] );
@@ -453,7 +457,18 @@ class Import_Export_Service {
 						$update_data['last_name'] = sanitize_text_field( $row['last_name'] );
 					}
 					if ( ! empty( $row['status'] ) ) {
-						$update_data['status'] = sanitize_text_field( $row['status'] );
+						$new_status = sanitize_text_field( $row['status'] );
+
+						// An import must not silently override a subscriber's opt-out.
+						if (
+							'unsubscribed' === ( $existing->status ?? '' )
+							&& 'unsubscribed' !== $new_status
+							&& ! $options['allow_resubscribe']
+						) {
+							++$kept_unsubscribed;
+						} else {
+							$update_data['status'] = $new_status;
+						}
 					}
 
 					if ( ! empty( $update_data ) ) {
@@ -514,10 +529,11 @@ class Import_Export_Service {
 		}
 
 		return array(
-			'imported' => $imported,
-			'updated'  => $updated,
-			'skipped'  => $skipped,
-			'errors'   => $errors,
+			'imported'          => $imported,
+			'updated'           => $updated,
+			'skipped'           => $skipped,
+			'kept_unsubscribed' => $kept_unsubscribed,
+			'errors'            => $errors,
 		);
 	}
 
