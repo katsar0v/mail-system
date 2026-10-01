@@ -150,6 +150,9 @@ $lists        = $list_service->get_all();
 								<p class="mskd-file-upload-hint">
 									<?php esc_html_e( 'Maximum file size: 5MB', 'mail-system' ); ?>
 								</p>
+								<p class="mskd-file-upload-hint">
+									<?php esc_html_e( 'Comma, semicolon or tab separated files are detected automatically.', 'mail-system' ); ?>
+								</p>
 							</div>
 							<input type="file" name="import_file" id="import_file" accept=".csv" required class="mskd-file-input">
 							<div class="mskd-file-selected mskd-hidden">

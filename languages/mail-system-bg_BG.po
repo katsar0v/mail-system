@@ -3214,3 +3214,7 @@ msgstr "Полето „list_ids“ трябва да е масив от иде�
 #: includes/Api/class-rest-controller.php:352
 msgid "This Idempotency-Key was already used with a different request payload."
 msgstr "Този Idempotency-Key вече е използван с друго съдържание на заявката."
+
+#: admin/partials/import-export.php:154
+msgid "Comma, semicolon or tab separated files are detected automatically."
+msgstr "Файлове, разделени със запетая, точка и запетая или табулация, се разпознават автоматично."
